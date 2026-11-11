@@ -31,6 +31,27 @@ import Testing
         #expect(try object(request)["import_source"]?["title"] == "Blog")
     }
 
+    @Test func test_destinationNightsKeepsNullEntries() throws {
+        let request = TravelSearchRequest(destinations: ["Tokyo", "Kyoto"], destinationNights: [3, nil])
+        let data = try JSONEncoder().encode(request)
+        #expect(String(bytes: data, encoding: .utf8)?.contains("[3,null]") == true)
+        let back = try JSONDecoder().decode(TravelSearchRequest.self, from: data)
+        #expect(back.destinationNights == [3, nil])
+        #expect(back == request)
+    }
+
+    @Test func test_newPlanDefaultsToObjects() throws {
+        let json = try object(NewPlan(name: "x"))
+        #expect(json["search_data"] == [:])
+        #expect(json["selections"] == [:])
+    }
+
+    @Test func test_flightMatchWithNonObjectSpecThrows() {
+        #expect(throws: EncodingError.self) {
+            try JSONEncoder().encode(WatchMatchQuery(kind: .flight, spec: "oops"))
+        }
+    }
+
     @Test func test_chatRequestShape() throws {
         let request = ChatRequest(messages: [ChatMessage(role: "user", content: "Plan Bangkok")], locale: .de)
         let json = try object(request)

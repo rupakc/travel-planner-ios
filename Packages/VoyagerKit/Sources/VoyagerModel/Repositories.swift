@@ -75,6 +75,7 @@ public protocol WatchesRepository: Sendable {
     func createFare(_ watch: NewFareWatch) async throws -> FareWatch
     func createPrice(_ watch: NewPriceWatch) async throws -> PriceWatch
     /// The caller's existing watch for the subject (the raw watch object), or nil. No live lookup.
+    /// The API answers `{"watch": {...}|null}`; the live repo must unwrap `watch`.
     func match(_ query: WatchMatchQuery) async throws -> JSONValue?
     func patch(kind: WatchKind, id: Int, _ patch: WatchPatch) async throws -> WatchItem
     func delete(kind: WatchKind, id: Int) async throws
@@ -96,6 +97,7 @@ public protocol NearbyRepository: Sendable {
 
 public protocol DevicesRepository: Sendable {
     func register(_ registration: DeviceRegistration) async throws -> Device
+    /// The API wraps the list as `{"items": [...]}`; the live repo unwraps `items`.
     func list() async throws -> [Device]
     func delete(id: Int) async throws
     /// Sign-out: forgets the full token sent in the body (idempotent).

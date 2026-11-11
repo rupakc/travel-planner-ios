@@ -101,7 +101,7 @@ public struct NewPlan: Codable, Sendable, Hashable {
     public var searchData: JSONValue
     public var selections: JSONValue
 
-    public init(name: String, searchData: JSONValue = .null, selections: JSONValue = .null) {
+    public init(name: String, searchData: JSONValue = .object([:]), selections: JSONValue = .object([:])) {
         self.name = name
         self.searchData = searchData
         self.selections = selections
@@ -116,8 +116,8 @@ public struct NewPlan: Codable, Sendable, Hashable {
     public init(from decoder: any Decoder) throws {
         let box = try decoder.container(keyedBy: CodingKeys.self)
         name = try box.reqString(.name)
-        searchData = box.lValue(.searchData)
-        selections = box.lValue(.selections)
+        searchData = box.lValue(.searchData).object == nil ? .object([:]) : box.lValue(.searchData)
+        selections = box.lValue(.selections).object == nil ? .object([:]) : box.lValue(.selections)
     }
 }
 

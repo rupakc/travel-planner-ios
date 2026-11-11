@@ -123,9 +123,12 @@ public struct WatchMatchQuery: Codable, Sendable, Hashable {
     public func encode(to encoder: any Encoder) throws {
         var box = encoder.container(keyedBy: DynamicKey.self)
         if kind == .flight {
-            if case .object(let fields) = spec {
-                for key in fields.keys.sorted() { try box.encode(fields[key] ?? .null, forKey: DynamicKey(key)) }
+            guard case .object(let fields) = spec else {
+                throw EncodingError.invalidValue(spec, .init(
+                    codingPath: encoder.codingPath,
+                    debugDescription: "A flight match query needs an object spec (the trip fields)"))
             }
+            for key in fields.keys.sorted() { try box.encode(fields[key] ?? .null, forKey: DynamicKey(key)) }
         } else {
             try box.encode(kind, forKey: DynamicKey("kind"))
             try box.encode(spec, forKey: DynamicKey(kind.rawValue))

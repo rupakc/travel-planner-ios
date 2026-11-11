@@ -19,7 +19,7 @@ public struct TravelSearchRequest: Codable, Sendable, Hashable {
     public var residencePermits: [String]?
     public var existingVisas: [String]?
     public var destinations: [String]?
-    public var destinationNights: [Int]?
+    public var destinationNights: [Int?]?
     public var pace: String?
     public var serendipity: Double?
     public var locale: AppLanguage?
@@ -43,7 +43,7 @@ public struct TravelSearchRequest: Codable, Sendable, Hashable {
         residencePermits: [String]? = nil,
         existingVisas: [String]? = nil,
         destinations: [String]? = nil,
-        destinationNights: [Int]? = nil,
+        destinationNights: [Int?]? = nil,
         pace: String? = nil,
         serendipity: Double? = nil,
         locale: AppLanguage? = nil,
@@ -117,7 +117,7 @@ public struct TravelSearchRequest: Codable, Sendable, Hashable {
         residencePermits = box.lAny([String].self, .residencePermits)
         existingVisas = box.lAny([String].self, .existingVisas)
         destinations = box.lAny([String].self, .destinations)
-        destinationNights = box.lAny([Int].self, .destinationNights)
+        destinationNights = box.lAny([Int?].self, .destinationNights)
         pace = box.lString(.pace)
         serendipity = box.lDouble(.serendipity)
         locale = box.lAny(AppLanguage.self, .locale)
