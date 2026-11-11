@@ -20,7 +20,7 @@ public struct AccountCapabilities: Sendable, Equatable {
     /// Reads `features.signup`, `password_reset`, `account_deletion`, `refresh_tokens`; missing reads as false.
     public static func from(features: [String: JSONValue]?) -> AccountCapabilities {
         guard let features else { return .none }
-        func flag(_ k: String) -> Bool { features[k]?.bool ?? false }
+        func flag(_ key: String) -> Bool { features[key]?.bool ?? false }
         return AccountCapabilities(
             signUp: flag("signup"), passwordReset: flag("password_reset"),
             deleteAccount: flag("account_deletion"), refreshTokens: flag("refresh_tokens"))

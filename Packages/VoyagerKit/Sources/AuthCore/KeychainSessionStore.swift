@@ -22,11 +22,11 @@ public struct SecItemKeychainBackend: KeychainBackend {
     }
 
     public func read(service: String) -> Data? {
-        var q = query(service)
-        q[kSecReturnData as String] = true
-        q[kSecMatchLimit as String] = kSecMatchLimitOne
+        var request = query(service)
+        request[kSecReturnData as String] = true
+        request[kSecMatchLimit as String] = kSecMatchLimitOne
         var out: CFTypeRef?
-        guard SecItemCopyMatching(q as CFDictionary, &out) == errSecSuccess else { return nil }
+        guard SecItemCopyMatching(request as CFDictionary, &out) == errSecSuccess else { return nil }
         return out as? Data
     }
 
@@ -74,8 +74,8 @@ public final class KeychainSessionStore: SessionStore, @unchecked Sendable {
         return try? JSONDecoder().decode(Session.self, from: data)
     }
 
-    public func save(_ s: Session) throws {
-        try backend.write(JSONEncoder().encode(s), service: service)
+    public func save(_ session: Session) throws {
+        try backend.write(JSONEncoder().encode(session), service: service)
     }
 
     public func clear() { backend.delete(service: service) }

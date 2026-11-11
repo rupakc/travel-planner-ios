@@ -45,16 +45,16 @@ public final class AuthState {
         box.value = stored?.accessToken
     }
 
-    private static func phase(for s: Session?, reason: SignOutReason?) -> AuthPhase {
-        guard let s else { return .signedOut(reason: reason) }
-        return s.user.requiresPasswordChange ? .needsPasswordChange : .signedIn
+    private static func phase(for next: Session?, reason: SignOutReason?) -> AuthPhase {
+        guard let next else { return .signedOut(reason: reason) }
+        return next.user.requiresPasswordChange ? .needsPasswordChange : .signedIn
     }
 
-    private func adopt(_ s: Session) throws {
-        try store.save(s)
-        session = s
-        phase = Self.phase(for: s, reason: nil)
-        box.value = s.accessToken
+    private func adopt(_ next: Session) throws {
+        try store.save(next)
+        session = next
+        phase = Self.phase(for: next, reason: nil)
+        box.value = next.accessToken
     }
 
     private func drop(reason: SignOutReason) {
@@ -65,8 +65,8 @@ public final class AuthState {
     }
 
     public func signIn(username: String, password: String) async throws {
-        let r = try await api.login(username: username, password: password)
-        try adopt(Session(accessToken: r.accessToken, user: r.user, method: .password))
+        let resp = try await api.login(username: username, password: password)
+        try adopt(Session(accessToken: resp.accessToken, user: resp.user, method: .password))
     }
 
     public func signIn(with provider: AuthProviderID, info: AuthProviderInfo) async throws {
@@ -75,12 +75,12 @@ public final class AuthState {
     }
 
     public func changePassword(current: String, new: String) async throws {
-        guard var s = session else { throw AuthError.sessionExpired }
+        guard var next = session else { throw AuthError.sessionExpired }
         let token = try await api.changePassword(current: current, new: new)
-        s.accessToken = token
-        s.accessExpiresAt = JWTClaims.expiry(of: token)
-        s.user.requiresPasswordChange = false
-        try adopt(s)
+        next.accessToken = token
+        next.accessExpiresAt = JWTClaims.expiry(of: token)
+        next.user.requiresPasswordChange = false
+        try adopt(next)
     }
 
     public func signOut() async { drop(reason: .userInitiated) }

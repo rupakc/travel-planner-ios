@@ -20,11 +20,11 @@ public struct User: Codable, Sendable, Equatable {
     }
 
     public init(from decoder: any Decoder) throws {
-        let c = try decoder.container(keyedBy: CodingKeys.self)
-        username = try c.decode(String.self, forKey: .username)
-        isAdmin = try c.decodeIfPresent(Bool.self, forKey: .isAdmin) ?? false
-        requiresPasswordChange = try c.decodeIfPresent(Bool.self, forKey: .requiresPasswordChange) ?? false
-        email = try c.decodeIfPresent(String.self, forKey: .email)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        username = try container.decode(String.self, forKey: .username)
+        isAdmin = try container.decodeIfPresent(Bool.self, forKey: .isAdmin) ?? false
+        requiresPasswordChange = try container.decodeIfPresent(Bool.self, forKey: .requiresPasswordChange) ?? false
+        email = try container.decodeIfPresent(String.self, forKey: .email)
     }
 }
 
