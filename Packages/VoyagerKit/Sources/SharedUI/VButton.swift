@@ -39,11 +39,20 @@ public struct VButton: View {
                 if let systemImage {
                     Image(systemName: systemImage).accessibilityHidden(true)
                 }
-                // One line (shrunk a little if need be) when it fits; otherwise wrap at word boundaries.
+                // A single line at the user's size when it fits; else a single line at a smaller Dynamic Type
+                // size (so a long word never breaks mid-word); only then wrapped at word boundaries.
                 ViewThatFits(in: .horizontal) {
                     Text(verbatim: title)
                         .lineLimit(1)
-                        .minimumScaleFactor(0.6)
+                        .fixedSize(horizontal: true, vertical: false)
+                    Text(verbatim: title)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: false)
+                        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+                    Text(verbatim: title)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: false)
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                     Text(verbatim: title)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
