@@ -202,6 +202,7 @@ def test_committed_outputs_are_current():
 def test_output_is_deterministic(tmp_path):
     root = tmp_path / "copy"
     shutil.copytree(ROOT / "Upstream", root / "Upstream")
+    shutil.copytree(ROOT / "i18n" / "pending", root / "i18n" / "pending")  # English-only keys feed the catalogue
     assert _run(root).returncode == 0
     for rel in (gen_catalog.LOCALIZABLE, gen_catalog.KEYS_SWIFT, gen_catalog.INFO_PLIST):
         assert (root / rel).read_text(encoding="utf-8") == (ROOT / rel).read_text(encoding="utf-8")
