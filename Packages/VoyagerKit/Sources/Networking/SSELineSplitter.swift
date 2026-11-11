@@ -32,6 +32,8 @@ struct SSELineSplitter {
 
     private mutating func takeLine() -> String {
         defer { buffer.removeAll(keepingCapacity: true) }
+        // Lossy on purpose: one invalid byte must not drop the whole line.
+        // swiftlint:disable:next optional_data_string_conversion
         return String(decoding: buffer, as: UTF8.self)
     }
 }
