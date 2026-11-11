@@ -1,0 +1,100 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager"
+          }
+        }
+      }
+    },
+    "NSLocationWhenInUseUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager আপনার অবস্থান শুধু তখনই ব্যবহার করে যখন আপনি কাছাকাছি ব্যবহার করেন, আপনার আশপাশের জায়গা দেখানোর জন্য। এটি কখনও সংরক্ষণ করা হয় না।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager nutzt deinen Standort nur, solange du „In der Nähe“ verwendest, um Orte in deiner Umgebung anzuzeigen. Er wird nie gespeichert."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager uses your location only while you use Near me, to show places around you. It is never stored."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager usa tu ubicación solo mientras usas Cerca de mí, para mostrarte lugares a tu alrededor. Nunca se guarda."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager utilise votre position uniquement pendant que vous utilisez Près de moi, pour afficher les lieux autour de vous. Elle n'est jamais enregistrée."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager आपकी लोकेशन का उपयोग केवल तब करता है जब आप आस-पास का उपयोग करते हैं, ताकि आपके आसपास की जगहें दिखा सके। इसे कभी सहेजा नहीं जाता।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyager 仅在你使用“附近”功能时使用你的位置，以显示你周围的地点。位置信息不会被存储。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
