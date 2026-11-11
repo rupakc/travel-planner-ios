@@ -75,10 +75,10 @@ public struct VerificationBadgeModel: Equatable, Sendable {
         return text
     }
 
-    /// Source links are display-only; http and https with a host.
+    /// Source links open outside the app: https with a host only.
     static func safeSourceURL(_ raw: String?) -> URL? {
         guard let raw, let url = URL(string: raw), let scheme = url.scheme?.lowercased(),
-            scheme == "https" || scheme == "http", url.host() != nil
+            scheme == "https", url.host() != nil
         else { return nil }
         return url
     }

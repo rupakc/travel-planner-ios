@@ -16,15 +16,19 @@ final class ImageCache: @unchecked Sendable {
         init(_ box: ImageBox) { self.box = box }
     }
 
-    init(limit: Int) {
+    /// Decoded size in memory: width x height x 4 bytes.
+    static func cost(_ box: ImageBox) -> Int { box.image.width * box.image.height * 4 }
+
+    init(limit: Int, totalCostLimit: Int = 64 * 1024 * 1024) {
         cache.countLimit = limit
+        cache.totalCostLimit = totalCostLimit
     }
 
     static func key(_ url: URL, maxPixel: Int) -> String { "\(maxPixel)|\(url.absoluteString)" }
 
     func image(for key: String) -> ImageBox? { cache.object(forKey: key as NSString)?.box }
 
-    func store(_ box: ImageBox, for key: String) { cache.setObject(Entry(box), forKey: key as NSString) }
+    func store(_ box: ImageBox, for key: String) { cache.setObject(Entry(box), forKey: key as NSString, cost: Self.cost(box)) }
 }
 
 /// An image from the network, downsampled with ImageIO off the main actor to `targetSize` at the display scale.
@@ -32,7 +36,8 @@ public struct RemoteImage: View {
     private let url: URL?
     private let targetSize: CGSize
     @Environment(\.displayScale) private var displayScale
-    @State private var loaded: ImageBox?
+    /// The last image this view fetched, with the cache key it belongs to (a changed url or size never shows it).
+    @State private var loaded: (key: String, box: ImageBox)?
 
     public init(url: URL?, targetSize: CGSize) {
         self.url = url
@@ -43,7 +48,9 @@ public struct RemoteImage: View {
     private var key: String? { url.map { ImageCache.key($0, maxPixel: maxPixel) } }
 
     public var body: some View {
-        let shown = loaded ?? key.flatMap { ImageCache.shared.image(for: $0) }
+        let shown = key.flatMap { current in
+            loaded.flatMap { $0.key == current ? $0.box : nil } ?? ImageCache.shared.image(for: current)
+        }
         ZStack {
             if let shown {
                 Image(decorative: shown.image, scale: displayScale)
@@ -61,19 +68,39 @@ public struct RemoteImage: View {
         .task(id: key) { await load() }
     }
 
+    /// Largest body downloaded for one image.
+    static let maxDownloadBytes = 10 * 1024 * 1024
+
     private func load() async {
         guard let url, let key else { return }
         if ImageCache.shared.image(for: key) != nil { return }
         let pixel = maxPixel
-        let box = await Task.detached(priority: .utility) { () -> ImageBox? in
-            guard let (data, response) = try? await URLSession.shared.data(from: url),
-                (response as? HTTPURLResponse).map({ (200..<300).contains($0.statusCode) }) ?? true,
-                let image = ImageDownsampler.thumbnail(data: data, maxPixel: pixel)
+        let work = Task.detached(priority: .utility) { () -> ImageBox? in
+            guard let data = await Self.download(url), let image = ImageDownsampler.thumbnail(data: data, maxPixel: pixel)
             else { return nil }
             return ImageBox(image: image)
-        }.value
+        }
+        // `.task(id:)` cancels this task when the key changes or the view goes away; the detached work follows it.
+        let box = await withTaskCancellationHandler { await work.value } onCancel: { work.cancel() }
         guard let box, !Task.isCancelled else { return }
         ImageCache.shared.store(box, for: key)
-        loaded = box
+        loaded = (key, box)
+    }
+
+    /// The body of a 2xx response, abandoned as soon as it exceeds `maxDownloadBytes`.
+    static func download(_ url: URL) async -> Data? {
+        guard let (bytes, response) = try? await URLSession.shared.bytes(from: url) else { return nil }
+        if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) { return nil }
+        if response.expectedContentLength > Int64(maxDownloadBytes) { return nil }
+        var data = Data()
+        do {
+            for try await byte in bytes {
+                data.append(byte)
+                if data.count > maxDownloadBytes { return nil }
+            }
+        } catch {
+            return nil
+        }
+        return data
     }
 }

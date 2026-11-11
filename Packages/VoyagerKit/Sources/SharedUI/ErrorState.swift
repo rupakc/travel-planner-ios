@@ -1,24 +1,14 @@
 import DesignSystem
 import L10n
 import SwiftUI
-
-public enum ErrorPresentationKind: Sendable, Equatable {
-    case unauthorized, rateLimited, network, server, other
-}
-
-/// What `ErrorState` needs to know about a failure. SharedUI has no Networking edge (Package.swift), so
-/// `APIError` conforms in VoyagerEnv (`unauthorized` → `.unauthorized`, `rateLimited` → `.rateLimited`,
-/// `network`/`interrupted` → `.network`, `server` → `.server`, the rest `.other`;
-/// `userFacingDetail` is `APIError.userFacingDetail`).
-public protocol ErrorPresentable: Sendable {
-    var presentationKind: ErrorPresentationKind { get }
-    /// The server's own text; the only text shown as-is.
-    var userFacingDetail: String? { get }
-}
+import VoyagerModel
 
 /// The copy for a failure: the backend's text when it sent one (a rate limit shows it as-is), else the web copy.
+/// `.unauthorized` is always the session-expired copy.
 public enum ErrorCopy {
     public static func message(kind: ErrorPresentationKind, detail: String?) -> String {
+        // A stale session always gets the catalogue copy, whatever the backend said.
+        if kind == .unauthorized { return L10n.text(K.mobile.session.expired) }
         if let detail, !detail.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { return detail }
         switch kind {
         case .unauthorized: return L10n.text(K.mobile.session.expired)

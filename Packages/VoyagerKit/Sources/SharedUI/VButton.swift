@@ -39,10 +39,15 @@ public struct VButton: View {
                 if let systemImage {
                     Image(systemName: systemImage).accessibilityHidden(true)
                 }
-                Text(verbatim: title)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .minimumScaleFactor(0.7)  // a long single word shrinks instead of breaking mid-word
+                // One line (shrunk a little if need be) when it fits; otherwise wrap at word boundaries.
+                ViewThatFits(in: .horizontal) {
+                    Text(verbatim: title)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                    Text(verbatim: title)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
         }
         .buttonStyle(role: role)

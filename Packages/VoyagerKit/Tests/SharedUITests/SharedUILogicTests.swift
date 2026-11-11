@@ -27,6 +27,12 @@ struct SharedUILogicTests {
         }
     }
 
+    @Test func test_unauthorizedAlwaysShowsSessionExpiredCopy() {
+        LanguageController.withLanguage(.en) {
+            #expect(ErrorCopy.message(kind: .unauthorized, detail: "Could not validate credentials").contains("session expired"))
+        }
+    }
+
     @Test func test_errorCopyFallsBackToWebCopy() {
         LanguageController.withLanguage(.en) {
             #expect(ErrorCopy.message(kind: .rateLimited, detail: nil).contains("Too many"))

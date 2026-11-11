@@ -52,16 +52,18 @@ struct VerificationBadgeModelTests {
                     "label": .string("Official site"), "status": .string("pass"), "url": .string("https://example.com/x"),
                 ]),
                 .object(["label": .string("Odd"), "status": .string("weird"), "url": .string("javascript:alert(1)")]),
+                .object(["label": .string("Plain http"), "url": .string("http://example.com/y")]),
                 .object(["label": .string("Failed"), "status": .string("fail"), "detail": .string("")]),
             ]),
         ])
         let model = try #require(VerificationBadgeModel(json))
         #expect(model.summary == "2 of 3 found")
-        #expect(model.checks.count == 3)
+        #expect(model.checks.count == 4)
         #expect(model.checks[0].status == .pass)
         #expect(model.checks[0].url?.host() == "example.com")
         #expect(model.checks[1].status == .info)
         #expect(model.checks[1].url == nil)
-        #expect(model.checks[2].detail == nil)
+        #expect(model.checks[2].url == nil)
+        #expect(model.checks[3].detail == nil)
     }
 }
