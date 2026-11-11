@@ -1,0 +1,1 @@
+{"id": 7, "username": "alice", "name": "The Rainy Tokyo Adventure", "search_data": {"origin": "London", "destination": "Tokyo", "departure_date": "2026-04-01"}, "selections": {"flight": {}, "activities": [], "itinerary_slots": []}, "created_at": "2026-11-04 08:50:51", "updated_at": "2026-11-05 10:00:00", "share_token": null, "future_field": 1}
