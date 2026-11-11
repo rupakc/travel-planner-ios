@@ -6,7 +6,12 @@
 - SwiftLint 0.65.1 (2026-08-21), `portable_swiftlint.zip` SHA-256 `c1e429b0…ff694d0`.
 - swift-snapshot-testing 1.19.7 (2026-10-21), `exact:`. Transitive pins in `Package.resolved`:
   swift-custom-dump 1.7.3 (2026-08-28), swift-issue-reporting 2.1.2 (2026-10-13), swift-syntax 604.0.0 (2026-09-15;
-  resolved but never built: only InlineSnapshotTesting uses it).
+  resolved but never built: only InlineSnapshotTesting uses it), xctest-dynamic-overlay 1.13.1 (2026-08-27).
+- `Package.resolved` holds BOTH swift-issue-reporting and xctest-dynamic-overlay (separate repos): swift-custom-dump
+  1.7.3's `Package.swift` (read by local Swift 6.4) uses swift-issue-reporting, its `Package@swift-6.1.swift`
+  (read by Xcode 26.0.1 / Swift 6.2) uses xctest-dynamic-overlay. With only one pin, CI's
+  `-onlyUsePackageVersionsFromResolvedFile` fails ("out-of-date resolved file ... dependencies were added").
+  Re-resolving locally drops nothing, but check both pins survive any `swift package update`.
 - Actions: the web repo's SHAs (checkout v4.4.0, upload-artifact v4.6.2, setup-python v5.6.0, cache v4.3.0,
   setup-node v4.4.0). pytest 8.3.5 in the `tools` job.
 - Web sources: `upstream.lock` WEB_SHA `5fed4454f2b948b7fc70501514692c9fd3fb6238` (travel-planner main, 2026-11-11):
@@ -29,4 +34,4 @@
   Vite-only `import.meta.glob`, and use extensionless imports, so plain Node `import()` fails.
 
 ## Runner (macos-15)
-- (filled from the first CI runs)
+- `iPhone 16` exists on the iOS 26.0 runtime with Xcode 26.0.1 (sim-destination picked it).
