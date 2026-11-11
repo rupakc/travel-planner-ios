@@ -1,0 +1,6 @@
+data: {"type": "visa", "data": {"requirement": {"visa_type": "visa-free"}}, "source": "static"}
+
+data: {"type": "flights", "data": {"error": "timed out"}, "source": "ai"}
+
+: keepalive
+

@@ -1,0 +1,16 @@
+data: {"type": "planning_start", "destination": "Tokyo"}
+
+data: {"type": "trip_map", "origin": "New York", "origin_lat": 40.71, "origin_lng": -74.0, "cities": [{"city": "Tokyo", "lat": 35.68, "lng": 139.69}], "departure_date": "2026-04-01", "return_date": "2026-04-06", "num_travelers": 1}
+
+data: {"type": "itinerary_generating"}
+
+data: {"type": "comprehensive_itinerary", "data": {"trip_summary": {"origin": "New York", "cities": [{"name": "Tokyo", "lat": 35.68, "lng": 139.69, "nights": 5}], "departure_date": "2026-04-01", "return_date": "2026-04-06", "total_nights": 5, "total_cost_usd": 2000, "travelers": 1}, "intercity_travel": [], "days": [{"day_number": 1, "date": "2026-04-01", "city": "Tokyo", "country": "Japan", "theme": "Arrival", "is_travel_day": true, "hotel": {"name": "Hotel Gracery", "neighbourhood": "Shinjuku", "stars": 3, "price_per_night_usd": 140, "tier": "mid-range", "highlight": "Godzilla head"}, "morning": {"activity": "Arrive", "place": "Narita", "lat": 35.77, "lng": 140.39, "duration_hours": 2, "cost_usd": 0, "tip": "Get a Suica"}, "places_to_see": [{"name": "Shinjuku Gyoen", "category": "Park/Garden", "lat": 35.68, "lng": 139.71, "entry_usd": 3.5, "why": "Blossoms"}], "dining": [{"name": "Omoide Yokocho", "cuisine": "Yakitori", "price_range": "$", "neighbourhood": "Shinjuku"}], "daily_cost_usd": 210}]}}
+
+data: {"type": "delta", "text": "Heads up: cherry blossom season is busy."}
+
+data: {"type": "session_context_update", "context": {"destination": "Tokyo", "origin": "New York"}}
+
+data: {"type": "suggestions", "chips": ["Add a day trip to Nikko"]}
+
+data: {"type": "planning_done"}
+

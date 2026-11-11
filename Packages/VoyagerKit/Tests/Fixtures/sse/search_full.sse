@@ -1,0 +1,58 @@
+data: {"type": "visa", "data": {"requirement": {"visa_type": "visa-free", "max_stay_days": 90, "requirements": ["Passport valid 6 months"]}}, "source": "static"}
+
+data: {"type": "sim", "data": {"plans": [{"provider": "Airalo", "plan_name": "Moshi Moshi", "data_gb": "10", "validity_days": 30, "price_usd": 26.0, "url": "https://www.airalo.com/japan-esim"}]}, "source": "static"}
+
+data: {"type": "tips", "data": {"tips": [{"title": "Carry cash", "body": "Many small shops are cash only.", "category": "money", "severity": "info"}]}, "source": "static"}
+
+data: {"type": "getting_around", "data": {"options": [{"name": "Tokyo Metro", "type": "metro", "scope": "intra_city", "price_info": "¥170-320"}]}, "source": "static"}
+
+data: {"type": "forex", "data": {"local_currency": {"name": "Japanese yen", "code": "JPY", "symbol": "¥"}, "exchange_rates": [{"from_currency": "USD", "to_currency": "JPY", "rate": "151.2"}]}, "source": "static"}
+
+data: {"type": "emergency_card", "data": {"emergency_numbers": {"police": "110", "ambulance": "119", "fire": "119"}}, "source": "static"}
+
+data: {"type": "confidence", "data": {"total": 82, "grade": "green", "destination": "Tokyo", "sub_scores": {"visa_ease": {"score": 20, "max": 20, "label": "Visa-free", "note": "90 days"}}}, "source": "static"}
+
+data: {"type": "agent_status", "agent": "flights", "status": "searching"}
+
+data: {"type": "agent_status", "agent": "weather", "status": "searching"}
+
+data: {"type": "agent_status", "agent": "hotels", "status": "searching"}
+
+data: {"type": "agent_status", "agent": "activities", "status": "searching"}
+
+data: {"type": "weather", "data": {"days": [{"date": "2026-04-01", "description": "Sunny", "weather_code": 0, "temp_high_c": 18.5, "temp_low_c": 9.1, "precipitation_mm": 0, "wind_kmh": 12, "is_poor": false}], "poor_weather_day_count": 0, "source": "open-meteo", "verification": {"level": "verified", "label": "Verified", "summary": "Live forecast", "checks": [], "pending": false}}, "source": "ai"}
+
+data: {"type": "flights", "data": {"results": [{"price_usd": 1200.0, "trip_type": "round_trip", "booking_url": "https://www.google.com/travel/flights", "source": "google_flights", "live_fare": true, "outbound": {"airline": "Japan Airlines", "flight_number": "JL001", "origin": "JFK", "destination": "NRT", "departure_date": "2026-04-01", "departure_time": "11:00", "arrival_time": "15:30+1", "duration_minutes": 810, "stops": 0, "layovers": []}, "return": {"airline": "Japan Airlines", "flight_number": "JL002", "origin": "NRT", "destination": "JFK", "departure_date": "2026-04-08", "departure_time": "17:00", "arrival_time": "16:00", "duration_minutes": 780, "stops": 0, "layovers": []}}, {"price_usd": "1,350", "trip_type": "round_trip", "source": "estimate", "outbound": {"airline": "ANA", "flight_number": "NH9", "stops": 1, "layovers": [{"city": "Seoul", "airport": "ICN", "duration_hours": 2.5}]}}]}, "source": "ai"}
+
+: keepalive
+
+data: {"type": "hotels", "data": {"results": [{"name": "Park Hyatt Tokyo", "star_rating": 5, "price_per_night_usd": 650, "total_price_usd": 4550, "location": "Shinjuku", "amenities": ["Pool", "Spa"], "booking_url": "https://www.google.com/travel/hotels", "review_score": 9.1, "source": "booking", "link_verified": false, "x_extra": "kept"}], "verification": {"level": "partial", "label": "Partly verified", "summary": "Checking links", "checks": [], "pending": true}}, "source": "ai"}
+
+data: {"type": "activities", "data": {"results": [{"name": "Tsukiji food tour", "description": "Taste your way through the outer market.", "category": "food", "duration_hours": 3, "price_usd": 120, "location": "Tsukiji", "source": "getyourguide", "similarity_score": 0.93, "rating": 4.8, "review_count": 1520, "family_friendly": true, "hidden_gem": false}]}, "source": "ai"}
+
+data: {"type": "hotels", "data": {"results": [{"name": "Park Hyatt Tokyo", "star_rating": 5, "price_per_night_usd": 650, "booking_url": "https://www.parkhyatttokyo.com", "link_verified": true}], "verification": {"level": "verified", "label": "Verified", "summary": "Links checked", "checks": [{"label": "Booking link", "status": "pass", "detail": "200 OK", "url": null}], "pending": false}}, "source": "ai"}
+
+data: {"type": "places_to_see", "data": {"results": [{"name": "Senso-ji", "category": "Temple/Mosque/Church", "admission_fee_usd": 0, "highlights": ["Kaminarimon"], "wheelchair_accessible": null}]}, "source": "ai"}
+
+data: {"type": "walking_tours", "data": {"results": [{"id": "guruwalk-tokyo-0", "name": "Asakusa free tour", "provider": "GuruWalk", "url": "https://www.guruwalk.com/tokyo/1", "rating": 4.9, "top_pick": true}], "sources": [{"status": "ok", "provider": "guruwalk"}]}, "source": "ai"}
+
+data: {"type": "events", "data": {"results": [{"name": "Cherry blossom season", "category": "seasonal", "start_date": "2026-03-25", "end_date": "2026-04-10", "date_certainty": "typical_season", "price": "Free", "impact": "highlight", "interest_match": ["nature"]}]}, "source": "ai"}
+
+data: {"type": "visa", "data": {"requirement": {"visa_type": "visa-free", "max_stay_days": 90, "fee_usd": 0, "official_url": "https://www.mofa.go.jp"}, "vaccinations": {"required": [], "recommended": ["Hepatitis A"]}, "customs": {"duty_free_allowances": {"alcohol": "3 bottles"}, "prohibited_items": ["Narcotics"]}}, "source": "ai"}
+
+data: {"type": "pricing_advisor", "data": {"route": "NYC → Tokyo", "current_avg_price_usd": 1275, "price_status": "typical", "recommendation": "wait", "trend_data": [{"days_before": 60, "relative_price": 1.0}]}, "source": "ai"}
+
+data: {"type": "itinerary", "data": {"days": [{"day_number": 1, "date": "2026-04-01", "theme": "Arrival", "city": "Tokyo", "slots": [{"time_of_day": "morning", "activity": "Senso-ji", "location": "Asakusa", "lat": 35.71, "lng": 139.79, "duration_hours": 2, "estimated_cost_usd": 0}], "daily_estimated_cost_usd": 80}], "total_estimated_cost_usd": 560}}
+
+data: {"type": "agent_status", "agent": "stress_test", "status": "searching"}
+
+: keepalive
+
+data: {"type": "packing_list", "data": {"categories": [{"name": "Clothing", "icon": "👕", "items": [{"item": "Light jacket", "essential": true, "note": null}]}], "luggage_note": "Carry-on is enough", "total_items": 1}, "source": "ai"}
+
+data: {"type": "stress_test", "data": {"overall": "amber", "summary": "Day 1 is tight after a long flight.", "score": 72, "findings": [{"severity": "high", "category": "timing", "day_number": 1, "issue": "Jet lag", "suggestion": "Start later"}]}, "source": "ai"}
+
+data: {"type": "future_event_type", "data": {"anything": true}}
+
+data: {"type": "done"}
+

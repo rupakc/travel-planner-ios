@@ -1,0 +1,69 @@
+# SwiftLint (version pinned in tools.lock). CI runs `swiftlint lint --strict`: every warning fails.
+included:
+  - App
+  - Packages/VoyagerKit/Sources
+  - UITests
+excluded:
+  - "**/Generated"
+  - Packages/VoyagerKit/.build
+
+opt_in_rules:
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - fatal_error_message
+
+disabled_rules:
+  - trailing_comma # Swift 6 allows trailing commas; multi-line literals keep them
+
+identifier_name:
+  min_length: 2
+  excluded: [id, i, j, x, y, ok, on, to]
+line_length:
+  warning: 140
+  ignores_urls: true
+function_parameter_count:
+  warning: 20
+  error: 25
+  ignores_default_parameters: true
+cyclomatic_complexity:
+  ignores_case_statements: true
+type_body_length:
+  warning: 400
+file_length:
+  warning: 600
+
+custom_rules:
+  no_raw_color:
+    name: No raw colours
+    message: "Colours come only from the generated design tokens (DesignSystem Palette / SemanticColor)."
+    regex: '\b(Color\(\s*(red:|#colorLiteral)|UIColor\(\s*red:)'
+    excluded: 'Sources/DesignSystem/Generated/'
+    excluded_match_kinds: [comment, doccomment]
+    severity: error
+  no_literal_text:
+    name: No literal Text
+    message: "User-facing text goes through L10n (or Text(verbatim:) for brand names and data). Literal previews live in *Previews.swift."
+    regex: '\bText\(\s*"'
+    excluded: '(Previews?\.swift$|/UITests/|/Tests/)'
+    excluded_match_kinds: [comment, doccomment]
+    severity: error
+  no_print:
+    name: No print
+    message: "Use os.Logger, never print()."
+    regex: '\bprint\('
+    excluded: '/UITests/'
+    excluded_match_kinds: [comment, doccomment, string]
+    severity: error
+  no_main_sync:
+    name: No DispatchQueue.main.sync
+    message: "DispatchQueue.main.sync deadlocks from the main thread; use @MainActor / await."
+    regex: 'DispatchQueue\.main\.sync\b'
+    excluded_match_kinds: [comment, doccomment, string]
+    severity: error
+  no_force_try_outside_tests:
+    name: No try! outside tests
+    message: "Handle the error; try! is only allowed in tests."
+    regex: '\btry!'
+    excluded: '(/UITests/|/Tests/)'
+    excluded_match_kinds: [comment, doccomment, string]
+    severity: error

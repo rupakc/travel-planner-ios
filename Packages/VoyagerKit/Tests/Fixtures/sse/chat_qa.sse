@@ -1,0 +1,10 @@
+data: {"type": "delta", "text": "US citizens can visit **Thailand** "}
+
+data: {"type": "delta", "text": "visa-free for up to 60 days."}
+
+data: {"type": "suggestions", "chips": ["Plan a week in Bangkok", "Best time to visit?"]}
+
+data: {"type": "session_context_update", "context": {"destination": "Thailand", "nationality": "American", "topics_discussed": ["visa"]}}
+
+data: {"type": "done"}
+

@@ -1,0 +1,5 @@
+#include "Base.xcconfig"
+
+VOYAGER_BASE_URL = $(VOYAGER_PROD_BASE_URL)
+// Space-separated; the one setting that also feeds associated domains (spec §2a).
+VOYAGER_TRUSTED_HOSTS = 35-207-18-35.sslip.io

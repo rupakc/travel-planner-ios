@@ -1,0 +1,207 @@
+# iOS CI. No Xcode locally: every build, lint and test runs here on macos-15.
+#   PR:                      tools (ubuntu) -> build-test (one macOS job: lint, unit tests on the iPhone simulator, app build)
+#   push to main / dispatch full=true:  + ui-smoke (iphone, ipad); archive on main only
+#   dispatch only_testing=X: build-test with `-only-testing:X` (comma-separated); record_snapshots=true records
+name: ios-ci
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['docs/**', '**/*.md']
+  pull_request:
+    paths-ignore: ['docs/**', '**/*.md']
+  workflow_dispatch:
+    inputs:
+      only_testing:
+        description: "xcodebuild -only-testing: values, comma-separated (empty = all)"
+        type: string
+        default: ""
+      record_snapshots:
+        description: "Record snapshots (uploads artifact `snapshots`)"
+        type: boolean
+        default: false
+      full:
+        description: "Also run ui-smoke (iPhone + iPad)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  XCODE_VERSION: "26.0.1"
+
+jobs:
+  tools:
+    name: tools
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Install pytest
+        run: python -m pip install --disable-pip-version-check pytest==8.3.5
+      - name: Python tool tests
+        run: python -m pytest -q tools/tests
+      - name: shellcheck
+        run: |
+          shellcheck --version
+          find scripts -name '*.sh' -print0 | xargs -0 shellcheck -x
+      - name: Upstream drift (re-vendor at the pinned SHA)
+        id: upstream
+        run: |
+          scripts/upstream/sync.sh
+          git add -N Upstream Packages/VoyagerKit/Tests/TelemetryTests/Resources
+          git diff --exit-code --stat -- Upstream Packages/VoyagerKit/Tests/TelemetryTests/Resources upstream.lock
+          echo "web_sha=$(sed -n 's/^WEB_SHA=//p' upstream.lock)" >> "$GITHUB_OUTPUT"
+          echo "web_repo=$(sed -n 's/^WEB_REPO=//p' upstream.lock)" >> "$GITHUB_OUTPUT"
+      - name: Generated files match their inputs
+        run: |
+          for gen in tools/gen_tokens.py tools/gen_catalog.py; do
+            if [[ -f "$gen" ]]; then python "$gen" --check; else echo "skip: $gen not present"; fi
+          done
+      - name: Check out travel-planner at WEB_SHA (golden fixtures)
+        if: hashFiles('tools/golden/cases/*.json') != ''
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          repository: ${{ steps.upstream.outputs.web_repo }}
+          ref: ${{ steps.upstream.outputs.web_sha }}
+          path: .upstream/travel-planner
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        if: hashFiles('tools/golden/cases/*.json') != ''
+        with:
+          node-version: "20"
+      - name: Golden fixtures match the web (gen_golden --check)
+        if: hashFiles('tools/golden/cases/*.json') != ''
+        env:
+          TZ: UTC
+        run: |
+          npm ci --prefix .upstream/travel-planner/frontend --no-audit --no-fund
+          node tools/golden/gen_golden.mjs .upstream/travel-planner --check
+
+  build-test:
+    name: build-test
+    needs: tools
+    runs-on: macos-15
+    timeout-minutes: 45
+    env:
+      ONLY_TESTING: ${{ inputs.only_testing }}
+      # xcodebuild passes TEST_RUNNER_<NAME> to the test process as <NAME> (TestSupport reads SNAPSHOT_RECORD).
+      TEST_RUNNER_SNAPSHOT_RECORD: ${{ inputs.record_snapshots && '1' || '' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: |
+            ~/.cache/voyager-tools
+            build/SourcePackages
+          key: ios-deps-${{ runner.os }}-${{ hashFiles('Packages/VoyagerKit/Package.resolved', 'tools.lock') }}
+      - name: Bootstrap tools (XcodeGen, SwiftLint)
+        run: scripts/ci/bootstrap.sh
+      - name: Select Xcode
+        run: scripts/ci/select-xcode.sh
+      - name: Lint
+        run: scripts/ci/lint.sh
+      - name: Generate
+        run: scripts/ci/generate.sh
+      - name: Unit tests (iPhone simulator)
+        run: scripts/ci/test-unit.sh iphone "$ONLY_TESTING"
+      - name: Test summary
+        if: always()
+        run: scripts/ci/summarize.sh build/unit-iphone.xcresult
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: unit-iphone-xcresult
+          path: |
+            build/unit-iphone.xcresult
+            build/unit-iphone.log
+          retention-days: 7
+      - name: Upload recorded snapshots
+        if: always() && inputs.record_snapshots
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: snapshots
+          path: Packages/VoyagerKit/Tests/**/__Snapshots__/**
+          if-no-files-found: warn
+      - name: Build the app (simulator)
+        run: scripts/ci/build-sim.sh
+      - name: Upload simulator app
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: Voyager-sim
+          path: build/Voyager-sim.zip
+          retention-days: 14
+
+  ui-smoke:
+    name: ui-smoke (${{ matrix.device }})
+    needs: build-test
+    if: >-
+      github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && inputs.full && inputs.only_testing == '')
+    runs-on: macos-15
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        device: [iphone, ipad]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: |
+            ~/.cache/voyager-tools
+            build/SourcePackages
+          key: ios-deps-${{ runner.os }}-${{ hashFiles('Packages/VoyagerKit/Package.resolved', 'tools.lock') }}
+      - name: Bootstrap tools
+        run: scripts/ci/bootstrap.sh
+      - name: Select Xcode
+        run: scripts/ci/select-xcode.sh
+      - name: Generate
+        run: scripts/ci/generate.sh
+      - name: UI tests
+        run: scripts/ci/test-ui.sh ${{ matrix.device }}
+      - name: Test summary
+        if: always()
+        run: scripts/ci/summarize.sh build/ui-${{ matrix.device }}.xcresult
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ui-${{ matrix.device }}-xcresult
+          path: build/ui-${{ matrix.device }}.xcresult
+          retention-days: 7
+
+  archive:
+    name: archive
+    needs: [build-test, ui-smoke]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: macos-15
+    timeout-minutes: 45
+    env:
+      VOYAGER_PROD_BASE_URL: ${{ vars.VOYAGER_PROD_BASE_URL }}
+      VOYAGER_TRUSTED_HOSTS: ${{ vars.VOYAGER_TRUSTED_HOSTS }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: |
+            ~/.cache/voyager-tools
+            build/SourcePackages
+          key: ios-deps-${{ runner.os }}-${{ hashFiles('Packages/VoyagerKit/Package.resolved', 'tools.lock') }}
+      - name: Bootstrap tools
+        run: scripts/ci/bootstrap.sh
+      - name: Select Xcode
+        run: scripts/ci/select-xcode.sh
+      - name: Generate
+        run: scripts/ci/generate.sh
+      - name: Archive (Release, unsigned)
+        run: scripts/ci/archive.sh

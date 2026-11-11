@@ -1,0 +1,27 @@
+// Shared app settings (included by Debug.xcconfig and Release.xcconfig).
+// `/$()/` keeps `//` in a URL from starting an xcconfig comment.
+
+PRODUCT_NAME = Voyager
+PRODUCT_BUNDLE_IDENTIFIER = io.github.rupakc.travelplanner
+MARKETING_VERSION = 0.1.0
+CURRENT_PROJECT_VERSION = 1
+
+IPHONEOS_DEPLOYMENT_TARGET = 17.0
+TARGETED_DEVICE_FAMILY = 1,2
+SUPPORTS_MACCATALYST = NO
+SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO
+SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO
+
+SWIFT_VERSION = 6.0
+SWIFT_STRICT_CONCURRENCY = complete
+SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
+
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon
+CODE_SIGN_ENTITLEMENTS = App/Voyager.entitlements
+// Simulator builds sign ad hoc ("Sign to Run Locally"); device signing comes with Task 49.
+CODE_SIGN_STYLE = Automatic
+CODE_SIGN_IDENTITY[sdk=iphonesimulator*] = -
+
+// The production host (R5). CI overrides each one only when the repo variable of the same
+// name is non-empty (scripts/ci/archive.sh). A custom domain later is a config change.
+VOYAGER_PROD_BASE_URL = https:/$()/35-207-18-35.sslip.io
