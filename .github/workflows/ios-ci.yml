@@ -61,6 +61,8 @@ jobs:
           git diff --exit-code --stat -- Upstream Packages/VoyagerKit/Tests/TelemetryTests/Resources upstream.lock
           echo "web_sha=$(sed -n 's/^WEB_SHA=//p' upstream.lock)" >> "$GITHUB_OUTPUT"
           echo "web_repo=$(sed -n 's/^WEB_REPO=//p' upstream.lock)" >> "$GITHUB_OUTPUT"
+      - name: Bundled fonts match tools.lock
+        run: scripts/fonts/fetch.sh --verify
       - name: Generated files match their inputs
         run: |
           for gen in tools/gen_tokens.py tools/gen_catalog.py; do

@@ -3,11 +3,13 @@
 # Used by scripts/ci/bootstrap.sh (xcodegen, swiftlint) and scripts/fonts/fetch.sh (font:* lines).
 xcodegen 2.46.0 https://github.com/yonaskolb/XcodeGen/releases/download/2.46.0/xcodegen.zip 4d9e34b62172d645eed6457cac13fc222569974098ef4ee9c3368bedf0196806
 swiftlint 0.65.1 https://github.com/realm/SwiftLint/releases/download/0.65.1/portable_swiftlint.zip c1e429b0599cf1b516f369a2d9ec04eaf0e436f3c12b637df8851fa52ff694d0
+# font:<File> <version> <url> <sha256 of download> [zip member] [sha256 of the committed file, for zip members]
 # Fonts (OFL): Inter 4.1 (2024-11-16, rsms/inter release zip), Sora from sora-xor/sora-font commit 7f9a9c5 (2022-09-05).
-font:Inter-Regular.ttf 4.1 https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e extras/ttf/Inter-Regular.ttf
-font:Inter-Medium.ttf 4.1 https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e extras/ttf/Inter-Medium.ttf
-font:Inter-SemiBold.ttf 4.1 https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e extras/ttf/Inter-SemiBold.ttf
-font:Inter-Bold.ttf 4.1 https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e extras/ttf/Inter-Bold.ttf
+font:Inter-Regular.ttf 4.1 https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e extras/ttf/Inter-Regular.ttf 40d692fce188e4471e2b3cba937be967878f631ad3ebbbdcd587687c7ebe0c82
+font:Inter-Medium.ttf 4.1 https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e extras/ttf/Inter-Medium.ttf 97ad806f526e41546d46365bb3a393145f75b7b1568913db74549ad8b8dba872
+font:Inter-SemiBold.ttf 4.1 https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e extras/ttf/Inter-SemiBold.ttf 78a843fade9d4612a5567302fb595b56976eb5fcebf4fea5a5912d638bafcde3
+font:Inter-Bold.ttf 4.1 https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e extras/ttf/Inter-Bold.ttf 288316099b1e0a47a4716d159098005eef7c0066921f34e3200393dbdb01947f
+font:OFL-Inter.txt 4.1 https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e LICENSE.txt 262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a
 font:Sora-SemiBold.ttf 7f9a9c5 https://raw.githubusercontent.com/sora-xor/sora-font/7f9a9c5d0ccd1c099cfac420aa27133df1c5fdc4/fonts/ttf/Sora-SemiBold.ttf b02621d4009da9a18eb8a5cbe277f084eb9c3f065ba08a6e77769e81863becf2
 font:Sora-Bold.ttf 7f9a9c5 https://raw.githubusercontent.com/sora-xor/sora-font/7f9a9c5d0ccd1c099cfac420aa27133df1c5fdc4/fonts/ttf/Sora-Bold.ttf 2ee62953668346b0aff83994a7864f75ee6b8443f99894e88f47559454291155
-font:OFL.txt 7f9a9c5 https://raw.githubusercontent.com/sora-xor/sora-font/7f9a9c5d0ccd1c099cfac420aa27133df1c5fdc4/OFL.txt ba0b9729c9428ba79a0459ab8ec575791b51509dbec213e383d0316d37fec299
+font:OFL-Sora.txt 7f9a9c5 https://raw.githubusercontent.com/sora-xor/sora-font/7f9a9c5d0ccd1c099cfac420aa27133df1c5fdc4/OFL.txt ba0b9729c9428ba79a0459ab8ec575791b51509dbec213e383d0316d37fec299

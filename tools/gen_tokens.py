@@ -91,7 +91,7 @@ def _existing(root: Path) -> set:
     found = set()
     catalog = root / CATALOG
     if catalog.is_dir():
-        found |= {str(p.relative_to(root)) for p in catalog.rglob("*") if p.is_file()}
+        found |= {str(p.relative_to(root)) for p in catalog.rglob("*") if p.is_file() and not p.name.startswith(".")}
     if (root / PALETTE).is_file():
         found.add(str(PALETTE))
     return found

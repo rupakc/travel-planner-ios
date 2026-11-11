@@ -88,3 +88,17 @@ def test_check_detects_stray_colorset(tmp_path):
 
 def test_committed_outputs_are_current():
     assert _run(ROOT, "--check").returncode == 0
+
+
+def test_check_ignores_dotfiles(tmp_path):
+    root = _sandbox(tmp_path)
+    assert _run(root).returncode == 0
+    catalog = root / DS / "Resources" / "Colors.xcassets"
+    (catalog / ".DS_Store").write_text("x")
+    (catalog / "teal-600.colorset" / ".DS_Store").write_text("x")
+    assert _run(root, "--check").returncode == 0
+
+
+def test_fonts_verify_passes_on_committed_fonts():
+    result = subprocess.run([str(ROOT / "scripts/fonts/fetch.sh"), "--verify"], capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr

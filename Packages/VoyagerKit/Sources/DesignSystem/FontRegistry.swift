@@ -16,7 +16,10 @@ public enum FontRegistry {
         for name in fileNames {
             let url = Bundle.module.url(forResource: name, withExtension: "ttf", subdirectory: "Fonts")
                 ?? Bundle.module.url(forResource: name, withExtension: "ttf")
-            guard let url else { continue }
+            guard let url else {
+                assertionFailure("FontRegistry: bundled font \(name).ttf is missing")
+                continue
+            }
             // An "already registered" error is fine (another process-level registration).
             CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)
         }
