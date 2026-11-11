@@ -5,6 +5,7 @@ import VoyagerModel
 
 @testable import SharedUI
 
+@MainActor
 struct SharedUILogicTests {
     @Test func test_bookingLinkAcceptsOnlyHttps() throws {
         #expect(BookingLink.isAllowed(try #require(URL(string: "https://www.example.com/book?a=1"))))

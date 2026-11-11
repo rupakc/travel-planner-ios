@@ -49,10 +49,10 @@ func assertSnapshots<V: View>(
                 .padding(16)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .background(SemanticColor.surface)
-            let traits = UITraitCollection(traitsFrom: [
-                UITraitCollection(userInterfaceStyle: config.dark ? .dark : .light),
-                UITraitCollection(preferredContentSizeCategory: config.size),
-            ])
+            let traits = UITraitCollection { mutable in
+                mutable.userInterfaceStyle = config.dark ? .dark : .light
+                mutable.preferredContentSizeCategory = config.size
+            }
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
