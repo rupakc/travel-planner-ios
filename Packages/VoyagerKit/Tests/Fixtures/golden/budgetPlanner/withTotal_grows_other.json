@@ -1,0 +1,18 @@
+{
+  "args": [
+    {
+      "activities": 450,
+      "flights": 650,
+      "other": 850,
+      "stay": 1050
+    },
+    4000
+  ],
+  "fn": "withTotal",
+  "output": {
+    "activities": 450,
+    "flights": 650,
+    "other": 1850,
+    "stay": 1050
+  }
+}

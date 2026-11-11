@@ -1,0 +1,209 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "outbound": {
+              "airline": "TestAir",
+              "duration_minutes": 600,
+              "flight_number": "TA1",
+              "stops": 0
+            },
+            "price_usd": 500,
+            "return": {
+              "duration_minutes": 600,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      },
+      "places_to_see": {
+        "results": [
+          {
+            "admission_fee_usd": 0,
+            "city": "A",
+            "name": "A0",
+            "rating": 5
+          },
+          {
+            "admission_fee_usd": 0,
+            "city": "A",
+            "name": "A1",
+            "rating": 4.9
+          },
+          {
+            "admission_fee_usd": 0,
+            "city": "A",
+            "name": "A2",
+            "rating": 4.8
+          },
+          {
+            "admission_fee_usd": 0,
+            "city": "B",
+            "name": "B0",
+            "rating": 5
+          },
+          {
+            "admission_fee_usd": 0,
+            "city": "B",
+            "name": "B1",
+            "rating": 4.9
+          },
+          {
+            "admission_fee_usd": 0,
+            "city": "B",
+            "name": "B2",
+            "rating": 4.8
+          },
+          {
+            "admission_fee_usd": 0,
+            "city": "C",
+            "name": "C0",
+            "rating": 5
+          },
+          {
+            "admission_fee_usd": 0,
+            "city": "C",
+            "name": "C1",
+            "rating": 4.9
+          },
+          {
+            "admission_fee_usd": 0,
+            "city": "C",
+            "name": "C2",
+            "rating": 4.8
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      },
+      {
+        "city": "A",
+        "item": {
+          "admission_fee_usd": 0,
+          "city": "A",
+          "name": "A0",
+          "rating": 5
+        },
+        "reason": "Free entry",
+        "type": "places_to_see"
+      },
+      {
+        "city": "B",
+        "item": {
+          "admission_fee_usd": 0,
+          "city": "B",
+          "name": "B0",
+          "rating": 5
+        },
+        "reason": "Free entry",
+        "type": "places_to_see"
+      },
+      {
+        "city": "C",
+        "item": {
+          "admission_fee_usd": 0,
+          "city": "C",
+          "name": "C0",
+          "rating": 5
+        },
+        "reason": "Free entry",
+        "type": "places_to_see"
+      },
+      {
+        "city": "A",
+        "item": {
+          "admission_fee_usd": 0,
+          "city": "A",
+          "name": "A1",
+          "rating": 4.9
+        },
+        "reason": "Free entry",
+        "type": "places_to_see"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": 500,
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": null,
+      "places_to_see": [
+        {
+          "admission_fee_usd": 0,
+          "city": "A",
+          "name": "A0",
+          "rating": 5
+        },
+        {
+          "admission_fee_usd": 0,
+          "city": "B",
+          "name": "B0",
+          "rating": 5
+        },
+        {
+          "admission_fee_usd": 0,
+          "city": "C",
+          "name": "C0",
+          "rating": 5
+        },
+        {
+          "admission_fee_usd": 0,
+          "city": "A",
+          "name": "A1",
+          "rating": 4.9
+        }
+      ],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 500
+  }
+}

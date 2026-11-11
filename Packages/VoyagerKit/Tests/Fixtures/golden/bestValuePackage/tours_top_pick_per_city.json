@@ -1,0 +1,149 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "outbound": {
+              "airline": "TestAir",
+              "duration_minutes": 600,
+              "flight_number": "TA1",
+              "stops": 0
+            },
+            "price_usd": 500,
+            "return": {
+              "duration_minutes": 600,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      },
+      "walking_tours": {
+        "results": [
+          {
+            "city": "Paris",
+            "name": "Other",
+            "price_note": "Free · tip-based",
+            "rating": 5,
+            "url": "u2"
+          },
+          {
+            "city": "Paris",
+            "name": "Pick",
+            "price_note": "Free · tip-based",
+            "rating": 4,
+            "top_pick": true,
+            "url": "u1"
+          },
+          {
+            "city": "Rome",
+            "name": "Rome",
+            "price_note": "Free · tip-based",
+            "rating": 4.5,
+            "url": "u3"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      },
+      {
+        "city": "Paris",
+        "item": {
+          "city": "Paris",
+          "name": "Pick",
+          "price_note": "Free · tip-based",
+          "rating": 4,
+          "top_pick": true,
+          "url": "u1"
+        },
+        "reason": "Free · tip-based",
+        "type": "walking_tours"
+      },
+      {
+        "city": "Rome",
+        "item": {
+          "city": "Rome",
+          "name": "Rome",
+          "price_note": "Free · tip-based",
+          "rating": 4.5,
+          "url": "u3"
+        },
+        "reason": "Free · tip-based",
+        "type": "walking_tours"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": 500,
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": [
+        {
+          "city": "Paris",
+          "name": "Pick",
+          "price_note": "Free · tip-based",
+          "rating": 4,
+          "top_pick": true,
+          "url": "u1"
+        },
+        {
+          "city": "Rome",
+          "name": "Rome",
+          "price_note": "Free · tip-based",
+          "rating": 4.5,
+          "url": "u3"
+        }
+      ]
+    },
+    "total": 500
+  }
+}

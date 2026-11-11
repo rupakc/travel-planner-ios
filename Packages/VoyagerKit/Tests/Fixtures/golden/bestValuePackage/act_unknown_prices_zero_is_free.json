@@ -1,0 +1,122 @@
+{
+  "args": [
+    {
+      "activities": {
+        "results": [
+          {
+            "city": "Paris",
+            "name": "N",
+            "price_usd": null,
+            "similarity_score": 0.4
+          },
+          {
+            "city": "Paris",
+            "name": "Z",
+            "price_usd": 0,
+            "similarity_score": 0.4
+          },
+          {
+            "city": "Paris",
+            "name": "V",
+            "price_usd": "varies",
+            "similarity_score": 0.4
+          }
+        ]
+      },
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "outbound": {
+              "airline": "TestAir",
+              "duration_minutes": 600,
+              "flight_number": "TA1",
+              "stops": 0
+            },
+            "price_usd": 500,
+            "return": {
+              "duration_minutes": 600,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      },
+      {
+        "city": "Paris",
+        "item": {
+          "city": "Paris",
+          "name": "Z",
+          "price_usd": 0,
+          "similarity_score": 0.4
+        },
+        "reason": "Free",
+        "type": "activities"
+      }
+    ],
+    "selections": {
+      "activities": [
+        {
+          "city": "Paris",
+          "name": "Z",
+          "price_usd": 0,
+          "similarity_score": 0.4
+        }
+      ],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": 500,
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 500
+  }
+}

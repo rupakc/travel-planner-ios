@@ -1,0 +1,19 @@
+{
+  "args": [
+    {
+      "airline": "Air",
+      "flight_number": "A1",
+      "leg_index": 1,
+      "outbound": {
+        "airline": "Air",
+        "duration_minutes": 600,
+        "flight_number": "A1",
+        "stops": 0
+      },
+      "price_usd": 500,
+      "source": "live"
+    }
+  ],
+  "fn": "flightKey",
+  "output": "1|500|Air|A1"
+}

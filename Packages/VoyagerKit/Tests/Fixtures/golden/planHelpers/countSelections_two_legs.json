@@ -1,0 +1,42 @@
+{
+  "args": [
+    {
+      "activities": [],
+      "events": [],
+      "flight": null,
+      "flights": [
+        {
+          "leg_index": 0,
+          "outbound": {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 100
+        },
+        {
+          "leg_index": 1,
+          "outbound": {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 90
+        }
+      ],
+      "getting_around": [],
+      "hotel": null,
+      "itinerary_edits": {},
+      "itinerary_layout": null,
+      "itinerary_notes": {},
+      "itinerary_slots": [],
+      "packing_list": null,
+      "places_to_see": [],
+      "sim": null,
+      "tips": [],
+      "walking_tours": []
+    }
+  ],
+  "fn": "countSelections",
+  "output": 2
+}

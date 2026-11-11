@@ -1,0 +1,73 @@
+{
+  "args": [
+    {
+      "hotels": {
+        "results": [
+          {
+            "city": "Lisbon",
+            "name": "Lis",
+            "price_per_night_usd": 100,
+            "review_score": 7,
+            "star_rating": 3
+          },
+          {
+            "city": "Porto, Portugal",
+            "name": "Opo",
+            "price_per_night_usd": 100,
+            "review_score": 10,
+            "star_rating": 3
+          },
+          {
+            "city": "lisbon",
+            "name": "Lis2",
+            "price_per_night_usd": 100,
+            "review_score": 9,
+            "star_rating": 3
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "destinations": [
+        "LIS",
+        "OPO"
+      ],
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "city": "lisbon",
+          "name": "Lis2",
+          "price_per_night_usd": 100,
+          "review_score": 9,
+          "star_rating": 3
+        },
+        "reason": "Mid-range (3★), best-reviewed in its class · lisbon",
+        "type": "hotel"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": null,
+      "flights": [],
+      "hotel": {
+        "city": "lisbon",
+        "name": "Lis2",
+        "price_per_night_usd": 100,
+        "review_score": 9,
+        "star_rating": 3
+      },
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 900
+  }
+}

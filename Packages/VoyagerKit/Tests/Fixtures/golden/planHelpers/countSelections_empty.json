@@ -1,0 +1,23 @@
+{
+  "args": [
+    {
+      "activities": [],
+      "events": [],
+      "flight": null,
+      "flights": [],
+      "getting_around": [],
+      "hotel": null,
+      "itinerary_edits": {},
+      "itinerary_layout": null,
+      "itinerary_notes": {},
+      "itinerary_slots": [],
+      "packing_list": null,
+      "places_to_see": [],
+      "sim": null,
+      "tips": [],
+      "walking_tours": []
+    }
+  ],
+  "fn": "countSelections",
+  "output": 0
+}

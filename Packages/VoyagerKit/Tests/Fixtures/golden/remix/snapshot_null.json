@@ -1,0 +1,12 @@
+{
+  "args": [
+    null
+  ],
+  "fn": "snapshotMetrics",
+  "output": {
+    "itinerary_total_usd": null,
+    "min_flight_usd": null,
+    "min_hotel_nightly_usd": null,
+    "poor_weather_days": null
+  }
+}

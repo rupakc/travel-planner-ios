@@ -1,0 +1,34 @@
+{
+  "args": [
+    {
+      "budget_usd": 2999.6,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-08"
+    },
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "Air",
+            "flight_number": "A",
+            "outbound": {
+              "airline": "Air",
+              "duration_minutes": 600,
+              "flight_number": "A",
+              "stops": 0
+            },
+            "price_usd": 333.33,
+            "source": "live"
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "defaultAllocation",
+  "output": {
+    "activities": 450,
+    "flights": 340,
+    "other": 2210,
+    "stay": 0
+  }
+}

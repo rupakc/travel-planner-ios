@@ -1,0 +1,60 @@
+{
+  "args": [
+    {
+      "activities": [
+        {
+          "name": "a",
+          "price_usd": 40
+        },
+        {
+          "name": "b",
+          "price_usd": "15"
+        },
+        {
+          "name": "c",
+          "price_usd": "varies"
+        }
+      ],
+      "events": [],
+      "flight": {
+        "price_usd": 900
+      },
+      "flights": [
+        {
+          "leg_index": 0,
+          "outbound": {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 100
+        }
+      ],
+      "getting_around": [],
+      "hotel": {
+        "price_per_night_usd": 120
+      },
+      "itinerary_edits": {},
+      "itinerary_layout": null,
+      "itinerary_notes": {},
+      "itinerary_slots": [],
+      "packing_list": null,
+      "places_to_see": [
+        {
+          "name": "p"
+        }
+      ],
+      "sim": {
+        "price_usd": 20
+      },
+      "tips": [
+        {
+          "title": "t"
+        }
+      ],
+      "walking_tours": []
+    }
+  ],
+  "fn": "countSelections",
+  "output": 9
+}

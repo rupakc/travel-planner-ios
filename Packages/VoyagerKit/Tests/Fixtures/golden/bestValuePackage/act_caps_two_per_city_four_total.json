@@ -1,0 +1,227 @@
+{
+  "args": [
+    {
+      "activities": {
+        "results": [
+          {
+            "city": "A",
+            "name": "A0",
+            "price_usd": 10,
+            "similarity_score": 0.9
+          },
+          {
+            "city": "A",
+            "name": "A1",
+            "price_usd": 10,
+            "similarity_score": 0.8
+          },
+          {
+            "city": "A",
+            "name": "A2",
+            "price_usd": 10,
+            "similarity_score": 0.7
+          },
+          {
+            "city": "A",
+            "name": "A3",
+            "price_usd": 10,
+            "similarity_score": 0.6
+          },
+          {
+            "city": "B",
+            "name": "B0",
+            "price_usd": 10,
+            "similarity_score": 0.9
+          },
+          {
+            "city": "B",
+            "name": "B1",
+            "price_usd": 10,
+            "similarity_score": 0.8
+          },
+          {
+            "city": "B",
+            "name": "B2",
+            "price_usd": 10,
+            "similarity_score": 0.7
+          },
+          {
+            "city": "B",
+            "name": "B3",
+            "price_usd": 10,
+            "similarity_score": 0.6
+          },
+          {
+            "city": "C",
+            "name": "C0",
+            "price_usd": 10,
+            "similarity_score": 0.9
+          },
+          {
+            "city": "C",
+            "name": "C1",
+            "price_usd": 10,
+            "similarity_score": 0.8
+          },
+          {
+            "city": "C",
+            "name": "C2",
+            "price_usd": 10,
+            "similarity_score": 0.7
+          },
+          {
+            "city": "C",
+            "name": "C3",
+            "price_usd": 10,
+            "similarity_score": 0.6
+          }
+        ]
+      },
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "outbound": {
+              "airline": "TestAir",
+              "duration_minutes": 600,
+              "flight_number": "TA1",
+              "stops": 0
+            },
+            "price_usd": 500,
+            "return": {
+              "duration_minutes": 600,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      },
+      {
+        "city": "A",
+        "item": {
+          "city": "A",
+          "name": "A0",
+          "price_usd": 10,
+          "similarity_score": 0.9
+        },
+        "reason": "$10 · matches your interests",
+        "type": "activities"
+      },
+      {
+        "city": "B",
+        "item": {
+          "city": "B",
+          "name": "B0",
+          "price_usd": 10,
+          "similarity_score": 0.9
+        },
+        "reason": "$10 · matches your interests",
+        "type": "activities"
+      },
+      {
+        "city": "C",
+        "item": {
+          "city": "C",
+          "name": "C0",
+          "price_usd": 10,
+          "similarity_score": 0.9
+        },
+        "reason": "$10 · matches your interests",
+        "type": "activities"
+      },
+      {
+        "city": "A",
+        "item": {
+          "city": "A",
+          "name": "A1",
+          "price_usd": 10,
+          "similarity_score": 0.8
+        },
+        "reason": "$10 · matches your interests",
+        "type": "activities"
+      }
+    ],
+    "selections": {
+      "activities": [
+        {
+          "city": "A",
+          "name": "A0",
+          "price_usd": 10,
+          "similarity_score": 0.9
+        },
+        {
+          "city": "B",
+          "name": "B0",
+          "price_usd": 10,
+          "similarity_score": 0.9
+        },
+        {
+          "city": "C",
+          "name": "C0",
+          "price_usd": 10,
+          "similarity_score": 0.9
+        },
+        {
+          "city": "A",
+          "name": "A1",
+          "price_usd": 10,
+          "similarity_score": 0.8
+        }
+      ],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": 500,
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 540
+  }
+}

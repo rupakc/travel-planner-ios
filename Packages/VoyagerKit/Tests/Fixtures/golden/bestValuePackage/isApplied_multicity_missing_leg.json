@@ -1,0 +1,63 @@
+{
+  "args": [
+    {
+      "activities": [],
+      "events": [],
+      "flight": null,
+      "flights": [
+        {
+          "leg_index": 0,
+          "outbound": {
+            "airline": "A",
+            "flight_number": "X",
+            "stops": 0
+          },
+          "price_usd": 100
+        }
+      ],
+      "getting_around": [],
+      "hotel": null,
+      "itinerary_edits": {},
+      "itinerary_layout": null,
+      "itinerary_notes": {},
+      "itinerary_slots": [],
+      "packing_list": null,
+      "places_to_see": [],
+      "sim": null,
+      "tips": [],
+      "walking_tours": []
+    },
+    {
+      "selections": {
+        "activities": [],
+        "flight": null,
+        "flights": [
+          {
+            "leg_index": 0,
+            "outbound": {
+              "airline": "A",
+              "flight_number": "X",
+              "stops": 0
+            },
+            "price_usd": 100
+          },
+          {
+            "leg_index": 1,
+            "outbound": {
+              "airline": "A",
+              "flight_number": "X",
+              "stops": 0
+            },
+            "price_usd": 101
+          }
+        ],
+        "hotel": null,
+        "places_to_see": [],
+        "sim": null,
+        "walking_tours": []
+      }
+    }
+  ],
+  "fn": "isPackageApplied",
+  "output": false
+}

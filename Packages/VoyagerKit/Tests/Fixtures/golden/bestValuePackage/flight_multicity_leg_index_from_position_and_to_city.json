@@ -1,0 +1,108 @@
+{
+  "args": [
+    {
+      "flights": {
+        "legs": [
+          {
+            "results": [
+              {
+                "outbound": {
+                  "airline": "A",
+                  "flight_number": "9",
+                  "stops": 0
+                },
+                "price_usd": 90
+              }
+            ],
+            "to": "Rome"
+          },
+          {
+            "leg_index": 5,
+            "results": [
+              {
+                "city": "Lyon",
+                "outbound": {
+                  "airline": "B",
+                  "flight_number": "8",
+                  "stops": 0
+                },
+                "price_usd": 70
+              }
+            ],
+            "to": "Paris"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "city": "Rome",
+        "item": {
+          "leg_index": 0,
+          "outbound": {
+            "airline": "A",
+            "flight_number": "9",
+            "stops": 0
+          },
+          "price_usd": 90
+        },
+        "reason": "Cheapest fare",
+        "type": "flights"
+      },
+      {
+        "city": "Lyon",
+        "item": {
+          "city": "Lyon",
+          "leg_index": 5,
+          "outbound": {
+            "airline": "B",
+            "flight_number": "8",
+            "stops": 0
+          },
+          "price_usd": 70
+        },
+        "reason": "Cheapest fare",
+        "type": "flights"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": null,
+      "flights": [
+        {
+          "leg_index": 0,
+          "outbound": {
+            "airline": "A",
+            "flight_number": "9",
+            "stops": 0
+          },
+          "price_usd": 90
+        },
+        {
+          "city": "Lyon",
+          "leg_index": 5,
+          "outbound": {
+            "airline": "B",
+            "flight_number": "8",
+            "stops": 0
+          },
+          "price_usd": 70
+        }
+      ],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 160
+  }
+}

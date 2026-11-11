@@ -1,0 +1,24 @@
+{
+  "args": [
+    {
+      "budget_usd": null,
+      "departure_date": "2026-08-10",
+      "destination": "Tokyo",
+      "nationality": "American",
+      "origin": "NYC",
+      "pace": "balanced",
+      "return_date": "2026-08-17"
+    },
+    "half_budget"
+  ],
+  "fn": "applyRemix",
+  "output": {
+    "budget_usd": null,
+    "departure_date": "2026-08-10",
+    "destination": "Tokyo",
+    "nationality": "American",
+    "origin": "NYC",
+    "pace": "balanced",
+    "return_date": "2026-08-17"
+  }
+}

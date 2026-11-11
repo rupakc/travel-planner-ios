@@ -1,0 +1,18 @@
+{
+  "args": [
+    null,
+    {
+      "selections": {
+        "activities": [],
+        "flight": null,
+        "flights": [],
+        "hotel": null,
+        "places_to_see": [],
+        "sim": null,
+        "walking_tours": []
+      }
+    }
+  ],
+  "fn": "isPackageApplied",
+  "output": true
+}

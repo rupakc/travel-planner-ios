@@ -1,0 +1,76 @@
+{
+  "args": [
+    {
+      "budget_usd": 3000,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-08"
+    },
+    {
+      "flights": {
+        "legs": [
+          {
+            "leg_index": 0,
+            "results": [
+              {
+                "airline": "Air",
+                "flight_number": "A0",
+                "leg_index": 0,
+                "outbound": {
+                  "airline": "Air",
+                  "duration_minutes": 600,
+                  "flight_number": "A0",
+                  "stops": 0
+                },
+                "price_usd": 123.45,
+                "source": "live"
+              }
+            ]
+          },
+          {
+            "leg_index": 1,
+            "results": [
+              {
+                "airline": "Air",
+                "flight_number": "A1",
+                "leg_index": 1,
+                "outbound": {
+                  "airline": "Air",
+                  "duration_minutes": 600,
+                  "flight_number": "A1",
+                  "stops": 0
+                },
+                "price_usd": 98.76,
+                "source": "live"
+              }
+            ]
+          },
+          {
+            "leg_index": 2,
+            "results": [
+              {
+                "airline": "Air",
+                "flight_number": "A2",
+                "leg_index": 2,
+                "outbound": {
+                  "airline": "Air",
+                  "duration_minutes": 600,
+                  "flight_number": "A2",
+                  "stops": 0
+                },
+                "price_usd": 0.30000000000000004,
+                "source": "live"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "defaultAllocation",
+  "output": {
+    "activities": 450,
+    "flights": 230,
+    "other": 2320,
+    "stay": 0
+  }
+}

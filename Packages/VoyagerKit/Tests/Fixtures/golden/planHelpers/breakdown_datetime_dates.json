@@ -1,0 +1,21 @@
+{
+  "args": [
+    {
+      "hotel": {
+        "price_per_night_usd": 100
+      }
+    },
+    {
+      "departure_date": "2026-04-01T10:00:00Z",
+      "return_date": "2026-04-04T22:00:00Z"
+    }
+  ],
+  "fn": "computePlanCostBreakdown",
+  "output": [
+    {
+      "amount": 350,
+      "key": "hotel",
+      "label": "Hotel"
+    }
+  ]
+}

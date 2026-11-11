@@ -1,0 +1,97 @@
+{
+ "module": "frontend/src/utils/verification.js",
+ "cases": [
+  {
+   "name": "selections_with_evidence",
+   "fn": "stripLinkEvidence",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": {
+      "name": "H",
+      "link_verified": true,
+      "link_checked": "2026-01-01",
+      "booking_url": "u"
+     },
+     "activities": [
+      {
+       "name": "a",
+       "link_verified": false
+      },
+      {
+       "name": "b"
+      }
+     ],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": {
+      "provider": "P"
+     },
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    }
+   ]
+  },
+  {
+   "name": "selections_without_evidence_unchanged",
+   "fn": "stripLinkEvidence",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [
+      {
+       "title": "t"
+      }
+     ],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {
+      "1-morning": "n"
+     },
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    }
+   ]
+  },
+  {
+   "name": "null",
+   "fn": "stripLinkEvidence",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "scalar_values_pass_through",
+   "fn": "stripLinkEvidence",
+   "args": [
+    {
+     "a": 1,
+     "b": "x",
+     "c": [
+      1,
+      "two",
+      null,
+      {
+       "link_checked": 1
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

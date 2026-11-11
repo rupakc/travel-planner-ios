@@ -1,0 +1,56 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "price_usd": 900
+          },
+          {
+            "price_usd": "750"
+          },
+          {
+            "price_usd": "varies"
+          },
+          {
+            "price_usd": 0
+          }
+        ]
+      },
+      "hotels": {
+        "results": [
+          {
+            "price_per_night_usd": 180
+          },
+          {
+            "price_per_night_usd": 120.5
+          }
+        ]
+      },
+      "itinerary": {
+        "total_estimated_cost_usd": 2400
+      },
+      "weather": {
+        "days": [
+          {
+            "is_poor": true
+          },
+          {
+            "is_poor": false
+          },
+          {
+            "is_poor": true
+          },
+          {}
+        ]
+      }
+    }
+  ],
+  "fn": "snapshotMetrics",
+  "output": {
+    "itinerary_total_usd": 2400,
+    "min_flight_usd": 750,
+    "min_hotel_nightly_usd": 120.5,
+    "poor_weather_days": 2
+  }
+}

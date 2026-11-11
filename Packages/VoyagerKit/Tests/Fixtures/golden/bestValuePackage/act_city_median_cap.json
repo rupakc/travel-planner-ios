@@ -1,0 +1,163 @@
+{
+  "args": [
+    {
+      "activities": {
+        "results": [
+          {
+            "city": "Paris",
+            "name": "P59",
+            "price_usd": 59,
+            "similarity_score": 0.1
+          },
+          {
+            "city": "Paris",
+            "name": "P58",
+            "price_usd": 58,
+            "similarity_score": 0.1
+          },
+          {
+            "city": "Paris",
+            "name": "P55",
+            "price_usd": 55,
+            "similarity_score": 0.1
+          },
+          {
+            "city": "Paris",
+            "name": "P52",
+            "price_usd": 52,
+            "similarity_score": 0.1
+          },
+          {
+            "city": "Paris",
+            "name": "P48",
+            "price_usd": 48,
+            "similarity_score": 0.1
+          },
+          {
+            "city": "Paris",
+            "name": "P45",
+            "price_usd": 45,
+            "similarity_score": 0.1
+          },
+          {
+            "city": "Paris",
+            "name": "P39",
+            "price_usd": 39,
+            "similarity_score": 0.1
+          }
+        ]
+      },
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "outbound": {
+              "airline": "TestAir",
+              "duration_minutes": 600,
+              "flight_number": "TA1",
+              "stops": 0
+            },
+            "price_usd": 500,
+            "return": {
+              "duration_minutes": 600,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      },
+      {
+        "city": "Paris",
+        "item": {
+          "city": "Paris",
+          "name": "P39",
+          "price_usd": 39,
+          "similarity_score": 0.1
+        },
+        "reason": "$39 · at or below the typical price here",
+        "type": "activities"
+      },
+      {
+        "city": "Paris",
+        "item": {
+          "city": "Paris",
+          "name": "P45",
+          "price_usd": 45,
+          "similarity_score": 0.1
+        },
+        "reason": "$45 · at or below the typical price here",
+        "type": "activities"
+      }
+    ],
+    "selections": {
+      "activities": [
+        {
+          "city": "Paris",
+          "name": "P39",
+          "price_usd": 39,
+          "similarity_score": 0.1
+        },
+        {
+          "city": "Paris",
+          "name": "P45",
+          "price_usd": 45,
+          "similarity_score": 0.1
+        }
+      ],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": 500,
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 584
+  }
+}

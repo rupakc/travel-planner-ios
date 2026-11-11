@@ -1,0 +1,10 @@
+{
+  "args": [
+    null,
+    {
+      "min_flight_usd": 1
+    }
+  ],
+  "fn": "diffMetrics",
+  "output": []
+}

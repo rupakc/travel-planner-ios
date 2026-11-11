@@ -1,0 +1,23 @@
+{
+  "args": [
+    {
+      "min_flight_usd": 100.1
+    },
+    {
+      "min_flight_usd": 100.3
+    }
+  ],
+  "fn": "diffMetrics",
+  "output": [
+    {
+      "after": 100.3,
+      "before": 100.1,
+      "delta": 0.20000000000000284,
+      "direction": "up",
+      "improved": false,
+      "key": "min_flight_usd",
+      "kind": "usd",
+      "label": "Cheapest flight"
+    }
+  ]
+}

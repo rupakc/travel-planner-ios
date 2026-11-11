@@ -1,0 +1,4961 @@
+{
+ "module": "frontend/src/utils/bestValuePackage.js",
+ "setup": [
+  {
+   "module": "frontend/src/i18n/index.js",
+   "fn": "initI18n",
+   "args": [
+    {
+     "lng": "en"
+    }
+   ]
+  }
+ ],
+ "cases": [
+  {
+   "name": "flight_fewer_stops_in_window",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "A",
+        "price_usd": 480,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "A",
+         "stops": 2,
+         "duration_minutes": 900
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "B",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "Y",
+         "flight_number": "B",
+         "stops": 1,
+         "duration_minutes": 700
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_cheapest_outside_window",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "B",
+        "price_usd": 600,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "A",
+        "price_usd": 400,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "A",
+         "stops": 2,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_estimate_dropped",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "E",
+        "price_usd": 300,
+        "source": "estimate",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "R",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_estimate_only",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "E",
+        "price_usd": 300,
+        "source": "estimate",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_junk_and_string_price",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "J",
+        "price_usd": "varies",
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "S",
+        "price_usd": "450",
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_stop_ties_by_duration",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "S",
+        "price_usd": 400,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "S",
+         "stops": 0,
+         "duration_minutes": 900
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "F",
+        "price_usd": 420,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "F",
+         "stops": 0,
+         "duration_minutes": 500
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_five_minutes_not_chased",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "D",
+        "price_usd": 183,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "D",
+         "stops": 0,
+         "duration_minutes": 155
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 160
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "C",
+        "price_usd": 169,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "C",
+         "stops": 0,
+         "duration_minutes": 155
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 165
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_saves_two_hours",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "S",
+        "price_usd": 400,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "S",
+         "stops": 1,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "F",
+        "price_usd": 430,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "F",
+         "stops": 1,
+         "duration_minutes": 480
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_sixty_minutes_ignored",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "S",
+        "price_usd": 400,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "S",
+         "stops": 1,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "F",
+        "price_usd": 430,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "F",
+         "stops": 1,
+         "duration_minutes": 540
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_unknown_duration_ignored",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "S",
+        "price_usd": 400,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "S",
+         "stops": 1,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "U",
+        "price_usd": 430,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "U",
+         "stops": 1,
+         "duration_minutes": null
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_shortest_of_qualifying_hm",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "S",
+        "price_usd": 400,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "S",
+         "stops": 1,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "A",
+        "price_usd": 410,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "A",
+         "stops": 1,
+         "duration_minutes": 500
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "B",
+        "price_usd": 430,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "B",
+         "stops": 1,
+         "duration_minutes": 400
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_exact_hours_no_minutes",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "S",
+        "price_usd": 400,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "S",
+         "stops": 1,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "F",
+        "price_usd": 430,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "F",
+         "stops": 1,
+         "duration_minutes": 420
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_sub_fifty_cent_premium",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "A",
+        "price_usd": 100,
+        "source": "live",
+        "outbound": {
+         "airline": "X",
+         "flight_number": "A",
+         "stops": 1,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       },
+       {
+        "airline": "TestAir",
+        "flight_number": "B",
+        "price_usd": 100.3,
+        "source": "live",
+        "outbound": {
+         "airline": "Y",
+         "flight_number": "B",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_multicity_legs",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "legs": [
+       {
+        "leg_index": 0,
+        "results": [
+         {
+          "leg_index": 0,
+          "price_usd": 100,
+          "outbound": {
+           "airline": "A",
+           "flight_number": "1",
+           "stops": 1
+          }
+         },
+         {
+          "leg_index": 0,
+          "price_usd": 110,
+          "outbound": {
+           "airline": "B",
+           "flight_number": "2",
+           "stops": 0
+          }
+         }
+        ]
+       },
+       {
+        "leg_index": 1,
+        "results": [
+         {
+          "leg_index": 1,
+          "price_usd": 80,
+          "outbound": {
+           "airline": "C",
+           "flight_number": "3",
+           "stops": 0
+          }
+         }
+        ]
+       },
+       {
+        "leg_index": 2,
+        "results": []
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_multicity_leg_index_from_position_and_to_city",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "legs": [
+       {
+        "to": "Rome",
+        "results": [
+         {
+          "price_usd": 90,
+          "outbound": {
+           "airline": "A",
+           "flight_number": "9",
+           "stops": 0
+          }
+         }
+        ]
+       },
+       {
+        "leg_index": 5,
+        "to": "Paris",
+        "results": [
+         {
+          "price_usd": 70,
+          "city": "Lyon",
+          "outbound": {
+           "airline": "B",
+           "flight_number": "8",
+           "stops": 0
+          }
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_multicity_non_array_results",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "legs": [
+       {
+        "leg_index": 0,
+        "results": "oops"
+       },
+       {
+        "leg_index": 1,
+        "results": [
+         {
+          "leg_index": 1,
+          "price_usd": 80,
+          "outbound": {
+           "airline": "C",
+           "flight_number": "3",
+           "stops": 0
+          }
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_whitespace_price_is_none",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": " ",
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "flight_flat_stops_fields",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "price_usd": 300,
+        "stops": 2,
+        "duration_minutes": 800,
+        "airline": "F",
+        "flight_number": "1"
+       },
+       {
+        "price_usd": 320,
+        "stops": 0,
+        "duration_minutes": 700,
+        "airline": "G",
+        "flight_number": "2"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "hotel_prefers_3_star_best_review",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Low",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 7
+       },
+       {
+        "name": "Best",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 9
+       },
+       {
+        "name": "Four",
+        "star_rating": 4,
+        "price_per_night_usd": 100,
+        "review_score": 10
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "hotel_falls_back_to_4_star",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Five",
+        "star_rating": 5,
+        "price_per_night_usd": 100,
+        "review_score": 10
+       },
+       {
+        "name": "Four",
+        "star_rating": 4,
+        "price_per_night_usd": 100,
+        "review_score": 8
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "hotel_falls_back_to_any",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Five",
+        "star_rating": 5,
+        "price_per_night_usd": 100,
+        "review_score": 10
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "hotel_string_float_stars_unknown_review_last",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "U",
+        "star_rating": "3",
+        "price_per_night_usd": 100,
+        "review_score": null
+       },
+       {
+        "name": "K",
+        "star_rating": 2.6,
+        "price_per_night_usd": 100,
+        "review_score": 6
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "hotel_varies_price_ignored",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Bad",
+        "star_rating": 3,
+        "price_per_night_usd": "varies",
+        "review_score": 10
+       },
+       {
+        "name": "Good",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 8
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "hotel_unrated_label",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Hotel A",
+        "star_rating": null,
+        "price_per_night_usd": 100,
+        "review_score": 8
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "hotel_four_star_label",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Hotel A",
+        "star_rating": 4,
+        "price_per_night_usd": 100,
+        "review_score": 8
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "hotel_multicity_first_destination",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Rome",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 10,
+        "city": "Rome"
+       },
+       {
+        "name": "Paris",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 7,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null,
+     "destinations": [
+      "Paris",
+      "Rome"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "hotel_multicity_label_with_city",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Hotel A",
+        "star_rating": 4,
+        "price_per_night_usd": 100,
+        "review_score": 8,
+        "city": "Rome"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null,
+     "destinations": [
+      "Rome",
+      "X"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "hotel_multicity_leg_destination_wins",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "legs": [
+       {
+        "leg_index": 0,
+        "to": "Lisbon, Portugal",
+        "results": [
+         {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "price_usd": 500,
+          "source": "live",
+          "outbound": {
+           "airline": "TestAir",
+           "flight_number": "TA1",
+           "stops": 0,
+           "duration_minutes": 600
+          },
+          "return": {
+           "stops": 0,
+           "duration_minutes": 600
+          },
+          "leg_index": 0
+         }
+        ]
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "Opo",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 10,
+        "city": "Porto, Portugal"
+       },
+       {
+        "name": "Lis",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 7,
+        "city": "Lisbon"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null,
+     "destinations": [
+      "LIS",
+      "OPO"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "hotel_multicity_comma_segment",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Opo",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 10,
+        "city": "Porto, Portugal"
+       },
+       {
+        "name": "L",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 6,
+        "city": "Lisbon, Portugal"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null,
+     "destinations": [
+      "Lisbon",
+      "Porto"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "hotel_multicity_first_tagged_decides",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Lis",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 7,
+        "city": "Lisbon"
+       },
+       {
+        "name": "Opo",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 10,
+        "city": "Porto, Portugal"
+       },
+       {
+        "name": "Lis2",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 9,
+        "city": "lisbon"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null,
+     "destinations": [
+      "LIS",
+      "OPO"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "hotel_nameless_and_sim_unnamed_skipped",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 10
+       },
+       {
+        "name": "Named",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 8
+       }
+      ]
+     },
+     "sim": {
+      "plans": [
+       {
+        "price_usd": 5
+       },
+       {
+        "provider": "P",
+        "plan_name": "Q",
+        "price_usd": 9
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "budget_swaps_cheaper_hotel",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "Pricey",
+        "star_rating": 3,
+        "price_per_night_usd": 300,
+        "review_score": 9
+       },
+       {
+        "name": "Cheap",
+        "star_rating": 2,
+        "price_per_night_usd": 50,
+        "review_score": 7.5
+       },
+       {
+        "name": "Awful",
+        "star_rating": 1,
+        "price_per_night_usd": 20,
+        "review_score": 5
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": 1500
+    }
+   ]
+  },
+  {
+   "name": "budget_within_budget_keeps_hotel",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "Pricey",
+        "star_rating": 3,
+        "price_per_night_usd": 300,
+        "review_score": 9
+       },
+       {
+        "name": "Cheap",
+        "star_rating": 2,
+        "price_per_night_usd": 50,
+        "review_score": 7.5
+       },
+       {
+        "name": "Awful",
+        "star_rating": 1,
+        "price_per_night_usd": 20,
+        "review_score": 5
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": 99999
+    }
+   ]
+  },
+  {
+   "name": "budget_no_budget_keeps_hotel",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "Pricey",
+        "star_rating": 3,
+        "price_per_night_usd": 300,
+        "review_score": 9
+       },
+       {
+        "name": "Cheap",
+        "star_rating": 2,
+        "price_per_night_usd": 50,
+        "review_score": 7.5
+       },
+       {
+        "name": "Awful",
+        "star_rating": 1,
+        "price_per_night_usd": 20,
+        "review_score": 5
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "budget_never_below_review_7",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "Pricey",
+        "star_rating": 3,
+        "price_per_night_usd": 300,
+        "review_score": 9
+       },
+       {
+        "name": "Awful",
+        "star_rating": 1,
+        "price_per_night_usd": 20,
+        "review_score": 5
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": 100
+    }
+   ]
+  },
+  {
+   "name": "budget_string_budget_over",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "Pricey",
+        "star_rating": 3,
+        "price_per_night_usd": 300,
+        "review_score": 9
+       },
+       {
+        "name": "Cheap",
+        "star_rating": 2,
+        "price_per_night_usd": 50,
+        "review_score": 7.5
+       },
+       {
+        "name": "Awful",
+        "star_rating": 1,
+        "price_per_night_usd": 20,
+        "review_score": 5
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": "1500"
+    }
+   ]
+  },
+  {
+   "name": "budget_swap_stays_in_first_city",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "legs": [
+       {
+        "leg_index": 0,
+        "to": "Lisbon",
+        "results": [
+         {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "price_usd": 500,
+          "source": "live",
+          "outbound": {
+           "airline": "TestAir",
+           "flight_number": "TA1",
+           "stops": 0,
+           "duration_minutes": 600
+          },
+          "return": {
+           "stops": 0,
+           "duration_minutes": 600
+          },
+          "leg_index": 0
+         }
+        ]
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "BigLis",
+        "star_rating": 3,
+        "price_per_night_usd": 300,
+        "review_score": 8,
+        "city": "Lisbon"
+       },
+       {
+        "name": "CheapOpo",
+        "star_rating": 3,
+        "price_per_night_usd": 10,
+        "review_score": 9,
+        "city": "Porto"
+       },
+       {
+        "name": "CheapLis",
+        "star_rating": 2,
+        "price_per_night_usd": 40,
+        "review_score": 8,
+        "city": "Lisbon"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": 1000,
+     "destinations": [
+      "LIS",
+      "OPO"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "act_unknown_prices_zero_is_free",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "N",
+        "price_usd": null,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "Z",
+        "price_usd": 0,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "V",
+        "price_usd": "varies",
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "act_floor_30_string_prices",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "S",
+        "price_usd": "45",
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "T",
+        "price_usd": 60,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "U",
+        "price_usd": 90,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "OK",
+        "price_usd": "12",
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "act_city_median_cap",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "P59",
+        "price_usd": 59,
+        "similarity_score": 0.1,
+        "city": "Paris"
+       },
+       {
+        "name": "P58",
+        "price_usd": 58,
+        "similarity_score": 0.1,
+        "city": "Paris"
+       },
+       {
+        "name": "P55",
+        "price_usd": 55,
+        "similarity_score": 0.1,
+        "city": "Paris"
+       },
+       {
+        "name": "P52",
+        "price_usd": 52,
+        "similarity_score": 0.1,
+        "city": "Paris"
+       },
+       {
+        "name": "P48",
+        "price_usd": 48,
+        "similarity_score": 0.1,
+        "city": "Paris"
+       },
+       {
+        "name": "P45",
+        "price_usd": 45,
+        "similarity_score": 0.1,
+        "city": "Paris"
+       },
+       {
+        "name": "P39",
+        "price_usd": 39,
+        "similarity_score": 0.1,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "act_distinct_cities_median",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "P39",
+        "price_usd": 39,
+        "similarity_score": 0.4,
+        "city": "C0"
+       },
+       {
+        "name": "P45",
+        "price_usd": 45,
+        "similarity_score": 0.4,
+        "city": "C1"
+       },
+       {
+        "name": "P48",
+        "price_usd": 48,
+        "similarity_score": 0.4,
+        "city": "C2"
+       },
+       {
+        "name": "P52",
+        "price_usd": 52,
+        "similarity_score": 0.4,
+        "city": "C3"
+       },
+       {
+        "name": "P55",
+        "price_usd": 55,
+        "similarity_score": 0.4,
+        "city": "C4"
+       },
+       {
+        "name": "P58",
+        "price_usd": 58,
+        "similarity_score": 0.4,
+        "city": "C5"
+       },
+       {
+        "name": "P59",
+        "price_usd": 59,
+        "similarity_score": 0.4,
+        "city": "C6"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "act_interest_match",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "Act",
+        "price_usd": 12,
+        "similarity_score": 0.5,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "act_caps_two_per_city_four_total",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "A0",
+        "price_usd": 10,
+        "similarity_score": 0.9,
+        "city": "A"
+       },
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.8,
+        "city": "A"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.7,
+        "city": "A"
+       },
+       {
+        "name": "A3",
+        "price_usd": 10,
+        "similarity_score": 0.6,
+        "city": "A"
+       },
+       {
+        "name": "B0",
+        "price_usd": 10,
+        "similarity_score": 0.9,
+        "city": "B"
+       },
+       {
+        "name": "B1",
+        "price_usd": 10,
+        "similarity_score": 0.8,
+        "city": "B"
+       },
+       {
+        "name": "B2",
+        "price_usd": 10,
+        "similarity_score": 0.7,
+        "city": "B"
+       },
+       {
+        "name": "B3",
+        "price_usd": 10,
+        "similarity_score": 0.6,
+        "city": "B"
+       },
+       {
+        "name": "C0",
+        "price_usd": 10,
+        "similarity_score": 0.9,
+        "city": "C"
+       },
+       {
+        "name": "C1",
+        "price_usd": 10,
+        "similarity_score": 0.8,
+        "city": "C"
+       },
+       {
+        "name": "C2",
+        "price_usd": 10,
+        "similarity_score": 0.7,
+        "city": "C"
+       },
+       {
+        "name": "C3",
+        "price_usd": 10,
+        "similarity_score": 0.6,
+        "city": "C"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "act_single_city_two",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "A0",
+        "price_usd": 10,
+        "similarity_score": 0.9,
+        "city": "A"
+       },
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.8,
+        "city": "A"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.7,
+        "city": "A"
+       },
+       {
+        "name": "A3",
+        "price_usd": 10,
+        "similarity_score": 0.6,
+        "city": "A"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "act_whitespace_and_array_prices",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "W",
+        "price_usd": " ",
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "Arr",
+        "price_usd": [],
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "act_nameless_and_duplicates",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "D",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "D",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "act_nameless_ignored_in_median",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "price_usd": 1,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "price_usd": 1,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "price_usd": 1,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "A",
+        "price_usd": 40,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "B",
+        "price_usd": 50,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "act_similarity_ties_by_price_unknown_last",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "X",
+        "price_usd": 5,
+        "similarity_score": null,
+        "city": "Paris"
+       },
+       {
+        "name": "Y",
+        "price_usd": 20,
+        "similarity_score": 0.3,
+        "city": "Paris"
+       },
+       {
+        "name": "Z",
+        "price_usd": 10,
+        "similarity_score": 0.3,
+        "city": "Paris"
+       },
+       {
+        "name": "W",
+        "price_usd": 29,
+        "similarity_score": 0.9,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "tours_top_pick_per_city",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "walking_tours": {
+      "results": [
+       {
+        "name": "Other",
+        "url": "u2",
+        "price_note": "Free · tip-based",
+        "rating": 5,
+        "city": "Paris"
+       },
+       {
+        "name": "Pick",
+        "url": "u1",
+        "price_note": "Free · tip-based",
+        "rating": 4.0,
+        "city": "Paris",
+        "top_pick": true
+       },
+       {
+        "name": "Rome",
+        "url": "u3",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Rome"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "tours_no_price_note_and_url_filter",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "walking_tours": {
+      "results": [
+       {
+        "name": "NoUrl",
+        "url": null,
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       },
+       {
+        "name": "T",
+        "url": "https://t/1",
+        "price_note": null,
+        "rating": 4.5,
+        "city": "A"
+       },
+       {
+        "name": "U",
+        "url": "u9",
+        "price_note": "",
+        "rating": 4.5,
+        "city": "B"
+       },
+       {
+        "name": "V",
+        "url": "u10",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "C"
+       },
+       {
+        "name": "W",
+        "url": "u11",
+        "price_note": "Free · tip-based",
+        "rating": 5,
+        "city": "D"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "places_free_only",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "places_to_see": {
+      "results": [
+       {
+        "name": "Zero",
+        "admission_fee_usd": 0,
+        "rating": 4.5,
+        "city": "Paris"
+       },
+       {
+        "name": "StrZero",
+        "admission_fee_usd": "0",
+        "rating": 4.5,
+        "city": "Paris"
+       },
+       {
+        "name": "Null",
+        "admission_fee_usd": null,
+        "rating": 4.5,
+        "city": "Paris"
+       },
+       {
+        "name": "Paid",
+        "admission_fee_usd": 12,
+        "rating": 4.5,
+        "city": "Paris"
+       },
+       {
+        "name": "Blank",
+        "admission_fee_usd": "",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "places_two_per_city_four_total",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "places_to_see": {
+      "results": [
+       {
+        "name": "A0",
+        "admission_fee_usd": 0,
+        "rating": 5.0,
+        "city": "A"
+       },
+       {
+        "name": "A1",
+        "admission_fee_usd": 0,
+        "rating": 4.9,
+        "city": "A"
+       },
+       {
+        "name": "A2",
+        "admission_fee_usd": 0,
+        "rating": 4.8,
+        "city": "A"
+       },
+       {
+        "name": "B0",
+        "admission_fee_usd": 0,
+        "rating": 5.0,
+        "city": "B"
+       },
+       {
+        "name": "B1",
+        "admission_fee_usd": 0,
+        "rating": 4.9,
+        "city": "B"
+       },
+       {
+        "name": "B2",
+        "admission_fee_usd": 0,
+        "rating": 4.8,
+        "city": "B"
+       },
+       {
+        "name": "C0",
+        "admission_fee_usd": 0,
+        "rating": 5.0,
+        "city": "C"
+       },
+       {
+        "name": "C1",
+        "admission_fee_usd": 0,
+        "rating": 4.9,
+        "city": "C"
+       },
+       {
+        "name": "C2",
+        "admission_fee_usd": 0,
+        "rating": 4.8,
+        "city": "C"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "sim_covers_trip",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "sim": {
+      "plans": [
+       {
+        "provider": "P",
+        "plan_name": "Short",
+        "price_usd": 5,
+        "validity_days": 7
+       },
+       {
+        "provider": "P",
+        "plan_name": "Long",
+        "price_usd": 20,
+        "validity_days": 30
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "sim_cheapest_when_none_cover",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "sim": {
+      "plans": [
+       {
+        "provider": "P",
+        "plan_name": "A",
+        "price_usd": 9,
+        "validity_days": 3
+       },
+       {
+        "provider": "P",
+        "plan_name": "B",
+        "price_usd": 5,
+        "validity_days": 7
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "sim_unpriced_ignored_no_dates",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "sim": {
+      "plans": [
+       {
+        "provider": "P",
+        "plan_name": "F",
+        "price_usd": "n/a",
+        "validity_days": 30
+       },
+       {
+        "provider": "P",
+        "plan_name": "O",
+        "price_usd": 8,
+        "validity_days": 3
+       }
+      ]
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "sim_unknown_validity_covers",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "sim": {
+      "plans": [
+       {
+        "provider": "P",
+        "plan_name": "U",
+        "price_usd": 4,
+        "validity_days": null
+       },
+       {
+        "provider": "P",
+        "plan_name": "L",
+        "price_usd": 3,
+        "validity_days": 30
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "assembly_hotel_errored",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "hotels": {
+      "error": "x"
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "assembly_nothing_is_null",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {},
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "assembly_errors_are_null",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "error": "x"
+     },
+     "hotels": {
+      "error": "y"
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "Act",
+        "price_usd": 0,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "assembly_null_results",
+   "fn": "buildBestValuePackage",
+   "args": [
+    null,
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "assembly_hotel_alone",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "hotels": {
+      "results": [
+       {
+        "name": "Hotel A",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 8
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "assembly_total_budget_under",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": "500",
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "Hotel A",
+        "star_rating": 3,
+        "price_per_night_usd": "varies",
+        "review_score": 8
+       },
+       {
+        "name": "H2",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 8
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": 5000
+    }
+   ]
+  },
+  {
+   "name": "assembly_total_budget_over",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 4000,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "H2",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 5
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": 3000
+    }
+   ]
+  },
+  {
+   "name": "assembly_everything",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 500,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "Pkg Hotel",
+        "star_rating": 3,
+        "price_per_night_usd": 100,
+        "review_score": 8
+       }
+      ]
+     },
+     "activities": {
+      "results": [
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ]
+     },
+     "walking_tours": {
+      "results": [
+       {
+        "name": "Tour",
+        "url": "https://t/1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ]
+     },
+     "places_to_see": {
+      "results": [
+       {
+        "name": "Place",
+        "admission_fee_usd": 0,
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ]
+     },
+     "sim": {
+      "plans": [
+       {
+        "provider": "P",
+        "plan_name": "Plan",
+        "price_usd": 10,
+        "validity_days": 30
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "assembly_total_exact_float_order",
+   "fn": "buildBestValuePackage",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "price_usd": 0.1,
+        "source": "live",
+        "outbound": {
+         "airline": "TestAir",
+         "flight_number": "TA1",
+         "stops": 0,
+         "duration_minutes": 600
+        },
+        "return": {
+         "stops": 0,
+         "duration_minutes": 600
+        }
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "name": "Hotel A",
+        "star_rating": 3,
+        "price_per_night_usd": 0.2,
+        "review_score": 8
+       }
+      ]
+     },
+     "sim": {
+      "plans": [
+       {
+        "provider": "P",
+        "plan_name": "Plan",
+        "price_usd": 0.3,
+        "validity_days": 30
+       }
+      ]
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-10",
+     "budget_usd": null
+    }
+   ]
+  },
+  {
+   "name": "apply_merges_and_replaces",
+   "fn": "applyPackage",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": {
+      "name": "Old",
+      "star_rating": 3,
+      "price_per_night_usd": 100,
+      "review_score": 8
+     },
+     "activities": [
+      {
+       "name": "Mine",
+       "price_usd": 10,
+       "similarity_score": 0.4,
+       "city": "Paris"
+      },
+      {
+       "name": "A1",
+       "price_usd": 10,
+       "similarity_score": 0.4,
+       "city": "Paris"
+      }
+     ],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [
+      {
+       "title": "t"
+      }
+     ],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {
+      "1": "n"
+     },
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Pkg Hotel",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ],
+      "walking_tours": [
+       {
+        "name": "Tour",
+        "url": "https://t/1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "places_to_see": [
+       {
+        "name": "Place",
+        "admission_fee_usd": 0,
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "apply_idempotent_input",
+   "fn": "applyPackage",
+   "args": [
+    {
+     "flight": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "price_usd": 500,
+      "source": "live",
+      "outbound": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "stops": 0,
+       "duration_minutes": 600
+      },
+      "return": {
+       "stops": 0,
+       "duration_minutes": 600
+      }
+     },
+     "flights": [],
+     "hotel": {
+      "name": "Pkg Hotel",
+      "star_rating": 3,
+      "price_per_night_usd": 100,
+      "review_score": 8
+     },
+     "activities": [
+      {
+       "name": "A1",
+       "price_usd": 10,
+       "similarity_score": 0.4,
+       "city": "Paris"
+      },
+      {
+       "name": "A2",
+       "price_usd": 10,
+       "similarity_score": 0.4,
+       "city": "Paris"
+      }
+     ],
+     "places_to_see": [
+      {
+       "name": "Place",
+       "admission_fee_usd": 0,
+       "rating": 4.5,
+       "city": "Paris"
+      }
+     ],
+     "walking_tours": [
+      {
+       "name": "Tour",
+       "url": "https://t/1",
+       "price_note": "Free · tip-based",
+       "rating": 4.5,
+       "city": "Paris"
+      }
+     ],
+     "sim": {
+      "provider": "P",
+      "plan_name": "Plan",
+      "price_usd": 10,
+      "validity_days": 30
+     },
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Pkg Hotel",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ],
+      "walking_tours": [
+       {
+        "name": "Tour",
+        "url": "https://t/1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "places_to_see": [
+       {
+        "name": "Place",
+        "admission_fee_usd": 0,
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "apply_on_empty",
+   "fn": "applyPackage",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Pkg Hotel",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ],
+      "walking_tours": [
+       {
+        "name": "Tour",
+        "url": "https://t/1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "places_to_see": [
+       {
+        "name": "Place",
+        "admission_fee_usd": 0,
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "apply_null_selections",
+   "fn": "applyPackage",
+   "args": [
+    null,
+    {
+     "selections": {
+      "flight": null,
+      "flights": [
+       {
+        "leg_index": 0,
+        "price_usd": 80,
+        "outbound": {
+         "airline": "C",
+         "flight_number": "3",
+         "stops": 0
+        }
+       }
+      ],
+      "hotel": null,
+      "activities": [
+       {
+        "name": "N",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "apply_dedupes_package_duplicates",
+   "fn": "applyPackage",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": null,
+      "flights": [],
+      "hotel": null,
+      "activities": [
+       {
+        "name": "D",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "D",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ],
+      "walking_tours": [
+       {
+        "name": "Tour",
+        "url": "u1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       },
+       {
+        "name": "Other",
+        "url": "u1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "places_to_see": [],
+      "sim": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "apply_multicity_replaces_covered_legs",
+   "fn": "applyPackage",
+   "args": [
+    {
+     "flight": null,
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 300,
+       "outbound": {
+        "airline": "Old0",
+        "flight_number": "X",
+        "stops": 0
+       }
+      },
+      {
+       "leg_index": 1,
+       "price_usd": 90,
+       "outbound": {
+        "airline": "Mine1",
+        "flight_number": "X",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": null,
+      "flights": [
+       {
+        "leg_index": 0,
+        "price_usd": 100,
+        "outbound": {
+         "airline": "New",
+         "flight_number": "X",
+         "stops": 0
+        }
+       }
+      ],
+      "hotel": null,
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "apply_multicity_sorted_by_leg",
+   "fn": "applyPackage",
+   "args": [
+    {
+     "flight": null,
+     "flights": [
+      {
+       "leg_index": 2,
+       "price_usd": 50,
+       "outbound": {
+        "airline": "Z",
+        "flight_number": "X",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": null,
+      "flights": [
+       {
+        "leg_index": 1,
+        "price_usd": 100,
+        "outbound": {
+         "airline": "B",
+         "flight_number": "X",
+         "stops": 0
+        }
+       },
+       {
+        "leg_index": 0,
+        "price_usd": 90,
+        "outbound": {
+         "airline": "A",
+         "flight_number": "X",
+         "stops": 0
+        }
+       }
+      ],
+      "hotel": null,
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "isApplied_empty",
+   "fn": "isPackageApplied",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Pkg Hotel",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ],
+      "walking_tours": [
+       {
+        "name": "Tour",
+        "url": "https://t/1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "places_to_see": [
+       {
+        "name": "Place",
+        "admission_fee_usd": 0,
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "isApplied_after_apply",
+   "fn": "isPackageApplied",
+   "args": [
+    {
+     "flight": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "price_usd": 500,
+      "source": "live",
+      "outbound": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "stops": 0,
+       "duration_minutes": 600
+      },
+      "return": {
+       "stops": 0,
+       "duration_minutes": 600
+      }
+     },
+     "flights": [],
+     "hotel": {
+      "name": "Pkg Hotel",
+      "star_rating": 3,
+      "price_per_night_usd": 100,
+      "review_score": 8
+     },
+     "activities": [
+      {
+       "name": "A1",
+       "price_usd": 10,
+       "similarity_score": 0.4,
+       "city": "Paris"
+      },
+      {
+       "name": "A2",
+       "price_usd": 10,
+       "similarity_score": 0.4,
+       "city": "Paris"
+      }
+     ],
+     "places_to_see": [
+      {
+       "name": "Place",
+       "admission_fee_usd": 0,
+       "rating": 4.5,
+       "city": "Paris"
+      }
+     ],
+     "walking_tours": [
+      {
+       "name": "Tour",
+       "url": "https://t/1",
+       "price_note": "Free · tip-based",
+       "rating": 4.5,
+       "city": "Paris"
+      }
+     ],
+     "sim": {
+      "provider": "P",
+      "plan_name": "Plan",
+      "price_usd": 10,
+      "validity_days": 30
+     },
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Pkg Hotel",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ],
+      "walking_tours": [
+       {
+        "name": "Tour",
+        "url": "https://t/1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "places_to_see": [
+       {
+        "name": "Place",
+        "admission_fee_usd": 0,
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "isApplied_activities_removed",
+   "fn": "isPackageApplied",
+   "args": [
+    {
+     "flight": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "price_usd": 500,
+      "source": "live",
+      "outbound": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "stops": 0,
+       "duration_minutes": 600
+      },
+      "return": {
+       "stops": 0,
+       "duration_minutes": 600
+      }
+     },
+     "flights": [],
+     "hotel": {
+      "name": "Pkg Hotel",
+      "star_rating": 3,
+      "price_per_night_usd": 100,
+      "review_score": 8
+     },
+     "activities": [],
+     "places_to_see": [
+      {
+       "name": "Place",
+       "admission_fee_usd": 0,
+       "rating": 4.5,
+       "city": "Paris"
+      }
+     ],
+     "walking_tours": [
+      {
+       "name": "Tour",
+       "url": "https://t/1",
+       "price_note": "Free · tip-based",
+       "rating": 4.5,
+       "city": "Paris"
+      }
+     ],
+     "sim": {
+      "provider": "P",
+      "plan_name": "Plan",
+      "price_usd": 10,
+      "validity_days": 30
+     },
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Pkg Hotel",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ],
+      "walking_tours": [
+       {
+        "name": "Tour",
+        "url": "https://t/1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "places_to_see": [
+       {
+        "name": "Place",
+        "admission_fee_usd": 0,
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "isApplied_sim_removed",
+   "fn": "isPackageApplied",
+   "args": [
+    {
+     "flight": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "price_usd": 500,
+      "source": "live",
+      "outbound": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "stops": 0,
+       "duration_minutes": 600
+      },
+      "return": {
+       "stops": 0,
+       "duration_minutes": 600
+      }
+     },
+     "flights": [],
+     "hotel": {
+      "name": "Pkg Hotel",
+      "star_rating": 3,
+      "price_per_night_usd": 100,
+      "review_score": 8
+     },
+     "activities": [
+      {
+       "name": "A1",
+       "price_usd": 10,
+       "similarity_score": 0.4,
+       "city": "Paris"
+      },
+      {
+       "name": "A2",
+       "price_usd": 10,
+       "similarity_score": 0.4,
+       "city": "Paris"
+      }
+     ],
+     "places_to_see": [
+      {
+       "name": "Place",
+       "admission_fee_usd": 0,
+       "rating": 4.5,
+       "city": "Paris"
+      }
+     ],
+     "walking_tours": [
+      {
+       "name": "Tour",
+       "url": "https://t/1",
+       "price_note": "Free · tip-based",
+       "rating": 4.5,
+       "city": "Paris"
+      }
+     ],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Pkg Hotel",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ],
+      "walking_tours": [
+       {
+        "name": "Tour",
+        "url": "https://t/1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "places_to_see": [
+       {
+        "name": "Place",
+        "admission_fee_usd": 0,
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "isApplied_other_hotel",
+   "fn": "isPackageApplied",
+   "args": [
+    {
+     "flight": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "price_usd": 500,
+      "source": "live",
+      "outbound": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "stops": 0,
+       "duration_minutes": 600
+      },
+      "return": {
+       "stops": 0,
+       "duration_minutes": 600
+      }
+     },
+     "flights": [],
+     "hotel": {
+      "name": "Else",
+      "star_rating": 3,
+      "price_per_night_usd": 100,
+      "review_score": 8
+     },
+     "activities": [
+      {
+       "name": "A1",
+       "price_usd": 10,
+       "similarity_score": 0.4,
+       "city": "Paris"
+      },
+      {
+       "name": "A2",
+       "price_usd": 10,
+       "similarity_score": 0.4,
+       "city": "Paris"
+      }
+     ],
+     "places_to_see": [
+      {
+       "name": "Place",
+       "admission_fee_usd": 0,
+       "rating": 4.5,
+       "city": "Paris"
+      }
+     ],
+     "walking_tours": [
+      {
+       "name": "Tour",
+       "url": "https://t/1",
+       "price_note": "Free · tip-based",
+       "rating": 4.5,
+       "city": "Paris"
+      }
+     ],
+     "sim": {
+      "provider": "P",
+      "plan_name": "Plan",
+      "price_usd": 10,
+      "validity_days": 30
+     },
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Pkg Hotel",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [
+       {
+        "name": "A1",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       },
+       {
+        "name": "A2",
+        "price_usd": 10,
+        "similarity_score": 0.4,
+        "city": "Paris"
+       }
+      ],
+      "walking_tours": [
+       {
+        "name": "Tour",
+        "url": "https://t/1",
+        "price_note": "Free · tip-based",
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "places_to_see": [
+       {
+        "name": "Place",
+        "admission_fee_usd": 0,
+        "rating": 4.5,
+        "city": "Paris"
+       }
+      ],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "isApplied_null_selections_empty_pkg",
+   "fn": "isPackageApplied",
+   "args": [
+    null,
+    {
+     "selections": {
+      "flight": null,
+      "flights": [],
+      "hotel": null,
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "isApplied_multicity_all_legs",
+   "fn": "isPackageApplied",
+   "args": [
+    {
+     "flight": null,
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 100,
+       "outbound": {
+        "airline": "A",
+        "flight_number": "X",
+        "stops": 0
+       }
+      },
+      {
+       "leg_index": 1,
+       "price_usd": 101,
+       "outbound": {
+        "airline": "A",
+        "flight_number": "X",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": null,
+      "flights": [
+       {
+        "leg_index": 0,
+        "price_usd": 100,
+        "outbound": {
+         "airline": "A",
+         "flight_number": "X",
+         "stops": 0
+        }
+       },
+       {
+        "leg_index": 1,
+        "price_usd": 101,
+        "outbound": {
+         "airline": "A",
+         "flight_number": "X",
+         "stops": 0
+        }
+       }
+      ],
+      "hotel": null,
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "isApplied_multicity_missing_leg",
+   "fn": "isPackageApplied",
+   "args": [
+    {
+     "flight": null,
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 100,
+       "outbound": {
+        "airline": "A",
+        "flight_number": "X",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": null,
+      "flights": [
+       {
+        "leg_index": 0,
+        "price_usd": 100,
+        "outbound": {
+         "airline": "A",
+         "flight_number": "X",
+         "stops": 0
+        }
+       },
+       {
+        "leg_index": 1,
+        "price_usd": 101,
+        "outbound": {
+         "airline": "A",
+         "flight_number": "X",
+         "stops": 0
+        }
+       }
+      ],
+      "hotel": null,
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "isApplied_sim_without_identity",
+   "fn": "isPackageApplied",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": {
+      "price_usd": 5
+     },
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": null,
+      "flights": [],
+      "hotel": null,
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": {
+       "price_usd": 5
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "conflicts_other_hotel",
+   "fn": "packageConflicts",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": {
+      "name": "Other",
+      "star_rating": 3,
+      "price_per_night_usd": 100,
+      "review_score": 8
+     },
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Mine",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "conflicts_none_for_empty",
+   "fn": "packageConflicts",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Mine",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "conflicts_none_for_same",
+   "fn": "packageConflicts",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": {
+      "name": "Mine",
+      "star_rating": 3,
+      "price_per_night_usd": 100,
+      "review_score": 8
+     },
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Mine",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "conflicts_flight_and_sim",
+   "fn": "packageConflicts",
+   "args": [
+    {
+     "flight": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "price_usd": 999,
+      "source": "live",
+      "outbound": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "stops": 0,
+       "duration_minutes": 600
+      },
+      "return": {
+       "stops": 0,
+       "duration_minutes": 600
+      }
+     },
+     "flights": [],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": {
+      "provider": "P",
+      "plan_name": "Else",
+      "price_usd": 10,
+      "validity_days": 30
+     },
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Mine",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "conflicts_sim_without_identity",
+   "fn": "packageConflicts",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": {
+      "price_usd": 9
+     },
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": null,
+      "flights": [],
+      "hotel": null,
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": {
+       "price_usd": 5
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "conflicts_multicity_leg",
+   "fn": "packageConflicts",
+   "args": [
+    {
+     "flight": null,
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 300,
+       "outbound": {
+        "airline": "Old",
+        "flight_number": "X",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": null,
+      "flights": [
+       {
+        "leg_index": 0,
+        "price_usd": 100,
+        "outbound": {
+         "airline": "New",
+         "flight_number": "X",
+         "stops": 0
+        }
+       }
+      ],
+      "hotel": null,
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "conflicts_multicity_other_leg_ok",
+   "fn": "packageConflicts",
+   "args": [
+    {
+     "flight": null,
+     "flights": [
+      {
+       "leg_index": 1,
+       "price_usd": 300,
+       "outbound": {
+        "airline": "Old",
+        "flight_number": "X",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "selections": {
+      "flight": null,
+      "flights": [
+       {
+        "leg_index": 0,
+        "price_usd": 100,
+        "outbound": {
+         "airline": "New",
+         "flight_number": "X",
+         "stops": 0
+        }
+       }
+      ],
+      "hotel": null,
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "conflicts_null_selections",
+   "fn": "packageConflicts",
+   "args": [
+    null,
+    {
+     "selections": {
+      "flight": {
+       "airline": "TestAir",
+       "flight_number": "TA1",
+       "price_usd": 500,
+       "source": "live",
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0,
+        "duration_minutes": 600
+       },
+       "return": {
+        "stops": 0,
+        "duration_minutes": 600
+       }
+      },
+      "flights": [],
+      "hotel": {
+       "name": "Mine",
+       "star_rating": 3,
+       "price_per_night_usd": 100,
+       "review_score": 8
+      },
+      "activities": [],
+      "walking_tours": [],
+      "places_to_see": [],
+      "sim": {
+       "provider": "P",
+       "plan_name": "Plan",
+       "price_usd": 10,
+       "validity_days": 30
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

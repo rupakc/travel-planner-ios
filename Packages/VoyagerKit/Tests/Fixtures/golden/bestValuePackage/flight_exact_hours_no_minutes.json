@@ -1,0 +1,82 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "S",
+            "outbound": {
+              "airline": "X",
+              "duration_minutes": 600,
+              "flight_number": "S",
+              "stops": 1
+            },
+            "price_usd": 400,
+            "source": "live"
+          },
+          {
+            "airline": "TestAir",
+            "flight_number": "F",
+            "outbound": {
+              "airline": "X",
+              "duration_minutes": 420,
+              "flight_number": "F",
+              "stops": 1
+            },
+            "price_usd": 430,
+            "source": "live"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "F",
+          "outbound": {
+            "airline": "X",
+            "duration_minutes": 420,
+            "flight_number": "F",
+            "stops": 1
+          },
+          "price_usd": 430,
+          "source": "live"
+        },
+        "reason": "Saves 3h of travel for $30 more than the cheapest fare",
+        "type": "flight"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "F",
+        "outbound": {
+          "airline": "X",
+          "duration_minutes": 420,
+          "flight_number": "F",
+          "stops": 1
+        },
+        "price_usd": 430,
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 430
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "args": [
+    {
+      "budget_usd": 3000,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-08"
+    },
+    {
+      "hotels": {
+        "results": [
+          {
+            "name": "A",
+            "price_per_night_usd": 100,
+            "review_score": 8,
+            "star_rating": 3
+          },
+          {
+            "name": "B",
+            "price_per_night_usd": 200,
+            "review_score": 8,
+            "star_rating": 3
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "defaultAllocation",
+  "output": {
+    "activities": 450,
+    "flights": 0,
+    "other": 1500,
+    "stay": 1050
+  }
+}

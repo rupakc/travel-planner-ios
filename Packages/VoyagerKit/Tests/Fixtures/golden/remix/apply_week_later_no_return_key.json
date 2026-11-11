@@ -1,0 +1,22 @@
+{
+  "args": [
+    {
+      "budget_usd": 3000,
+      "departure_date": "2026-08-10",
+      "destination": "Tokyo",
+      "nationality": "American",
+      "origin": "NYC",
+      "pace": "balanced"
+    },
+    "week_later"
+  ],
+  "fn": "applyRemix",
+  "output": {
+    "budget_usd": 3000,
+    "departure_date": "2026-08-17",
+    "destination": "Tokyo",
+    "nationality": "American",
+    "origin": "NYC",
+    "pace": "balanced"
+  }
+}

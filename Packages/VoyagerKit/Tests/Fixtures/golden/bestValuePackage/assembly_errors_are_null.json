@@ -1,0 +1,29 @@
+{
+  "args": [
+    {
+      "activities": {
+        "results": [
+          {
+            "city": "Paris",
+            "name": "Act",
+            "price_usd": 0,
+            "similarity_score": 0.4
+          }
+        ]
+      },
+      "flights": {
+        "error": "x"
+      },
+      "hotels": {
+        "error": "y"
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": null
+}

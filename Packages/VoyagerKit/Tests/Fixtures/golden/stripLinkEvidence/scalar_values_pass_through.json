@@ -1,0 +1,27 @@
+{
+  "args": [
+    {
+      "a": 1,
+      "b": "x",
+      "c": [
+        1,
+        "two",
+        null,
+        {
+          "link_checked": 1
+        }
+      ]
+    }
+  ],
+  "fn": "stripLinkEvidence",
+  "output": {
+    "a": 1,
+    "b": "x",
+    "c": [
+      1,
+      "two",
+      null,
+      {}
+    ]
+  }
+}

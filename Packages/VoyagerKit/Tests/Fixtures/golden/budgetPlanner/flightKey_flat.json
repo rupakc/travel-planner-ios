@@ -1,0 +1,11 @@
+{
+  "args": [
+    {
+      "airline": "X",
+      "flight_number": "9",
+      "price_usd": "50"
+    }
+  ],
+  "fn": "flightKey",
+  "output": "|50|X|9"
+}

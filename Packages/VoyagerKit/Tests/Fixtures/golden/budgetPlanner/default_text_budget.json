@@ -1,0 +1,81 @@
+{
+  "args": [
+    {
+      "budget_usd": "lots",
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-08"
+    },
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "Air",
+            "flight_number": "A",
+            "outbound": {
+              "airline": "Air",
+              "duration_minutes": 600,
+              "flight_number": "A",
+              "stops": 0
+            },
+            "price_usd": 800,
+            "source": "live"
+          },
+          {
+            "airline": "Air",
+            "flight_number": "B",
+            "outbound": {
+              "airline": "Air",
+              "duration_minutes": 600,
+              "flight_number": "B",
+              "stops": 0
+            },
+            "price_usd": 650,
+            "source": "live"
+          },
+          {
+            "airline": "Air",
+            "flight_number": "J",
+            "outbound": {
+              "airline": "Air",
+              "duration_minutes": 600,
+              "flight_number": "J",
+              "stops": 0
+            },
+            "price_usd": "varies",
+            "source": "live"
+          }
+        ]
+      },
+      "hotels": {
+        "results": [
+          {
+            "name": "H1",
+            "price_per_night_usd": 100,
+            "review_score": 8,
+            "star_rating": 3
+          },
+          {
+            "name": "H2",
+            "price_per_night_usd": 150,
+            "review_score": 8,
+            "star_rating": 3
+          },
+          {
+            "name": "H3",
+            "price_per_night_usd": 200,
+            "review_score": 8,
+            "star_rating": 3
+          },
+          {
+            "name": "Bad",
+            "price_per_night_usd": "n/a",
+            "review_score": 8,
+            "star_rating": 3
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "defaultAllocation",
+  "output": null
+}

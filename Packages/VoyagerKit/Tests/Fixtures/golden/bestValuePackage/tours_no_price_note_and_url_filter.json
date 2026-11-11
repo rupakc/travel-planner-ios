@@ -1,0 +1,179 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "outbound": {
+              "airline": "TestAir",
+              "duration_minutes": 600,
+              "flight_number": "TA1",
+              "stops": 0
+            },
+            "price_usd": 500,
+            "return": {
+              "duration_minutes": 600,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      },
+      "walking_tours": {
+        "results": [
+          {
+            "city": "Paris",
+            "name": "NoUrl",
+            "price_note": "Free · tip-based",
+            "rating": 4.5,
+            "url": null
+          },
+          {
+            "city": "A",
+            "name": "T",
+            "price_note": null,
+            "rating": 4.5,
+            "url": "https://t/1"
+          },
+          {
+            "city": "B",
+            "name": "U",
+            "price_note": "",
+            "rating": 4.5,
+            "url": "u9"
+          },
+          {
+            "city": "C",
+            "name": "V",
+            "price_note": "Free · tip-based",
+            "rating": 4.5,
+            "url": "u10"
+          },
+          {
+            "city": "D",
+            "name": "W",
+            "price_note": "Free · tip-based",
+            "rating": 5,
+            "url": "u11"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      },
+      {
+        "city": "D",
+        "item": {
+          "city": "D",
+          "name": "W",
+          "price_note": "Free · tip-based",
+          "rating": 5,
+          "url": "u11"
+        },
+        "reason": "Free · tip-based",
+        "type": "walking_tours"
+      },
+      {
+        "city": "A",
+        "item": {
+          "city": "A",
+          "name": "T",
+          "price_note": null,
+          "rating": 4.5,
+          "url": "https://t/1"
+        },
+        "reason": "Free walking tour",
+        "type": "walking_tours"
+      },
+      {
+        "city": "B",
+        "item": {
+          "city": "B",
+          "name": "U",
+          "price_note": "",
+          "rating": 4.5,
+          "url": "u9"
+        },
+        "reason": "Free walking tour",
+        "type": "walking_tours"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": 500,
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": [
+        {
+          "city": "D",
+          "name": "W",
+          "price_note": "Free · tip-based",
+          "rating": 5,
+          "url": "u11"
+        },
+        {
+          "city": "A",
+          "name": "T",
+          "price_note": null,
+          "rating": 4.5,
+          "url": "https://t/1"
+        },
+        {
+          "city": "B",
+          "name": "U",
+          "price_note": "",
+          "rating": 4.5,
+          "url": "u9"
+        }
+      ]
+    },
+    "total": 500
+  }
+}
