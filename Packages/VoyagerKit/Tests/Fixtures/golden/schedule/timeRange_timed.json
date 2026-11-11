@@ -1,0 +1,10 @@
+{
+  "args": [
+    {
+      "end_time": "12:00",
+      "start_time": "09:00"
+    }
+  ],
+  "fn": "timeRange",
+  "output": "09:00–12:00"
+}

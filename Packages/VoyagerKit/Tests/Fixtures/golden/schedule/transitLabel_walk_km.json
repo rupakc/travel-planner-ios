@@ -1,0 +1,11 @@
+{
+  "args": [
+    {
+      "km": 0.9,
+      "minutes": 12,
+      "mode": "walk"
+    }
+  ],
+  "fn": "transitLabel",
+  "output": "🚶 12 min walk · 0.9 km"
+}

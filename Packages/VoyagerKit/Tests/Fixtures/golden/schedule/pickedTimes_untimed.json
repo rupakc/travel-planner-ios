@@ -1,0 +1,10 @@
+{
+  "args": [
+    {
+      "activity": "x",
+      "duration_hours": 2
+    }
+  ],
+  "fn": "pickedTimes",
+  "output": {}
+}

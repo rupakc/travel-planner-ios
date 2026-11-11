@@ -1,0 +1,94 @@
+{
+  "args": [
+    [
+      {
+        "city": "X",
+        "day_number": 1,
+        "slots": [
+          {
+            "activity": "A",
+            "duration_hours": 0.1,
+            "estimated_cost_usd": 0,
+            "key": "1-morning",
+            "lat": 95,
+            "lng": 0,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "B",
+            "duration_hours": 13,
+            "estimated_cost_usd": 0,
+            "key": "1-afternoon",
+            "lat": 40,
+            "lng": 200,
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "C",
+            "duration_hours": 0.25,
+            "estimated_cost_usd": 0,
+            "key": "1-evening",
+            "lat": "40",
+            "lng": "3",
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 1"
+      }
+    ],
+    {}
+  ],
+  "fn": "scheduleDays",
+  "output": [
+    {
+      "city": "X",
+      "day_number": 1,
+      "schedule_warnings": [],
+      "slots": [
+        {
+          "activity": "A",
+          "duration_hours": 0.1,
+          "end_day_offset": 0,
+          "end_time": "12:00",
+          "estimated_cost_usd": 0,
+          "key": "1-morning",
+          "lat": 95,
+          "lng": 0,
+          "start_day_offset": 0,
+          "start_time": "09:00",
+          "time_of_day": "morning",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "B",
+          "duration_hours": 13,
+          "end_day_offset": 0,
+          "end_time": "16:30",
+          "estimated_cost_usd": 0,
+          "key": "1-afternoon",
+          "lat": 40,
+          "lng": 200,
+          "start_day_offset": 0,
+          "start_time": "13:30",
+          "time_of_day": "afternoon",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "C",
+          "duration_hours": 0.25,
+          "end_day_offset": 0,
+          "end_time": "18:45",
+          "estimated_cost_usd": 0,
+          "key": "1-evening",
+          "lat": "40",
+          "lng": "3",
+          "start_day_offset": 0,
+          "start_time": "18:30",
+          "time_of_day": "evening",
+          "transit_from_prev": null
+        }
+      ],
+      "theme": "Day 1"
+    }
+  ]
+}

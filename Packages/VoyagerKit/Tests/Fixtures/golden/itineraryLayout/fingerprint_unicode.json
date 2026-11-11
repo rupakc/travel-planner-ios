@@ -1,0 +1,26 @@
+{
+  "args": [
+    {
+      "days": [
+        {
+          "city": "Reykjavik",
+          "day_number": 1,
+          "slots": [
+            {
+              "activity": "Blue Lagoon 🌊 soak",
+              "estimated_cost_usd": 90,
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "Café Ólafur – Þingvellir",
+              "time_of_day": "evening"
+            }
+          ],
+          "theme": "Day 1"
+        }
+      ]
+    }
+  ],
+  "fn": "itineraryFingerprint",
+  "output": "ijik9w"
+}

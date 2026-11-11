@@ -1,0 +1,77 @@
+{
+  "args": [
+    [
+      {
+        "end_time": "11:00",
+        "key": "1-morning",
+        "start_time": "08:00"
+      },
+      {
+        "end_day_offset": 0,
+        "end_time": "15:30",
+        "key": "1-afternoon",
+        "start_day_offset": 0,
+        "start_time": "13:30"
+      },
+      {
+        "key": "1-evening",
+        "start_time": "19:00"
+      },
+      {
+        "key": "gone"
+      },
+      null
+    ],
+    [
+      {
+        "day_number": 1,
+        "slots": [
+          {
+            "duration_hours": 3,
+            "end_day_offset": 0,
+            "end_time": "12:00",
+            "key": "1-morning",
+            "start_day_offset": 0,
+            "start_time": "09:00"
+          },
+          {
+            "end_day_offset": 0,
+            "end_time": "15:30",
+            "key": "1-afternoon",
+            "start_day_offset": 0,
+            "start_time": "13:30"
+          },
+          {
+            "key": "1-evening"
+          }
+        ]
+      }
+    ]
+  ],
+  "fn": "syncPlannedSlotTimes",
+  "output": [
+    {
+      "duration_hours": 3,
+      "end_day_offset": 0,
+      "end_time": "12:00",
+      "key": "1-morning",
+      "start_day_offset": 0,
+      "start_time": "09:00"
+    },
+    {
+      "end_day_offset": 0,
+      "end_time": "15:30",
+      "key": "1-afternoon",
+      "start_day_offset": 0,
+      "start_time": "13:30"
+    },
+    {
+      "key": "1-evening",
+      "start_time": "19:00"
+    },
+    {
+      "key": "gone"
+    },
+    null
+  ]
+}

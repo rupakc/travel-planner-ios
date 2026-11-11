@@ -1,0 +1,227 @@
+{
+  "args": [
+    [
+      {
+        "city": "Rome",
+        "daily_estimated_cost_usd": 98,
+        "day_number": 1,
+        "slots": [
+          {
+            "activity": "Colosseum",
+            "duration_hours": 3,
+            "estimated_cost_usd": 18,
+            "key": "1-morning",
+            "lat": 41.8902,
+            "lng": 12.4922,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Forum",
+            "duration_hours": 2,
+            "estimated_cost_usd": 0,
+            "key": "1-morning#2",
+            "lat": 41.8925,
+            "lng": 12.4853,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Trastevere",
+            "duration_hours": 3,
+            "estimated_cost_usd": 0,
+            "key": "1-afternoon",
+            "lat": 41.8892,
+            "lng": 12.4695,
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "Pasta class",
+            "duration_hours": 3,
+            "estimated_cost_usd": 80,
+            "key": "1-evening",
+            "lat": 41.9,
+            "lng": 12.47,
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 1"
+      },
+      {
+        "city": "Rome",
+        "daily_estimated_cost_usd": 30,
+        "day_number": 2,
+        "slots": [
+          {
+            "activity": "Vatican",
+            "duration_hours": 4,
+            "estimated_cost_usd": 30,
+            "key": "2-morning",
+            "lat": 41.9029,
+            "lng": 12.4534,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Pantheon",
+            "duration_hours": 1,
+            "estimated_cost_usd": 0,
+            "key": "2-afternoon",
+            "lat": 41.8986,
+            "lng": 12.4769,
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "Piazza Navona",
+            "duration_hours": 2,
+            "estimated_cost_usd": 0,
+            "key": "2-evening",
+            "lat": 41.8992,
+            "lng": 12.4731,
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 2"
+      }
+    ],
+    {}
+  ],
+  "fn": "scheduleDays",
+  "output": [
+    {
+      "city": "Rome",
+      "daily_estimated_cost_usd": 98,
+      "day_number": 1,
+      "schedule_warnings": [
+        "Trastevere starts at 14:35 — later than planned"
+      ],
+      "slots": [
+        {
+          "activity": "Colosseum",
+          "duration_hours": 3,
+          "end_day_offset": 0,
+          "end_time": "12:00",
+          "estimated_cost_usd": 18,
+          "key": "1-morning",
+          "lat": 41.8902,
+          "lng": 12.4922,
+          "start_day_offset": 0,
+          "start_time": "09:00",
+          "time_of_day": "morning",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "Forum",
+          "duration_hours": 2,
+          "end_day_offset": 0,
+          "end_time": "14:15",
+          "estimated_cost_usd": 0,
+          "key": "1-morning#2",
+          "lat": 41.8925,
+          "lng": 12.4853,
+          "start_day_offset": 0,
+          "start_time": "12:15",
+          "time_of_day": "morning",
+          "transit_from_prev": {
+            "km": 0.8,
+            "minutes": 15,
+            "mode": "walk"
+          }
+        },
+        {
+          "activity": "Trastevere",
+          "duration_hours": 3,
+          "end_day_offset": 0,
+          "end_time": "17:35",
+          "estimated_cost_usd": 0,
+          "key": "1-afternoon",
+          "lat": 41.8892,
+          "lng": 12.4695,
+          "start_day_offset": 0,
+          "start_time": "14:35",
+          "time_of_day": "afternoon",
+          "transit_from_prev": {
+            "km": 1.8,
+            "minutes": 20,
+            "mode": "transit"
+          }
+        },
+        {
+          "activity": "Pasta class",
+          "duration_hours": 3,
+          "end_day_offset": 0,
+          "end_time": "21:30",
+          "estimated_cost_usd": 80,
+          "key": "1-evening",
+          "lat": 41.9,
+          "lng": 12.47,
+          "start_day_offset": 0,
+          "start_time": "18:30",
+          "time_of_day": "evening",
+          "transit_from_prev": {
+            "km": 1.6,
+            "minutes": 15,
+            "mode": "transit"
+          }
+        }
+      ],
+      "theme": "Day 1"
+    },
+    {
+      "city": "Rome",
+      "daily_estimated_cost_usd": 30,
+      "day_number": 2,
+      "schedule_warnings": [],
+      "slots": [
+        {
+          "activity": "Vatican",
+          "duration_hours": 4,
+          "end_day_offset": 0,
+          "end_time": "13:00",
+          "estimated_cost_usd": 30,
+          "key": "2-morning",
+          "lat": 41.9029,
+          "lng": 12.4534,
+          "start_day_offset": 0,
+          "start_time": "09:00",
+          "time_of_day": "morning",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "Pantheon",
+          "duration_hours": 1,
+          "end_day_offset": 0,
+          "end_time": "14:30",
+          "estimated_cost_usd": 0,
+          "key": "2-afternoon",
+          "lat": 41.8986,
+          "lng": 12.4769,
+          "start_day_offset": 0,
+          "start_time": "13:30",
+          "time_of_day": "afternoon",
+          "transit_from_prev": {
+            "km": 2.6,
+            "minutes": 20,
+            "mode": "transit"
+          }
+        },
+        {
+          "activity": "Piazza Navona",
+          "duration_hours": 2,
+          "end_day_offset": 0,
+          "end_time": "20:30",
+          "estimated_cost_usd": 0,
+          "key": "2-evening",
+          "lat": 41.8992,
+          "lng": 12.4731,
+          "start_day_offset": 0,
+          "start_time": "18:30",
+          "time_of_day": "evening",
+          "transit_from_prev": {
+            "km": 0.4,
+            "minutes": 10,
+            "mode": "walk"
+          }
+        }
+      ],
+      "theme": "Day 2"
+    }
+  ]
+}

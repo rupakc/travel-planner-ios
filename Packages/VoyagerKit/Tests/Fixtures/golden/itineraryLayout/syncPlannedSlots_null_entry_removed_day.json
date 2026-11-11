@@ -1,0 +1,54 @@
+{
+  "args": [
+    [
+      null,
+      {
+        "day_number": 3,
+        "key": "1-morning",
+        "time_of_day": "evening"
+      }
+    ],
+    {
+      "days": [
+        {
+          "city": "Lisbon",
+          "day_number": 1,
+          "slots": [
+            {
+              "activity": "Alfama walking tour",
+              "key": "1-morning",
+              "time_of_day": "evening"
+            },
+            {
+              "activity": "Time Out Market lunch",
+              "key": "1-afternoon",
+              "time_of_day": "afternoon"
+            }
+          ],
+          "theme": "Day 1"
+        },
+        {
+          "city": "Lisbon",
+          "day_number": 2,
+          "slots": [
+            {
+              "activity": "Fado dinner",
+              "key": "1-evening",
+              "time_of_day": "morning"
+            }
+          ],
+          "theme": "Day 2"
+        }
+      ]
+    }
+  ],
+  "fn": "syncPlannedSlots",
+  "output": [
+    null,
+    {
+      "day_number": 1,
+      "key": "1-morning",
+      "time_of_day": "evening"
+    }
+  ]
+}

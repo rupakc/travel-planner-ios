@@ -1,0 +1,61 @@
+{
+  "args": [
+    {
+      "city": "Kyoto",
+      "daily_estimated_cost_usd": 190,
+      "day_number": 1,
+      "slots": [
+        {
+          "activity": "Fushimi Inari",
+          "duration_hours": 3,
+          "estimated_cost_usd": 0,
+          "lat": 34.9671,
+          "lng": 135.7727,
+          "time_of_day": "morning"
+        },
+        {
+          "activity": "Tea ceremony",
+          "duration_hours": 1,
+          "estimated_cost_usd": 30,
+          "from_link": true,
+          "lat": 35.003,
+          "lng": 135.77,
+          "time_of_day": "morning"
+        },
+        {
+          "activity": "Nishiki Market",
+          "duration_hours": 2,
+          "estimated_cost_usd": 15,
+          "lat": 35.005,
+          "lng": 135.765,
+          "time_of_day": "afternoon"
+        },
+        {
+          "activity": "Karaoke in Pontocho",
+          "duration_hours": 2,
+          "estimated_cost_usd": 25,
+          "lat": 35.0045,
+          "lng": 135.7708,
+          "time_of_day": "late night"
+        },
+        {
+          "activity": "Kaiseki dinner",
+          "duration_hours": 2.5,
+          "estimated_cost_usd": 120,
+          "lat": 35.0036,
+          "lng": 135.7747,
+          "time_of_day": "evening"
+        }
+      ],
+      "theme": "Day 1"
+    }
+  ],
+  "fn": "slotRanks",
+  "output": {
+    "1-afternoon": 1,
+    "1-evening": 2,
+    "1-late night": 1.5,
+    "1-morning": 0,
+    "1-morning#2": 0.5
+  }
+}

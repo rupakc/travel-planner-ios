@@ -1,0 +1,8 @@
+{
+  "args": [
+    "Barcelona, Spain",
+    "Montserrat & Barcelona, Spain"
+  ],
+  "fn": "citiesCompatible",
+  "output": true
+}

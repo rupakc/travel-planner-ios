@@ -1,0 +1,10 @@
+{
+  "args": [
+    {
+      "day_number": 1,
+      "slots": []
+    }
+  ],
+  "fn": "scheduleOrder",
+  "output": []
+}

@@ -1,0 +1,110 @@
+{
+  "args": [
+    [
+      {
+        "city": "X",
+        "day_number": 1,
+        "slots": [
+          {
+            "activity": "Long hike",
+            "duration_hours": 6,
+            "estimated_cost_usd": 0,
+            "key": "1-morning",
+            "lat": 10,
+            "lng": 10,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Museum",
+            "duration_hours": 2,
+            "estimated_cost_usd": 10,
+            "key": "1-afternoon",
+            "lat": 10.5,
+            "lng": 10.5,
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "Dinner",
+            "duration_hours": 2,
+            "estimated_cost_usd": 30,
+            "key": "1-evening",
+            "lat": 10.5,
+            "lng": 10.51,
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 1"
+      }
+    ],
+    {
+      "1-afternoon": {
+        "activity": "Renamed museum"
+      }
+    }
+  ],
+  "fn": "scheduleDays",
+  "output": [
+    {
+      "city": "X",
+      "day_number": 1,
+      "schedule_warnings": [
+        "Renamed museum starts at 20:15 — later than planned",
+        "Dinner starts at 22:35 — later than planned",
+        "Day 1 runs past 23:00"
+      ],
+      "slots": [
+        {
+          "activity": "Long hike",
+          "duration_hours": 6,
+          "end_day_offset": 0,
+          "end_time": "15:00",
+          "estimated_cost_usd": 0,
+          "key": "1-morning",
+          "lat": 10,
+          "lng": 10,
+          "start_day_offset": 0,
+          "start_time": "09:00",
+          "time_of_day": "morning",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "Museum",
+          "duration_hours": 2,
+          "end_day_offset": 0,
+          "end_time": "22:15",
+          "estimated_cost_usd": 10,
+          "key": "1-afternoon",
+          "lat": 10.5,
+          "lng": 10.5,
+          "start_day_offset": 0,
+          "start_time": "20:15",
+          "time_of_day": "afternoon",
+          "transit_from_prev": {
+            "km": 101.4,
+            "minutes": 315,
+            "mode": "transit"
+          }
+        },
+        {
+          "activity": "Dinner",
+          "duration_hours": 2,
+          "end_day_offset": 1,
+          "end_time": "00:35",
+          "estimated_cost_usd": 30,
+          "key": "1-evening",
+          "lat": 10.5,
+          "lng": 10.51,
+          "start_day_offset": 0,
+          "start_time": "22:35",
+          "time_of_day": "evening",
+          "transit_from_prev": {
+            "km": 1.4,
+            "minutes": 20,
+            "mode": "walk"
+          }
+        }
+      ],
+      "theme": "Day 1"
+    }
+  ]
+}

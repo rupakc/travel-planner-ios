@@ -1,0 +1,86 @@
+{
+  "args": [
+    [
+      {
+        "city": "X",
+        "day_number": 2,
+        "slots": [
+          {
+            "activity": "A",
+            "duration_hours": 12,
+            "estimated_cost_usd": 0,
+            "key": "2-morning",
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "B",
+            "duration_hours": 12,
+            "estimated_cost_usd": 0,
+            "key": "2-afternoon",
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "C",
+            "duration_hours": 12,
+            "estimated_cost_usd": 0,
+            "key": "2-evening",
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 2"
+      }
+    ],
+    {}
+  ],
+  "fn": "scheduleDays",
+  "output": [
+    {
+      "city": "X",
+      "day_number": 2,
+      "schedule_warnings": [
+        "B starts at 21:20 — later than planned",
+        "C starts at 09:40 — later than planned",
+        "Day 2 runs past 23:00"
+      ],
+      "slots": [
+        {
+          "activity": "A",
+          "duration_hours": 12,
+          "end_day_offset": 0,
+          "end_time": "21:00",
+          "estimated_cost_usd": 0,
+          "key": "2-morning",
+          "start_day_offset": 0,
+          "start_time": "09:00",
+          "time_of_day": "morning",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "B",
+          "duration_hours": 12,
+          "end_day_offset": 1,
+          "end_time": "09:20",
+          "estimated_cost_usd": 0,
+          "key": "2-afternoon",
+          "start_day_offset": 0,
+          "start_time": "21:20",
+          "time_of_day": "afternoon",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "C",
+          "duration_hours": 12,
+          "end_day_offset": 1,
+          "end_time": "21:40",
+          "estimated_cost_usd": 0,
+          "key": "2-evening",
+          "start_day_offset": 1,
+          "start_time": "09:40",
+          "time_of_day": "evening",
+          "transit_from_prev": null
+        }
+      ],
+      "theme": "Day 2"
+    }
+  ]
+}

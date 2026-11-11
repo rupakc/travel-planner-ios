@@ -1,0 +1,257 @@
+{
+  "args": [
+    {
+      "days": [
+        {
+          "city": "Barcelona, Spain",
+          "daily_estimated_cost_usd": 85,
+          "day_number": 1,
+          "slots": [
+            {
+              "activity": "Sagrada Familia",
+              "duration_hours": 2,
+              "estimated_cost_usd": 30,
+              "lat": 41.4036,
+              "lng": 2.1744,
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "Gothic Quarter",
+              "duration_hours": 3,
+              "estimated_cost_usd": 0,
+              "lat": 41.3833,
+              "lng": 2.1767,
+              "time_of_day": "afternoon"
+            },
+            {
+              "activity": "Tapas crawl",
+              "duration_hours": 3,
+              "estimated_cost_usd": 55,
+              "lat": 41.3851,
+              "lng": 2.1734,
+              "time_of_day": "evening"
+            }
+          ],
+          "theme": "Day 1"
+        },
+        {
+          "city": "Montserrat & Barcelona, Spain",
+          "daily_estimated_cost_usd": 55,
+          "day_number": 2,
+          "slots": [
+            {
+              "activity": "Montserrat monastery",
+              "duration_hours": 4,
+              "estimated_cost_usd": 40,
+              "lat": 41.5933,
+              "lng": 1.8377,
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "Cremallera back",
+              "duration_hours": 1.5,
+              "estimated_cost_usd": 15,
+              "time_of_day": "afternoon"
+            }
+          ],
+          "theme": "Day 2"
+        },
+        {
+          "city": "Madrid, Spain",
+          "daily_estimated_cost_usd": 65,
+          "day_number": 3,
+          "slots": [
+            {
+              "activity": "Prado Museum",
+              "duration_hours": 3,
+              "estimated_cost_usd": 20,
+              "lat": 40.4138,
+              "lng": -3.6921,
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "Retiro Park",
+              "duration_hours": 2,
+              "estimated_cost_usd": 0,
+              "lat": 40.4153,
+              "lng": -3.6844,
+              "time_of_day": "afternoon"
+            },
+            {
+              "activity": "Flamenco show",
+              "duration_hours": 2,
+              "estimated_cost_usd": 45,
+              "lat": 40.4125,
+              "lng": -3.711,
+              "time_of_day": "evening"
+            }
+          ],
+          "theme": "Day 3"
+        },
+        {
+          "city": "Madrid, Spain",
+          "daily_estimated_cost_usd": 50,
+          "day_number": 4,
+          "slots": [
+            {
+              "activity": "Royal Palace",
+              "duration_hours": 2.5,
+              "estimated_cost_usd": 15,
+              "lat": 40.4179,
+              "lng": -3.7143,
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "Rooftop drinks",
+              "duration_hours": 2,
+              "estimated_cost_usd": 35,
+              "lat": 40.42,
+              "lng": -3.705,
+              "time_of_day": "evening"
+            }
+          ],
+          "theme": "Day 4"
+        }
+      ],
+      "destination": "Spain",
+      "total_estimated_cost_usd": 700
+    },
+    {
+      "fingerprint": "vf0fzd",
+      "positions": {
+        "1-morning": "2-morning",
+        "2-morning": "1-morning"
+      }
+    },
+    {}
+  ],
+  "fn": "arrangeItinerary",
+  "output": {
+    "changed": true,
+    "days": [
+      {
+        "city": "Barcelona, Spain",
+        "daily_estimated_cost_usd": 95,
+        "day_number": 1,
+        "slots": [
+          {
+            "activity": "Montserrat monastery",
+            "duration_hours": 4,
+            "estimated_cost_usd": 40,
+            "key": "2-morning",
+            "lat": 41.5933,
+            "lng": 1.8377,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Gothic Quarter",
+            "duration_hours": 3,
+            "estimated_cost_usd": 0,
+            "key": "1-afternoon",
+            "lat": 41.3833,
+            "lng": 2.1767,
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "Tapas crawl",
+            "duration_hours": 3,
+            "estimated_cost_usd": 55,
+            "key": "1-evening",
+            "lat": 41.3851,
+            "lng": 2.1734,
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 1"
+      },
+      {
+        "city": "Montserrat & Barcelona, Spain",
+        "daily_estimated_cost_usd": 45,
+        "day_number": 2,
+        "slots": [
+          {
+            "activity": "Sagrada Familia",
+            "duration_hours": 2,
+            "estimated_cost_usd": 30,
+            "key": "1-morning",
+            "lat": 41.4036,
+            "lng": 2.1744,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Cremallera back",
+            "duration_hours": 1.5,
+            "estimated_cost_usd": 15,
+            "key": "2-afternoon",
+            "time_of_day": "afternoon"
+          }
+        ],
+        "theme": "Day 2"
+      },
+      {
+        "city": "Madrid, Spain",
+        "daily_estimated_cost_usd": 65,
+        "day_number": 3,
+        "slots": [
+          {
+            "activity": "Prado Museum",
+            "duration_hours": 3,
+            "estimated_cost_usd": 20,
+            "key": "3-morning",
+            "lat": 40.4138,
+            "lng": -3.6921,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Retiro Park",
+            "duration_hours": 2,
+            "estimated_cost_usd": 0,
+            "key": "3-afternoon",
+            "lat": 40.4153,
+            "lng": -3.6844,
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "Flamenco show",
+            "duration_hours": 2,
+            "estimated_cost_usd": 45,
+            "key": "3-evening",
+            "lat": 40.4125,
+            "lng": -3.711,
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 3"
+      },
+      {
+        "city": "Madrid, Spain",
+        "daily_estimated_cost_usd": 50,
+        "day_number": 4,
+        "slots": [
+          {
+            "activity": "Royal Palace",
+            "duration_hours": 2.5,
+            "estimated_cost_usd": 15,
+            "key": "4-morning",
+            "lat": 40.4179,
+            "lng": -3.7143,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Rooftop drinks",
+            "duration_hours": 2,
+            "estimated_cost_usd": 35,
+            "key": "4-evening",
+            "lat": 40.42,
+            "lng": -3.705,
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 4"
+      }
+    ],
+    "destination": "Spain",
+    "removed": [],
+    "total_estimated_cost_usd": 700
+  }
+}

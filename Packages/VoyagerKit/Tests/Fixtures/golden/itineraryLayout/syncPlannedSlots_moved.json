@@ -1,0 +1,88 @@
+{
+  "args": [
+    [
+      {
+        "activity": "Alfama walking tour",
+        "day_number": 1,
+        "key": "1-morning",
+        "time_of_day": "morning"
+      },
+      {
+        "activity": "Time Out Market lunch",
+        "day_number": 1,
+        "key": "1-afternoon",
+        "time_of_day": "afternoon"
+      },
+      {
+        "activity": "Fado dinner",
+        "day_number": 1,
+        "key": "1-evening",
+        "time_of_day": "evening"
+      },
+      {
+        "day_number": 9,
+        "key": "9-evening",
+        "time_of_day": "evening"
+      }
+    ],
+    {
+      "days": [
+        {
+          "city": "Lisbon",
+          "day_number": 1,
+          "slots": [
+            {
+              "activity": "Alfama walking tour",
+              "key": "1-morning",
+              "time_of_day": "evening"
+            },
+            {
+              "activity": "Time Out Market lunch",
+              "key": "1-afternoon",
+              "time_of_day": "afternoon"
+            }
+          ],
+          "theme": "Day 1"
+        },
+        {
+          "city": "Lisbon",
+          "day_number": 2,
+          "slots": [
+            {
+              "activity": "Fado dinner",
+              "key": "1-evening",
+              "time_of_day": "morning"
+            }
+          ],
+          "theme": "Day 2"
+        }
+      ]
+    }
+  ],
+  "fn": "syncPlannedSlots",
+  "output": [
+    {
+      "activity": "Alfama walking tour",
+      "day_number": 1,
+      "key": "1-morning",
+      "time_of_day": "evening"
+    },
+    {
+      "activity": "Time Out Market lunch",
+      "day_number": 1,
+      "key": "1-afternoon",
+      "time_of_day": "afternoon"
+    },
+    {
+      "activity": "Fado dinner",
+      "day_number": 2,
+      "key": "1-evening",
+      "time_of_day": "morning"
+    },
+    {
+      "day_number": 9,
+      "key": "9-evening",
+      "time_of_day": "evening"
+    }
+  ]
+}

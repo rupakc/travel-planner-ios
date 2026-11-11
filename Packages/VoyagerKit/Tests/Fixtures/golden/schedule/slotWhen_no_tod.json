@@ -1,0 +1,9 @@
+{
+  "args": [
+    {
+      "day_number": 1
+    }
+  ],
+  "fn": "slotWhen",
+  "output": "Day 1"
+}

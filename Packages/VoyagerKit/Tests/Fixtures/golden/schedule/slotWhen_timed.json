@@ -1,0 +1,12 @@
+{
+  "args": [
+    {
+      "day_number": 2,
+      "end_time": "16:00",
+      "start_time": "13:30",
+      "time_of_day": "afternoon"
+    }
+  ],
+  "fn": "slotWhen",
+  "output": "Day 2 · Afternoon · 13:30–16:00"
+}

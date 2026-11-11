@@ -1,0 +1,84 @@
+{
+  "args": [
+    [
+      {
+        "city": "X",
+        "day_number": 1,
+        "slots": [
+          {
+            "activity": "Club",
+            "duration_hours": 12,
+            "estimated_cost_usd": 0,
+            "key": "1-evening",
+            "time_of_day": "evening"
+          },
+          {
+            "activity": "After party",
+            "duration_hours": 12,
+            "estimated_cost_usd": 0,
+            "key": "1-late night",
+            "time_of_day": "late night"
+          },
+          {
+            "activity": "Breakfast",
+            "duration_hours": 12,
+            "estimated_cost_usd": 0,
+            "key": "1-night",
+            "time_of_day": "night"
+          }
+        ],
+        "theme": "Day 1"
+      }
+    ],
+    {}
+  ],
+  "fn": "scheduleDays",
+  "output": [
+    {
+      "city": "X",
+      "day_number": 1,
+      "schedule_warnings": [
+        "Day 1 runs past 23:00"
+      ],
+      "slots": [
+        {
+          "activity": "Club",
+          "duration_hours": 12,
+          "end_day_offset": 1,
+          "end_time": "06:30",
+          "estimated_cost_usd": 0,
+          "key": "1-evening",
+          "start_day_offset": 0,
+          "start_time": "18:30",
+          "time_of_day": "evening",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "After party",
+          "duration_hours": 12,
+          "end_day_offset": 1,
+          "end_time": "18:50",
+          "estimated_cost_usd": 0,
+          "key": "1-late night",
+          "start_day_offset": 1,
+          "start_time": "06:50",
+          "time_of_day": "late night",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "Breakfast",
+          "duration_hours": 12,
+          "end_day_offset": 2,
+          "end_time": "07:10",
+          "estimated_cost_usd": 0,
+          "key": "1-night",
+          "start_day_offset": 1,
+          "start_time": "19:10",
+          "time_of_day": "night",
+          "transit_from_prev": null
+        }
+      ],
+      "theme": "Day 1"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "args": [
+    {
+      "city": "X",
+      "day_number": 1,
+      "slots": [
+        {
+          "activity": "a",
+          "time_of_day": "night"
+        },
+        {
+          "activity": "b",
+          "time_of_day": "morning"
+        },
+        {
+          "activity": "c",
+          "time_of_day": "brunch"
+        }
+      ],
+      "theme": "Day 1"
+    }
+  ],
+  "fn": "slotRanks",
+  "output": {
+    "1-brunch": 0.5,
+    "1-morning": 0,
+    "1-night": -0.5
+  }
+}
