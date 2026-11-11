@@ -26,7 +26,7 @@ import VoyagerModel
     }
 
     @Test func fixturesArePresent() {
-        #expect(PlanGolden.cases("budgetPlanner").count > 50)
+        #expect(PlanGolden.cases("budgetPlanner").count == 59)
     }
 
     @Test func plannerKeys() {
@@ -53,7 +53,7 @@ import VoyagerModel
         #expect(caps.hotel?(["name": "Over"]) == false)
         #expect(caps.flight?(["airline": "Air", "flight_number": "A", "price_usd": 400]) == true)
         #expect(caps.flight?(["airline": "Air", "flight_number": "B", "price_usd": 900]) == false)
-        let pkg = BestValuePackage.build(results: results, searchData: sd, caps: caps)
+        let pkg = BestValuePackage.build(results: results, searchData: sd, caps: caps, translate: PlanGolden.english, locale: PlanGolden.locale)
         #expect(pkg?["selections"]["hotel"]["name"] == "Fits")
         #expect(pkg?["selections"]["flight"]["flight_number"] == "A")
     }

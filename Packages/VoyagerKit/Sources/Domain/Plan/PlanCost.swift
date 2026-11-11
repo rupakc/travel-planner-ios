@@ -2,11 +2,8 @@ import Foundation
 import VoyagerModel
 
 /// Translates a web i18n key (`"plan:best.reason.cheapestFare"`) with its interpolation values.
-/// Domain has no catalogue of its own: the UI passes `L10n`; the default returns the key.
+/// Domain has no catalogue of its own: the UI passes `L10n`. Callers must pass it: there is no default, so a raw key can never reach the UI.
 public typealias PlanText = @Sendable (_ key: String, _ params: [String: String]) -> String
-
-/// Plan helpers that need no translation return plain data; the ones that build a sentence take a `PlanText`.
-public let planKeyText: PlanText = { key, _ in key }
 
 /// JS-compatible primitives shared by the plan ports (`Math.round`, `Number(x)`, `new Date(str)`, `String(x)`).
 enum PlanJS {
@@ -259,7 +256,7 @@ public enum PlanCost {
 
     /// `{status, amount, label}` like `getBudgetStatus`; `label` is built from `plan:util.budgetUnder|Over`.
     public static func budgetStatusDetail(
-        cost: Double, budget: JSONValue?, translate: PlanText = planKeyText, locale: Locale = Locale(identifier: "en_US")
+        cost: Double, budget: JSONValue?, translate: PlanText, locale: Locale
     ) -> JSONValue {
         let value = PlanJS.toNumber(budget)
         guard budget?.isTruthy == true, value != 0, !value.isNaN, cost > 0 else { return .null }

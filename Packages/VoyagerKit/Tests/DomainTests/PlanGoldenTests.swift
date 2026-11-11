@@ -12,7 +12,7 @@ import VoyagerModel
         case "computePlanCost": actual = .number(PlanCost.total(c.arg(0), searchData: c.arg(1)))
         case "computePlanCostBreakdown": actual = PlanCost.breakdown(c.arg(0), searchData: c.arg(1))
         case "getBudgetStatus":
-            actual = PlanCost.budgetStatusDetail(cost: c.arg(0).double ?? 0, budget: c.arg(1), translate: PlanGolden.english)
+            actual = PlanCost.budgetStatusDetail(cost: c.arg(0).double ?? 0, budget: c.arg(1), translate: PlanGolden.english, locale: PlanGolden.locale)
             // The plain status agrees with the detail.
             #expect(PlanCost.budgetStatus(cost: c.arg(0).double ?? 0, budget: c.arg(1).double) == actual["status"].string)
         default:
@@ -28,7 +28,7 @@ import VoyagerModel
     }
 
     @Test func fixturesArePresent() {
-        #expect(PlanGolden.cases("planHelpers").count > 30)
+        #expect(PlanGolden.cases("planHelpers").count == 40)
         #expect(PlanGolden.cases("stripLinkEvidence").count == 4)
     }
 

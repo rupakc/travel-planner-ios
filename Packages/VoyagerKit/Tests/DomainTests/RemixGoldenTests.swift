@@ -18,7 +18,7 @@ import VoyagerModel
     }
 
     @Test func fixturesArePresent() {
-        #expect(PlanGolden.cases("remix").count > 30)
+        #expect(PlanGolden.cases("remix").count == 37)
     }
 
     @Test func presetsMatchTheWeb() {

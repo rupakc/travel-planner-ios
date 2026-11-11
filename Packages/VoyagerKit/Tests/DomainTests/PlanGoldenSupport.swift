@@ -19,13 +19,18 @@ enum PlanGolden {
         func arg(_ index: Int) -> JSONValue { args.indices.contains(index) ? args[index] : .null }
     }
 
+    static let locale = Locale(identifier: "en_US")
+
     static func cases(_ module: String) -> [Case] {
         let dir = Fixtures.url("golden/\(module)")
         let files = (try? FileManager.default.contentsOfDirectory(atPath: dir.path)) ?? []
         return files.filter { $0.hasSuffix(".json") }.sorted().compactMap { file in
             guard let data = try? Data(contentsOf: dir.appendingPathComponent(file)),
                   let json = try? JSONDecoder().decode(JSONValue.self, from: data),
-                  let fn = json["fn"].string else { return nil }
+                  let fn = json["fn"].string else {
+                Issue.record("golden fixture \(module)/\(file) does not decode")
+                return nil
+            }
             return Case(module: module, name: String(file.dropLast(5)), fn: fn, args: json["args"].array ?? [], output: json["output"])
         }
     }

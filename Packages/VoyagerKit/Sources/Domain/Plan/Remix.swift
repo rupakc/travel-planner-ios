@@ -83,7 +83,7 @@ public enum Remix {
 
     /// Rows `{key, label, kind, before, after, delta, direction (same|down|up), improved (bool|null)}` for every
     /// metric known on both sides. `label` comes from `sections:remix.metric.<key>`; lower is always better.
-    public static func diffMetrics(_ before: JSONValue?, _ after: JSONValue?, translate: PlanText = planKeyText) -> [JSONValue] {
+    public static func diffMetrics(_ before: JSONValue?, _ after: JSONValue?, translate: PlanText) -> [JSONValue] {
         metrics.compactMap { key, kind in
             guard let beforeValue = (before?[key]).flatMap({ $0.isNull ? nil : PlanJS.toNumber($0) }),
                   let afterValue = (after?[key]).flatMap({ $0.isNull ? nil : PlanJS.toNumber($0) }) else { return nil }

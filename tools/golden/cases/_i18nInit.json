@@ -1,6 +1,0 @@
-{
- "module": "frontend/src/i18n/index.js",
- "cases": [
-  { "name": "init", "fn": "initI18n", "args": [{ "lng": "en" }] }
- ]
-}

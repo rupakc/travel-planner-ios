@@ -29,18 +29,18 @@ import VoyagerModel
     @Test func clearOnOtherFieldsGivesNull() {
         for field in ["flight", "hotel", "sim"] {
             let next = PlanActions.apply(s, action: "clear", field: field, data: .null)
-            #expect(next[field] == nil)
+            #expect(next[field] == .null)
             #expect(next["activities"] == s["activities"])
         }
         // events is not a chat array field: the web nulls it
-        #expect(PlanActions.apply(s, action: "clear", field: "events", data: .null)["events"] == nil)
+        #expect(PlanActions.apply(s, action: "clear", field: "events", data: .null)["events"] == .null)
     }
 
     @Test func setReplacesTheField() {
         let next = PlanActions.apply(s, action: "set", field: "hotel", data: ["name": "New"])
         #expect(next["hotel"] == ["name": "New"])
         #expect(PlanActions.apply(s, action: "set", field: "activities", data: [["name": "z"]])["activities"] == [["name": "z"]])
-        #expect(PlanActions.apply(s, action: "set", field: "sim", data: .null)["sim"] == nil)
+        #expect(PlanActions.apply(s, action: "set", field: "sim", data: .null)["sim"] == .null)
     }
 
     @Test func addAppendsAndDedupesByTheRightKey() {
@@ -60,7 +60,7 @@ import VoyagerModel
     }
 
     @Test func addToMissingArrayCreatesIt() {
-        let next = PlanActions.apply(["flight": nil], action: "add", field: "activities", data: ["name": "a"])
+        let next = PlanActions.apply(["flight": .null], action: "add", field: "activities", data: ["name": "a"])
         #expect(next["activities"] == [["name": "a"]])
     }
 
@@ -77,12 +77,22 @@ import VoyagerModel
     }
 
     @Test func removeOnSingleFieldsNullsThem() {
-        #expect(PlanActions.apply(s, action: "remove", field: "hotel", data: .null)["hotel"] == nil)
-        #expect(PlanActions.apply(s, action: "remove", field: "sim", data: ["provider": "P"])["sim"] == nil)
+        #expect(PlanActions.apply(s, action: "remove", field: "hotel", data: .null)["hotel"] == .null)
+        #expect(PlanActions.apply(s, action: "remove", field: "sim", data: ["provider": "P"])["sim"] == .null)
     }
 
     @Test func unknownActionChangesNothing() {
         #expect(PlanActions.apply(s, action: "reorder", field: "activities", data: .null) == s)
+    }
+
+    @Test func addAndListRemoveIgnoreNonObjectData() {
+        for data: JSONValue in [.null, "x", 3, [["name": "a1"]]] {
+            #expect(PlanActions.apply(s, action: "add", field: "activities", data: data) == s)
+            #expect(PlanActions.apply(s, action: "add", field: "hotel", data: data) == s)
+            #expect(PlanActions.apply(s, action: "remove", field: "activities", data: data) == s)
+        }
+        // Removing a single field needs no data.
+        #expect(PlanActions.apply(s, action: "remove", field: "hotel", data: .null)["hotel"] == .null)
     }
 
     @Test func plansAreValuesNotMutated() {
@@ -153,7 +163,7 @@ import VoyagerModel
         _ = Selections.toggle(before, field: "activities", item: ["name": "a"])
         #expect(before == Selections.empty)
         // A missing list is treated as empty.
-        #expect(Selections.toggle(["flight": nil], field: "tips", item: ["title": "t"])["tips"] == [["title": "t"]])
+        #expect(Selections.toggle(["flight": .null], field: "tips", item: ["title": "t"])["tips"] == [["title": "t"]])
     }
 
     @Test func countsEveryField() {

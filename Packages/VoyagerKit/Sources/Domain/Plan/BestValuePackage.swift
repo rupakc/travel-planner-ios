@@ -39,7 +39,7 @@ public enum BestValuePackage {
 
     public static func build(
         results: JSONValue, searchData: JSONValue, caps: Caps? = nil,
-        translate tt: @escaping PlanText = planKeyText, locale: Locale = Locale(identifier: "en_US")
+        translate tt: @escaping PlanText, locale: Locale
     ) -> JSONValue? {
         let ctx = Context(tt: tt, locale: locale)
         let flights = ctx.pickFlights(results["flights"], caps?.flight)
