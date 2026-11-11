@@ -118,10 +118,6 @@ async function main() {
   let differences = 0
   const expected = new Set()
   try {
-    // The web's vitest set-up initialises i18n in English; utils that call i18n.t() (plan export,
-    // compare durations, ...) return '' until it is.
-    const i18nEntry = path.join(frontend, 'src', 'i18n', 'index.js')
-    if (existsSync(i18nEntry)) await (await server.ssrLoadModule(i18nEntry)).initI18n({ lng: 'en' })
     for (const file of caseFiles) {
       const name = path.basename(file, '.json')
       const spec = JSON.parse(await readFile(path.join(CASES_DIR, file), 'utf8'))
