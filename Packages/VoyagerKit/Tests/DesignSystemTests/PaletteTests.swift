@@ -4,6 +4,8 @@ import UIKit
 
 @testable import DesignSystem
 
+@MainActor
+@Suite(.serialized)
 struct PaletteTests {
     /// The catalog colour by asset name in a given appearance (what `Palette.color` points at).
     private func resolve(_ family: Family, _ stop: Stop, _ style: UIUserInterfaceStyle) -> [CGFloat]? {

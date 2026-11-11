@@ -4,6 +4,8 @@ import UIKit
 
 @testable import DesignSystem
 
+@MainActor
+@Suite(.serialized)
 struct FontRegistryTests {
     /// Registration is asynchronous, so poll with a deadline: a stuck registration fails the test
     /// (and `.timeLimit` backs it up) instead of hanging the CI run.
