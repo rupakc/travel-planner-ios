@@ -106,4 +106,77 @@ struct AuthStateTests {
         let c = AccountCapabilities.from(features: ["signup": true, "refresh_tokens": true])
         #expect(c == AccountCapabilities(signUp: true, passwordReset: false, deleteAccount: false, refreshTokens: true))
     }
+
+    // MARK: stale 401 / refresh races
+
+    @Test func test_staleUnauthorizedAfterReSignInIgnored() async throws {
+        let (auth, api, _) = make()
+        try await auth.signIn(username: "amy", password: "pw")
+        api.loginResult = LoginResponse(accessToken: "tok2", user: User(username: "amy"))
+        try await auth.signIn(username: "amy", password: "pw")
+        await auth.handleUnauthorized(token: "tok1")
+        #expect(auth.phase == .signedIn)
+        #expect(auth.session?.accessToken == "tok2")
+    }
+
+    private func refreshable() -> Session {
+        Session(accessToken: "tok1", refreshToken: "r1", accessExpiresAt: nil, user: User(username: "amy"), method: .password)
+    }
+
+    @Test func test_refreshSuccessKeepsUserSignedIn() async {
+        var fresh = refreshable()
+        fresh.accessToken = "tok1b"
+        let auth = AuthState(api: FakeAPI(), store: MemoryStore(refreshable()), refresher: FakeRefresher(.success(fresh)))
+        await auth.handleUnauthorized(token: "tok1")
+        #expect(auth.phase == .signedIn)
+        #expect(auth.session?.accessToken == "tok1b")
+    }
+
+    @Test func test_signInDuringRefreshWins() async throws {
+        let api = FakeAPI()
+        api.loginResult = LoginResponse(accessToken: "tok2", user: User(username: "bob"))
+        var stale = refreshable()
+        stale.accessToken = "tok1b"
+        let refresher = FakeRefresher(.success(stale))
+        let auth = AuthState(api: api, store: MemoryStore(refreshable()), refresher: refresher)
+        refresher.onRefresh = { try? await auth.signIn(username: "bob", password: "pw") }
+        await auth.handleUnauthorized(token: "tok1")
+        #expect(auth.session?.accessToken == "tok2")
+        #expect(auth.phase == .signedIn)
+    }
+
+    @Test func test_failedRefreshEndsSessionExpired() async {
+        let store = MemoryStore(refreshable())
+        let auth = AuthState(api: FakeAPI(), store: store, refresher: FakeRefresher(.failure(AuthError.refreshUnavailable)))
+        await auth.handleUnauthorized(token: "tok1")
+        #expect(auth.phase == .signedOut(reason: .sessionExpired))
+        #expect(store.load() == nil)
+    }
+
+    // MARK: no resurrection after an await
+
+    @Test func test_changePasswordDoesNotResurrectSignedOutSession() async throws {
+        let api = FakeAPI()
+        let (auth, _, store) = make(api)
+        try await auth.signIn(username: "amy", password: "pw")
+        api.onChangePassword = { await auth.signOut() }
+        await #expect(throws: AuthError.sessionExpired) {
+            try await auth.changePassword(current: "pw", new: "newpassword")
+        }
+        #expect(auth.session == nil)
+        #expect(store.load() == nil)
+        #expect(auth.phase == .signedOut(reason: .userInitiated))
+    }
+
+    @Test func test_signInDoesNotResurrectAfterSignOutDuringCall() async throws {
+        let api = FakeAPI()
+        let (auth, _, store) = make(api)
+        try await auth.signIn(username: "amy", password: "pw")
+        api.onLogin = { await auth.signOut() }
+        await #expect(throws: CancellationError.self) {
+            try await auth.signIn(username: "amy", password: "pw")
+        }
+        #expect(auth.session == nil)
+        #expect(store.load() == nil)
+    }
 }

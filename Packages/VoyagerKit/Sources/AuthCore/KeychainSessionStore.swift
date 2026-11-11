@@ -10,7 +10,8 @@ public struct KeychainError: Error, Equatable {
 public protocol KeychainBackend: Sendable {
     func read(service: String) -> Data?
     func write(_ data: Data, service: String) throws
-    func delete(service: String)
+    /// Returns the OSStatus of the delete (errSecSuccess or errSecItemNotFound both mean "gone").
+    @discardableResult func delete(service: String) -> Int32
 }
 
 public struct SecItemKeychainBackend: KeychainBackend {
@@ -42,12 +43,13 @@ public struct SecItemKeychainBackend: KeychainBackend {
         guard status == errSecSuccess else { throw KeychainError(status: status) }
     }
 
-    public func delete(service: String) {
+    @discardableResult
+    public func delete(service: String) -> Int32 {
         SecItemDelete(query(service) as CFDictionary)
     }
 }
 
-public final class KeychainSessionStore: SessionStore, @unchecked Sendable {
+public final class KeychainSessionStore: SessionStore {
     public static let defaultService = "io.github.rupakc.travelplanner.session"
     static let installedKey = "tp_installed"
 
@@ -64,8 +66,11 @@ public final class KeychainSessionStore: SessionStore, @unchecked Sendable {
         self.service = service
         self.backend = backend
         if defaults.object(forKey: Self.installedKey) == nil {
-            backend.delete(service: service)
-            defaults.set(true, forKey: Self.installedKey)
+            // Only mark the install once the leftover is really gone; otherwise retry next launch.
+            let status = backend.delete(service: service)
+            if status == errSecSuccess || status == errSecItemNotFound {
+                defaults.set(true, forKey: Self.installedKey)
+            }
         }
     }
 
@@ -78,5 +83,5 @@ public final class KeychainSessionStore: SessionStore, @unchecked Sendable {
         try backend.write(JSONEncoder().encode(session), service: service)
     }
 
-    public func clear() { backend.delete(service: service) }
+    public func clear() { _ = backend.delete(service: service) }
 }

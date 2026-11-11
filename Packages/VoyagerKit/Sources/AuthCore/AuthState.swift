@@ -29,6 +29,8 @@ public final class AuthState {
     @ObservationIgnored private let refresher: TokenRefresher
     @ObservationIgnored private let social: SocialSignIn
     @ObservationIgnored private let box = TokenBox()
+    /// Bumped on every adopt/drop, so an `await` can tell the session changed under it.
+    @ObservationIgnored private var generation = 0
 
     public init(
         api: AuthAPI, store: SessionStore,
@@ -52,6 +54,7 @@ public final class AuthState {
 
     private func adopt(_ next: Session) throws {
         try store.save(next)
+        generation += 1
         session = next
         phase = Self.phase(for: next, reason: nil)
         box.value = next.accessToken
@@ -59,24 +62,32 @@ public final class AuthState {
 
     private func drop(reason: SignOutReason) {
         store.clear()
+        generation += 1
         session = nil
         phase = .signedOut(reason: reason)
         box.value = nil
     }
 
     public func signIn(username: String, password: String) async throws {
+        let started = generation
         let resp = try await api.login(username: username, password: password)
+        guard generation == started else { throw CancellationError() }
         try adopt(Session(accessToken: resp.accessToken, user: resp.user, method: .password))
     }
 
     public func signIn(with provider: AuthProviderID, info: AuthProviderInfo) async throws {
         guard info.configured else { throw AuthError.comingSoon(provider) }
-        try adopt(try await social.signIn(provider, info: info))
+        let started = generation
+        let fresh = try await social.signIn(provider, info: info)
+        guard generation == started else { throw CancellationError() }
+        try adopt(fresh)
     }
 
     public func changePassword(current: String, new: String) async throws {
-        guard var next = session else { throw AuthError.sessionExpired }
+        guard let before = session else { throw AuthError.sessionExpired }
         let token = try await api.changePassword(current: current, new: new)
+        // Never resurrect a session that was signed out, expired or replaced during the call.
+        guard var next = session, next.accessToken == before.accessToken else { throw AuthError.sessionExpired }
         next.accessToken = token
         next.accessExpiresAt = JWTClaims.expiry(of: token)
         next.user.requiresPasswordChange = false

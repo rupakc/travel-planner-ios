@@ -22,6 +22,17 @@ struct KeychainSessionStoreTests {
         #expect(store.load() == nil)
     }
 
+    @Test func test_installFlagNotSetWhenDeleteFails() {
+        struct FailingDelete: KeychainBackend {
+            func read(service: String) -> Data? { nil }
+            func write(_ data: Data, service: String) throws {}
+            func delete(service: String) -> Int32 { -25308 }
+        }
+        let d = defaults()
+        _ = KeychainSessionStore(service: "t", backend: FailingDelete(), defaults: d)
+        #expect(d.object(forKey: "tp_installed") == nil)
+    }
+
     @Test func test_freshInstallClearsLeftover() throws {
         let kc = MemoryKeychain()
         try kc.write(JSONEncoder().encode(session), service: "t")
@@ -39,10 +50,17 @@ struct KeychainSessionStoreTests {
         let service = "io.github.rupakc.travelplanner.tests.\(UUID().uuidString)"
         let store = KeychainSessionStore(service: service, defaults: defaults())
         defer { store.clear() }
+        var unavailable = false
         do {
             try store.save(session)
-        } catch let e as KeychainError where e.status == -34018 {
-            print("KEYCHAIN-UNAVAILABLE -34018: real Keychain path not exercised on this host")
+        } catch let error as KeychainError where error.status == -34018 {
+            unavailable = true
+        }
+        if unavailable {
+            // Reported as a known issue so the run shows the real Keychain path was not exercised here.
+            withKnownIssue("Keychain unavailable on this host (-34018)", isIntermittent: true) {
+                Issue.record("errSecMissingEntitlement: real Keychain not exercised")
+            }
             return
         }
         #expect(store.load() == session)
