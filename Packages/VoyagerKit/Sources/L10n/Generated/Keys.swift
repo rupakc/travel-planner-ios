@@ -913,6 +913,9 @@ public enum K {
                 public static let warning = LKey("common:enum.severity.warning", placeholders: [], plural: false)
             }
         }
+        public enum error {
+            public static let network = LKey("common:error.network", placeholders: [], plural: false)
+        }
         public enum footer {
             public static let attribution = LKey("common:footer.attribution", placeholders: [], plural: false)
         }
