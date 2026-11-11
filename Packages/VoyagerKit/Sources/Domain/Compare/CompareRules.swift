@@ -84,18 +84,14 @@ public enum CompareRules {
         return out
     }
 
-    /// "2h 5m" (English; the app localises with its own template). `nil` for a missing or non-positive duration.
-    /// The minutes part rounds half up like JS `Math.round`, so 119.5 reads "1h 60m" exactly as the web does.
-    public static func durationText(minutes: Double?) -> String? {
+    /// The duration text ("2h 5m") for the caller's localised template (`misc:compare.duration`, `{{h}}h {{m}}m`)
+    /// given as a function of hours and minutes; there is no default language. `nil` for a missing or non-positive
+    /// duration. The minutes part rounds half up like JS `Math.round`, so 119.5 reads "1h 60m" as on the web.
+    public static func durationText(minutes: Double?, format: (_ hours: Int, _ minutes: Int) -> String) -> String? {
         guard let minutes, minutes.isFinite, minutes > 0 else { return nil }
         let hours = Int((minutes / 60).rounded(.down))
         let rest = Int((minutes.truncatingRemainder(dividingBy: 60) + 0.5).rounded(.down))
-        return "\(hours)h \(rest)m"
-    }
-
-    /// `durationText(minutes: Double?)` for a whole number of minutes; "" when it is not positive.
-    public static func durationText(minutes: Int) -> String {
-        durationText(minutes: Double(minutes)) ?? ""
+        return format(hours, rest)
     }
 
     // MARK: - JS coercions

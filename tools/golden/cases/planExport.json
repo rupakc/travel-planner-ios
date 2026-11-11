@@ -1,5 +1,16 @@
 {
  "module": "frontend/src/utils/planExport.js",
+ "setup": [
+  {
+   "module": "frontend/src/i18n/index.js",
+   "fn": "initI18n",
+   "args": [
+    {
+     "lng": "en"
+    }
+   ]
+  }
+ ],
  "cases": [
   {
    "name": "empty",

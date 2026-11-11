@@ -14,7 +14,8 @@ import VoyagerModel
             selections: input["selections"],
             itinerary: itinerary.isNull ? nil : itinerary,
             planID: input["planId"].int,
-            now: ExportGolden.date(input["now"])
+            now: ExportGolden.date(input["now"]),
+            labels: .english
         )
         #expect(text == golden.output.string)
     }
@@ -48,7 +49,7 @@ import VoyagerModel
         let text = PlanICS.build(
             planName: "T", searchData: ["departure_date": "2027-04-01"],
             selections: ["hotel": ["name": .string(String(repeating: "Grand ", count: 30))]],
-            planID: 1, now: Date(timeIntervalSince1970: 0))
+            planID: 1, now: Date(timeIntervalSince1970: 0), labels: .english)
         #expect(text.hasSuffix("END:VCALENDAR\r\n"))
         #expect(!text.replacingOccurrences(of: "\r\n", with: "").contains("\n"))
         for line in text.components(separatedBy: "\r\n") { #expect(line.utf8.count <= 75) }
@@ -58,7 +59,7 @@ import VoyagerModel
         let text = PlanICS.build(
             planName: "Slots", searchData: ["departure_date": "2027-04-01"],
             selections: ["itinerary_slots": [["key": "1-morning", "day_number": 1, "time_of_day": "morning", "activity": "Coffee"]]],
-            planID: 9, now: Date(timeIntervalSince1970: 0))
+            planID: 9, now: Date(timeIntervalSince1970: 0), labels: .english)
         #expect(text.contains("UID:plan-9-slot-1-morning@voyager-travel-planner\r\n"))
         #expect(text.contains("DTSTART:20270401T090000\r\n"))
         #expect(text.contains("DTSTAMP:19700101T000000Z\r\n"))

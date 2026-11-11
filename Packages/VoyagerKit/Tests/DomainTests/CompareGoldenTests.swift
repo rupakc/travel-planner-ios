@@ -17,18 +17,12 @@ import VoyagerModel
 
     @Test(arguments: ExportGolden.cases("compare", fn: "fmtDuration"))
     func durationMatchesWeb(_ golden: ExportGoldenCase) {
-        #expect(CompareRules.durationText(minutes: golden.arg(0).double) == golden.output.string)
+        #expect(CompareRules.durationText(minutes: golden.arg(0).double, format: { "\($0)h \($1)m" }) == golden.output.string)
     }
 
     @Test func fixturesCoverEveryFunction() {
         for fn in ["buildCompareRequests", "bestByRow", "fmtDuration"] {
             #expect(ExportGolden.cases("compare", fn: fn).count >= 4, "\(fn)")
         }
-    }
-
-    @Test func wholeMinutesOverload() {
-        #expect(CompareRules.durationText(minutes: 125) == "2h 5m")
-        #expect(CompareRules.durationText(minutes: 0) == "")
-        #expect(CompareRules.durationText(minutes: -3) == "")
     }
 }

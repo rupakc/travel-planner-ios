@@ -8,7 +8,8 @@ import VoyagerModel
 /// Port of Android's `PlanShareText`, reading the web's selections shape (`flight`, `flights`, `hotel`,
 /// `activities`, `places_to_see`, `walking_tours`, `events`, `sim`, `getting_around`, `tips`, `itinerary*`).
 public enum PlanShareText {
-    /// Headings; defaults are English. The plan feature passes localised ones (domain code holds no UI copy).
+    /// Headings and money format, from the localised catalogue (domain code holds no UI copy and no default
+    /// language). `english` is for tests and previews only.
     public struct Labels: Sendable {
         public var flights = "Flights"
         public var hotel = "Hotel"
@@ -25,7 +26,12 @@ public enum PlanShareText {
         public var perNight: @Sendable (String) -> String = { "\($0) / night" }
         public var viewOnline: @Sendable (String) -> String = { "View the plan: \($0)" }
 
+        /// Currency text for a USD amount.
+        public var formatPrice: @Sendable (Double) -> String = { ExportText.usd($0) }
+
         public init() {}
+
+        public static let english = Labels()
     }
 
     public static func text(
@@ -33,7 +39,7 @@ public enum PlanShareText {
         searchData: JSONValue,
         selections: JSONValue,
         shareURL: String?,
-        labels: Labels = Labels()
+        labels: Labels
     ) -> String {
         var out: [String] = [planName]
         out += summaryLines(searchData)
@@ -62,14 +68,14 @@ public enum PlanShareText {
         }
         section(labels.hotel, single(selections["hotel"])) { hotel in
             let nightly = hotel["price_per_night_usd"]
-            let perNight = ExportText.isPositive(nightly) ? labels.perNight(ExportText.usd(nightly.double ?? 0)) : nil
+            let perNight = ExportText.isPositive(nightly) ? labels.perNight(labels.formatPrice(nightly.double ?? 0)) : nil
             return ExportText.joined([text(hotel["name"]), text(hotel["location"]), perNight], ", ") + link(hotel["booking_url"])
         }
         section(labels.activities, selections["activities"].array ?? []) {
-            named($0["name"], $0["price_usd"]) + link($0["booking_url"])
+            named($0["name"], $0["price_usd"], labels) + link($0["booking_url"])
         }
         section(labels.places, selections["places_to_see"].array ?? []) {
-            named($0["name"], $0["admission_fee_usd"]) + link($0["info_url"])
+            named($0["name"], $0["admission_fee_usd"], labels) + link($0["info_url"])
         }
         section(labels.walkingTours, selections["walking_tours"].array ?? []) { (text($0["name"]) ?? "") + link($0["url"]) }
         section(labels.events, selections["events"].array ?? []) { event in
@@ -81,7 +87,7 @@ public enum PlanShareText {
         }
         section(labels.sim, single(selections["sim"])) { sim in
             let provider = ExportText.joined([text(sim["provider"]), text(sim["plan_name"])], " ")
-            return named(.string(provider), sim["price_usd"]) + link(sim["url"])
+            return named(.string(provider), sim["price_usd"], labels) + link(sim["url"])
         }
         section(labels.gettingAround, selections["getting_around"].array ?? []) {
             ExportText.joined([text($0["name"]), text($0["price_info"])], ", ") + link($0["booking_url"])
@@ -136,7 +142,7 @@ public enum PlanShareText {
         }
         var price: String?
         if ExportText.isPositive(flight["price_usd"]) {
-            let amount = ExportText.usd(flight["price_usd"].double ?? 0)
+            let amount = labels.formatPrice(flight["price_usd"].double ?? 0)
             let estimated = flight["is_estimate"].bool == true || flight["source"].string == "estimate"
             price = estimated ? "\(amount) (\(labels.estimate))" : amount
         }
@@ -148,10 +154,10 @@ public enum PlanShareText {
         ], " \u{00B7} ")
     }
 
-    private static func named(_ name: JSONValue, _ price: JSONValue) -> String {
+    private static func named(_ name: JSONValue, _ price: JSONValue, _ labels: Labels) -> String {
         ExportText.joined([
             text(name),
-            ExportText.isPositive(price) ? ExportText.usd(price.double ?? 0) : nil,
+            ExportText.isPositive(price) ? labels.formatPrice(price.double ?? 0) : nil,
         ], ", ")
     }
 

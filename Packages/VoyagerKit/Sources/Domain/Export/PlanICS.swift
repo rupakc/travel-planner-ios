@@ -6,11 +6,13 @@ import VoyagerModel
 /// against the web. Times are "floating" (no time zone): a 09:00 museum visit in Tokyo reads 09:00 in the
 /// traveller's calendar wherever it is opened.
 ///
+/// Every user-visible string and money format comes from the caller's `Labels` (no silent English default).
+///
 /// Itinerary days come from Task 9's `ItineraryLayout.arrange` and `Schedule.scheduleDays` (the same pipeline
 /// the web's `planItineraryDays` uses).
 public enum PlanICS {
-    /// The few user-visible strings inside the file. Defaults are the web's English copy (`plan:ics.*`,
-    /// `plan:print.*`); the plan feature passes localised ones.
+    /// The user-visible strings inside the file (the web's `plan:ics.*` and `plan:print.*`), from the localised
+    /// catalogue. `english` is the web's English copy, for tests and previews only.
     public struct Labels: Sendable {
         public var dayTheme: @Sendable (_ day: String, _ theme: String) -> String
         public var fromLinkQuote: @Sendable (String) -> String
@@ -23,6 +25,8 @@ public enum PlanICS {
         public var trip: String
         public var defaultName: String
         public var inspiredBy: @Sendable (String) -> String
+        /// Whole-dollar-or-cents currency text for an estimated cost (`Intl` style, up to two decimals).
+        public var formatCost: @Sendable (Double) -> String
 
         public static let english = Labels(
             dayTheme: { "Day \($0): \($1)" },
@@ -35,7 +39,8 @@ public enum PlanICS {
             price: { "Price: \($0)" },
             trip: "Trip",
             defaultName: "Trip plan",
-            inspiredBy: { "Inspired by \($0)" }
+            inspiredBy: { "Inspired by \($0)" },
+            formatCost: { ExportText.usdUpTo2($0) }
         )
     }
 
@@ -48,7 +53,7 @@ public enum PlanICS {
         itinerary: JSONValue? = nil,
         planID: Int? = nil,
         now: Date = Date(),
-        labels: Labels = .english
+        labels: Labels
     ) -> String {
         let events: [Event] = flightEvents(selections, searchData, labels)
             + [hotelEvent(selections["hotel"], searchData, labels)].compactMap { $0 }
@@ -229,7 +234,7 @@ public enum PlanICS {
         }
         parts.append(slot["notes"].isTruthy ? ExportText.js(slot["notes"]) : nil)
         parts.append(note.isTruthy ? ExportText.js(note) : nil)
-        if ExportText.isPositive(cost) { parts.append(labels.estCost(ExportText.usdUpTo2(cost.double ?? 0))) }
+        if ExportText.isPositive(cost) { parts.append(labels.estCost(labels.formatCost(cost.double ?? 0))) }
         let summary = ExportText.or(edit["activity"], slot["activity"])
         let location = ExportText.coalesce(ExportText.coalesce(edit["location"], slot["location"]), day["city"])
         return Event(
