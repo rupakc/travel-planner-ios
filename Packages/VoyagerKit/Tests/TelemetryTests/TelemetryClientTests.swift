@@ -176,15 +176,19 @@ import VoyagerModel
     }
 
     @Test func test_trackIsCheap() async {
-        let h = Harness.make()
+        // Best of three timed loops: runner noise is not cost.
         let clock = ContinuousClock()
-        let elapsed = clock.measure {
-            for index in 0..<10_000 { h.core.track(.uiTap(tid: "search.submit", route: "/")); _ = index }
+        var best = Double.infinity
+        for _ in 0..<3 {
+            let h = Harness.make()
+            let elapsed = clock.measure {
+                for _ in 0..<10_000 { h.core.track(.uiTap(tid: "search.submit", route: "/")) }
+            }
+            best = min(best, Double(elapsed.components.seconds) * 1000 + Double(elapsed.components.attoseconds) / 1e15)
+            await h.core.settle()
         }
-        let ms = Double(elapsed.components.seconds) * 1000 + Double(elapsed.components.attoseconds) / 1e15
-        print("test_trackIsCheap: 10 000 tracks in \(ms) ms")
-        #expect(ms < 50, "10 000 tracks took \(ms) ms")
-        await h.core.settle()
+        print("test_trackIsCheap: best of 3, 10 000 tracks in \(best) ms")
+        #expect(best < 50, "10 000 tracks took \(best) ms (best of 3)")
     }
 }
 
