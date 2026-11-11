@@ -26,14 +26,15 @@ final class ScreenTracker: Sendable {
 
     func appeared(_ route: String) {
         let time = now()
-        let referrer: String? = state.withLock { state in
-            guard state.visible[route] == nil else { return nil }
+        let outcome: (emit: Bool, referrer: String?) = state.withLock { state in
+            // Already the visible screen: no duplicate screen_view.
+            guard state.visible[route] == nil else { return (false, nil) }
             let previous = state.last == route ? nil : state.last
             state.last = route
             state.visible[route] = .some(time)
-            return previous
+            return (true, previous)
         }
-        telemetry.track(.screenView(route: route, referrer: referrer))
+        if outcome.emit { telemetry.track(.screenView(route: route, referrer: outcome.referrer)) }
     }
 
     func disappeared(_ route: String) {

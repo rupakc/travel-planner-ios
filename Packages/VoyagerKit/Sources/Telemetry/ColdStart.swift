@@ -5,14 +5,17 @@ import os
 public enum ColdStart {
     private static let marked = OSAllocatedUnfairLock(initialState: false)
 
-    /// The first call emits `perf{metric: cold_start, value: ms, route: "/"}`; later calls do nothing.
+    /// The first call emits `perf{metric: cold_start, value: ms, route: "/"}`; later calls do nothing. The
+    /// one-shot is spent only once the event was accepted (queued, or held until `configure`).
     public static func markFirstFrame() {
-        let first = marked.withLock { done -> Bool in
-            defer { done = true }
-            return !done
+        mark(into: .shared, flag: marked)
+    }
+
+    static func mark(into telemetry: Telemetry, flag: OSAllocatedUnfairLock<Bool>) {
+        guard !flag.withLock({ $0 }), let ms = elapsedMilliseconds(now: Date()) else { return }
+        if telemetry.accept(.perf(metric: .coldStart, value: ms, route: "/")) {
+            flag.withLock { $0 = true }
         }
-        guard first, let ms = elapsedMilliseconds(now: Date()) else { return }
-        Telemetry.shared.track(.perf(metric: .coldStart, value: ms, route: "/"))
     }
 
     static func processStart() -> Date? {

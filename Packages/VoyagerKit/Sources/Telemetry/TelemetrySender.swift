@@ -69,6 +69,8 @@ actor TelemetrySender {
         guard let body = try? JSONEncoder().encode(envelope) else { return .drop }
         let gzip = body.count > 1024
         let token = await shared.boot.token()
+        // Consent may have been denied (or telemetry disabled) while the token was fetched.
+        guard shared.state.withLock({ $0.allowed && $0.enabled }) else { return .drop }
         return await shared.boot.transport.post(
             url, body: gzip ? Gzip.compress(body) : body, gzipped: gzip, token: token
         )

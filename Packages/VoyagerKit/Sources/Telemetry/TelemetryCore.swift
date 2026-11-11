@@ -40,6 +40,12 @@ final class TelemetryShared: Sendable {
     }
 }
 
+struct TrackAction: Sendable {
+    var flush = false
+    var timer = false
+    var accepted = false
+}
+
 /// The engine behind `Telemetry`. Internal so tests can drive it with a manual clock and a fake transport.
 final class TelemetryCore: Sendable {
     static let timerPeriod: Duration = .seconds(5)
@@ -85,11 +91,18 @@ final class TelemetryCore: Sendable {
 
     // MARK: Tracking
 
-    func track(_ event: TelemetryEvent) {
+    @discardableResult
+    func track(_ event: TelemetryEvent) -> Bool {
+        track(event, at: shared.boot.now())
+    }
+
+    /// `at` is the time the event happened (held pre-configure events keep their own time).
+    /// Returns whether the event was queued (`false` when telemetry is off or not consented).
+    @discardableResult
+    func track(_ event: TelemetryEvent, at now: Date) -> Bool {
         let wire = event.wire
-        let now = shared.boot.now()
-        let action: (flush: Bool, timer: Bool) = shared.state.withLock { state in
-            guard state.allowed, state.enabled else { return (false, false) }
+        let action: TrackAction = shared.state.withLock { state in
+            guard state.allowed, state.enabled else { return TrackAction() }
             let rolled = state.session.touch(now: now)
             let ts = Int64(now.timeIntervalSince1970 * 1000)
             if rolled {
@@ -102,7 +115,7 @@ final class TelemetryCore: Sendable {
                 state.nextTriggerAfter = now.addingTimeInterval(Self.triggerThrottle)
                 flush = true
             }
-            return (flush, background && !state.timerActive)
+            return TrackAction(flush: flush, timer: background && !state.timerActive, accepted: true)
         }
         if action.flush {
             spawn {
@@ -111,9 +124,11 @@ final class TelemetryCore: Sendable {
             }
         }
         if action.timer { startTimerIfNeeded() }
+        return action.accepted
     }
 
     func setConsent(_ granted: Bool) {
+        let previous = Consent.stored(shared.defaults)
         Consent.store(granted ? .granted : .denied, in: shared.defaults)
         let allowed = Consent.allowed(defaults: shared.defaults, timeZone: zoneIdentifier)
         let wasAllowed = shared.state.withLock { state -> Bool in
@@ -123,8 +138,10 @@ final class TelemetryCore: Sendable {
         if !granted {
             shared.state.withLock { $0.buffer.removeAll() }
             spawn { await self.sender.clearStore() }
-        } else if !wasAllowed {
-            track(.consentGranted)
+            return
+        }
+        if previous != .granted { track(.consentGranted) }
+        if !wasAllowed {
             track(.appOpen)
             spawn { await self.sender.claimPersisted() }
             if background { startTimerIfNeeded() }

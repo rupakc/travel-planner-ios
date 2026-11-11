@@ -67,7 +67,8 @@ struct Harness {
         endpoint: URL? = URL(string: "https://example.test/api/telemetry"),
         directory: URL? = nil,
         defaults: UserDefaults? = nil,
-        clock: ManualClock = ManualClock()
+        clock: ManualClock = ManualClock(),
+        token: @escaping @Sendable () async -> String? = { "tok" }
     ) -> Harness {
         let dir = directory ?? FileManager.default.temporaryDirectory
             .appendingPathComponent("telemetry-\(UUID().uuidString)")
@@ -76,7 +77,7 @@ struct Harness {
             appVersion: "1.0.0",
             locale: { "en" },
             endpoint: { endpoint },
-            token: { "tok" },
+            token: token,
             remote: remote,
             storeDirectory: dir,
             now: { clock.now() },
