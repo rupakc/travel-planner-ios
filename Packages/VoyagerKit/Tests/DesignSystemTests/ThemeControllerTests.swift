@@ -5,7 +5,6 @@ import Testing
 @testable import DesignSystem
 
 @MainActor
-@Suite(.serialized)
 struct ThemeControllerTests {
     private func freshDefaults() -> UserDefaults {
         let suite = "ThemeControllerTests-\(UUID().uuidString)"

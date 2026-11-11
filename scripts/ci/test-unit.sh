@@ -20,8 +20,9 @@ mkdir -p "$ROOT/build"
 # Boot the simulator and wait until its system services are up before the first test touches
 # fonts, assets or preferences (a cold-booting simulator stalled a whole test run for minutes).
 udid="${destination##*id=}"
-perl -e 'alarm 300; exec @ARGV' xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 ||
-  echo "test-unit: simulator warm-up did not finish (continuing)"
+warm=0
+perl -e 'alarm 300; exec @ARGV' xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 || warm=$?
+[[ $warm -eq 0 ]] || echo "test-unit: simulator warm-up did not finish (exit status $warm; continuing)"
 result="$ROOT/build/unit-$device.xcresult"
 log="$ROOT/build/unit-$device.log"
 rm -rf "$result"
