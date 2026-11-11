@@ -1,5 +1,6 @@
 import SnapshotTesting
 import SwiftUI
+import TestSupport
 import VoyagerModel
 import XCTest
 
@@ -21,7 +22,7 @@ final class SharedUISnapshotTests: XCTestCase {
                     VButton("Clear", tid: "snap.tonal", role: .tonal) {}
                     VButton("Delete trip", tid: "snap.destructive", role: .destructive) {}
                 }
-            }, named: "buttons")
+            }, named: "buttons", configs: SnapshotConfig.standard)
     }
 
     func test_errorState() {
@@ -30,7 +31,7 @@ final class SharedUISnapshotTests: XCTestCase {
                 ErrorState(
                     error: FakeError(presentationKind: .rateLimited, userFacingDetail: nil),
                     retry: {})
-            }, named: "rate-limited")
+            }, named: "rate-limited", configs: SnapshotConfig.standard)
     }
 
     func test_verificationBadge() {
@@ -46,7 +47,7 @@ final class SharedUISnapshotTests: XCTestCase {
                     VerificationBadge(verification: badge("conflict", "Check details"))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-            }, named: "levels")
+            }, named: "levels", configs: SnapshotConfig.standard)
     }
 
     func test_priceTextEstimate() {
@@ -57,6 +58,6 @@ final class SharedUISnapshotTests: XCTestCase {
                     PriceText(amount: 89, currency: "EUR", estimate: false)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-            }, named: "estimate")
+            }, named: "estimate", configs: SnapshotConfig.standard)
     }
 }
