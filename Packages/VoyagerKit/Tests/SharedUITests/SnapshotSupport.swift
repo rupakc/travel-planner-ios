@@ -20,13 +20,16 @@ struct SnapshotConfig {
     let dark: Bool
     var language: AppLanguage = .en
     var size: UIContentSizeCategory = .large
+    /// A taller canvas than the device screen, so AX5 content is shown whole.
+    var canvas: CGSize?
 
     static let phoneLight = SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false)
     static let phoneDark = SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true)
     static let padLight = SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false)
     static let padDark = SnapshotConfig(name: "ipad-dark", device: .iPadPro11(.portrait), dark: true)
     static let germanAX5 = SnapshotConfig(
-        name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de, size: .accessibilityExtraExtraExtraLarge)
+        name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de, size: .accessibilityExtraExtraExtraLarge,
+        canvas: CGSize(width: 320, height: 1500))
 
     static let standard: [SnapshotConfig] = [.phoneLight, .phoneDark, .padLight, .padDark, .germanAX5]
 }
@@ -55,7 +58,7 @@ func assertSnapshots<V: View>(
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
-                    as: .image(on: config.device, precision: 0.99, perceptualPrecision: 0.98, traits: traits),
+                    as: .image(on: config.device, precision: 0.99, perceptualPrecision: 0.98, size: config.canvas, traits: traits),
                     named: "\(name)-\(config.name)", file: file, testName: testName, line: line)
             }
         }
