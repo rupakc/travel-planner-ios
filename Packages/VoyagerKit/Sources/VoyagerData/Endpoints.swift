@@ -224,7 +224,8 @@ public enum Endpoints {
         Endpoint(method: .delete, path: "/api/devices/\(id)", telemetryName: "/api/devices/:id")
     }
     public static func unregisterDevice(token: String) -> Endpoint<Empty> {
-        Endpoint(method: .post, path: "/api/devices/unregister", telemetryName: "/api/devices/unregister", body: JSONValue.object(["token": .string(token)]))
+        Endpoint(method: .post, path: "/api/devices/unregister", telemetryName: "/api/devices/unregister",
+                 body: JSONValue.object(["token": .string(token)]))
     }
 
     // MARK: Feedback, admin, health
