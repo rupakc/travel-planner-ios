@@ -61,7 +61,10 @@ public enum L10n {
 
     private static func checkArguments(_ key: LKey, _ args: [String: String], _ count: Int?) {
         #if DEBUG
-        assert(Set(args.keys) == key.placeholders, "L10n \(key.id): args \(args.keys.sorted()) != placeholders \(key.placeholders.sorted())")
+        assert(
+            Set(args.keys) == key.placeholders,
+            "L10n \(key.id): args \(args.keys.sorted()) != placeholders \(key.placeholders.sorted())"
+        )
         assert(key.plural == (count != nil), "L10n \(key.id): count must be given exactly for plural keys")
         #endif
     }

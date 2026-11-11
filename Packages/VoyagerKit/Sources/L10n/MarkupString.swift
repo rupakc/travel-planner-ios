@@ -27,6 +27,12 @@ enum MarkupString {
         return out
     }
 
+    private struct OpenTag {
+        let name: String
+        let bold: Bool
+        let link: URL?
+    }
+
     enum Token: Equatable {
         case text(String)
         case open(name: String, href: String?)
@@ -88,7 +94,7 @@ enum MarkupString {
     /// after parsing, so argument values can never inject markup.
     static func attributed(_ template: String, _ args: [String: String], links: [String: URL]) -> AttributedString {
         var result = AttributedString()
-        var stack: [(name: String, bold: Bool, link: URL?)] = []
+        var stack: [OpenTag] = []
         for token in tokenize(template) {
             switch token {
             case .text(let raw):
@@ -99,7 +105,7 @@ enum MarkupString {
             case .open(let name, let href):
                 let isBold = name == "strong" || name == "b"
                 let url = links[name] ?? (name == "a" ? safeURL(href) : nil)
-                stack.append((name, isBold, url))
+                stack.append(OpenTag(name: name, bold: isBold, link: url))
             case .close(let name):
                 if let at = stack.lastIndex(where: { $0.name == name }) { stack.remove(at: at) }
             case .selfClosing:
