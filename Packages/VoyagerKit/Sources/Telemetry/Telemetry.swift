@@ -2,19 +2,6 @@ import Foundation
 import os
 import VoyagerModel
 
-/// What `GET /api/config` says about telemetry (`telemetry.enabled`, `flush_interval_s`, `max_batch`).
-public struct TelemetryRemoteConfig: Sendable, Equatable {
-    public var enabled: Bool
-    public var flushIntervalS: Int
-    public var maxBatch: Int
-
-    public init(enabled: Bool = true, flushIntervalS: Int = 15, maxBatch: Int = 50) {
-        self.enabled = enabled
-        self.flushIntervalS = flushIntervalS
-        self.maxBatch = maxBatch
-    }
-}
-
 public struct TelemetryBootstrap: Sendable {
     public var appVersion: String
     public var locale: @Sendable () -> String

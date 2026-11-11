@@ -48,7 +48,7 @@ import VoyagerModel
     }
 
     @Test func test_maxBatchIsClampedTo100() async {
-        let h = Harness.make(remote: TelemetryRemoteConfig(maxBatch: 5_000))
+        let h = Harness.make(remote: TelemetryRemoteConfig(enabled: true, maxBatch: 5_000))
         h.trackTaps(100)
         await h.core.settle()
         #expect(h.transport.posts.first?.events.count == 100)

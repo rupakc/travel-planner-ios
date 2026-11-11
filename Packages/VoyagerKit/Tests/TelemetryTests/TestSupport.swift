@@ -61,7 +61,7 @@ struct Harness {
     let defaults: UserDefaults
 
     static func make(
-        remote: TelemetryRemoteConfig? = TelemetryRemoteConfig(),
+        remote: TelemetryRemoteConfig? = TelemetryRemoteConfig(enabled: true),
         transport: FakeTransport = FakeTransport(),
         timeZone: String = "America/New_York",
         endpoint: URL? = URL(string: "https://example.test/api/telemetry"),

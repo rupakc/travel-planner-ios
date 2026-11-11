@@ -2,6 +2,7 @@ import Foundation
 import os
 import Testing
 @testable import Telemetry
+import VoyagerModel
 
 @Suite struct PreConfigureTests {
     static func bootstrap(remote: TelemetryRemoteConfig?, timeZone: String = "America/New_York") -> TelemetryBootstrap {
@@ -21,7 +22,7 @@ import Testing
         telemetry.track(.perf(metric: .coldStart, value: 250, route: "/"))
         telemetry.track(.screenView(route: "/", referrer: nil))
         #expect(telemetry.heldCount == 2)
-        telemetry.configure(Self.bootstrap(remote: TelemetryRemoteConfig()), defaults: Self.suite(), background: false)
+        telemetry.configure(Self.bootstrap(remote: TelemetryRemoteConfig(enabled: true)), defaults: Self.suite(), background: false)
         #expect(telemetry.heldCount == 0)
         #expect(telemetry.core?.queuedEvents().map(\.event) == ["perf", "screen_view", "app_open"])
     }
@@ -36,7 +37,7 @@ import Testing
         let eu = Telemetry()
         eu.track(.appOpen)
         eu.configure(
-            Self.bootstrap(remote: TelemetryRemoteConfig(), timeZone: "Europe/Berlin"),
+            Self.bootstrap(remote: TelemetryRemoteConfig(enabled: true), timeZone: "Europe/Berlin"),
             defaults: Self.suite(), background: false
         )
         #expect(eu.core?.queuedEvents().isEmpty == true)
@@ -88,7 +89,7 @@ import Testing
 
     @Test func test_screenTrackerDoesNotDuplicateVisibleRoute() async {
         let telemetry = Telemetry()
-        telemetry.configure(Self.bootstrap(remote: TelemetryRemoteConfig()), defaults: Self.suite(), background: false)
+        telemetry.configure(Self.bootstrap(remote: TelemetryRemoteConfig(enabled: true)), defaults: Self.suite(), background: false)
         let tracker = ScreenTracker(telemetry: telemetry, now: { Date() })
         tracker.appeared("/chat")
         tracker.appeared("/chat")
