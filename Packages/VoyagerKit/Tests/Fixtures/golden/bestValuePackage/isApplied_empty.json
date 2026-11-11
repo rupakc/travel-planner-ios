@@ -1,0 +1,87 @@
+{
+  "args": [
+    {
+      "activities": [],
+      "events": [],
+      "flight": null,
+      "flights": [],
+      "getting_around": [],
+      "hotel": null,
+      "itinerary_edits": {},
+      "itinerary_layout": null,
+      "itinerary_notes": {},
+      "itinerary_slots": [],
+      "packing_list": null,
+      "places_to_see": [],
+      "sim": null,
+      "tips": [],
+      "walking_tours": []
+    },
+    {
+      "selections": {
+        "activities": [
+          {
+            "city": "Paris",
+            "name": "A1",
+            "price_usd": 10,
+            "similarity_score": 0.4
+          },
+          {
+            "city": "Paris",
+            "name": "A2",
+            "price_usd": 10,
+            "similarity_score": 0.4
+          }
+        ],
+        "flight": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "flights": [],
+        "hotel": {
+          "name": "Pkg Hotel",
+          "price_per_night_usd": 100,
+          "review_score": 8,
+          "star_rating": 3
+        },
+        "places_to_see": [
+          {
+            "admission_fee_usd": 0,
+            "city": "Paris",
+            "name": "Place",
+            "rating": 4.5
+          }
+        ],
+        "sim": {
+          "plan_name": "Plan",
+          "price_usd": 10,
+          "provider": "P",
+          "validity_days": 30
+        },
+        "walking_tours": [
+          {
+            "city": "Paris",
+            "name": "Tour",
+            "price_note": "Free · tip-based",
+            "rating": 4.5,
+            "url": "https://t/1"
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "isPackageApplied",
+  "output": false
+}

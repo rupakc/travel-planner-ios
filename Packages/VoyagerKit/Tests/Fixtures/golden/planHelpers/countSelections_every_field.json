@@ -1,0 +1,49 @@
+{
+  "args": [
+    {
+      "activities": [
+        {},
+        {}
+      ],
+      "events": [
+        {}
+      ],
+      "flight": {
+        "a": 1
+      },
+      "flights": [
+        {}
+      ],
+      "getting_around": [
+        {}
+      ],
+      "hotel": {
+        "a": 1
+      },
+      "itinerary_edits": {},
+      "itinerary_layout": null,
+      "itinerary_notes": {},
+      "itinerary_slots": [
+        {}
+      ],
+      "packing_list": {
+        "categories": []
+      },
+      "places_to_see": [
+        {}
+      ],
+      "sim": {
+        "a": 1
+      },
+      "tips": [
+        {},
+        {}
+      ],
+      "walking_tours": [
+        {}
+      ]
+    }
+  ],
+  "fn": "countSelections",
+  "output": 14
+}

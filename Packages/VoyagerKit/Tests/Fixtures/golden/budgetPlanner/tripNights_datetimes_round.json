@@ -1,0 +1,11 @@
+{
+  "args": [
+    {
+      "budget_usd": 3000,
+      "departure_date": "2026-04-01T20:00:00Z",
+      "return_date": "2026-04-04T08:00:00Z"
+    }
+  ],
+  "fn": "tripNights",
+  "output": 3
+}

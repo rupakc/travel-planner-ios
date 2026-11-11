@@ -1,0 +1,242 @@
+{
+  "args": [
+    {
+      "activities": {
+        "results": [
+          {
+            "city": "Paris",
+            "name": "A1",
+            "price_usd": 10,
+            "similarity_score": 0.4
+          },
+          {
+            "city": "Paris",
+            "name": "A2",
+            "price_usd": 10,
+            "similarity_score": 0.4
+          }
+        ]
+      },
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "outbound": {
+              "airline": "TestAir",
+              "duration_minutes": 600,
+              "flight_number": "TA1",
+              "stops": 0
+            },
+            "price_usd": 500,
+            "return": {
+              "duration_minutes": 600,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      },
+      "hotels": {
+        "results": [
+          {
+            "name": "Pkg Hotel",
+            "price_per_night_usd": 100,
+            "review_score": 8,
+            "star_rating": 3
+          }
+        ]
+      },
+      "places_to_see": {
+        "results": [
+          {
+            "admission_fee_usd": 0,
+            "city": "Paris",
+            "name": "Place",
+            "rating": 4.5
+          }
+        ]
+      },
+      "sim": {
+        "plans": [
+          {
+            "plan_name": "Plan",
+            "price_usd": 10,
+            "provider": "P",
+            "validity_days": 30
+          }
+        ]
+      },
+      "walking_tours": {
+        "results": [
+          {
+            "city": "Paris",
+            "name": "Tour",
+            "price_note": "Free · tip-based",
+            "rating": 4.5,
+            "url": "https://t/1"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      },
+      {
+        "item": {
+          "name": "Pkg Hotel",
+          "price_per_night_usd": 100,
+          "review_score": 8,
+          "star_rating": 3
+        },
+        "reason": "Mid-range (3★), best-reviewed in its class",
+        "type": "hotel"
+      },
+      {
+        "city": "Paris",
+        "item": {
+          "city": "Paris",
+          "name": "A1",
+          "price_usd": 10,
+          "similarity_score": 0.4
+        },
+        "reason": "$10",
+        "type": "activities"
+      },
+      {
+        "city": "Paris",
+        "item": {
+          "city": "Paris",
+          "name": "A2",
+          "price_usd": 10,
+          "similarity_score": 0.4
+        },
+        "reason": "$10",
+        "type": "activities"
+      },
+      {
+        "city": "Paris",
+        "item": {
+          "city": "Paris",
+          "name": "Tour",
+          "price_note": "Free · tip-based",
+          "rating": 4.5,
+          "url": "https://t/1"
+        },
+        "reason": "Free · tip-based",
+        "type": "walking_tours"
+      },
+      {
+        "city": "Paris",
+        "item": {
+          "admission_fee_usd": 0,
+          "city": "Paris",
+          "name": "Place",
+          "rating": 4.5
+        },
+        "reason": "Free entry",
+        "type": "places_to_see"
+      },
+      {
+        "item": {
+          "plan_name": "Plan",
+          "price_usd": 10,
+          "provider": "P",
+          "validity_days": 30
+        },
+        "reason": "Covers your 10-day trip",
+        "type": "sim"
+      }
+    ],
+    "selections": {
+      "activities": [
+        {
+          "city": "Paris",
+          "name": "A1",
+          "price_usd": 10,
+          "similarity_score": 0.4
+        },
+        {
+          "city": "Paris",
+          "name": "A2",
+          "price_usd": 10,
+          "similarity_score": 0.4
+        }
+      ],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": 500,
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": {
+        "name": "Pkg Hotel",
+        "price_per_night_usd": 100,
+        "review_score": 8,
+        "star_rating": 3
+      },
+      "places_to_see": [
+        {
+          "admission_fee_usd": 0,
+          "city": "Paris",
+          "name": "Place",
+          "rating": 4.5
+        }
+      ],
+      "sim": {
+        "plan_name": "Plan",
+        "price_usd": 10,
+        "provider": "P",
+        "validity_days": 30
+      },
+      "walking_tours": [
+        {
+          "city": "Paris",
+          "name": "Tour",
+          "price_note": "Free · tip-based",
+          "rating": 4.5,
+          "url": "https://t/1"
+        }
+      ]
+    },
+    "total": 1430
+  }
+}

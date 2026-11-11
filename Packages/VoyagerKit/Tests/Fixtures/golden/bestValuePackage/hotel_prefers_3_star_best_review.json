@@ -1,0 +1,64 @@
+{
+  "args": [
+    {
+      "hotels": {
+        "results": [
+          {
+            "name": "Low",
+            "price_per_night_usd": 100,
+            "review_score": 7,
+            "star_rating": 3
+          },
+          {
+            "name": "Best",
+            "price_per_night_usd": 100,
+            "review_score": 9,
+            "star_rating": 3
+          },
+          {
+            "name": "Four",
+            "price_per_night_usd": 100,
+            "review_score": 10,
+            "star_rating": 4
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "name": "Best",
+          "price_per_night_usd": 100,
+          "review_score": 9,
+          "star_rating": 3
+        },
+        "reason": "Mid-range (3★), best-reviewed in its class",
+        "type": "hotel"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": null,
+      "flights": [],
+      "hotel": {
+        "name": "Best",
+        "price_per_night_usd": 100,
+        "review_score": 9,
+        "star_rating": 3
+      },
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 900
+  }
+}

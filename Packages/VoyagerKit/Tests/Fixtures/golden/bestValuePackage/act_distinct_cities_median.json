@@ -1,0 +1,197 @@
+{
+  "args": [
+    {
+      "activities": {
+        "results": [
+          {
+            "city": "C0",
+            "name": "P39",
+            "price_usd": 39,
+            "similarity_score": 0.4
+          },
+          {
+            "city": "C1",
+            "name": "P45",
+            "price_usd": 45,
+            "similarity_score": 0.4
+          },
+          {
+            "city": "C2",
+            "name": "P48",
+            "price_usd": 48,
+            "similarity_score": 0.4
+          },
+          {
+            "city": "C3",
+            "name": "P52",
+            "price_usd": 52,
+            "similarity_score": 0.4
+          },
+          {
+            "city": "C4",
+            "name": "P55",
+            "price_usd": 55,
+            "similarity_score": 0.4
+          },
+          {
+            "city": "C5",
+            "name": "P58",
+            "price_usd": 58,
+            "similarity_score": 0.4
+          },
+          {
+            "city": "C6",
+            "name": "P59",
+            "price_usd": 59,
+            "similarity_score": 0.4
+          }
+        ]
+      },
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "outbound": {
+              "airline": "TestAir",
+              "duration_minutes": 600,
+              "flight_number": "TA1",
+              "stops": 0
+            },
+            "price_usd": 500,
+            "return": {
+              "duration_minutes": 600,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      },
+      {
+        "city": "C0",
+        "item": {
+          "city": "C0",
+          "name": "P39",
+          "price_usd": 39,
+          "similarity_score": 0.4
+        },
+        "reason": "$39 · at or below the typical price here",
+        "type": "activities"
+      },
+      {
+        "city": "C1",
+        "item": {
+          "city": "C1",
+          "name": "P45",
+          "price_usd": 45,
+          "similarity_score": 0.4
+        },
+        "reason": "$45 · at or below the typical price here",
+        "type": "activities"
+      },
+      {
+        "city": "C2",
+        "item": {
+          "city": "C2",
+          "name": "P48",
+          "price_usd": 48,
+          "similarity_score": 0.4
+        },
+        "reason": "$48 · at or below the typical price here",
+        "type": "activities"
+      },
+      {
+        "city": "C3",
+        "item": {
+          "city": "C3",
+          "name": "P52",
+          "price_usd": 52,
+          "similarity_score": 0.4
+        },
+        "reason": "$52 · at or below the typical price here",
+        "type": "activities"
+      }
+    ],
+    "selections": {
+      "activities": [
+        {
+          "city": "C0",
+          "name": "P39",
+          "price_usd": 39,
+          "similarity_score": 0.4
+        },
+        {
+          "city": "C1",
+          "name": "P45",
+          "price_usd": 45,
+          "similarity_score": 0.4
+        },
+        {
+          "city": "C2",
+          "name": "P48",
+          "price_usd": 48,
+          "similarity_score": 0.4
+        },
+        {
+          "city": "C3",
+          "name": "P52",
+          "price_usd": 52,
+          "similarity_score": 0.4
+        }
+      ],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": 500,
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 684
+  }
+}

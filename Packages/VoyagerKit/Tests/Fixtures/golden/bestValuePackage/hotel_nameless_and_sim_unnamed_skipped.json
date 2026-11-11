@@ -1,0 +1,82 @@
+{
+  "args": [
+    {
+      "hotels": {
+        "results": [
+          {
+            "price_per_night_usd": 100,
+            "review_score": 10,
+            "star_rating": 3
+          },
+          {
+            "name": "Named",
+            "price_per_night_usd": 100,
+            "review_score": 8,
+            "star_rating": 3
+          }
+        ]
+      },
+      "sim": {
+        "plans": [
+          {
+            "price_usd": 5
+          },
+          {
+            "plan_name": "Q",
+            "price_usd": 9,
+            "provider": "P"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "name": "Named",
+          "price_per_night_usd": 100,
+          "review_score": 8,
+          "star_rating": 3
+        },
+        "reason": "Mid-range (3★), best-reviewed in its class",
+        "type": "hotel"
+      },
+      {
+        "item": {
+          "plan_name": "Q",
+          "price_usd": 9,
+          "provider": "P"
+        },
+        "reason": "Covers your 10-day trip",
+        "type": "sim"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": null,
+      "flights": [],
+      "hotel": {
+        "name": "Named",
+        "price_per_night_usd": 100,
+        "review_score": 8,
+        "star_rating": 3
+      },
+      "places_to_see": [],
+      "sim": {
+        "plan_name": "Q",
+        "price_usd": 9,
+        "provider": "P"
+      },
+      "walking_tours": []
+    },
+    "total": 909
+  }
+}

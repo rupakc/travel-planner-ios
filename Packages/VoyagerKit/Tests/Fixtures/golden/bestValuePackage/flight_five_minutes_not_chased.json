@@ -1,0 +1,98 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "D",
+            "outbound": {
+              "airline": "X",
+              "duration_minutes": 155,
+              "flight_number": "D",
+              "stops": 0
+            },
+            "price_usd": 183,
+            "return": {
+              "duration_minutes": 160,
+              "stops": 0
+            },
+            "source": "live"
+          },
+          {
+            "airline": "TestAir",
+            "flight_number": "C",
+            "outbound": {
+              "airline": "X",
+              "duration_minutes": 155,
+              "flight_number": "C",
+              "stops": 0
+            },
+            "price_usd": 169,
+            "return": {
+              "duration_minutes": 165,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "C",
+          "outbound": {
+            "airline": "X",
+            "duration_minutes": 155,
+            "flight_number": "C",
+            "stops": 0
+          },
+          "price_usd": 169,
+          "return": {
+            "duration_minutes": 165,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "C",
+        "outbound": {
+          "airline": "X",
+          "duration_minutes": 155,
+          "flight_number": "C",
+          "stops": 0
+        },
+        "price_usd": 169,
+        "return": {
+          "duration_minutes": 165,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 169
+  }
+}

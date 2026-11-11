@@ -1,0 +1,144 @@
+{
+  "args": [
+    {
+      "flights": {
+        "legs": [
+          {
+            "leg_index": 0,
+            "results": [
+              {
+                "airline": "TestAir",
+                "flight_number": "TA1",
+                "leg_index": 0,
+                "outbound": {
+                  "airline": "TestAir",
+                  "duration_minutes": 600,
+                  "flight_number": "TA1",
+                  "stops": 0
+                },
+                "price_usd": 500,
+                "return": {
+                  "duration_minutes": 600,
+                  "stops": 0
+                },
+                "source": "live"
+              }
+            ],
+            "to": "Lisbon"
+          }
+        ]
+      },
+      "hotels": {
+        "results": [
+          {
+            "city": "Lisbon",
+            "name": "BigLis",
+            "price_per_night_usd": 300,
+            "review_score": 8,
+            "star_rating": 3
+          },
+          {
+            "city": "Porto",
+            "name": "CheapOpo",
+            "price_per_night_usd": 10,
+            "review_score": 9,
+            "star_rating": 3
+          },
+          {
+            "city": "Lisbon",
+            "name": "CheapLis",
+            "price_per_night_usd": 40,
+            "review_score": 8,
+            "star_rating": 2
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": 1000,
+      "departure_date": "2026-04-01",
+      "destinations": [
+        "LIS",
+        "OPO"
+      ],
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": {
+      "amount": 140,
+      "label": "$140 under budget",
+      "status": "under"
+    },
+    "items": [
+      {
+        "city": "Lisbon",
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "leg_index": 0,
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flights"
+      },
+      {
+        "item": {
+          "city": "Lisbon",
+          "name": "CheapLis",
+          "price_per_night_usd": 40,
+          "review_score": 8,
+          "star_rating": 2
+        },
+        "reason": "Cheaper stay to fit your budget",
+        "type": "hotel"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": null,
+      "flights": [
+        {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "leg_index": 0,
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        }
+      ],
+      "hotel": {
+        "city": "Lisbon",
+        "name": "CheapLis",
+        "price_per_night_usd": 40,
+        "review_score": 8,
+        "star_rating": 2
+      },
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 860
+  }
+}

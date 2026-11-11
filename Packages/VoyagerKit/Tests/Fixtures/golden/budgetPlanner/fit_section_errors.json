@@ -1,0 +1,46 @@
+{
+  "args": [
+    {
+      "activities": {
+        "error": "z"
+      },
+      "flights": {
+        "error": "x"
+      },
+      "hotels": {
+        "error": "y"
+      }
+    },
+    {
+      "activities": 100,
+      "flights": 100,
+      "other": 0,
+      "stay": 100
+    },
+    {
+      "budget_usd": 3000,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-08"
+    }
+  ],
+  "fn": "fitResults",
+  "output": {
+    "activities": {
+      "picked": [],
+      "spent": 0
+    },
+    "flights": {
+      "count": 0,
+      "fits": [],
+      "over": [],
+      "total": 0
+    },
+    "hotels": {
+      "count": 0,
+      "fits": [],
+      "over": [],
+      "total": 0
+    },
+    "nights": 7
+  }
+}

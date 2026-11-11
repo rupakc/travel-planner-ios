@@ -1,0 +1,62 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "F",
+            "duration_minutes": 800,
+            "flight_number": "1",
+            "price_usd": 300,
+            "stops": 2
+          },
+          {
+            "airline": "G",
+            "duration_minutes": 700,
+            "flight_number": "2",
+            "price_usd": 320,
+            "stops": 0
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "airline": "G",
+          "duration_minutes": 700,
+          "flight_number": "2",
+          "price_usd": 320,
+          "stops": 0
+        },
+        "reason": "Fewer stops for $20 more than the cheapest fare",
+        "type": "flight"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": {
+        "airline": "G",
+        "duration_minutes": 700,
+        "flight_number": "2",
+        "price_usd": 320,
+        "stops": 0
+      },
+      "flights": [],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 320
+  }
+}

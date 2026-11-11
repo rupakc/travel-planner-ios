@@ -1,0 +1,25 @@
+{
+  "args": [
+    {
+      "flights": [
+        {
+          "leg_index": 0,
+          "outbound": {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 100
+        },
+        {
+          "leg_index": 1
+        }
+      ],
+      "hotel": {
+        "total_price_usd": 500
+      }
+    }
+  ],
+  "fn": "computePlanCost",
+  "output": 600
+}

@@ -1,0 +1,194 @@
+{
+  "args": [
+    {
+      "activities": {
+        "results": [
+          {
+            "name": "Free",
+            "price_usd": 0,
+            "similarity_score": 0.1
+          },
+          {
+            "name": "Top",
+            "price_usd": 200,
+            "similarity_score": 0.9
+          },
+          {
+            "name": "Cheap",
+            "price_usd": 50,
+            "similarity_score": 0.5
+          },
+          {
+            "name": "Mid",
+            "price_usd": 150,
+            "similarity_score": 0.5
+          },
+          {
+            "name": "NoScore",
+            "price_usd": 10,
+            "similarity_score": null
+          },
+          {
+            "name": "Neg",
+            "price_usd": -5,
+            "similarity_score": 0.9
+          },
+          {
+            "name": "Junk",
+            "price_usd": "varies",
+            "similarity_score": 0.9
+          },
+          {
+            "name": "Free2",
+            "price_usd": 0,
+            "similarity_score": null
+          },
+          {
+            "name": "Top2",
+            "price_usd": 100,
+            "similarity_score": 0.9
+          }
+        ]
+      },
+      "flights": {
+        "results": [
+          {
+            "airline": "Air",
+            "flight_number": "A",
+            "outbound": {
+              "airline": "Air",
+              "duration_minutes": 600,
+              "flight_number": "A",
+              "stops": 0
+            },
+            "price_usd": 400,
+            "source": "live"
+          },
+          {
+            "airline": "Air",
+            "flight_number": "B",
+            "outbound": {
+              "airline": "Air",
+              "duration_minutes": 600,
+              "flight_number": "B",
+              "stops": 0
+            },
+            "price_usd": 800,
+            "source": "live"
+          },
+          {
+            "airline": "Air",
+            "flight_number": "C",
+            "outbound": {
+              "airline": "Air",
+              "duration_minutes": 600,
+              "flight_number": "C",
+              "stops": 0
+            },
+            "price_usd": "varies",
+            "source": "live"
+          },
+          {
+            "airline": "Air",
+            "flight_number": "D",
+            "outbound": {
+              "airline": "Air",
+              "duration_minutes": 600,
+              "flight_number": "D",
+              "stops": 0
+            },
+            "price_usd": 0,
+            "source": "live"
+          },
+          {
+            "airline": "Air",
+            "flight_number": "A",
+            "outbound": {
+              "airline": "Air",
+              "duration_minutes": 600,
+              "flight_number": "A",
+              "stops": 0
+            },
+            "price_usd": 400,
+            "source": "live"
+          }
+        ]
+      },
+      "hotels": {
+        "results": [
+          {
+            "name": "H1",
+            "price_per_night_usd": 100,
+            "review_score": 8,
+            "star_rating": 3
+          },
+          {
+            "name": "H2",
+            "price_per_night_usd": 150,
+            "review_score": 8,
+            "star_rating": 3
+          },
+          {
+            "name": "H1",
+            "price_per_night_usd": 400,
+            "review_score": 8,
+            "star_rating": 3
+          },
+          {
+            "name": "Nameless",
+            "price_per_night_usd": null,
+            "review_score": 8,
+            "star_rating": 3
+          },
+          {
+            "name": "H3",
+            "price_per_night_usd": 200,
+            "review_score": 8,
+            "star_rating": 3
+          }
+        ]
+      }
+    },
+    {
+      "activities": 5,
+      "flights": 100,
+      "other": 2795,
+      "stay": 100
+    },
+    {
+      "budget_usd": 3000,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-08"
+    }
+  ],
+  "fn": "fitResults",
+  "output": {
+    "activities": {
+      "picked": [
+        "Free",
+        "Free2"
+      ],
+      "spent": 0
+    },
+    "flights": {
+      "count": 0,
+      "fits": [],
+      "over": [
+        "|400|Air|A",
+        "|800|Air|B"
+      ],
+      "total": 2
+    },
+    "hotels": {
+      "count": 0,
+      "fits": [],
+      "over": [
+        "H1",
+        "H2",
+        "H3"
+      ],
+      "total": 3
+    },
+    "nights": 7
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "price_usd": "x"
+          },
+          {
+            "price_usd": -1
+          }
+        ]
+      },
+      "hotels": {
+        "results": []
+      },
+      "itinerary": {
+        "total_estimated_cost_usd": 0
+      }
+    }
+  ],
+  "fn": "snapshotMetrics",
+  "output": {
+    "itinerary_total_usd": null,
+    "min_flight_usd": null,
+    "min_hotel_nightly_usd": null,
+    "poor_weather_days": null
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "args": [
+    {
+      "budget_usd": 3000,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-08"
+    },
+    null
+  ],
+  "fn": "defaultAllocation",
+  "output": {
+    "activities": 450,
+    "flights": 0,
+    "other": 2550,
+    "stay": 0
+  }
+}

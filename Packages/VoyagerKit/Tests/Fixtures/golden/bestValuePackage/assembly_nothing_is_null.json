@@ -1,0 +1,12 @@
+{
+  "args": [
+    {},
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": null
+}

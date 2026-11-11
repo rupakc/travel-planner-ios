@@ -1,0 +1,12 @@
+{
+  "args": [
+    1000,
+    2501234
+  ],
+  "fn": "getBudgetStatus",
+  "output": {
+    "amount": 2500234,
+    "label": "$2,500,234 under budget",
+    "status": "under"
+  }
+}

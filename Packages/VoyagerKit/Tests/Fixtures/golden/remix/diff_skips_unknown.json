@@ -1,0 +1,26 @@
+{
+  "args": [
+    {
+      "min_flight_usd": 750,
+      "min_hotel_nightly_usd": null
+    },
+    {
+      "min_flight_usd": 800,
+      "min_hotel_nightly_usd": 90,
+      "poor_weather_days": 1
+    }
+  ],
+  "fn": "diffMetrics",
+  "output": [
+    {
+      "after": 800,
+      "before": 750,
+      "delta": 50,
+      "direction": "up",
+      "improved": false,
+      "key": "min_flight_usd",
+      "kind": "usd",
+      "label": "Cheapest flight"
+    }
+  ]
+}

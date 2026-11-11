@@ -1,0 +1,20 @@
+{
+  "args": [
+    {
+      "activities": 450,
+      "flights": 650,
+      "other": 850,
+      "stay": 1050
+    },
+    "flights",
+    2000,
+    2500
+  ],
+  "fn": "reallocate",
+  "output": {
+    "activities": 450,
+    "flights": 1000,
+    "other": 0,
+    "stay": 1050
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "price_usd": 600
+          }
+        ]
+      },
+      "hotels": {
+        "results": [
+          {
+            "price_per_night_usd": 120.5
+          }
+        ]
+      },
+      "itinerary": {
+        "total_estimated_cost_usd": 2500
+      },
+      "weather": {
+        "days": []
+      }
+    }
+  ],
+  "fn": "snapshotMetrics",
+  "output": {
+    "itinerary_total_usd": 2500,
+    "min_flight_usd": 600,
+    "min_hotel_nightly_usd": 120.5,
+    "poor_weather_days": 0
+  }
+}

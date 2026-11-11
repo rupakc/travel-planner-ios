@@ -1,0 +1,19 @@
+{
+  "args": [
+    {
+      "itinerary": {
+        "total_estimated_cost_usd": "1800.5"
+      },
+      "weather": {
+        "days": "nope"
+      }
+    }
+  ],
+  "fn": "snapshotMetrics",
+  "output": {
+    "itinerary_total_usd": 1800.5,
+    "min_flight_usd": null,
+    "min_hotel_nightly_usd": null,
+    "poor_weather_days": null
+  }
+}

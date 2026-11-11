@@ -1,0 +1,72 @@
+{
+  "args": [
+    {
+      "flights": {
+        "legs": [
+          {
+            "leg_index": 0,
+            "results": "oops"
+          },
+          {
+            "leg_index": 1,
+            "results": [
+              {
+                "leg_index": 1,
+                "outbound": {
+                  "airline": "C",
+                  "flight_number": "3",
+                  "stops": 0
+                },
+                "price_usd": 80
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "leg_index": 1,
+          "outbound": {
+            "airline": "C",
+            "flight_number": "3",
+            "stops": 0
+          },
+          "price_usd": 80
+        },
+        "reason": "Cheapest fare",
+        "type": "flights"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": null,
+      "flights": [
+        {
+          "leg_index": 1,
+          "outbound": {
+            "airline": "C",
+            "flight_number": "3",
+            "stops": 0
+          },
+          "price_usd": 80
+        }
+      ],
+      "hotel": null,
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 80
+  }
+}

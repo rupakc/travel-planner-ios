@@ -1,0 +1,117 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "outbound": {
+              "airline": "TestAir",
+              "duration_minutes": 600,
+              "flight_number": "TA1",
+              "stops": 0
+            },
+            "price_usd": "500",
+            "return": {
+              "duration_minutes": 600,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      },
+      "hotels": {
+        "results": [
+          {
+            "name": "Hotel A",
+            "price_per_night_usd": "varies",
+            "review_score": 8,
+            "star_rating": 3
+          },
+          {
+            "name": "H2",
+            "price_per_night_usd": 100,
+            "review_score": 8,
+            "star_rating": 3
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": 5000,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": {
+      "amount": 3600,
+      "label": "$3,600 under budget",
+      "status": "under"
+    },
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": "500",
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      },
+      {
+        "item": {
+          "name": "H2",
+          "price_per_night_usd": 100,
+          "review_score": 8,
+          "star_rating": 3
+        },
+        "reason": "Mid-range (3★), best-reviewed in its class",
+        "type": "hotel"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": "500",
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": {
+        "name": "H2",
+        "price_per_night_usd": 100,
+        "review_score": 8,
+        "star_rating": 3
+      },
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 1400
+  }
+}

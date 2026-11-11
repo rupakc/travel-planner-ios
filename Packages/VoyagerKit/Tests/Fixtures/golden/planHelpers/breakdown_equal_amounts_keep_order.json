@@ -1,0 +1,43 @@
+{
+  "args": [
+    {
+      "activities": [
+        {
+          "price_usd": 100
+        }
+      ],
+      "flight": {
+        "price_usd": 100
+      },
+      "hotel": {
+        "total_price_usd": 100
+      },
+      "sim": {
+        "price_usd": 100
+      }
+    }
+  ],
+  "fn": "computePlanCostBreakdown",
+  "output": [
+    {
+      "amount": 100,
+      "key": "flights",
+      "label": "Flights"
+    },
+    {
+      "amount": 100,
+      "key": "hotel",
+      "label": "Hotel"
+    },
+    {
+      "amount": 100,
+      "key": "activities",
+      "label": "Activities"
+    },
+    {
+      "amount": 100,
+      "key": "sim",
+      "label": "SIM / eSIM"
+    }
+  ]
+}

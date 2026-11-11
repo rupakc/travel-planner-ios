@@ -1,0 +1,22 @@
+{
+  "args": [
+    {
+      "activities": [
+        {
+          "price_usd": 0.7
+        }
+      ],
+      "flight": {
+        "price_usd": 0.1
+      },
+      "hotel": {
+        "total_price_usd": 0.2
+      },
+      "sim": {
+        "price_usd": 0.3
+      }
+    }
+  ],
+  "fn": "computePlanCost",
+  "output": 1.3
+}

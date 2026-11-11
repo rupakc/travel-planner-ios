@@ -1,0 +1,54 @@
+{
+  "args": [
+    {
+      "activities": {
+        "results": [
+          {
+            "name": "a",
+            "price_usd": 10.005,
+            "similarity_score": 0.9
+          },
+          {
+            "name": "b",
+            "price_usd": 20.004,
+            "similarity_score": 0.8
+          }
+        ]
+      }
+    },
+    {
+      "activities": 100,
+      "flights": 0,
+      "other": 0,
+      "stay": 0
+    },
+    {
+      "budget_usd": 3000,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-08"
+    }
+  ],
+  "fn": "fitResults",
+  "output": {
+    "activities": {
+      "picked": [
+        "a",
+        "b"
+      ],
+      "spent": 30.01
+    },
+    "flights": {
+      "count": 0,
+      "fits": [],
+      "over": [],
+      "total": 0
+    },
+    "hotels": {
+      "count": 0,
+      "fits": [],
+      "over": [],
+      "total": 0
+    },
+    "nights": 7
+  }
+}

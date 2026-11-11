@@ -1,0 +1,44 @@
+{
+  "args": [
+    {
+      "budget_usd": 1000,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-08"
+    },
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "Air",
+            "flight_number": "A",
+            "outbound": {
+              "airline": "Air",
+              "duration_minutes": 600,
+              "flight_number": "A",
+              "stops": 0
+            },
+            "price_usd": 0.30000000000000004,
+            "source": "live"
+          }
+        ]
+      },
+      "hotels": {
+        "results": [
+          {
+            "name": "A",
+            "price_per_night_usd": 14.285714285714286,
+            "review_score": 8,
+            "star_rating": 3
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "defaultAllocation",
+  "output": {
+    "activities": 150,
+    "flights": 10,
+    "other": 740,
+    "stay": 100
+  }
+}

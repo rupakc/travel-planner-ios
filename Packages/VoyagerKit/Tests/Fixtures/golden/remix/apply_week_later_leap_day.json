@@ -1,0 +1,24 @@
+{
+  "args": [
+    {
+      "budget_usd": 3000,
+      "departure_date": "2028-02-25",
+      "destination": "Tokyo",
+      "nationality": "American",
+      "origin": "NYC",
+      "pace": "balanced",
+      "return_date": "2028-03-01"
+    },
+    "week_later"
+  ],
+  "fn": "applyRemix",
+  "output": {
+    "budget_usd": 3000,
+    "departure_date": "2028-03-03",
+    "destination": "Tokyo",
+    "nationality": "American",
+    "origin": "NYC",
+    "pace": "balanced",
+    "return_date": "2028-03-08"
+  }
+}

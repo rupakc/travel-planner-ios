@@ -1,0 +1,19 @@
+{
+  "args": [
+    {
+      "airline": "X",
+      "flight_number": "1",
+      "price_usd": 50
+    },
+    {
+      "leg_index": null,
+      "outbound": {
+        "airline": "X",
+        "flight_number": "1"
+      },
+      "price_usd": 50
+    }
+  ],
+  "fn": "sameFlight",
+  "output": true
+}

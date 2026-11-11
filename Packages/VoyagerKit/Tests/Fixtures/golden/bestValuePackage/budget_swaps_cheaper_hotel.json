@@ -1,0 +1,123 @@
+{
+  "args": [
+    {
+      "flights": {
+        "results": [
+          {
+            "airline": "TestAir",
+            "flight_number": "TA1",
+            "outbound": {
+              "airline": "TestAir",
+              "duration_minutes": 600,
+              "flight_number": "TA1",
+              "stops": 0
+            },
+            "price_usd": 500,
+            "return": {
+              "duration_minutes": 600,
+              "stops": 0
+            },
+            "source": "live"
+          }
+        ]
+      },
+      "hotels": {
+        "results": [
+          {
+            "name": "Pricey",
+            "price_per_night_usd": 300,
+            "review_score": 9,
+            "star_rating": 3
+          },
+          {
+            "name": "Cheap",
+            "price_per_night_usd": 50,
+            "review_score": 7.5,
+            "star_rating": 2
+          },
+          {
+            "name": "Awful",
+            "price_per_night_usd": 20,
+            "review_score": 5,
+            "star_rating": 1
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": 1500,
+      "departure_date": "2026-04-01",
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": {
+      "amount": 550,
+      "label": "$550 under budget",
+      "status": "under"
+    },
+    "items": [
+      {
+        "item": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "reason": "Cheapest fare",
+        "type": "flight"
+      },
+      {
+        "item": {
+          "name": "Cheap",
+          "price_per_night_usd": 50,
+          "review_score": 7.5,
+          "star_rating": 2
+        },
+        "reason": "Cheaper stay to fit your budget",
+        "type": "hotel"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": 500,
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "hotel": {
+        "name": "Cheap",
+        "price_per_night_usd": 50,
+        "review_score": 7.5,
+        "star_rating": 2
+      },
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 950
+  }
+}

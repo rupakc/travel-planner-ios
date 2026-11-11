@@ -1,0 +1,36 @@
+{
+  "args": [
+    {
+      "activities": [
+        {
+          "price_usd": null
+        },
+        {
+          "price_usd": [
+            3
+          ]
+        },
+        {
+          "price_usd": true
+        }
+      ],
+      "flight": {
+        "price_usd": "varies"
+      },
+      "hotel": {
+        "price_per_night_usd": -5
+      },
+      "sim": {
+        "price_usd": 0
+      }
+    }
+  ],
+  "fn": "computePlanCostBreakdown",
+  "output": [
+    {
+      "amount": 4,
+      "key": "activities",
+      "label": "Activities"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "args": [
+    {
+      "itinerary_total_usd": 2400,
+      "min_flight_usd": 750,
+      "min_hotel_nightly_usd": 120.5,
+      "poor_weather_days": 2
+    },
+    {
+      "itinerary_total_usd": 2500,
+      "min_flight_usd": 600,
+      "min_hotel_nightly_usd": 120.5,
+      "poor_weather_days": 0
+    }
+  ],
+  "fn": "diffMetrics",
+  "output": [
+    {
+      "after": 600,
+      "before": 750,
+      "delta": -150,
+      "direction": "down",
+      "improved": true,
+      "key": "min_flight_usd",
+      "kind": "usd",
+      "label": "Cheapest flight"
+    },
+    {
+      "after": 120.5,
+      "before": 120.5,
+      "delta": 0,
+      "direction": "same",
+      "improved": null,
+      "key": "min_hotel_nightly_usd",
+      "kind": "usd",
+      "label": "Hotel / night"
+    },
+    {
+      "after": 2500,
+      "before": 2400,
+      "delta": 100,
+      "direction": "up",
+      "improved": false,
+      "key": "itinerary_total_usd",
+      "kind": "usd",
+      "label": "Itinerary cost"
+    },
+    {
+      "after": 0,
+      "before": 2,
+      "delta": -2,
+      "direction": "down",
+      "improved": true,
+      "key": "poor_weather_days",
+      "kind": "count",
+      "label": "Poor-weather days"
+    }
+  ]
+}

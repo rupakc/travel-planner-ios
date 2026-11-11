@@ -1,0 +1,66 @@
+{
+  "args": [
+    {
+      "hotels": {
+        "results": [
+          {
+            "city": "Rome",
+            "name": "Rome",
+            "price_per_night_usd": 100,
+            "review_score": 10,
+            "star_rating": 3
+          },
+          {
+            "city": "Paris",
+            "name": "Paris",
+            "price_per_night_usd": 100,
+            "review_score": 7,
+            "star_rating": 3
+          }
+        ]
+      }
+    },
+    {
+      "budget_usd": null,
+      "departure_date": "2026-04-01",
+      "destinations": [
+        "Paris",
+        "Rome"
+      ],
+      "return_date": "2026-04-10"
+    }
+  ],
+  "fn": "buildBestValuePackage",
+  "output": {
+    "budget": null,
+    "items": [
+      {
+        "item": {
+          "city": "Paris",
+          "name": "Paris",
+          "price_per_night_usd": 100,
+          "review_score": 7,
+          "star_rating": 3
+        },
+        "reason": "Mid-range (3★), best-reviewed in its class · Paris",
+        "type": "hotel"
+      }
+    ],
+    "selections": {
+      "activities": [],
+      "flight": null,
+      "flights": [],
+      "hotel": {
+        "city": "Paris",
+        "name": "Paris",
+        "price_per_night_usd": 100,
+        "review_score": 7,
+        "star_rating": 3
+      },
+      "places_to_see": [],
+      "sim": null,
+      "walking_tours": []
+    },
+    "total": 900
+  }
+}

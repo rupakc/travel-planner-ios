@@ -1,0 +1,55 @@
+{
+  "args": [
+    null,
+    {
+      "selections": {
+        "activities": [
+          {
+            "city": "Paris",
+            "name": "N",
+            "price_usd": 10,
+            "similarity_score": 0.4
+          }
+        ],
+        "flight": null,
+        "flights": [
+          {
+            "leg_index": 0,
+            "outbound": {
+              "airline": "C",
+              "flight_number": "3",
+              "stops": 0
+            },
+            "price_usd": 80
+          }
+        ],
+        "hotel": null,
+        "places_to_see": [],
+        "sim": null,
+        "walking_tours": []
+      }
+    }
+  ],
+  "fn": "applyPackage",
+  "output": {
+    "activities": [
+      {
+        "city": "Paris",
+        "name": "N",
+        "price_usd": 10,
+        "similarity_score": 0.4
+      }
+    ],
+    "flights": [
+      {
+        "leg_index": 0,
+        "outbound": {
+          "airline": "C",
+          "flight_number": "3",
+          "stops": 0
+        },
+        "price_usd": 80
+      }
+    ]
+  }
+}

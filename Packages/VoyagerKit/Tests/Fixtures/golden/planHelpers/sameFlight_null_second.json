@@ -1,0 +1,12 @@
+{
+  "args": [
+    {
+      "airline": "X",
+      "flight_number": "1",
+      "price_usd": 50
+    },
+    null
+  ],
+  "fn": "sameFlight",
+  "output": false
+}

@@ -1,0 +1,939 @@
+{
+ "module": "frontend/src/utils/planHelpers.js",
+ "cases": [
+  {
+   "name": "sameFlight_identical_legs",
+   "fn": "sameFlight",
+   "args": [
+    {
+     "leg_index": 0,
+     "price_usd": 100,
+     "outbound": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "stops": 0
+     }
+    },
+    {
+     "leg_index": 0,
+     "price_usd": 100,
+     "outbound": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "stops": 0
+     }
+    }
+   ]
+  },
+  {
+   "name": "sameFlight_leg_differs",
+   "fn": "sameFlight",
+   "args": [
+    {
+     "leg_index": 0,
+     "price_usd": 100,
+     "outbound": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "stops": 0
+     }
+    },
+    {
+     "leg_index": 1,
+     "price_usd": 100,
+     "outbound": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "stops": 0
+     }
+    }
+   ]
+  },
+  {
+   "name": "sameFlight_price_differs",
+   "fn": "sameFlight",
+   "args": [
+    {
+     "leg_index": 0,
+     "price_usd": 100,
+     "outbound": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "stops": 0
+     }
+    },
+    {
+     "leg_index": 0,
+     "price_usd": 200,
+     "outbound": {
+      "airline": "TestAir",
+      "flight_number": "TA1",
+      "stops": 0
+     }
+    }
+   ]
+  },
+  {
+   "name": "sameFlight_airline_differs",
+   "fn": "sameFlight",
+   "args": [
+    {
+     "leg_index": 0,
+     "price_usd": 100,
+     "outbound": {
+      "airline": "A",
+      "flight_number": "TA1",
+      "stops": 0
+     }
+    },
+    {
+     "leg_index": 0,
+     "price_usd": 100,
+     "outbound": {
+      "airline": "B",
+      "flight_number": "TA1",
+      "stops": 0
+     }
+    }
+   ]
+  },
+  {
+   "name": "sameFlight_flat_legacy",
+   "fn": "sameFlight",
+   "args": [
+    {
+     "airline": "X",
+     "flight_number": "1",
+     "price_usd": 50
+    },
+    {
+     "airline": "X",
+     "flight_number": "1",
+     "price_usd": 50
+    }
+   ]
+  },
+  {
+   "name": "sameFlight_null_first",
+   "fn": "sameFlight",
+   "args": [
+    null,
+    {
+     "airline": "X",
+     "flight_number": "1",
+     "price_usd": 50
+    }
+   ]
+  },
+  {
+   "name": "sameFlight_null_second",
+   "fn": "sameFlight",
+   "args": [
+    {
+     "airline": "X",
+     "flight_number": "1",
+     "price_usd": 50
+    },
+    null
+   ]
+  },
+  {
+   "name": "sameFlight_flat_vs_outbound",
+   "fn": "sameFlight",
+   "args": [
+    {
+     "airline": "X",
+     "flight_number": "1",
+     "price_usd": 50
+    },
+    {
+     "leg_index": null,
+     "price_usd": 50,
+     "outbound": {
+      "airline": "X",
+      "flight_number": "1"
+     }
+    }
+   ]
+  },
+  {
+   "name": "sameFlight_string_vs_number_price",
+   "fn": "sameFlight",
+   "args": [
+    {
+     "price_usd": "50",
+     "airline": "X",
+     "flight_number": "1"
+    },
+    {
+     "airline": "X",
+     "flight_number": "1",
+     "price_usd": 50
+    }
+   ]
+  },
+  {
+   "name": "countSelections_empty",
+   "fn": "countSelections",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    }
+   ]
+  },
+  {
+   "name": "countSelections_two_legs",
+   "fn": "countSelections",
+   "args": [
+    {
+     "flight": null,
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 100,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      },
+      {
+       "leg_index": 1,
+       "price_usd": 90,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    }
+   ]
+  },
+  {
+   "name": "countSelections_full",
+   "fn": "countSelections",
+   "args": [
+    {
+     "flight": {
+      "price_usd": 900
+     },
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 100,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": {
+      "price_per_night_usd": 120
+     },
+     "activities": [
+      {
+       "name": "a",
+       "price_usd": 40
+      },
+      {
+       "name": "b",
+       "price_usd": "15"
+      },
+      {
+       "name": "c",
+       "price_usd": "varies"
+      }
+     ],
+     "places_to_see": [
+      {
+       "name": "p"
+      }
+     ],
+     "walking_tours": [],
+     "sim": {
+      "price_usd": 20
+     },
+     "tips": [
+      {
+       "title": "t"
+      }
+     ],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    }
+   ]
+  },
+  {
+   "name": "countSelections_every_field",
+   "fn": "countSelections",
+   "args": [
+    {
+     "flight": {
+      "a": 1
+     },
+     "flights": [
+      {}
+     ],
+     "hotel": {
+      "a": 1
+     },
+     "activities": [
+      {},
+      {}
+     ],
+     "places_to_see": [
+      {}
+     ],
+     "walking_tours": [
+      {}
+     ],
+     "sim": {
+      "a": 1
+     },
+     "tips": [
+      {},
+      {}
+     ],
+     "getting_around": [
+      {}
+     ],
+     "events": [
+      {}
+     ],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [
+      {}
+     ],
+     "itinerary_layout": null,
+     "packing_list": {
+      "categories": []
+     }
+    }
+   ]
+  },
+  {
+   "name": "countSelections_null",
+   "fn": "countSelections",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "countSelections_missing_keys",
+   "fn": "countSelections",
+   "args": [
+    {
+     "flight": {
+      "x": 1
+     }
+    }
+   ]
+  },
+  {
+   "name": "cost_legs_sum",
+   "fn": "computePlanCost",
+   "args": [
+    {
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 100,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      },
+      {
+       "leg_index": 1,
+       "price_usd": 90,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      },
+      {
+       "leg_index": 2,
+       "price_usd": 110,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "cost_leg_without_price_and_hotel",
+   "fn": "computePlanCost",
+   "args": [
+    {
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 100,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      },
+      {
+       "leg_index": 1
+      }
+     ],
+     "hotel": {
+      "total_price_usd": 500
+     }
+    }
+   ]
+  },
+  {
+   "name": "cost_full_no_dates",
+   "fn": "computePlanCost",
+   "args": [
+    {
+     "flight": {
+      "price_usd": 900
+     },
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 100,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": {
+      "price_per_night_usd": 120
+     },
+     "activities": [
+      {
+       "name": "a",
+       "price_usd": 40
+      },
+      {
+       "name": "b",
+       "price_usd": "15"
+      },
+      {
+       "name": "c",
+       "price_usd": "varies"
+      }
+     ],
+     "places_to_see": [
+      {
+       "name": "p"
+      }
+     ],
+     "walking_tours": [],
+     "sim": {
+      "price_usd": 20
+     },
+     "tips": [
+      {
+       "title": "t"
+      }
+     ],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    }
+   ]
+  },
+  {
+   "name": "cost_full_with_dates",
+   "fn": "computePlanCost",
+   "args": [
+    {
+     "flight": {
+      "price_usd": 900
+     },
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 100,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": {
+      "price_per_night_usd": 120
+     },
+     "activities": [
+      {
+       "name": "a",
+       "price_usd": 40
+      },
+      {
+       "name": "b",
+       "price_usd": "15"
+      },
+      {
+       "name": "c",
+       "price_usd": "varies"
+      }
+     ],
+     "places_to_see": [
+      {
+       "name": "p"
+      }
+     ],
+     "walking_tours": [],
+     "sim": {
+      "price_usd": 20
+     },
+     "tips": [
+      {
+       "title": "t"
+      }
+     ],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-08"
+    }
+   ]
+  },
+  {
+   "name": "cost_empty",
+   "fn": "computePlanCost",
+   "args": [
+    {
+     "flight": null,
+     "flights": [],
+     "hotel": null,
+     "activities": [],
+     "places_to_see": [],
+     "walking_tours": [],
+     "sim": null,
+     "tips": [],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    }
+   ]
+  },
+  {
+   "name": "cost_null_selections",
+   "fn": "computePlanCost",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "cost_float_sum_order",
+   "fn": "computePlanCost",
+   "args": [
+    {
+     "flight": {
+      "price_usd": 0.1
+     },
+     "hotel": {
+      "total_price_usd": 0.2
+     },
+     "sim": {
+      "price_usd": 0.3
+     },
+     "activities": [
+      {
+       "price_usd": 0.7
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "breakdown_full_no_dates",
+   "fn": "computePlanCostBreakdown",
+   "args": [
+    {
+     "flight": {
+      "price_usd": 900
+     },
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 100,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": {
+      "price_per_night_usd": 120
+     },
+     "activities": [
+      {
+       "name": "a",
+       "price_usd": 40
+      },
+      {
+       "name": "b",
+       "price_usd": "15"
+      },
+      {
+       "name": "c",
+       "price_usd": "varies"
+      }
+     ],
+     "places_to_see": [
+      {
+       "name": "p"
+      }
+     ],
+     "walking_tours": [],
+     "sim": {
+      "price_usd": 20
+     },
+     "tips": [
+      {
+       "title": "t"
+      }
+     ],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    }
+   ]
+  },
+  {
+   "name": "breakdown_full_dates",
+   "fn": "computePlanCostBreakdown",
+   "args": [
+    {
+     "flight": {
+      "price_usd": 900
+     },
+     "flights": [
+      {
+       "leg_index": 0,
+       "price_usd": 100,
+       "outbound": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "stops": 0
+       }
+      }
+     ],
+     "hotel": {
+      "price_per_night_usd": 120
+     },
+     "activities": [
+      {
+       "name": "a",
+       "price_usd": 40
+      },
+      {
+       "name": "b",
+       "price_usd": "15"
+      },
+      {
+       "name": "c",
+       "price_usd": "varies"
+      }
+     ],
+     "places_to_see": [
+      {
+       "name": "p"
+      }
+     ],
+     "walking_tours": [],
+     "sim": {
+      "price_usd": 20
+     },
+     "tips": [
+      {
+       "title": "t"
+      }
+     ],
+     "getting_around": [],
+     "events": [],
+     "itinerary_notes": {},
+     "itinerary_edits": {},
+     "itinerary_slots": [],
+     "itinerary_layout": null,
+     "packing_list": null
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-08"
+    }
+   ]
+  },
+  {
+   "name": "breakdown_hotel_total_wins",
+   "fn": "computePlanCostBreakdown",
+   "args": [
+    {
+     "hotel": {
+      "total_price_usd": "800",
+      "price_per_night_usd": 10
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-08"
+    }
+   ]
+  },
+  {
+   "name": "breakdown_same_day_min_one_night",
+   "fn": "computePlanCostBreakdown",
+   "args": [
+    {
+     "hotel": {
+      "price_per_night_usd": 100
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "2026-04-01"
+    }
+   ]
+  },
+  {
+   "name": "breakdown_return_before_departure",
+   "fn": "computePlanCostBreakdown",
+   "args": [
+    {
+     "hotel": {
+      "price_per_night_usd": 100
+     }
+    },
+    {
+     "departure_date": "2026-04-08",
+     "return_date": "2026-04-01"
+    }
+   ]
+  },
+  {
+   "name": "breakdown_invalid_dates_drop_hotel",
+   "fn": "computePlanCostBreakdown",
+   "args": [
+    {
+     "hotel": {
+      "price_per_night_usd": 100
+     },
+     "sim": {
+      "price_usd": 5
+     }
+    },
+    {
+     "departure_date": "2026-04-01",
+     "return_date": "nope"
+    }
+   ]
+  },
+  {
+   "name": "breakdown_missing_return_uses_7",
+   "fn": "computePlanCostBreakdown",
+   "args": [
+    {
+     "hotel": {
+      "price_per_night_usd": 100
+     }
+    },
+    {
+     "departure_date": "2026-04-01"
+    }
+   ]
+  },
+  {
+   "name": "breakdown_junk_prices_dropped",
+   "fn": "computePlanCostBreakdown",
+   "args": [
+    {
+     "flight": {
+      "price_usd": "varies"
+     },
+     "hotel": {
+      "price_per_night_usd": -5
+     },
+     "sim": {
+      "price_usd": 0
+     },
+     "activities": [
+      {
+       "price_usd": null
+      },
+      {
+       "price_usd": [
+        3
+       ]
+      },
+      {
+       "price_usd": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "breakdown_equal_amounts_keep_order",
+   "fn": "computePlanCostBreakdown",
+   "args": [
+    {
+     "flight": {
+      "price_usd": 100
+     },
+     "hotel": {
+      "total_price_usd": 100
+     },
+     "sim": {
+      "price_usd": 100
+     },
+     "activities": [
+      {
+       "price_usd": 100
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "breakdown_datetime_dates",
+   "fn": "computePlanCostBreakdown",
+   "args": [
+    {
+     "hotel": {
+      "price_per_night_usd": 100
+     }
+    },
+    {
+     "departure_date": "2026-04-01T10:00:00Z",
+     "return_date": "2026-04-04T22:00:00Z"
+    }
+   ]
+  },
+  {
+   "name": "budget_under",
+   "fn": "getBudgetStatus",
+   "args": [
+    2750,
+    3000
+   ]
+  },
+  {
+   "name": "budget_over",
+   "fn": "getBudgetStatus",
+   "args": [
+    3200.4,
+    3000
+   ]
+  },
+  {
+   "name": "budget_exact",
+   "fn": "getBudgetStatus",
+   "args": [
+    3000,
+    3000
+   ]
+  },
+  {
+   "name": "budget_none",
+   "fn": "getBudgetStatus",
+   "args": [
+    100,
+    null
+   ]
+  },
+  {
+   "name": "budget_zero",
+   "fn": "getBudgetStatus",
+   "args": [
+    100,
+    0
+   ]
+  },
+  {
+   "name": "budget_zero_cost",
+   "fn": "getBudgetStatus",
+   "args": [
+    0,
+    3000
+   ]
+  },
+  {
+   "name": "budget_string",
+   "fn": "getBudgetStatus",
+   "args": [
+    1000.5,
+    "3000"
+   ]
+  },
+  {
+   "name": "budget_large_grouping",
+   "fn": "getBudgetStatus",
+   "args": [
+    1000,
+    2501234
+   ]
+  }
+ ]
+}

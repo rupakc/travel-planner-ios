@@ -1,0 +1,23 @@
+{
+  "args": [
+    {
+      "poor_weather_days": 0
+    },
+    {
+      "poor_weather_days": 0
+    }
+  ],
+  "fn": "diffMetrics",
+  "output": [
+    {
+      "after": 0,
+      "before": 0,
+      "delta": 0,
+      "direction": "same",
+      "improved": null,
+      "key": "poor_weather_days",
+      "kind": "count",
+      "label": "Poor-weather days"
+    }
+  ]
+}

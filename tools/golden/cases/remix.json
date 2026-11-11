@@ -1,0 +1,617 @@
+{
+ "module": "frontend/src/utils/remix.js",
+ "cases": [
+  {
+   "name": "apply_week_later",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_half_budget",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "half_budget"
+   ]
+  },
+  {
+   "name": "apply_luxe",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "luxe"
+   ]
+  },
+  {
+   "name": "apply_slower_pace",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "slower_pace"
+   ]
+  },
+  {
+   "name": "apply_long_weekend",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "long_weekend"
+   ]
+  },
+  {
+   "name": "apply_week_later_month_boundary",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-28",
+     "return_date": "2026-08-30",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_week_later_year_boundary",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-12-28",
+     "return_date": "2027-01-03",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_week_later_leap_day",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2028-02-25",
+     "return_date": "2028-03-01",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_week_later_one_way",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": null,
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_week_later_no_return_key",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_week_later_no_departure",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": null,
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_week_later_bad_departure",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "soon",
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_week_later_bad_return",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "later",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_week_later_feb_31",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-02-31",
+     "return_date": null,
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_week_later_datetime_departure",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10T10:00:00",
+     "return_date": null,
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "week_later"
+   ]
+  },
+  {
+   "name": "apply_half_budget_rounds_up",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 3333,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "half_budget"
+   ]
+  },
+  {
+   "name": "apply_half_budget_rounds_half_up",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 3,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "half_budget"
+   ]
+  },
+  {
+   "name": "apply_half_budget_string",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": "5001",
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "half_budget"
+   ]
+  },
+  {
+   "name": "apply_half_budget_no_budget",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": null,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "half_budget"
+   ]
+  },
+  {
+   "name": "apply_half_budget_zero",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 0,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "half_budget"
+   ]
+  },
+  {
+   "name": "apply_luxe_doubles",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 1234.5,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "luxe"
+   ]
+  },
+  {
+   "name": "apply_luxe_no_budget",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "luxe"
+   ]
+  },
+  {
+   "name": "apply_slower_pace_already",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "relaxed"
+    },
+    "slower_pace"
+   ]
+  },
+  {
+   "name": "apply_long_weekend_month_end",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-30",
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "long_weekend"
+   ]
+  },
+  {
+   "name": "apply_long_weekend_no_departure",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "",
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "long_weekend"
+   ]
+  },
+  {
+   "name": "apply_unknown_preset",
+   "fn": "applyRemix",
+   "args": [
+    {
+     "origin": "NYC",
+     "destination": "Tokyo",
+     "departure_date": "2026-08-10",
+     "return_date": "2026-08-17",
+     "budget_usd": 3000,
+     "nationality": "American",
+     "pace": "balanced"
+    },
+    "nope"
+   ]
+  },
+  {
+   "name": "snapshot_full",
+   "fn": "snapshotMetrics",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "price_usd": 900
+       },
+       {
+        "price_usd": "750"
+       },
+       {
+        "price_usd": "varies"
+       },
+       {
+        "price_usd": 0
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "price_per_night_usd": 180
+       },
+       {
+        "price_per_night_usd": 120.5
+       }
+      ]
+     },
+     "itinerary": {
+      "total_estimated_cost_usd": 2400
+     },
+     "weather": {
+      "days": [
+       {
+        "is_poor": true
+       },
+       {
+        "is_poor": false
+       },
+       {
+        "is_poor": true
+       },
+       {}
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "snapshot_after",
+   "fn": "snapshotMetrics",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "price_usd": 600
+       }
+      ]
+     },
+     "hotels": {
+      "results": [
+       {
+        "price_per_night_usd": 120.5
+       }
+      ]
+     },
+     "itinerary": {
+      "total_estimated_cost_usd": 2500
+     },
+     "weather": {
+      "days": []
+     }
+    }
+   ]
+  },
+  {
+   "name": "snapshot_empty",
+   "fn": "snapshotMetrics",
+   "args": [
+    {}
+   ]
+  },
+  {
+   "name": "snapshot_null",
+   "fn": "snapshotMetrics",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "snapshot_string_total",
+   "fn": "snapshotMetrics",
+   "args": [
+    {
+     "itinerary": {
+      "total_estimated_cost_usd": "1800.5"
+     },
+     "weather": {
+      "days": "nope"
+     }
+    }
+   ]
+  },
+  {
+   "name": "snapshot_junk",
+   "fn": "snapshotMetrics",
+   "args": [
+    {
+     "flights": {
+      "results": [
+       {
+        "price_usd": "x"
+       },
+       {
+        "price_usd": -1
+       }
+      ]
+     },
+     "hotels": {
+      "results": []
+     },
+     "itinerary": {
+      "total_estimated_cost_usd": 0
+     }
+    }
+   ]
+  },
+  {
+   "name": "diff_improved",
+   "fn": "diffMetrics",
+   "args": [
+    {
+     "min_flight_usd": 750,
+     "min_hotel_nightly_usd": 120.5,
+     "itinerary_total_usd": 2400,
+     "poor_weather_days": 2
+    },
+    {
+     "min_flight_usd": 600,
+     "min_hotel_nightly_usd": 120.5,
+     "itinerary_total_usd": 2500,
+     "poor_weather_days": 0
+    }
+   ]
+  },
+  {
+   "name": "diff_skips_unknown",
+   "fn": "diffMetrics",
+   "args": [
+    {
+     "min_flight_usd": 750,
+     "min_hotel_nightly_usd": null
+    },
+    {
+     "min_flight_usd": 800,
+     "min_hotel_nightly_usd": 90,
+     "poor_weather_days": 1
+    }
+   ]
+  },
+  {
+   "name": "diff_zero_values",
+   "fn": "diffMetrics",
+   "args": [
+    {
+     "poor_weather_days": 0
+    },
+    {
+     "poor_weather_days": 0
+    }
+   ]
+  },
+  {
+   "name": "diff_null_sides",
+   "fn": "diffMetrics",
+   "args": [
+    null,
+    {
+     "min_flight_usd": 1
+    }
+   ]
+  },
+  {
+   "name": "diff_fractional",
+   "fn": "diffMetrics",
+   "args": [
+    {
+     "min_flight_usd": 100.1
+    },
+    {
+     "min_flight_usd": 100.3
+    }
+   ]
+  }
+ ]
+}

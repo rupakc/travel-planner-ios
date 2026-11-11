@@ -1,0 +1,82 @@
+{
+  "args": [
+    {
+      "activities": [],
+      "events": [],
+      "flight": {
+        "airline": "TestAir",
+        "flight_number": "TA1",
+        "outbound": {
+          "airline": "TestAir",
+          "duration_minutes": 600,
+          "flight_number": "TA1",
+          "stops": 0
+        },
+        "price_usd": 999,
+        "return": {
+          "duration_minutes": 600,
+          "stops": 0
+        },
+        "source": "live"
+      },
+      "flights": [],
+      "getting_around": [],
+      "hotel": null,
+      "itinerary_edits": {},
+      "itinerary_layout": null,
+      "itinerary_notes": {},
+      "itinerary_slots": [],
+      "packing_list": null,
+      "places_to_see": [],
+      "sim": {
+        "plan_name": "Else",
+        "price_usd": 10,
+        "provider": "P",
+        "validity_days": 30
+      },
+      "tips": [],
+      "walking_tours": []
+    },
+    {
+      "selections": {
+        "activities": [],
+        "flight": {
+          "airline": "TestAir",
+          "flight_number": "TA1",
+          "outbound": {
+            "airline": "TestAir",
+            "duration_minutes": 600,
+            "flight_number": "TA1",
+            "stops": 0
+          },
+          "price_usd": 500,
+          "return": {
+            "duration_minutes": 600,
+            "stops": 0
+          },
+          "source": "live"
+        },
+        "flights": [],
+        "hotel": {
+          "name": "Mine",
+          "price_per_night_usd": 100,
+          "review_score": 8,
+          "star_rating": 3
+        },
+        "places_to_see": [],
+        "sim": {
+          "plan_name": "Plan",
+          "price_usd": 10,
+          "provider": "P",
+          "validity_days": 30
+        },
+        "walking_tours": []
+      }
+    }
+  ],
+  "fn": "packageConflicts",
+  "output": [
+    "flight",
+    "SIM"
+  ]
+}
