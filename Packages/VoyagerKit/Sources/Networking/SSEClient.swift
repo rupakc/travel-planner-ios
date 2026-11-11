@@ -12,7 +12,7 @@ public struct SSEClient: Sendable {
     /// Test hook, called on the parsing task for every dispatched message.
     private let parseHook: (@Sendable () -> Void)?
 
-    /// `configuration` is adjusted in place: 600 s request timeout, effectively no resource timeout.
+    /// Works on a copy of `configuration`: 600 s request timeout, effectively no resource timeout.
     public init(
         server: ServerEnvironment,
         tokens: any AccessTokenProvider,
@@ -29,6 +29,7 @@ public struct SSEClient: Sendable {
         observer: (any APIObserver)?,
         parseHook: (@Sendable () -> Void)?
     ) {
+        let configuration = (configuration.copy() as? URLSessionConfiguration) ?? .default
         configuration.timeoutIntervalForRequest = StreamTimeouts.request
         configuration.timeoutIntervalForResource = StreamTimeouts.resource
         self.server = server
@@ -38,16 +39,19 @@ public struct SSEClient: Sendable {
         self.parseHook = parseHook
     }
 
+    /// `telemetryName` is a route template (`/api/search`), the only name the observer ever sees.
     public func stream(
-        path: String, body: some Encodable & Sendable, auth: AuthMode
+        path: String, telemetryName: String, body: some Encodable & Sendable, auth: AuthMode
     ) -> AsyncThrowingStream<JSONValue, Error> {
         let (stream, continuation) = AsyncThrowingStream<JSONValue, Error>.makeStream()
         let task = Task.detached(priority: .userInitiated) {
             do {
-                try await run(path: path, body: body, auth: auth, continuation: continuation)
+                try await run(path: path, telemetryName: telemetryName, body: body, auth: auth, continuation: continuation)
                 continuation.finish()
             } catch {
-                continuation.finish(throwing: Self.mapped(error))
+                let mapped = Self.mapped(error)
+                if mapped == .network || mapped == .interrupted { observer?.didFail(endpoint: telemetryName, status: 0) }
+                continuation.finish(throwing: mapped)
             }
         }
         continuation.onTermination = { _ in task.cancel() }
@@ -55,7 +59,7 @@ public struct SSEClient: Sendable {
     }
 
     private func run(
-        path: String, body: some Encodable & Sendable, auth: AuthMode,
+        path: String, telemetryName: String, body: some Encodable & Sendable, auth: AuthMode,
         continuation: AsyncThrowingStream<JSONValue, Error>.Continuation
     ) async throws {
         guard let base = server.baseURL else { throw APIError.notConfigured }
@@ -71,11 +75,14 @@ public struct SSEClient: Sendable {
             guard let http = response as? HTTPURLResponse else { throw APIError.network }
             if !(200..<300).contains(http.statusCode) {
                 let data = try await Self.readErrorBody(bytes)
-                if http.statusCode == 401, let token, !retried {
-                    retried = true
-                    if await tokens.unauthorized(token: token) { continue }
+                if http.statusCode == 401, let token {
+                    let refreshed = await tokens.unauthorized(token: token)
+                    if refreshed, !retried {
+                        retried = true
+                        continue
+                    }
                 }
-                observer?.didFail(endpoint: path, status: http.statusCode)
+                observer?.didFail(endpoint: telemetryName, status: http.statusCode)
                 throw ErrorMapping.map(response: http, body: data)
             }
             if http.value(forHTTPHeaderField: "Content-Type")?.lowercased().contains("text/html") == true {

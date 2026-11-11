@@ -31,16 +31,17 @@ public struct Endpoint<Response: Decodable & Sendable>: Sendable {
     public var auth: AuthMode
     public var timeout: TimeoutClass
     /// Route template such as `/api/plans/:id`; this, never the concrete path, goes to telemetry.
+    /// Required on purpose: a default of `path` would leak ids and tokens.
     public var telemetryName: String
 
     public init(
         method: HTTPMethod = .get,
         path: String,
+        telemetryName: String,
         query: [URLQueryItem] = [],
         body: (any Encodable & Sendable)? = nil,
         auth: AuthMode = .required,
-        timeout: TimeoutClass = .standard,
-        telemetryName: String? = nil
+        timeout: TimeoutClass = .standard
     ) {
         self.method = method
         self.path = path
@@ -48,7 +49,7 @@ public struct Endpoint<Response: Decodable & Sendable>: Sendable {
         self.body = body
         self.auth = auth
         self.timeout = timeout
-        self.telemetryName = telemetryName ?? path
+        self.telemetryName = telemetryName
     }
 }
 

@@ -19,7 +19,7 @@ struct APIClientTests {
     @Test func test_bearerAddedWhenRequired() async throws {
         let stub = StubServer { _ in .init(json: #"{"id":1,"name":"Tokyo"}"#) }
         let client = try makeClient(stub, tokens: FakeTokens(token: "abc"))
-        let plan = try await client.send(Endpoint<Plan>(path: "/api/plans/1", query: [URLQueryItem(name: "a", value: "x+y")]))
+        let plan = try await client.send(Endpoint<Plan>(path: "/api/plans/1", telemetryName: "/api/plans/:id", query: [URLQueryItem(name: "a", value: "x+y")]))
         #expect(plan == Plan(id: 1, name: "Tokyo"))
         let request = try #require(stub.requests.first)
         #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer abc")
@@ -31,28 +31,28 @@ struct APIClientTests {
     @Test func test_requiredWithoutTokenMakesNoRequest() async throws {
         let stub = StubServer()
         let client = try makeClient(stub, tokens: FakeTokens(token: nil))
-        await #expect(throws: APIError.unauthorized) { _ = try await client.send(Endpoint<Empty>(path: "/api/plans")) }
+        await #expect(throws: APIError.unauthorized) { _ = try await client.send(Endpoint<Empty>(path: "/api/plans", telemetryName: "/api/plans")) }
         #expect(stub.requests.isEmpty)
     }
 
     @Test func test_optionalAuthWithoutToken() async throws {
         let stub = StubServer { _ in .init(json: #"{"id":2,"name":"Rome"}"#) }
         let client = try makeClient(stub, tokens: FakeTokens(token: nil))
-        _ = try await client.send(Endpoint<Plan>(path: "/api/x", auth: .optional))
+        _ = try await client.send(Endpoint<Plan>(path: "/api/x", telemetryName: "/api/x", auth: .optional))
         #expect(try #require(stub.requests.first).value(forHTTPHeaderField: "Authorization") == nil)
     }
 
     @Test func test_authNoneNeverSendsToken() async throws {
         let stub = StubServer { _ in .init(json: #"{"id":2,"name":"Rome"}"#) }
         let client = try makeClient(stub, tokens: FakeTokens(token: "abc"))
-        _ = try await client.send(Endpoint<Plan>(path: "/api/x", auth: .none))
+        _ = try await client.send(Endpoint<Plan>(path: "/api/x", telemetryName: "/api/x", auth: .none))
         #expect(try #require(stub.requests.first).value(forHTTPHeaderField: "Authorization") == nil)
     }
 
     @Test func test_postBodyEncodedAsJSON() async throws {
         let stub = StubServer { _ in .init(json: #"{"id":3,"name":"Oslo"}"#) }
         let client = try makeClient(stub, tokens: FakeTokens(token: "abc"))
-        _ = try await client.send(Endpoint<Plan>(method: .post, path: "/api/plans", body: Plan(id: 0, name: "Oslo")))
+        _ = try await client.send(Endpoint<Plan>(method: .post, path: "/api/plans", telemetryName: "/api/plans", body: Plan(id: 0, name: "Oslo")))
         let request = try #require(stub.requests.first)
         #expect(request.httpMethod == "POST")
         #expect(request.value(forHTTPHeaderField: "Content-Type") == "application/json")
@@ -73,7 +73,7 @@ struct APIClientTests {
         }
         let tokens = FakeTokens(token: "old", refreshesTo: "fresh")
         let client = try makeClient(stub, tokens: tokens)
-        let plan = try await client.send(Endpoint<Plan>(path: "/api/plans/1"))
+        let plan = try await client.send(Endpoint<Plan>(path: "/api/plans/1", telemetryName: "/api/plans/:id"))
         #expect(plan.id == 1)
         #expect(stub.requests.count == 2)
         #expect(tokens.unauthorizedTokens == ["old"])
@@ -82,15 +82,30 @@ struct APIClientTests {
     @Test func test_secondUnauthorizedDoesNotLoop() async throws {
         let stub = StubServer { _ in .init(status: 401, json: #"{"detail":"nope"}"#) }
         let client = try makeClient(stub, tokens: FakeTokens(token: "old", refreshesTo: "fresh"))
-        await #expect(throws: APIError.unauthorized) { _ = try await client.send(Endpoint<Empty>(path: "/api/plans")) }
+        await #expect(throws: APIError.unauthorized) { _ = try await client.send(Endpoint<Empty>(path: "/api/plans", telemetryName: "/api/plans")) }
         #expect(stub.requests.count == 2)
+    }
+
+    @Test func test_secondUnauthorizedReportsRefreshedToken() async throws {
+        let stub = StubServer { _ in .init(status: 401, json: #"{"detail":"nope"}"#) }
+        let tokens = FakeTokens(token: "old", refreshesTo: "fresh")
+        let client = try makeClient(stub, tokens: tokens)
+        await #expect(throws: APIError.unauthorized) { _ = try await client.send(Endpoint<Empty>(path: "/api/plans", telemetryName: "/api/plans")) }
+        #expect(tokens.unauthorizedTokens == ["old", "fresh"])
+        #expect(stub.requests.count == 2)
+    }
+
+    @Test func test_htmlOK200ForEmptyIsDecoding() async throws {
+        let stub = StubServer { _ in .init(status: 200, headers: ["Content-Type": "text/html; charset=utf-8"], body: Data("<html>login</html>".utf8)) }
+        let client = try makeClient(stub, tokens: FakeTokens(token: "t"))
+        await #expect(throws: APIError.decoding) { _ = try await client.send(Endpoint<Empty>(path: "/api/x", telemetryName: "/api/x")) }
     }
 
     @Test func test_staleUnauthorizedIgnored() async throws {
         let stub = StubServer { _ in .init(status: 401, json: #"{"detail":"expired"}"#) }
         let tokens = FakeTokens(token: "stale", refreshesTo: nil)
         let client = try makeClient(stub, tokens: tokens)
-        await #expect(throws: APIError.unauthorized) { _ = try await client.send(Endpoint<Empty>(path: "/api/plans")) }
+        await #expect(throws: APIError.unauthorized) { _ = try await client.send(Endpoint<Empty>(path: "/api/plans", telemetryName: "/api/plans")) }
         #expect(stub.requests.count == 1)
         #expect(tokens.unauthorizedTokens == ["stale"])
     }
@@ -99,7 +114,7 @@ struct APIClientTests {
         let stub = StubServer { _ in .init(status: 401, json: "{}") }
         let tokens = FakeTokens(token: nil)
         let client = try makeClient(stub, tokens: tokens)
-        await #expect(throws: APIError.unauthorized) { _ = try await client.send(Endpoint<Empty>(path: "/api/x", auth: .optional)) }
+        await #expect(throws: APIError.unauthorized) { _ = try await client.send(Endpoint<Empty>(path: "/api/x", telemetryName: "/api/x", auth: .optional)) }
         #expect(tokens.unauthorizedTokens.isEmpty)
     }
 
@@ -107,21 +122,21 @@ struct APIClientTests {
         let stub = StubServer { _ in .init(status: 404, json: #"{"detail":"Not Found"}"#) }
         let client = try makeClient(stub, tokens: FakeTokens(token: nil))
         await #expect(throws: APIError.notFound("Not Found")) {
-            _ = try await client.raw(Endpoint<JSONValue>(path: "/api/config", auth: .none))
+            _ = try await client.raw(Endpoint<JSONValue>(path: "/api/config", telemetryName: "/api/config", auth: .none))
         }
     }
 
     @Test func test_emptyResponseFor204() async throws {
         let stub = StubServer { _ in .init(status: 204) }
         let client = try makeClient(stub, tokens: FakeTokens(token: "t"))
-        let result = try await client.send(Endpoint<Empty>(method: .delete, path: "/api/plans/9"))
+        let result = try await client.send(Endpoint<Empty>(method: .delete, path: "/api/plans/9", telemetryName: "/api/plans/9"))
         #expect(result == Empty())
     }
 
     @Test func test_rawReturnsHeaders() async throws {
         let stub = StubServer { _ in .init(json: #"{"ok":true}"#, headers: ["X-Thing": "1"]) }
         let client = try makeClient(stub, tokens: FakeTokens(token: "t"))
-        let (json, response) = try await client.raw(Endpoint<JSONValue>(path: "/api/x"))
+        let (json, response) = try await client.raw(Endpoint<JSONValue>(path: "/api/x", telemetryName: "/api/x"))
         #expect(json["ok"].bool == true)
         #expect(response.value(forHTTPHeaderField: "X-Thing") == "1")
     }
@@ -145,7 +160,7 @@ struct APIClientTests {
         )
         let observer = RecordingObserver()
         let client = APIClient(server: env, tokens: FakeTokens(token: nil), session: stub.session(), observer: observer)
-        await #expect(throws: APIError.network) { _ = try await client.send(Endpoint<Empty>(path: "/api/x", auth: .none)) }
+        await #expect(throws: APIError.network) { _ = try await client.send(Endpoint<Empty>(path: "/api/x", telemetryName: "/api/x", auth: .none)) }
         #expect(observer.recorded == ["0 /api/x"])
     }
 }

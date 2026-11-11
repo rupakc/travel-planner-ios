@@ -63,7 +63,7 @@ struct ErrorMappingTests {
         let env = ServerEnvironment(buildBaseURL: stub.baseURL, trustedHosts: [], allowsOverride: false, defaults: try #require(UserDefaults(suiteName: UUID().uuidString)))
         let client = APIClient(server: env, tokens: FakeTokens(token: nil), session: stub.session())
         await #expect(throws: APIError.decoding) {
-            _ = try await client.send(Endpoint<Thing>(path: "/api/thing", auth: .none))
+            _ = try await client.send(Endpoint<Thing>(path: "/api/thing", telemetryName: "/api/thing", auth: .none))
         }
     }
 }

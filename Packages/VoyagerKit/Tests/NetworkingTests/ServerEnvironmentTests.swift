@@ -61,11 +61,11 @@ struct ServerEnvironmentTests {
         #expect(env.baseURL == nil)
         let client = APIClient(server: env, tokens: FakeTokens(token: "t"))
         await #expect(throws: APIError.notConfigured) {
-            _ = try await client.send(Endpoint<Empty>(path: "/api/x"))
+            _ = try await client.send(Endpoint<Empty>(path: "/api/x", telemetryName: "/api/x"))
         }
         let sse = SSEClient(server: env, tokens: FakeTokens(token: "t"), configuration: .ephemeral)
         await #expect(throws: APIError.notConfigured) {
-            for try await _ in sse.stream(path: "/api/search", body: ["q": "x"], auth: .optional) {}
+            for try await _ in sse.stream(path: "/api/search", telemetryName: "/api/search", body: ["q": "x"], auth: .optional) {}
         }
     }
 }

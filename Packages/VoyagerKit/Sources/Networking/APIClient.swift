@@ -21,8 +21,14 @@ public actor APIClient {
 
     /// Sends `endpoint`; JSON decoding runs inside this actor, never on the main actor.
     public func send<R>(_ endpoint: Endpoint<R>) async throws -> R {
-        let (data, _) = try await execute(endpoint)
-        if let empty = Empty() as? R { return empty }
+        let (data, response) = try await execute(endpoint)
+        if let empty = Empty() as? R {
+            // A captive portal answers 200 with a page, not an empty body.
+            if response.value(forHTTPHeaderField: "Content-Type")?.lowercased().contains("text/html") == true {
+                throw APIError.decoding
+            }
+            return empty
+        }
         do {
             return try JSONDecoder().decode(R.self, from: data)
         } catch {
@@ -53,10 +59,14 @@ public actor APIClient {
             )
             let (data, response) = try await transport(request, endpoint: endpoint.telemetryName)
             if (200..<300).contains(response.statusCode) { return (data, response) }
-            // Only a 401 for the token this request carried may refresh and retry (once).
-            if response.statusCode == 401, let token, !retried {
-                retried = true
-                if await tokens.unauthorized(token: token) { continue }
+            // Only a 401 for the token this request carried counts. The provider is told every time (a second
+            // 401 for the refreshed token must sign out); the request is retried once, and only on `true`.
+            if response.statusCode == 401, let token {
+                let refreshed = await tokens.unauthorized(token: token)
+                if refreshed, !retried {
+                    retried = true
+                    continue
+                }
             }
             observer?.didFail(endpoint: endpoint.telemetryName, status: response.statusCode)
             throw ErrorMapping.map(response: response, body: data)
