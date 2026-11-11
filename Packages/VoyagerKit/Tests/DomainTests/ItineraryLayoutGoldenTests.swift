@@ -41,8 +41,9 @@ import VoyagerModel
         }
     }
 
-    @Test func test_fixturesAreThere() {
-        #expect(Self.cases.count >= 12)
+    @Test func test_fixturesAreThere() throws {
+        #expect(Self.cases.count == 68)
+        #expect(Self.cases.count == (try ItineraryGoldenCase.declaredCaseCount("itineraryLayout")))
         let known = Set(Self.cases.map(\.fn))
         #expect(known.isSuperset(of: [
             "itineraryFingerprint", "activeLayout", "slotRanks", "citiesCompatible", "arrangeItinerary", "moveTargets",

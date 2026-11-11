@@ -19,7 +19,7 @@ import VoyagerModel
         case "timeRange":
             return .string(Schedule.timeRange(c.arg(0)) ?? "")
         case "transitLabel":
-            return .string(Schedule.transitLabel(c.arg(0)) ?? "")
+            return .string(Schedule.transitLabel(c.arg(0), strings: .english) ?? "")
         case "pickedTimes":
             return Schedule.pickedTimes(c.arg(0))
         case "syncPlannedSlotTimes":
@@ -31,8 +31,9 @@ import VoyagerModel
         }
     }
 
-    @Test func test_fixturesAreThere() {
-        #expect(Self.cases.count >= 12)
+    @Test func test_fixturesAreThere() throws {
+        #expect(Self.cases.count == 43)
+        #expect(Self.cases.count == (try ItineraryGoldenCase.declaredCaseCount("schedule")))
         let known = Set(Self.cases.map(\.fn))
         #expect(known.isSuperset(of: [
             "scheduleDays", "scheduleOrder", "listedInScheduleOrder", "timeRange", "transitLabel", "pickedTimes",
@@ -51,6 +52,6 @@ import VoyagerModel
         let walk: JSONValue = ["mode": "walk", "minutes": 12, "km": 0.9]
         #expect(Schedule.transitLabel(walk, strings: german) == "🚶 12 Min. zu Fuß · 0.9 km")
         #expect(Schedule.transitLabel(["mode": "transit", "minutes": 25], strings: german) == "🚇 ~25 Min. mit ÖPNV")
-        #expect(Schedule.transitLabel(nil) == nil)
+        #expect(Schedule.transitLabel(nil, strings: german) == nil)
     }
 }

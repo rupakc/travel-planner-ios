@@ -168,8 +168,8 @@ public enum Schedule {
         return "\(JSCoerce.interpolate(slot["start_time"]))–\(JSCoerce.interpolate(slot["end_time"]))"
     }
 
-    /// English templates for `transitLabel` (`itinerary:transit.*`); callers with a localised catalogue
-    /// pass their own. `{{minutes}}` and `{{km}}` are replaced.
+    /// Templates for `transitLabel` (`itinerary:transit.*`), supplied by the caller from its localised catalogue.
+    /// `english` is for tests. `{{minutes}}` and `{{km}}` are replaced.
     public struct TransitStrings: Sendable, Equatable {
         public var walk: String
         public var walkKm: String
@@ -196,7 +196,7 @@ public enum Schedule {
 
     /// `"🚶 12 min walk · 0.9 km"` (`"🚶 5 min walk"` under 100 m) / `"🚇 ~25 min by transit"`, or `nil` when
     /// travel is unknown (the web returns `""`).
-    public static func transitLabel(_ transit: JSONValue?, strings: TransitStrings = .english) -> String? {
+    public static func transitLabel(_ transit: JSONValue?, strings: TransitStrings) -> String? {
         guard let transit, transit.isTruthy else { return nil }
         if transit["mode"] != .string("walk") {
             return "🚇 \(strings.render(strings.transit, minutes: transit["minutes"]))"
