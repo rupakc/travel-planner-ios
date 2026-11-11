@@ -36,10 +36,11 @@ args=(
   -clonedSourcePackagesDirPath "$ROOT/build/SourcePackages"
   -onlyUsePackageVersionsFromResolvedFile
   -skipMacroValidation
-  # A hung test fails in minutes instead of holding the runner until the job timeout.
+  # A cold simulator can freeze the whole test process for 130-200 s and then recover, so the per-test
+  # allowance is generous; the wall-clock watchdog below is the real hang bound.
   -test-timeouts-enabled YES
-  -default-test-execution-time-allowance 120
-  -maximum-test-execution-time-allowance 300
+  -default-test-execution-time-allowance 600
+  -maximum-test-execution-time-allowance 900
 )
 for filter in ${only//,/ }; do
   args+=("-only-testing:$filter")

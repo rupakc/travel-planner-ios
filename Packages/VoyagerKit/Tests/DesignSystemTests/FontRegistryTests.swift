@@ -6,9 +6,9 @@ import UIKit
 
 @MainActor
 struct FontRegistryTests {
-    /// `ready()` waits for the asynchronous registration; `.timeLimit` makes a stuck registration
-    /// fail the test instead of hanging the CI run.
-    @Test(.timeLimit(.minutes(1)))
+    /// `ready()` waits for the asynchronous registration. No `.timeLimit`: a cold simulator can stall the
+    /// whole process for minutes; the CI wall-clock watchdog bounds a real hang.
+    @Test
     func test_registerOnceIsIdempotent() async {
         FontRegistry.registerOnce()
         FontRegistry.registerOnce()
