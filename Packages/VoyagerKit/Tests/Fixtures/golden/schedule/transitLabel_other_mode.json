@@ -1,0 +1,11 @@
+{
+  "args": [
+    {
+      "km": 9,
+      "minutes": 40,
+      "mode": "ferry"
+    }
+  ],
+  "fn": "transitLabel",
+  "output": "🚇 ~40 min by transit"
+}

@@ -1,0 +1,13 @@
+{
+  "args": [
+    null,
+    null,
+    {}
+  ],
+  "fn": "arrangeItinerary",
+  "output": {
+    "changed": false,
+    "days": [],
+    "removed": []
+  }
+}

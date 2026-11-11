@@ -1,0 +1,124 @@
+{
+  "args": [
+    [
+      {
+        "city": "Oslo",
+        "day_number": 1,
+        "slots": [
+          {
+            "activity": "Vigeland Park",
+            "estimated_cost_usd": 0,
+            "key": "1-morning",
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Fram Museum",
+            "estimated_cost_usd": 14,
+            "key": "1-afternoon",
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "Fjord cruise",
+            "estimated_cost_usd": 60,
+            "key": "1-evening",
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 1"
+      },
+      {
+        "city": "Oslo",
+        "day_number": 2,
+        "slots": [
+          {
+            "activity": "Opera House",
+            "estimated_cost_usd": 0,
+            "key": "2-morning",
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Dinner",
+            "estimated_cost_usd": 50,
+            "key": "2-evening",
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 2"
+      }
+    ]
+  ],
+  "fn": "scheduleDays",
+  "output": [
+    {
+      "city": "Oslo",
+      "day_number": 1,
+      "schedule_warnings": [],
+      "slots": [
+        {
+          "activity": "Vigeland Park",
+          "end_day_offset": 0,
+          "end_time": "12:00",
+          "estimated_cost_usd": 0,
+          "key": "1-morning",
+          "start_day_offset": 0,
+          "start_time": "09:00",
+          "time_of_day": "morning",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "Fram Museum",
+          "end_day_offset": 0,
+          "end_time": "16:30",
+          "estimated_cost_usd": 14,
+          "key": "1-afternoon",
+          "start_day_offset": 0,
+          "start_time": "13:30",
+          "time_of_day": "afternoon",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "Fjord cruise",
+          "end_day_offset": 0,
+          "end_time": "21:00",
+          "estimated_cost_usd": 60,
+          "key": "1-evening",
+          "start_day_offset": 0,
+          "start_time": "18:30",
+          "time_of_day": "evening",
+          "transit_from_prev": null
+        }
+      ],
+      "theme": "Day 1"
+    },
+    {
+      "city": "Oslo",
+      "day_number": 2,
+      "schedule_warnings": [],
+      "slots": [
+        {
+          "activity": "Opera House",
+          "end_day_offset": 0,
+          "end_time": "12:00",
+          "estimated_cost_usd": 0,
+          "key": "2-morning",
+          "start_day_offset": 0,
+          "start_time": "09:00",
+          "time_of_day": "morning",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "Dinner",
+          "end_day_offset": 0,
+          "end_time": "21:00",
+          "estimated_cost_usd": 50,
+          "key": "2-evening",
+          "start_day_offset": 0,
+          "start_time": "18:30",
+          "time_of_day": "evening",
+          "transit_from_prev": null
+        }
+      ],
+      "theme": "Day 2"
+    }
+  ]
+}

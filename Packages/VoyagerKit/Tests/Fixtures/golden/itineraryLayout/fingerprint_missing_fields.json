@@ -1,0 +1,21 @@
+{
+  "args": [
+    {
+      "days": [
+        {
+          "slots": [
+            {
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "x",
+              "time_of_day": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "fn": "itineraryFingerprint",
+  "output": "16yb03u"
+}

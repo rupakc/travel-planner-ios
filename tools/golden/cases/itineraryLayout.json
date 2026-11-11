@@ -1,0 +1,5523 @@
+{
+ "module": "frontend/src/utils/itineraryLayout.js",
+ "cases": [
+  {
+   "name": "fingerprint_lisbon",
+   "fn": "itineraryFingerprint",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "fingerprint_unicode",
+   "fn": "itineraryFingerprint",
+   "args": [
+    {
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Reykjavik",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Blue Lagoon 🌊 soak",
+         "estimated_cost_usd": 90
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Café Ólafur – Þingvellir"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "fingerprint_empty",
+   "fn": "itineraryFingerprint",
+   "args": [
+    {}
+   ]
+  },
+  {
+   "name": "fingerprint_null",
+   "fn": "itineraryFingerprint",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "fingerprint_missing_fields",
+   "fn": "itineraryFingerprint",
+   "args": [
+    {
+     "days": [
+      {
+       "slots": [
+        {
+         "time_of_day": "morning"
+        },
+        {
+         "activity": "x",
+         "time_of_day": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "activeLayout_match",
+   "fn": "activeLayout",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": "1-evening",
+      "1-evening": "1-morning"
+     }
+    }
+   ]
+  },
+  {
+   "name": "activeLayout_stale",
+   "fn": "activeLayout",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "zzz",
+     "positions": {
+      "1-morning": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "activeLayout_positions_array",
+   "fn": "activeLayout",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": []
+    }
+   ]
+  },
+  {
+   "name": "activeLayout_null",
+   "fn": "activeLayout",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    null
+   ]
+  },
+  {
+   "name": "activeLayout_no_positions",
+   "fn": "activeLayout",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck"
+    }
+   ]
+  },
+  {
+   "name": "slotRanks_plain",
+   "fn": "slotRanks",
+   "args": [
+    {
+     "day_number": 1,
+     "city": "Lisbon",
+     "theme": "Day 1",
+     "slots": [
+      {
+       "time_of_day": "morning",
+       "activity": "Alfama walking tour",
+       "estimated_cost_usd": 20,
+       "duration_hours": 3,
+       "lat": 38.711,
+       "lng": -9.13
+      },
+      {
+       "time_of_day": "afternoon",
+       "activity": "Time Out Market lunch",
+       "estimated_cost_usd": 25,
+       "duration_hours": 2,
+       "lat": 38.7071,
+       "lng": -9.1456
+      },
+      {
+       "time_of_day": "evening",
+       "activity": "Fado dinner",
+       "estimated_cost_usd": 60,
+       "duration_hours": 2.5,
+       "lat": 38.7118,
+       "lng": -9.1285
+      }
+     ],
+     "daily_estimated_cost_usd": 105
+    }
+   ]
+  },
+  {
+   "name": "slotRanks_odd_times",
+   "fn": "slotRanks",
+   "args": [
+    {
+     "day_number": 1,
+     "city": "Kyoto",
+     "theme": "Day 1",
+     "slots": [
+      {
+       "time_of_day": "morning",
+       "activity": "Fushimi Inari",
+       "estimated_cost_usd": 0,
+       "duration_hours": 3,
+       "lat": 34.9671,
+       "lng": 135.7727
+      },
+      {
+       "time_of_day": "morning",
+       "activity": "Tea ceremony",
+       "estimated_cost_usd": 30,
+       "duration_hours": 1,
+       "lat": 35.003,
+       "lng": 135.77,
+       "from_link": true
+      },
+      {
+       "time_of_day": "afternoon",
+       "activity": "Nishiki Market",
+       "estimated_cost_usd": 15,
+       "duration_hours": 2,
+       "lat": 35.005,
+       "lng": 135.765
+      },
+      {
+       "time_of_day": "late night",
+       "activity": "Karaoke in Pontocho",
+       "estimated_cost_usd": 25,
+       "duration_hours": 2,
+       "lat": 35.0045,
+       "lng": 135.7708
+      },
+      {
+       "time_of_day": "evening",
+       "activity": "Kaiseki dinner",
+       "estimated_cost_usd": 120,
+       "duration_hours": 2.5,
+       "lat": 35.0036,
+       "lng": 135.7747
+      }
+     ],
+     "daily_estimated_cost_usd": 190
+    }
+   ]
+  },
+  {
+   "name": "slotRanks_leading_odd",
+   "fn": "slotRanks",
+   "args": [
+    {
+     "day_number": 1,
+     "city": "X",
+     "theme": "Day 1",
+     "slots": [
+      {
+       "time_of_day": "night",
+       "activity": "a"
+      },
+      {
+       "time_of_day": "morning",
+       "activity": "b"
+      },
+      {
+       "time_of_day": "brunch",
+       "activity": "c"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "slotRanks_empty",
+   "fn": "slotRanks",
+   "args": [
+    {
+     "day_number": 3,
+     "city": "Kyoto",
+     "theme": "Day 3",
+     "slots": []
+    }
+   ]
+  },
+  {
+   "name": "citiesCompatible_shared",
+   "fn": "citiesCompatible",
+   "args": [
+    "Barcelona, Spain",
+    "Montserrat & Barcelona, Spain"
+   ]
+  },
+  {
+   "name": "citiesCompatible_different",
+   "fn": "citiesCompatible",
+   "args": [
+    "Barcelona, Spain",
+    "Madrid, Spain"
+   ]
+  },
+  {
+   "name": "citiesCompatible_empty_left",
+   "fn": "citiesCompatible",
+   "args": [
+    "",
+    "Madrid"
+   ]
+  },
+  {
+   "name": "citiesCompatible_null_right",
+   "fn": "citiesCompatible",
+   "args": [
+    "Madrid",
+    null
+   ]
+  },
+  {
+   "name": "citiesCompatible_slash_and",
+   "fn": "citiesCompatible",
+   "args": [
+    "Pisa / Florence",
+    "florence, Italy"
+   ]
+  },
+  {
+   "name": "citiesCompatible_word_and",
+   "fn": "citiesCompatible",
+   "args": [
+    "Rome and Naples",
+    "NAPLES"
+   ]
+  },
+  {
+   "name": "citiesCompatible_plus",
+   "fn": "citiesCompatible",
+   "args": [
+    "A + B",
+    "b"
+   ]
+  },
+  {
+   "name": "citiesCompatible_andover",
+   "fn": "citiesCompatible",
+   "args": [
+    "Sandover",
+    "Sand"
+   ]
+  },
+  {
+   "name": "arrange_no_layout",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    null,
+    {}
+   ]
+  },
+  {
+   "name": "arrange_stale_fingerprint",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "stale",
+     "positions": {
+      "1-morning": null
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_noop_layout",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {}
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_swap_same_day",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": "1-evening",
+      "1-evening": "1-morning"
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_move_cross_day",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": "2-evening",
+      "2-evening": "1-morning"
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_move_into_empty_position",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "3-evening": "3-afternoon"
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_removed",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-afternoon": null
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_removed_with_edits_cost",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "3-morning": null
+     }
+    },
+    {
+     "3-evening": {
+      "cost": 10,
+      "activity": "Cheap dinner"
+     },
+     "3-morning": {
+      "cost": 5
+     }
+    }
+   ]
+  },
+  {
+   "name": "arrange_edits_cost_override",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "2-morning": "2-afternoon",
+      "2-afternoon": "2-morning"
+     }
+    },
+    {
+     "2-morning": {
+      "cost": 99
+     },
+     "2-afternoon": {
+      "cost": 0
+     }
+    }
+   ]
+  },
+  {
+   "name": "arrange_no_total",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Oslo",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Vigeland Park",
+         "estimated_cost_usd": 0
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Fram Museum",
+         "estimated_cost_usd": 14
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fjord cruise",
+         "estimated_cost_usd": 60
+        }
+       ]
+      },
+      {
+       "day_number": 2,
+       "city": "Oslo",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Opera House",
+         "estimated_cost_usd": 0
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Dinner",
+         "estimated_cost_usd": 50
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "fingerprint": "qy7sup",
+     "positions": {
+      "1-morning": "2-morning",
+      "2-morning": "1-morning"
+     }
+    },
+    {
+     "1-morning": {
+      "cost": 7
+     }
+    }
+   ]
+  },
+  {
+   "name": "arrange_multicity_compatible",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Spain",
+     "total_estimated_cost_usd": 700,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Barcelona, Spain",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sagrada Familia",
+         "estimated_cost_usd": 30,
+         "duration_hours": 2,
+         "lat": 41.4036,
+         "lng": 2.1744
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Gothic Quarter",
+         "estimated_cost_usd": 0,
+         "duration_hours": 3,
+         "lat": 41.3833,
+         "lng": 2.1767
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Tapas crawl",
+         "estimated_cost_usd": 55,
+         "duration_hours": 3,
+         "lat": 41.3851,
+         "lng": 2.1734
+        }
+       ],
+       "daily_estimated_cost_usd": 85
+      },
+      {
+       "day_number": 2,
+       "city": "Montserrat & Barcelona, Spain",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Montserrat monastery",
+         "estimated_cost_usd": 40,
+         "duration_hours": 4,
+         "lat": 41.5933,
+         "lng": 1.8377
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Cremallera back",
+         "estimated_cost_usd": 15,
+         "duration_hours": 1.5
+        }
+       ],
+       "daily_estimated_cost_usd": 55
+      },
+      {
+       "day_number": 3,
+       "city": "Madrid, Spain",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Prado Museum",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 40.4138,
+         "lng": -3.6921
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Retiro Park",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 40.4153,
+         "lng": -3.6844
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Flamenco show",
+         "estimated_cost_usd": 45,
+         "duration_hours": 2,
+         "lat": 40.4125,
+         "lng": -3.711
+        }
+       ],
+       "daily_estimated_cost_usd": 65
+      },
+      {
+       "day_number": 4,
+       "city": "Madrid, Spain",
+       "theme": "Day 4",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Royal Palace",
+         "estimated_cost_usd": 15,
+         "duration_hours": 2.5,
+         "lat": 40.4179,
+         "lng": -3.7143
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Rooftop drinks",
+         "estimated_cost_usd": 35,
+         "duration_hours": 2,
+         "lat": 40.42,
+         "lng": -3.705
+        }
+       ],
+       "daily_estimated_cost_usd": 50
+      }
+     ]
+    },
+    {
+     "fingerprint": "vf0fzd",
+     "positions": {
+      "1-morning": "2-morning",
+      "2-morning": "1-morning"
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_multicity_incompatible_ignored",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Spain",
+     "total_estimated_cost_usd": 700,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Barcelona, Spain",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sagrada Familia",
+         "estimated_cost_usd": 30,
+         "duration_hours": 2,
+         "lat": 41.4036,
+         "lng": 2.1744
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Gothic Quarter",
+         "estimated_cost_usd": 0,
+         "duration_hours": 3,
+         "lat": 41.3833,
+         "lng": 2.1767
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Tapas crawl",
+         "estimated_cost_usd": 55,
+         "duration_hours": 3,
+         "lat": 41.3851,
+         "lng": 2.1734
+        }
+       ],
+       "daily_estimated_cost_usd": 85
+      },
+      {
+       "day_number": 2,
+       "city": "Montserrat & Barcelona, Spain",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Montserrat monastery",
+         "estimated_cost_usd": 40,
+         "duration_hours": 4,
+         "lat": 41.5933,
+         "lng": 1.8377
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Cremallera back",
+         "estimated_cost_usd": 15,
+         "duration_hours": 1.5
+        }
+       ],
+       "daily_estimated_cost_usd": 55
+      },
+      {
+       "day_number": 3,
+       "city": "Madrid, Spain",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Prado Museum",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 40.4138,
+         "lng": -3.6921
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Retiro Park",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 40.4153,
+         "lng": -3.6844
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Flamenco show",
+         "estimated_cost_usd": 45,
+         "duration_hours": 2,
+         "lat": 40.4125,
+         "lng": -3.711
+        }
+       ],
+       "daily_estimated_cost_usd": 65
+      },
+      {
+       "day_number": 4,
+       "city": "Madrid, Spain",
+       "theme": "Day 4",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Royal Palace",
+         "estimated_cost_usd": 15,
+         "duration_hours": 2.5,
+         "lat": 40.4179,
+         "lng": -3.7143
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Rooftop drinks",
+         "estimated_cost_usd": 35,
+         "duration_hours": 2,
+         "lat": 40.42,
+         "lng": -3.705
+        }
+       ],
+       "daily_estimated_cost_usd": 50
+      }
+     ]
+    },
+    {
+     "fingerprint": "vf0fzd",
+     "positions": {
+      "1-morning": "3-morning",
+      "3-evening": "1-afternoon"
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_two_claim_same_position",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": "1-evening",
+      "2-evening": "1-evening"
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_claim_unknown_position",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": "9-morning",
+      "1-afternoon": 5
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_odd_times_move",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Kyoto, Japan",
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Kyoto",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Fushimi Inari",
+         "estimated_cost_usd": 0,
+         "duration_hours": 3,
+         "lat": 34.9671,
+         "lng": 135.7727
+        },
+        {
+         "time_of_day": "morning",
+         "activity": "Tea ceremony",
+         "estimated_cost_usd": 30,
+         "duration_hours": 1,
+         "lat": 35.003,
+         "lng": 135.77,
+         "from_link": true
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Nishiki Market",
+         "estimated_cost_usd": 15,
+         "duration_hours": 2,
+         "lat": 35.005,
+         "lng": 135.765
+        },
+        {
+         "time_of_day": "late night",
+         "activity": "Karaoke in Pontocho",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 35.0045,
+         "lng": 135.7708
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Kaiseki dinner",
+         "estimated_cost_usd": 120,
+         "duration_hours": 2.5,
+         "lat": 35.0036,
+         "lng": 135.7747
+        }
+       ],
+       "daily_estimated_cost_usd": 190
+      },
+      {
+       "day_number": 2,
+       "city": "Kyoto",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Arashiyama bamboo grove",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 35.0094,
+         "lng": 135.6722
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Free time"
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Gion stroll",
+         "estimated_cost_usd": 0,
+         "duration_hours": 1.5,
+         "lat": 35.0037,
+         "lng": 135.7756
+        }
+       ]
+      },
+      {
+       "day_number": 3,
+       "city": "Kyoto",
+       "theme": "Day 3",
+       "slots": []
+      },
+      {
+       "day_number": 4,
+       "city": "Kyoto",
+       "theme": "Day 4",
+       "slots": [
+        {
+         "time_of_day": "night",
+         "activity": "Night bus",
+         "estimated_cost_usd": 20
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "fingerprint": "1gn3rlg",
+     "positions": {
+      "1-morning": "1-evening",
+      "1-evening": "1-morning"
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_from_link_removed_primary",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Kyoto, Japan",
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Kyoto",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Fushimi Inari",
+         "estimated_cost_usd": 0,
+         "duration_hours": 3,
+         "lat": 34.9671,
+         "lng": 135.7727
+        },
+        {
+         "time_of_day": "morning",
+         "activity": "Tea ceremony",
+         "estimated_cost_usd": 30,
+         "duration_hours": 1,
+         "lat": 35.003,
+         "lng": 135.77,
+         "from_link": true
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Nishiki Market",
+         "estimated_cost_usd": 15,
+         "duration_hours": 2,
+         "lat": 35.005,
+         "lng": 135.765
+        },
+        {
+         "time_of_day": "late night",
+         "activity": "Karaoke in Pontocho",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 35.0045,
+         "lng": 135.7708
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Kaiseki dinner",
+         "estimated_cost_usd": 120,
+         "duration_hours": 2.5,
+         "lat": 35.0036,
+         "lng": 135.7747
+        }
+       ],
+       "daily_estimated_cost_usd": 190
+      },
+      {
+       "day_number": 2,
+       "city": "Kyoto",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Arashiyama bamboo grove",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 35.0094,
+         "lng": 135.6722
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Free time"
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Gion stroll",
+         "estimated_cost_usd": 0,
+         "duration_hours": 1.5,
+         "lat": 35.0037,
+         "lng": 135.7756
+        }
+       ]
+      },
+      {
+       "day_number": 3,
+       "city": "Kyoto",
+       "theme": "Day 3",
+       "slots": []
+      },
+      {
+       "day_number": 4,
+       "city": "Kyoto",
+       "theme": "Day 4",
+       "slots": [
+        {
+         "time_of_day": "night",
+         "activity": "Night bus",
+         "estimated_cost_usd": 20
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "fingerprint": "1gn3rlg",
+     "positions": {
+      "1-afternoon": null
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_duplicate_morning",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Rome",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Colosseum",
+         "estimated_cost_usd": 18,
+         "duration_hours": 3,
+         "lat": 41.8902,
+         "lng": 12.4922
+        },
+        {
+         "time_of_day": "morning",
+         "activity": "Forum",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 41.8925,
+         "lng": 12.4853
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Trastevere",
+         "estimated_cost_usd": 0,
+         "duration_hours": 3,
+         "lat": 41.8892,
+         "lng": 12.4695
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Pasta class",
+         "estimated_cost_usd": 80,
+         "duration_hours": 3,
+         "lat": 41.9,
+         "lng": 12.47
+        }
+       ],
+       "daily_estimated_cost_usd": 98
+      },
+      {
+       "day_number": 2,
+       "city": "Rome",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Vatican",
+         "estimated_cost_usd": 30,
+         "duration_hours": 4,
+         "lat": 41.9029,
+         "lng": 12.4534
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pantheon",
+         "estimated_cost_usd": 0,
+         "duration_hours": 1,
+         "lat": 41.8986,
+         "lng": 12.4769
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Piazza Navona",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 41.8992,
+         "lng": 12.4731
+        }
+       ],
+       "daily_estimated_cost_usd": 30
+      }
+     ]
+    },
+    {
+     "fingerprint": "1w04put",
+     "positions": {
+      "1-morning": "2-morning",
+      "2-morning": "1-morning"
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_empty_and_odd_days",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Kyoto, Japan",
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Kyoto",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Fushimi Inari",
+         "estimated_cost_usd": 0,
+         "duration_hours": 3,
+         "lat": 34.9671,
+         "lng": 135.7727
+        },
+        {
+         "time_of_day": "morning",
+         "activity": "Tea ceremony",
+         "estimated_cost_usd": 30,
+         "duration_hours": 1,
+         "lat": 35.003,
+         "lng": 135.77,
+         "from_link": true
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Nishiki Market",
+         "estimated_cost_usd": 15,
+         "duration_hours": 2,
+         "lat": 35.005,
+         "lng": 135.765
+        },
+        {
+         "time_of_day": "late night",
+         "activity": "Karaoke in Pontocho",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 35.0045,
+         "lng": 135.7708
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Kaiseki dinner",
+         "estimated_cost_usd": 120,
+         "duration_hours": 2.5,
+         "lat": 35.0036,
+         "lng": 135.7747
+        }
+       ],
+       "daily_estimated_cost_usd": 190
+      },
+      {
+       "day_number": 2,
+       "city": "Kyoto",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Arashiyama bamboo grove",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 35.0094,
+         "lng": 135.6722
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Free time"
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Gion stroll",
+         "estimated_cost_usd": 0,
+         "duration_hours": 1.5,
+         "lat": 35.0037,
+         "lng": 135.7756
+        }
+       ]
+      },
+      {
+       "day_number": 3,
+       "city": "Kyoto",
+       "theme": "Day 3",
+       "slots": []
+      },
+      {
+       "day_number": 4,
+       "city": "Kyoto",
+       "theme": "Day 4",
+       "slots": [
+        {
+         "time_of_day": "night",
+         "activity": "Night bus",
+         "estimated_cost_usd": 20
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "fingerprint": "1gn3rlg",
+     "positions": {
+      "2-morning": "2-evening",
+      "2-evening": "2-morning"
+     }
+    },
+    {}
+   ]
+  },
+  {
+   "name": "arrange_null_itinerary",
+   "fn": "arrangeItinerary",
+   "args": [
+    null,
+    null,
+    {}
+   ]
+  },
+  {
+   "name": "arrange_default_edits_day_cost",
+   "fn": "arrangeItinerary",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "3-evening": "3-afternoon"
+     }
+    }
+   ]
+  },
+  {
+   "name": "moveTargets_lisbon",
+   "fn": "moveTargets",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    null,
+    "1-morning"
+   ]
+  },
+  {
+   "name": "moveTargets_multicity",
+   "fn": "moveTargets",
+   "args": [
+    {
+     "destination": "Spain",
+     "total_estimated_cost_usd": 700,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Barcelona, Spain",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sagrada Familia",
+         "estimated_cost_usd": 30,
+         "duration_hours": 2,
+         "lat": 41.4036,
+         "lng": 2.1744
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Gothic Quarter",
+         "estimated_cost_usd": 0,
+         "duration_hours": 3,
+         "lat": 41.3833,
+         "lng": 2.1767
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Tapas crawl",
+         "estimated_cost_usd": 55,
+         "duration_hours": 3,
+         "lat": 41.3851,
+         "lng": 2.1734
+        }
+       ],
+       "daily_estimated_cost_usd": 85
+      },
+      {
+       "day_number": 2,
+       "city": "Montserrat & Barcelona, Spain",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Montserrat monastery",
+         "estimated_cost_usd": 40,
+         "duration_hours": 4,
+         "lat": 41.5933,
+         "lng": 1.8377
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Cremallera back",
+         "estimated_cost_usd": 15,
+         "duration_hours": 1.5
+        }
+       ],
+       "daily_estimated_cost_usd": 55
+      },
+      {
+       "day_number": 3,
+       "city": "Madrid, Spain",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Prado Museum",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 40.4138,
+         "lng": -3.6921
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Retiro Park",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 40.4153,
+         "lng": -3.6844
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Flamenco show",
+         "estimated_cost_usd": 45,
+         "duration_hours": 2,
+         "lat": 40.4125,
+         "lng": -3.711
+        }
+       ],
+       "daily_estimated_cost_usd": 65
+      },
+      {
+       "day_number": 4,
+       "city": "Madrid, Spain",
+       "theme": "Day 4",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Royal Palace",
+         "estimated_cost_usd": 15,
+         "duration_hours": 2.5,
+         "lat": 40.4179,
+         "lng": -3.7143
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Rooftop drinks",
+         "estimated_cost_usd": 35,
+         "duration_hours": 2,
+         "lat": 40.42,
+         "lng": -3.705
+        }
+       ],
+       "daily_estimated_cost_usd": 50
+      }
+     ]
+    },
+    null,
+    "2-morning"
+   ]
+  },
+  {
+   "name": "moveTargets_after_move",
+   "fn": "moveTargets",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": "1-evening",
+      "1-evening": "1-morning"
+     }
+    },
+    "1-evening"
+   ]
+  },
+  {
+   "name": "moveTargets_removed_key",
+   "fn": "moveTargets",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": null
+     }
+    },
+    "1-morning"
+   ]
+  },
+  {
+   "name": "moveTargets_unknown_key",
+   "fn": "moveTargets",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    null,
+    "9-evening"
+   ]
+  },
+  {
+   "name": "moveTargets_odd",
+   "fn": "moveTargets",
+   "args": [
+    {
+     "destination": "Kyoto, Japan",
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Kyoto",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Fushimi Inari",
+         "estimated_cost_usd": 0,
+         "duration_hours": 3,
+         "lat": 34.9671,
+         "lng": 135.7727
+        },
+        {
+         "time_of_day": "morning",
+         "activity": "Tea ceremony",
+         "estimated_cost_usd": 30,
+         "duration_hours": 1,
+         "lat": 35.003,
+         "lng": 135.77,
+         "from_link": true
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Nishiki Market",
+         "estimated_cost_usd": 15,
+         "duration_hours": 2,
+         "lat": 35.005,
+         "lng": 135.765
+        },
+        {
+         "time_of_day": "late night",
+         "activity": "Karaoke in Pontocho",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 35.0045,
+         "lng": 135.7708
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Kaiseki dinner",
+         "estimated_cost_usd": 120,
+         "duration_hours": 2.5,
+         "lat": 35.0036,
+         "lng": 135.7747
+        }
+       ],
+       "daily_estimated_cost_usd": 190
+      },
+      {
+       "day_number": 2,
+       "city": "Kyoto",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Arashiyama bamboo grove",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 35.0094,
+         "lng": 135.6722
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Free time"
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Gion stroll",
+         "estimated_cost_usd": 0,
+         "duration_hours": 1.5,
+         "lat": 35.0037,
+         "lng": 135.7756
+        }
+       ]
+      },
+      {
+       "day_number": 3,
+       "city": "Kyoto",
+       "theme": "Day 3",
+       "slots": []
+      },
+      {
+       "day_number": 4,
+       "city": "Kyoto",
+       "theme": "Day 4",
+       "slots": [
+        {
+         "time_of_day": "night",
+         "activity": "Night bus",
+         "estimated_cost_usd": 20
+        }
+       ]
+      }
+     ]
+    },
+    null,
+    "1-evening"
+   ]
+  },
+  {
+   "name": "moveSlot_swap",
+   "fn": "moveSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    null,
+    "1-morning",
+    1,
+    "evening"
+   ]
+  },
+  {
+   "name": "moveSlot_to_empty",
+   "fn": "moveSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    null,
+    "3-evening",
+    3,
+    "afternoon"
+   ]
+  },
+  {
+   "name": "moveSlot_chain",
+   "fn": "moveSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": "1-evening",
+      "1-evening": "1-morning"
+     }
+    },
+    "1-morning",
+    2,
+    "morning"
+   ]
+  },
+  {
+   "name": "moveSlot_invalid_target",
+   "fn": "moveSlot",
+   "args": [
+    {
+     "destination": "Spain",
+     "total_estimated_cost_usd": 700,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Barcelona, Spain",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sagrada Familia",
+         "estimated_cost_usd": 30,
+         "duration_hours": 2,
+         "lat": 41.4036,
+         "lng": 2.1744
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Gothic Quarter",
+         "estimated_cost_usd": 0,
+         "duration_hours": 3,
+         "lat": 41.3833,
+         "lng": 2.1767
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Tapas crawl",
+         "estimated_cost_usd": 55,
+         "duration_hours": 3,
+         "lat": 41.3851,
+         "lng": 2.1734
+        }
+       ],
+       "daily_estimated_cost_usd": 85
+      },
+      {
+       "day_number": 2,
+       "city": "Montserrat & Barcelona, Spain",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Montserrat monastery",
+         "estimated_cost_usd": 40,
+         "duration_hours": 4,
+         "lat": 41.5933,
+         "lng": 1.8377
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Cremallera back",
+         "estimated_cost_usd": 15,
+         "duration_hours": 1.5
+        }
+       ],
+       "daily_estimated_cost_usd": 55
+      },
+      {
+       "day_number": 3,
+       "city": "Madrid, Spain",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Prado Museum",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 40.4138,
+         "lng": -3.6921
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Retiro Park",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 40.4153,
+         "lng": -3.6844
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Flamenco show",
+         "estimated_cost_usd": 45,
+         "duration_hours": 2,
+         "lat": 40.4125,
+         "lng": -3.711
+        }
+       ],
+       "daily_estimated_cost_usd": 65
+      },
+      {
+       "day_number": 4,
+       "city": "Madrid, Spain",
+       "theme": "Day 4",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Royal Palace",
+         "estimated_cost_usd": 15,
+         "duration_hours": 2.5,
+         "lat": 40.4179,
+         "lng": -3.7143
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Rooftop drinks",
+         "estimated_cost_usd": 35,
+         "duration_hours": 2,
+         "lat": 40.42,
+         "lng": -3.705
+        }
+       ],
+       "daily_estimated_cost_usd": 50
+      }
+     ]
+    },
+    null,
+    "1-morning",
+    3,
+    "morning"
+   ]
+  },
+  {
+   "name": "moveSlot_invalid_target_keeps_layout",
+   "fn": "moveSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": null
+     }
+    },
+    "1-afternoon",
+    7,
+    "morning"
+   ]
+  },
+  {
+   "name": "removeSlot_basic",
+   "fn": "removeSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    null,
+    "2-afternoon"
+   ]
+  },
+  {
+   "name": "removeSlot_already_removed",
+   "fn": "removeSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "2-afternoon": null
+     }
+    },
+    "2-afternoon"
+   ]
+  },
+  {
+   "name": "removeSlot_unknown",
+   "fn": "removeSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    null,
+    "nope"
+   ]
+  },
+  {
+   "name": "restoreSlot_basic",
+   "fn": "restoreSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "2-afternoon": null
+     }
+    },
+    "2-afternoon"
+   ]
+  },
+  {
+   "name": "restoreSlot_original_taken",
+   "fn": "restoreSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-afternoon": null,
+      "1-morning": "1-afternoon"
+     }
+    },
+    "1-afternoon"
+   ]
+  },
+  {
+   "name": "restoreSlot_no_free_position",
+   "fn": "restoreSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "2-evening": null,
+      "2-morning": "2-evening"
+     }
+    },
+    "2-evening"
+   ]
+  },
+  {
+   "name": "restoreSlot_not_removed",
+   "fn": "restoreSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": "1-evening",
+      "1-evening": "1-morning"
+     }
+    },
+    "1-morning"
+   ]
+  },
+  {
+   "name": "restoreSlot_stale_layout",
+   "fn": "restoreSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "old",
+     "positions": {
+      "1-morning": null
+     }
+    },
+    "1-morning"
+   ]
+  },
+  {
+   "name": "restoreSlot_null_layout",
+   "fn": "restoreSlot",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    null,
+    "1-morning"
+   ]
+  },
+  {
+   "name": "layoutChangeCount_none",
+   "fn": "layoutChangeCount",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    null
+   ]
+  },
+  {
+   "name": "layoutChangeCount_moves_and_removes",
+   "fn": "layoutChangeCount",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "1ujusck",
+     "positions": {
+      "1-morning": "1-evening",
+      "1-evening": "1-morning",
+      "2-afternoon": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "layoutChangeCount_stale",
+   "fn": "layoutChangeCount",
+   "args": [
+    {
+     "destination": "Lisbon, Portugal",
+     "total_estimated_cost_usd": 330,
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Alfama walking tour",
+         "estimated_cost_usd": 20,
+         "duration_hours": 3,
+         "lat": 38.711,
+         "lng": -9.13
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "estimated_cost_usd": 25,
+         "duration_hours": 2,
+         "lat": 38.7071,
+         "lng": -9.1456
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Fado dinner",
+         "estimated_cost_usd": 60,
+         "duration_hours": 2.5,
+         "lat": 38.7118,
+         "lng": -9.1285
+        }
+       ],
+       "daily_estimated_cost_usd": 105
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Belem Tower",
+         "estimated_cost_usd": 10,
+         "duration_hours": 2,
+         "lat": 38.6916,
+         "lng": -9.216
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Pasteis de Belem",
+         "estimated_cost_usd": 8,
+         "duration_hours": 1,
+         "lat": 38.6975,
+         "lng": -9.2032
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Sunset at Miradouro",
+         "estimated_cost_usd": 0,
+         "duration_hours": 2,
+         "lat": 38.7155,
+         "lng": -9.133
+        }
+       ],
+       "daily_estimated_cost_usd": 18
+      },
+      {
+       "day_number": 3,
+       "city": "Lisbon",
+       "theme": "Day 3",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Sintra day trip",
+         "estimated_cost_usd": 50,
+         "duration_hours": 6,
+         "lat": 38.797,
+         "lng": -9.39
+        },
+        {
+         "time_of_day": "evening",
+         "activity": "Farewell dinner",
+         "estimated_cost_usd": 70,
+         "duration_hours": 2,
+         "lat": 38.71,
+         "lng": -9.14
+        }
+       ],
+       "daily_estimated_cost_usd": 120
+      }
+     ]
+    },
+    {
+     "fingerprint": "x",
+     "positions": {
+      "1-morning": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "syncPlannedSlots_moved",
+   "fn": "syncPlannedSlots",
+   "args": [
+    [
+     {
+      "key": "1-morning",
+      "day_number": 1,
+      "time_of_day": "morning",
+      "activity": "Alfama walking tour"
+     },
+     {
+      "key": "1-afternoon",
+      "day_number": 1,
+      "time_of_day": "afternoon",
+      "activity": "Time Out Market lunch"
+     },
+     {
+      "key": "1-evening",
+      "day_number": 1,
+      "time_of_day": "evening",
+      "activity": "Fado dinner"
+     },
+     {
+      "key": "9-evening",
+      "day_number": 9,
+      "time_of_day": "evening"
+     }
+    ],
+    {
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "evening",
+         "activity": "Alfama walking tour",
+         "key": "1-morning"
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "key": "1-afternoon"
+        }
+       ]
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Fado dinner",
+         "key": "1-evening"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "syncPlannedSlots_null_inputs",
+   "fn": "syncPlannedSlots",
+   "args": [
+    null,
+    null
+   ]
+  },
+  {
+   "name": "syncPlannedSlots_null_entry_removed_day",
+   "fn": "syncPlannedSlots",
+   "args": [
+    [
+     null,
+     {
+      "key": "1-morning",
+      "day_number": 3,
+      "time_of_day": "evening"
+     }
+    ],
+    {
+     "days": [
+      {
+       "day_number": 1,
+       "city": "Lisbon",
+       "theme": "Day 1",
+       "slots": [
+        {
+         "time_of_day": "evening",
+         "activity": "Alfama walking tour",
+         "key": "1-morning"
+        },
+        {
+         "time_of_day": "afternoon",
+         "activity": "Time Out Market lunch",
+         "key": "1-afternoon"
+        }
+       ]
+      },
+      {
+       "day_number": 2,
+       "city": "Lisbon",
+       "theme": "Day 2",
+       "slots": [
+        {
+         "time_of_day": "morning",
+         "activity": "Fado dinner",
+         "key": "1-evening"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

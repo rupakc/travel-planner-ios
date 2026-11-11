@@ -1,0 +1,71 @@
+{
+  "args": [
+    [
+      {
+        "city": "X",
+        "day_number": 1,
+        "slots": [
+          {
+            "activity": "Long hike",
+            "duration_hours": 6,
+            "estimated_cost_usd": 0,
+            "key": "1-morning",
+            "lat": 10,
+            "lng": 10,
+            "time_of_day": "morning"
+          },
+          {
+            "key": "1-afternoon",
+            "lat": 10.5,
+            "lng": 10.5,
+            "time_of_day": "afternoon"
+          }
+        ],
+        "theme": "Day 1"
+      }
+    ]
+  ],
+  "fn": "scheduleDays",
+  "output": [
+    {
+      "city": "X",
+      "day_number": 1,
+      "schedule_warnings": [
+        "An activity starts at 20:15 — later than planned",
+        "Day 1 runs past 23:00"
+      ],
+      "slots": [
+        {
+          "activity": "Long hike",
+          "duration_hours": 6,
+          "end_day_offset": 0,
+          "end_time": "15:00",
+          "estimated_cost_usd": 0,
+          "key": "1-morning",
+          "lat": 10,
+          "lng": 10,
+          "start_day_offset": 0,
+          "start_time": "09:00",
+          "time_of_day": "morning",
+          "transit_from_prev": null
+        },
+        {
+          "end_day_offset": 0,
+          "end_time": "23:15",
+          "key": "1-afternoon",
+          "lat": 10.5,
+          "lng": 10.5,
+          "start_day_offset": 0,
+          "start_time": "20:15",
+          "time_of_day": "afternoon",
+          "transit_from_prev": {
+            "km": 101.4,
+            "minutes": 315,
+            "mode": "transit"
+          }
+        }
+      ],
+      "theme": "Day 1"
+    }
+  ]
+}

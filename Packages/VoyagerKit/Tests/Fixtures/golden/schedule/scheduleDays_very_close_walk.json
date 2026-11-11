@@ -1,0 +1,75 @@
+{
+  "args": [
+    [
+      {
+        "city": "X",
+        "day_number": 1,
+        "slots": [
+          {
+            "activity": "A",
+            "duration_hours": 1,
+            "estimated_cost_usd": 0,
+            "key": "1-morning",
+            "lat": 48.8584,
+            "lng": 2.2945,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "B",
+            "duration_hours": 1,
+            "estimated_cost_usd": 0,
+            "key": "1-afternoon",
+            "lat": 48.8585,
+            "lng": 2.2946,
+            "time_of_day": "afternoon"
+          }
+        ],
+        "theme": "Day 1"
+      }
+    ],
+    {}
+  ],
+  "fn": "scheduleDays",
+  "output": [
+    {
+      "city": "X",
+      "day_number": 1,
+      "schedule_warnings": [],
+      "slots": [
+        {
+          "activity": "A",
+          "duration_hours": 1,
+          "end_day_offset": 0,
+          "end_time": "10:00",
+          "estimated_cost_usd": 0,
+          "key": "1-morning",
+          "lat": 48.8584,
+          "lng": 2.2945,
+          "start_day_offset": 0,
+          "start_time": "09:00",
+          "time_of_day": "morning",
+          "transit_from_prev": null
+        },
+        {
+          "activity": "B",
+          "duration_hours": 1,
+          "end_day_offset": 0,
+          "end_time": "14:30",
+          "estimated_cost_usd": 0,
+          "key": "1-afternoon",
+          "lat": 48.8585,
+          "lng": 2.2946,
+          "start_day_offset": 0,
+          "start_time": "13:30",
+          "time_of_day": "afternoon",
+          "transit_from_prev": {
+            "km": 0,
+            "minutes": 5,
+            "mode": "walk"
+          }
+        }
+      ],
+      "theme": "Day 1"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "args": [
+    "Pisa / Florence",
+    "florence, Italy"
+  ],
+  "fn": "citiesCompatible",
+  "output": true
+}

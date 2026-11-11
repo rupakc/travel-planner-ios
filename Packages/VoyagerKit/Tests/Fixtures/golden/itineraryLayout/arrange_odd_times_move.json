@@ -1,0 +1,223 @@
+{
+  "args": [
+    {
+      "days": [
+        {
+          "city": "Kyoto",
+          "daily_estimated_cost_usd": 190,
+          "day_number": 1,
+          "slots": [
+            {
+              "activity": "Fushimi Inari",
+              "duration_hours": 3,
+              "estimated_cost_usd": 0,
+              "lat": 34.9671,
+              "lng": 135.7727,
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "Tea ceremony",
+              "duration_hours": 1,
+              "estimated_cost_usd": 30,
+              "from_link": true,
+              "lat": 35.003,
+              "lng": 135.77,
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "Nishiki Market",
+              "duration_hours": 2,
+              "estimated_cost_usd": 15,
+              "lat": 35.005,
+              "lng": 135.765,
+              "time_of_day": "afternoon"
+            },
+            {
+              "activity": "Karaoke in Pontocho",
+              "duration_hours": 2,
+              "estimated_cost_usd": 25,
+              "lat": 35.0045,
+              "lng": 135.7708,
+              "time_of_day": "late night"
+            },
+            {
+              "activity": "Kaiseki dinner",
+              "duration_hours": 2.5,
+              "estimated_cost_usd": 120,
+              "lat": 35.0036,
+              "lng": 135.7747,
+              "time_of_day": "evening"
+            }
+          ],
+          "theme": "Day 1"
+        },
+        {
+          "city": "Kyoto",
+          "day_number": 2,
+          "slots": [
+            {
+              "activity": "Arashiyama bamboo grove",
+              "duration_hours": 2,
+              "estimated_cost_usd": 0,
+              "lat": 35.0094,
+              "lng": 135.6722,
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "Free time",
+              "time_of_day": "afternoon"
+            },
+            {
+              "activity": "Gion stroll",
+              "duration_hours": 1.5,
+              "estimated_cost_usd": 0,
+              "lat": 35.0037,
+              "lng": 135.7756,
+              "time_of_day": "evening"
+            }
+          ],
+          "theme": "Day 2"
+        },
+        {
+          "city": "Kyoto",
+          "day_number": 3,
+          "slots": [],
+          "theme": "Day 3"
+        },
+        {
+          "city": "Kyoto",
+          "day_number": 4,
+          "slots": [
+            {
+              "activity": "Night bus",
+              "estimated_cost_usd": 20,
+              "time_of_day": "night"
+            }
+          ],
+          "theme": "Day 4"
+        }
+      ],
+      "destination": "Kyoto, Japan"
+    },
+    {
+      "fingerprint": "1gn3rlg",
+      "positions": {
+        "1-evening": "1-morning",
+        "1-morning": "1-evening"
+      }
+    },
+    {}
+  ],
+  "fn": "arrangeItinerary",
+  "output": {
+    "changed": true,
+    "days": [
+      {
+        "city": "Kyoto",
+        "daily_estimated_cost_usd": 190,
+        "day_number": 1,
+        "slots": [
+          {
+            "activity": "Kaiseki dinner",
+            "duration_hours": 2.5,
+            "estimated_cost_usd": 120,
+            "key": "1-evening",
+            "lat": 35.0036,
+            "lng": 135.7747,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Tea ceremony",
+            "duration_hours": 1,
+            "estimated_cost_usd": 30,
+            "from_link": true,
+            "key": "1-morning#2",
+            "lat": 35.003,
+            "lng": 135.77,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Nishiki Market",
+            "duration_hours": 2,
+            "estimated_cost_usd": 15,
+            "key": "1-afternoon",
+            "lat": 35.005,
+            "lng": 135.765,
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "Karaoke in Pontocho",
+            "duration_hours": 2,
+            "estimated_cost_usd": 25,
+            "key": "1-late night",
+            "lat": 35.0045,
+            "lng": 135.7708,
+            "time_of_day": "late night"
+          },
+          {
+            "activity": "Fushimi Inari",
+            "duration_hours": 3,
+            "estimated_cost_usd": 0,
+            "key": "1-morning",
+            "lat": 34.9671,
+            "lng": 135.7727,
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 1"
+      },
+      {
+        "city": "Kyoto",
+        "day_number": 2,
+        "slots": [
+          {
+            "activity": "Arashiyama bamboo grove",
+            "duration_hours": 2,
+            "estimated_cost_usd": 0,
+            "key": "2-morning",
+            "lat": 35.0094,
+            "lng": 135.6722,
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Free time",
+            "key": "2-afternoon",
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "Gion stroll",
+            "duration_hours": 1.5,
+            "estimated_cost_usd": 0,
+            "key": "2-evening",
+            "lat": 35.0037,
+            "lng": 135.7756,
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 2"
+      },
+      {
+        "city": "Kyoto",
+        "day_number": 3,
+        "slots": [],
+        "theme": "Day 3"
+      },
+      {
+        "city": "Kyoto",
+        "day_number": 4,
+        "slots": [
+          {
+            "activity": "Night bus",
+            "estimated_cost_usd": 20,
+            "key": "4-night",
+            "time_of_day": "night"
+          }
+        ],
+        "theme": "Day 4"
+      }
+    ],
+    "destination": "Kyoto, Japan",
+    "removed": [],
+    "total_estimated_cost_usd": 210
+  }
+}

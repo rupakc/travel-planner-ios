@@ -1,0 +1,12 @@
+{
+  "args": [
+    {
+      "city": "Kyoto",
+      "day_number": 3,
+      "slots": [],
+      "theme": "Day 3"
+    }
+  ],
+  "fn": "slotRanks",
+  "output": {}
+}

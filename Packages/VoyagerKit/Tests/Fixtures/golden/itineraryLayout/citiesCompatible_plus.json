@@ -1,0 +1,8 @@
+{
+  "args": [
+    "A + B",
+    "b"
+  ],
+  "fn": "citiesCompatible",
+  "output": true
+}

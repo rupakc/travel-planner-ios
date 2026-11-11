@@ -1,0 +1,27 @@
+{
+  "args": [
+    {
+      "day_number": 1,
+      "slots": [
+        {
+          "activity": "a",
+          "time_of_day": "evening"
+        },
+        {
+          "activity": "b",
+          "time_of_day": "morning"
+        },
+        {
+          "activity": "c",
+          "time_of_day": "afternoon"
+        }
+      ]
+    }
+  ],
+  "fn": "scheduleOrder",
+  "output": [
+    1,
+    2,
+    0
+  ]
+}

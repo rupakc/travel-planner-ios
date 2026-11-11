@@ -1,0 +1,1382 @@
+{
+ "module": "frontend/src/utils/schedule.js",
+ "setup": [
+  {
+   "module": "frontend/src/i18n/index.js",
+   "fn": "initI18n",
+   "args": [
+    {
+     "lng": "en"
+    }
+   ]
+  }
+ ],
+ "cases": [
+  {
+   "name": "scheduleDays_single_city",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "Lisbon",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Alfama walking tour",
+        "estimated_cost_usd": 20,
+        "duration_hours": 3,
+        "lat": 38.711,
+        "lng": -9.13,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Time Out Market lunch",
+        "estimated_cost_usd": 25,
+        "duration_hours": 2,
+        "lat": 38.7071,
+        "lng": -9.1456,
+        "key": "1-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Fado dinner",
+        "estimated_cost_usd": 60,
+        "duration_hours": 2.5,
+        "lat": 38.7118,
+        "lng": -9.1285,
+        "key": "1-evening"
+       }
+      ],
+      "daily_estimated_cost_usd": 105
+     },
+     {
+      "day_number": 2,
+      "city": "Lisbon",
+      "theme": "Day 2",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Belem Tower",
+        "estimated_cost_usd": 10,
+        "duration_hours": 2,
+        "lat": 38.6916,
+        "lng": -9.216,
+        "key": "2-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Pasteis de Belem",
+        "estimated_cost_usd": 8,
+        "duration_hours": 1,
+        "lat": 38.6975,
+        "lng": -9.2032,
+        "key": "2-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Sunset at Miradouro",
+        "estimated_cost_usd": 0,
+        "duration_hours": 2,
+        "lat": 38.7155,
+        "lng": -9.133,
+        "key": "2-evening"
+       }
+      ],
+      "daily_estimated_cost_usd": 18
+     },
+     {
+      "day_number": 3,
+      "city": "Lisbon",
+      "theme": "Day 3",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Sintra day trip",
+        "estimated_cost_usd": 50,
+        "duration_hours": 6,
+        "lat": 38.797,
+        "lng": -9.39,
+        "key": "3-morning"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Farewell dinner",
+        "estimated_cost_usd": 70,
+        "duration_hours": 2,
+        "lat": 38.71,
+        "lng": -9.14,
+        "key": "3-evening"
+       }
+      ],
+      "daily_estimated_cost_usd": 120
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_multicity",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "Barcelona, Spain",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Sagrada Familia",
+        "estimated_cost_usd": 30,
+        "duration_hours": 2,
+        "lat": 41.4036,
+        "lng": 2.1744,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Gothic Quarter",
+        "estimated_cost_usd": 0,
+        "duration_hours": 3,
+        "lat": 41.3833,
+        "lng": 2.1767,
+        "key": "1-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Tapas crawl",
+        "estimated_cost_usd": 55,
+        "duration_hours": 3,
+        "lat": 41.3851,
+        "lng": 2.1734,
+        "key": "1-evening"
+       }
+      ],
+      "daily_estimated_cost_usd": 85
+     },
+     {
+      "day_number": 2,
+      "city": "Montserrat & Barcelona, Spain",
+      "theme": "Day 2",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Montserrat monastery",
+        "estimated_cost_usd": 40,
+        "duration_hours": 4,
+        "lat": 41.5933,
+        "lng": 1.8377,
+        "key": "2-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Cremallera back",
+        "estimated_cost_usd": 15,
+        "duration_hours": 1.5,
+        "key": "2-afternoon"
+       }
+      ],
+      "daily_estimated_cost_usd": 55
+     },
+     {
+      "day_number": 3,
+      "city": "Madrid, Spain",
+      "theme": "Day 3",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Prado Museum",
+        "estimated_cost_usd": 20,
+        "duration_hours": 3,
+        "lat": 40.4138,
+        "lng": -3.6921,
+        "key": "3-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Retiro Park",
+        "estimated_cost_usd": 0,
+        "duration_hours": 2,
+        "lat": 40.4153,
+        "lng": -3.6844,
+        "key": "3-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Flamenco show",
+        "estimated_cost_usd": 45,
+        "duration_hours": 2,
+        "lat": 40.4125,
+        "lng": -3.711,
+        "key": "3-evening"
+       }
+      ],
+      "daily_estimated_cost_usd": 65
+     },
+     {
+      "day_number": 4,
+      "city": "Madrid, Spain",
+      "theme": "Day 4",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Royal Palace",
+        "estimated_cost_usd": 15,
+        "duration_hours": 2.5,
+        "lat": 40.4179,
+        "lng": -3.7143,
+        "key": "4-morning"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Rooftop drinks",
+        "estimated_cost_usd": 35,
+        "duration_hours": 2,
+        "lat": 40.42,
+        "lng": -3.705,
+        "key": "4-evening"
+       }
+      ],
+      "daily_estimated_cost_usd": 50
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_odd_times_and_free",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "Kyoto",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Fushimi Inari",
+        "estimated_cost_usd": 0,
+        "duration_hours": 3,
+        "lat": 34.9671,
+        "lng": 135.7727,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "morning",
+        "activity": "Tea ceremony",
+        "estimated_cost_usd": 30,
+        "duration_hours": 1,
+        "lat": 35.003,
+        "lng": 135.77,
+        "from_link": true,
+        "key": "1-morning#2"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Nishiki Market",
+        "estimated_cost_usd": 15,
+        "duration_hours": 2,
+        "lat": 35.005,
+        "lng": 135.765,
+        "key": "1-afternoon"
+       },
+       {
+        "time_of_day": "late night",
+        "activity": "Karaoke in Pontocho",
+        "estimated_cost_usd": 25,
+        "duration_hours": 2,
+        "lat": 35.0045,
+        "lng": 135.7708,
+        "key": "1-late night"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Kaiseki dinner",
+        "estimated_cost_usd": 120,
+        "duration_hours": 2.5,
+        "lat": 35.0036,
+        "lng": 135.7747,
+        "key": "1-evening"
+       }
+      ],
+      "daily_estimated_cost_usd": 190
+     },
+     {
+      "day_number": 2,
+      "city": "Kyoto",
+      "theme": "Day 2",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Arashiyama bamboo grove",
+        "estimated_cost_usd": 0,
+        "duration_hours": 2,
+        "lat": 35.0094,
+        "lng": 135.6722,
+        "key": "2-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Free time",
+        "key": "2-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Gion stroll",
+        "estimated_cost_usd": 0,
+        "duration_hours": 1.5,
+        "lat": 35.0037,
+        "lng": 135.7756,
+        "key": "2-evening"
+       }
+      ]
+     },
+     {
+      "day_number": 3,
+      "city": "Kyoto",
+      "theme": "Day 3",
+      "slots": []
+     },
+     {
+      "day_number": 4,
+      "city": "Kyoto",
+      "theme": "Day 4",
+      "slots": [
+       {
+        "time_of_day": "night",
+        "activity": "Night bus",
+        "estimated_cost_usd": 20,
+        "key": "4-night"
+       }
+      ]
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_duplicates",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "Rome",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Colosseum",
+        "estimated_cost_usd": 18,
+        "duration_hours": 3,
+        "lat": 41.8902,
+        "lng": 12.4922,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "morning",
+        "activity": "Forum",
+        "estimated_cost_usd": 0,
+        "duration_hours": 2,
+        "lat": 41.8925,
+        "lng": 12.4853,
+        "key": "1-morning#2"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Trastevere",
+        "estimated_cost_usd": 0,
+        "duration_hours": 3,
+        "lat": 41.8892,
+        "lng": 12.4695,
+        "key": "1-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Pasta class",
+        "estimated_cost_usd": 80,
+        "duration_hours": 3,
+        "lat": 41.9,
+        "lng": 12.47,
+        "key": "1-evening"
+       }
+      ],
+      "daily_estimated_cost_usd": 98
+     },
+     {
+      "day_number": 2,
+      "city": "Rome",
+      "theme": "Day 2",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Vatican",
+        "estimated_cost_usd": 30,
+        "duration_hours": 4,
+        "lat": 41.9029,
+        "lng": 12.4534,
+        "key": "2-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Pantheon",
+        "estimated_cost_usd": 0,
+        "duration_hours": 1,
+        "lat": 41.8986,
+        "lng": 12.4769,
+        "key": "2-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Piazza Navona",
+        "estimated_cost_usd": 0,
+        "duration_hours": 2,
+        "lat": 41.8992,
+        "lng": 12.4731,
+        "key": "2-evening"
+       }
+      ],
+      "daily_estimated_cost_usd": 30
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_late_warning_name_from_edits",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "X",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Long hike",
+        "estimated_cost_usd": 0,
+        "duration_hours": 6,
+        "lat": 10.0,
+        "lng": 10.0,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Museum",
+        "estimated_cost_usd": 10,
+        "duration_hours": 2,
+        "lat": 10.5,
+        "lng": 10.5,
+        "key": "1-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Dinner",
+        "estimated_cost_usd": 30,
+        "duration_hours": 2,
+        "lat": 10.5,
+        "lng": 10.51,
+        "key": "1-evening"
+       }
+      ]
+     }
+    ],
+    {
+     "1-afternoon": {
+      "activity": "Renamed museum"
+     }
+    }
+   ]
+  },
+  {
+   "name": "scheduleDays_late_warning_no_edits_default_name",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "X",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Long hike",
+        "estimated_cost_usd": 0,
+        "duration_hours": 6,
+        "lat": 10.0,
+        "lng": 10.0,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "lat": 10.5,
+        "lng": 10.5,
+        "key": "1-afternoon"
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "name": "scheduleDays_runs_past_23",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 2,
+      "city": "X",
+      "theme": "Day 2",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "A",
+        "estimated_cost_usd": 0,
+        "duration_hours": 12,
+        "key": "2-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "B",
+        "estimated_cost_usd": 0,
+        "duration_hours": 12,
+        "key": "2-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "C",
+        "estimated_cost_usd": 0,
+        "duration_hours": 12,
+        "key": "2-evening"
+       }
+      ]
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_past_midnight_offsets",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "X",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "evening",
+        "activity": "Club",
+        "estimated_cost_usd": 0,
+        "duration_hours": 12,
+        "key": "1-evening"
+       },
+       {
+        "time_of_day": "late night",
+        "activity": "After party",
+        "estimated_cost_usd": 0,
+        "duration_hours": 12,
+        "key": "1-late night"
+       },
+       {
+        "time_of_day": "night",
+        "activity": "Breakfast",
+        "estimated_cost_usd": 0,
+        "duration_hours": 12,
+        "key": "1-night"
+       }
+      ]
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_unknown_coords_buffer",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "X",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "A",
+        "estimated_cost_usd": 0,
+        "duration_hours": 2,
+        "lat": 40.0,
+        "lng": -3.0,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "B",
+        "estimated_cost_usd": 0,
+        "duration_hours": 2,
+        "key": "1-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "C",
+        "estimated_cost_usd": 0,
+        "duration_hours": 2,
+        "lat": 40.0,
+        "lng": -3.0,
+        "key": "1-evening"
+       }
+      ]
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_bad_coords_and_durations",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "X",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "A",
+        "estimated_cost_usd": 0,
+        "duration_hours": 0.1,
+        "lat": 95,
+        "lng": 0,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "B",
+        "estimated_cost_usd": 0,
+        "duration_hours": 13,
+        "lat": 40,
+        "lng": 200,
+        "key": "1-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "C",
+        "estimated_cost_usd": 0,
+        "duration_hours": 0.25,
+        "lat": "40",
+        "lng": "3",
+        "key": "1-evening"
+       }
+      ]
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_walk_vs_transit",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "X",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "A",
+        "estimated_cost_usd": 0,
+        "duration_hours": 1,
+        "lat": 48.8584,
+        "lng": 2.2945,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "B",
+        "estimated_cost_usd": 0,
+        "duration_hours": 1,
+        "lat": 48.8606,
+        "lng": 2.3376,
+        "key": "1-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "C",
+        "estimated_cost_usd": 0,
+        "duration_hours": 1,
+        "lat": 48.8867,
+        "lng": 2.3431,
+        "key": "1-evening"
+       }
+      ]
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_very_close_walk",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "X",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "A",
+        "estimated_cost_usd": 0,
+        "duration_hours": 1,
+        "lat": 48.8584,
+        "lng": 2.2945,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "B",
+        "estimated_cost_usd": 0,
+        "duration_hours": 1,
+        "lat": 48.8585,
+        "lng": 2.2946,
+        "key": "1-afternoon"
+       }
+      ]
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_empty_day_and_no_slots",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "X",
+      "theme": "Day 1",
+      "slots": []
+     },
+     {
+      "day_number": 2
+     },
+     {
+      "day_number": 1,
+      "city": "Lisbon",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Alfama walking tour",
+        "estimated_cost_usd": 20,
+        "duration_hours": 3,
+        "lat": 38.711,
+        "lng": -9.13,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Time Out Market lunch",
+        "estimated_cost_usd": 25,
+        "duration_hours": 2,
+        "lat": 38.7071,
+        "lng": -9.1456,
+        "key": "1-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Fado dinner",
+        "estimated_cost_usd": 60,
+        "duration_hours": 2.5,
+        "lat": 38.7118,
+        "lng": -9.1285,
+        "key": "1-evening"
+       }
+      ],
+      "daily_estimated_cost_usd": 105
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_not_array",
+   "fn": "scheduleDays",
+   "args": [
+    null,
+    {}
+   ]
+  },
+  {
+   "name": "scheduleDays_default_edits",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "Oslo",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Vigeland Park",
+        "estimated_cost_usd": 0,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "afternoon",
+        "activity": "Fram Museum",
+        "estimated_cost_usd": 14,
+        "key": "1-afternoon"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Fjord cruise",
+        "estimated_cost_usd": 60,
+        "key": "1-evening"
+       }
+      ]
+     },
+     {
+      "day_number": 2,
+      "city": "Oslo",
+      "theme": "Day 2",
+      "slots": [
+       {
+        "time_of_day": "morning",
+        "activity": "Opera House",
+        "estimated_cost_usd": 0,
+        "key": "2-morning"
+       },
+       {
+        "time_of_day": "evening",
+        "activity": "Dinner",
+        "estimated_cost_usd": 50,
+        "key": "2-evening"
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "name": "scheduleDays_leading_odd_untimed",
+   "fn": "scheduleDays",
+   "args": [
+    [
+     {
+      "day_number": 1,
+      "city": "X",
+      "theme": "Day 1",
+      "slots": [
+       {
+        "time_of_day": "night",
+        "activity": "Pre",
+        "estimated_cost_usd": 0,
+        "duration_hours": 1,
+        "key": "1-night"
+       },
+       {
+        "time_of_day": "morning",
+        "activity": "A",
+        "estimated_cost_usd": 0,
+        "duration_hours": 2,
+        "key": "1-morning"
+       },
+       {
+        "time_of_day": "brunch",
+        "activity": "B",
+        "estimated_cost_usd": 0,
+        "duration_hours": 1,
+        "key": "1-brunch"
+       }
+      ]
+     }
+    ],
+    {}
+   ]
+  },
+  {
+   "name": "scheduleOrder_odd",
+   "fn": "scheduleOrder",
+   "args": [
+    {
+     "day_number": 1,
+     "city": "Kyoto",
+     "theme": "Day 1",
+     "slots": [
+      {
+       "time_of_day": "morning",
+       "activity": "Fushimi Inari",
+       "estimated_cost_usd": 0,
+       "duration_hours": 3,
+       "lat": 34.9671,
+       "lng": 135.7727,
+       "key": "1-morning"
+      },
+      {
+       "time_of_day": "morning",
+       "activity": "Tea ceremony",
+       "estimated_cost_usd": 30,
+       "duration_hours": 1,
+       "lat": 35.003,
+       "lng": 135.77,
+       "from_link": true,
+       "key": "1-morning#2"
+      },
+      {
+       "time_of_day": "afternoon",
+       "activity": "Nishiki Market",
+       "estimated_cost_usd": 15,
+       "duration_hours": 2,
+       "lat": 35.005,
+       "lng": 135.765,
+       "key": "1-afternoon"
+      },
+      {
+       "time_of_day": "late night",
+       "activity": "Karaoke in Pontocho",
+       "estimated_cost_usd": 25,
+       "duration_hours": 2,
+       "lat": 35.0045,
+       "lng": 135.7708,
+       "key": "1-late night"
+      },
+      {
+       "time_of_day": "evening",
+       "activity": "Kaiseki dinner",
+       "estimated_cost_usd": 120,
+       "duration_hours": 2.5,
+       "lat": 35.0036,
+       "lng": 135.7747,
+       "key": "1-evening"
+      }
+     ],
+     "daily_estimated_cost_usd": 190
+    }
+   ]
+  },
+  {
+   "name": "scheduleOrder_reordered",
+   "fn": "scheduleOrder",
+   "args": [
+    {
+     "day_number": 1,
+     "slots": [
+      {
+       "time_of_day": "evening",
+       "activity": "a"
+      },
+      {
+       "time_of_day": "morning",
+       "activity": "b"
+      },
+      {
+       "time_of_day": "afternoon",
+       "activity": "c"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "scheduleOrder_empty",
+   "fn": "scheduleOrder",
+   "args": [
+    {
+     "day_number": 1,
+     "slots": []
+    }
+   ]
+  },
+  {
+   "name": "listedInScheduleOrder_true",
+   "fn": "listedInScheduleOrder",
+   "args": [
+    {
+     "day_number": 1,
+     "city": "Lisbon",
+     "theme": "Day 1",
+     "slots": [
+      {
+       "time_of_day": "morning",
+       "activity": "Alfama walking tour",
+       "estimated_cost_usd": 20,
+       "duration_hours": 3,
+       "lat": 38.711,
+       "lng": -9.13,
+       "key": "1-morning"
+      },
+      {
+       "time_of_day": "afternoon",
+       "activity": "Time Out Market lunch",
+       "estimated_cost_usd": 25,
+       "duration_hours": 2,
+       "lat": 38.7071,
+       "lng": -9.1456,
+       "key": "1-afternoon"
+      },
+      {
+       "time_of_day": "evening",
+       "activity": "Fado dinner",
+       "estimated_cost_usd": 60,
+       "duration_hours": 2.5,
+       "lat": 38.7118,
+       "lng": -9.1285,
+       "key": "1-evening"
+      }
+     ],
+     "daily_estimated_cost_usd": 105
+    }
+   ]
+  },
+  {
+   "name": "listedInScheduleOrder_false",
+   "fn": "listedInScheduleOrder",
+   "args": [
+    {
+     "day_number": 1,
+     "slots": [
+      {
+       "time_of_day": "evening",
+       "activity": "a"
+      },
+      {
+       "time_of_day": "morning",
+       "activity": "b"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "listedInScheduleOrder_empty",
+   "fn": "listedInScheduleOrder",
+   "args": [
+    {
+     "day_number": 1
+    }
+   ]
+  },
+  {
+   "name": "timeRange_timed",
+   "fn": "timeRange",
+   "args": [
+    {
+     "start_time": "09:00",
+     "end_time": "12:00"
+    }
+   ]
+  },
+  {
+   "name": "timeRange_untimed",
+   "fn": "timeRange",
+   "args": [
+    {
+     "start_time": "09:00"
+    }
+   ]
+  },
+  {
+   "name": "timeRange_null",
+   "fn": "timeRange",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "transitLabel_walk_km",
+   "fn": "transitLabel",
+   "args": [
+    {
+     "minutes": 12,
+     "mode": "walk",
+     "km": 0.9
+    }
+   ]
+  },
+  {
+   "name": "transitLabel_walk_short",
+   "fn": "transitLabel",
+   "args": [
+    {
+     "minutes": 5,
+     "mode": "walk",
+     "km": 0
+    }
+   ]
+  },
+  {
+   "name": "transitLabel_walk_whole_km",
+   "fn": "transitLabel",
+   "args": [
+    {
+     "minutes": 20,
+     "mode": "walk",
+     "km": 1
+    }
+   ]
+  },
+  {
+   "name": "transitLabel_transit",
+   "fn": "transitLabel",
+   "args": [
+    {
+     "minutes": 25,
+     "mode": "transit",
+     "km": 6.4
+    }
+   ]
+  },
+  {
+   "name": "transitLabel_null",
+   "fn": "transitLabel",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "transitLabel_other_mode",
+   "fn": "transitLabel",
+   "args": [
+    {
+     "minutes": 40,
+     "mode": "ferry",
+     "km": 9
+    }
+   ]
+  },
+  {
+   "name": "pickedTimes_timed",
+   "fn": "pickedTimes",
+   "args": [
+    {
+     "start_time": "09:00",
+     "end_time": "12:00",
+     "start_day_offset": 0,
+     "end_day_offset": 0,
+     "duration_hours": 3,
+     "activity": "x"
+    }
+   ]
+  },
+  {
+   "name": "pickedTimes_partial_fields",
+   "fn": "pickedTimes",
+   "args": [
+    {
+     "start_time": "09:00",
+     "end_time": "12:00"
+    }
+   ]
+  },
+  {
+   "name": "pickedTimes_untimed",
+   "fn": "pickedTimes",
+   "args": [
+    {
+     "activity": "x",
+     "duration_hours": 2
+    }
+   ]
+  },
+  {
+   "name": "pickedTimes_null",
+   "fn": "pickedTimes",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "syncPlannedSlotTimes_changed",
+   "fn": "syncPlannedSlotTimes",
+   "args": [
+    [
+     {
+      "key": "1-morning",
+      "start_time": "08:00",
+      "end_time": "11:00"
+     },
+     {
+      "key": "1-afternoon",
+      "start_time": "13:30",
+      "end_time": "15:30",
+      "start_day_offset": 0,
+      "end_day_offset": 0
+     },
+     {
+      "key": "1-evening",
+      "start_time": "19:00"
+     },
+     {
+      "key": "gone"
+     },
+     null
+    ],
+    [
+     {
+      "day_number": 1,
+      "slots": [
+       {
+        "key": "1-morning",
+        "start_time": "09:00",
+        "end_time": "12:00",
+        "start_day_offset": 0,
+        "end_day_offset": 0,
+        "duration_hours": 3
+       },
+       {
+        "key": "1-afternoon",
+        "start_time": "13:30",
+        "end_time": "15:30",
+        "start_day_offset": 0,
+        "end_day_offset": 0
+       },
+       {
+        "key": "1-evening"
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "name": "syncPlannedSlotTimes_unchanged",
+   "fn": "syncPlannedSlotTimes",
+   "args": [
+    [
+     {
+      "key": "1-afternoon",
+      "start_time": "13:30",
+      "end_time": "15:30",
+      "start_day_offset": 0,
+      "end_day_offset": 0
+     },
+     {
+      "key": "1-evening"
+     }
+    ],
+    [
+     {
+      "day_number": 1,
+      "slots": [
+       {
+        "key": "1-morning",
+        "start_time": "09:00",
+        "end_time": "12:00",
+        "start_day_offset": 0,
+        "end_day_offset": 0,
+        "duration_hours": 3
+       },
+       {
+        "key": "1-afternoon",
+        "start_time": "13:30",
+        "end_time": "15:30",
+        "start_day_offset": 0,
+        "end_day_offset": 0
+       },
+       {
+        "key": "1-evening"
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "name": "syncPlannedSlotTimes_null_inputs",
+   "fn": "syncPlannedSlotTimes",
+   "args": [
+    null,
+    null
+   ]
+  },
+  {
+   "name": "syncPlannedSlotTimes_adds_fields",
+   "fn": "syncPlannedSlotTimes",
+   "args": [
+    [
+     {
+      "key": "1-morning",
+      "note": "keep"
+     }
+    ],
+    [
+     {
+      "day_number": 1,
+      "slots": [
+       {
+        "key": "1-morning",
+        "start_time": "09:00",
+        "end_time": "12:00",
+        "start_day_offset": 0,
+        "end_day_offset": 0,
+        "duration_hours": 3
+       },
+       {
+        "key": "1-afternoon",
+        "start_time": "13:30",
+        "end_time": "15:30",
+        "start_day_offset": 0,
+        "end_day_offset": 0
+       },
+       {
+        "key": "1-evening"
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "name": "slotWhen_timed",
+   "fn": "slotWhen",
+   "args": [
+    {
+     "day_number": 2,
+     "time_of_day": "afternoon",
+     "start_time": "13:30",
+     "end_time": "16:00"
+    }
+   ]
+  },
+  {
+   "name": "slotWhen_untimed",
+   "fn": "slotWhen",
+   "args": [
+    {
+     "day_number": 3,
+     "time_of_day": "evening"
+    }
+   ]
+  },
+  {
+   "name": "slotWhen_no_tod",
+   "fn": "slotWhen",
+   "args": [
+    {
+     "day_number": 1
+    }
+   ]
+  },
+  {
+   "name": "slotWhen_null",
+   "fn": "slotWhen",
+   "args": [
+    null
+   ]
+  }
+ ]
+}

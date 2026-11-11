@@ -1,0 +1,113 @@
+{
+  "args": [
+    {
+      "days": [
+        {
+          "city": "Oslo",
+          "day_number": 1,
+          "slots": [
+            {
+              "activity": "Vigeland Park",
+              "estimated_cost_usd": 0,
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "Fram Museum",
+              "estimated_cost_usd": 14,
+              "time_of_day": "afternoon"
+            },
+            {
+              "activity": "Fjord cruise",
+              "estimated_cost_usd": 60,
+              "time_of_day": "evening"
+            }
+          ],
+          "theme": "Day 1"
+        },
+        {
+          "city": "Oslo",
+          "day_number": 2,
+          "slots": [
+            {
+              "activity": "Opera House",
+              "estimated_cost_usd": 0,
+              "time_of_day": "morning"
+            },
+            {
+              "activity": "Dinner",
+              "estimated_cost_usd": 50,
+              "time_of_day": "evening"
+            }
+          ],
+          "theme": "Day 2"
+        }
+      ]
+    },
+    {
+      "fingerprint": "qy7sup",
+      "positions": {
+        "1-morning": "2-morning",
+        "2-morning": "1-morning"
+      }
+    },
+    {
+      "1-morning": {
+        "cost": 7
+      }
+    }
+  ],
+  "fn": "arrangeItinerary",
+  "output": {
+    "changed": true,
+    "days": [
+      {
+        "city": "Oslo",
+        "daily_estimated_cost_usd": 74,
+        "day_number": 1,
+        "slots": [
+          {
+            "activity": "Opera House",
+            "estimated_cost_usd": 0,
+            "key": "2-morning",
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Fram Museum",
+            "estimated_cost_usd": 14,
+            "key": "1-afternoon",
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "Fjord cruise",
+            "estimated_cost_usd": 60,
+            "key": "1-evening",
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 1"
+      },
+      {
+        "city": "Oslo",
+        "daily_estimated_cost_usd": 57,
+        "day_number": 2,
+        "slots": [
+          {
+            "activity": "Vigeland Park",
+            "estimated_cost_usd": 0,
+            "key": "1-morning",
+            "time_of_day": "morning"
+          },
+          {
+            "activity": "Dinner",
+            "estimated_cost_usd": 50,
+            "key": "2-evening",
+            "time_of_day": "evening"
+          }
+        ],
+        "theme": "Day 2"
+      }
+    ],
+    "removed": [],
+    "total_estimated_cost_usd": 131
+  }
+}

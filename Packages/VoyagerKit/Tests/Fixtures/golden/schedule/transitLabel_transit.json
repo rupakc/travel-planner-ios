@@ -1,0 +1,11 @@
+{
+  "args": [
+    {
+      "km": 6.4,
+      "minutes": 25,
+      "mode": "transit"
+    }
+  ],
+  "fn": "transitLabel",
+  "output": "🚇 ~25 min by transit"
+}

@@ -6,6 +6,7 @@
 //
 // For each tools/golden/cases/<name>.json:
 //   {"module": "frontend/src/utils/<file>.js",
+//    "setup": [{"module": "frontend/src/<file>.js", "fn": "<export>", "args": [...]}],   (optional, run first, awaited)
 //    "cases": [{"name": "<case>", "fn": "<export>", "args": [...]}]}
 // it loads the module from the checkout, calls fn(...args) and writes
 // Packages/VoyagerKit/Tests/Fixtures/golden/<name>/<case>.json = {fn, args, output}.
@@ -125,6 +126,14 @@ async function main() {
       }
       const modulePath = path.join(checkout, spec.module)
       if (!existsSync(modulePath)) throw new Error(`${file}: ${spec.module} not found in the checkout`)
+      // Optional set-up calls (e.g. initialising i18next), run before the cases in the same module graph.
+      for (const step of spec.setup ?? []) {
+        const stepPath = path.join(checkout, step.module)
+        if (!existsSync(stepPath)) throw new Error(`${file}: setup module ${step.module} not found in the checkout`)
+        const stepFn = (await server.ssrLoadModule(stepPath))[step.fn]
+        if (typeof stepFn !== 'function') throw new Error(`${file}: setup ${step.module} exports no function ${step.fn}`)
+        await stepFn(...reviveArg(step.args ?? []))
+      }
       const mod = await server.ssrLoadModule(modulePath)
       const seen = new Set()
       for (const c of spec.cases) {

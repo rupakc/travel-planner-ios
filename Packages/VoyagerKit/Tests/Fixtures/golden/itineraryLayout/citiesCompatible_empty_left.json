@@ -1,0 +1,8 @@
+{
+  "args": [
+    "",
+    "Madrid"
+  ],
+  "fn": "citiesCompatible",
+  "output": true
+}

@@ -1,0 +1,10 @@
+{
+  "args": [
+    {
+      "day_number": 3,
+      "time_of_day": "evening"
+    }
+  ],
+  "fn": "slotWhen",
+  "output": "Day 3 · Evening"
+}

@@ -1,0 +1,8 @@
+{
+  "args": [
+    "Sandover",
+    "Sand"
+  ],
+  "fn": "citiesCompatible",
+  "output": false
+}

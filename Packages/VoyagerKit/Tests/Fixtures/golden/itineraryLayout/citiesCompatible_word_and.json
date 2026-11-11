@@ -1,0 +1,8 @@
+{
+  "args": [
+    "Rome and Naples",
+    "NAPLES"
+  ],
+  "fn": "citiesCompatible",
+  "output": true
+}
