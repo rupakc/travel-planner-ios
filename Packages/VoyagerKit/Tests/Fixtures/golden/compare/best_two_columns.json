@@ -1,0 +1,76 @@
+{
+  "args": [
+    [
+      {
+        "daily_cost_usd": 200,
+        "ease": {
+          "english": 6,
+          "safety": 8,
+          "total": 7
+        },
+        "estimate": {
+          "partial": false,
+          "total_usd": 2000
+        },
+        "flight": {
+          "price_usd": 800
+        },
+        "hotel": {
+          "typical_nightly_usd": 150
+        },
+        "weather": {
+          "poor_days": 2
+        }
+      },
+      {
+        "daily_cost_usd": 180,
+        "ease": {
+          "english": 6,
+          "safety": 6,
+          "total": 8
+        },
+        "estimate": {
+          "partial": false,
+          "total_usd": 1800
+        },
+        "flight": {
+          "price_usd": 900
+        },
+        "hotel": {
+          "typical_nightly_usd": 120
+        },
+        "weather": {
+          "poor_days": 1
+        }
+      }
+    ]
+  ],
+  "fn": "bestByRow",
+  "output": {
+    "daily": [
+      1
+    ],
+    "ease": [
+      1
+    ],
+    "english": [
+      0,
+      1
+    ],
+    "estimate": [
+      1
+    ],
+    "flight": [
+      0
+    ],
+    "hotel": [
+      1
+    ],
+    "safety": [
+      0
+    ],
+    "weather": [
+      1
+    ]
+  }
+}

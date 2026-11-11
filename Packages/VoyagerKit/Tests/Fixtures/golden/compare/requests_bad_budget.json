@@ -1,0 +1,37 @@
+{
+  "args": [
+    {
+      "adults": 1,
+      "budget_usd": "abc",
+      "destinations": [
+        "A",
+        "a",
+        "B"
+      ],
+      "infants": 1
+    }
+  ],
+  "fn": "buildCompareRequests",
+  "output": [
+    {
+      "adults": 1,
+      "budget_usd": null,
+      "destination": "A",
+      "destination_nights": null,
+      "destinations": null,
+      "infants": 1,
+      "num_travelers": 2,
+      "return_date": null
+    },
+    {
+      "adults": 1,
+      "budget_usd": null,
+      "destination": "B",
+      "destination_nights": null,
+      "destinations": null,
+      "infants": 1,
+      "num_travelers": 2,
+      "return_date": null
+    }
+  ]
+}

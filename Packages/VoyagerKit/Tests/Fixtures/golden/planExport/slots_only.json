@@ -1,0 +1,49 @@
+{
+  "args": [
+    {
+      "itinerary": null,
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": null,
+      "planName": "Slots only",
+      "searchData": {
+        "departure_date": "2027-04-01",
+        "destination": "Tokyo",
+        "origin": "New York",
+        "return_date": "2027-04-08"
+      },
+      "selections": {
+        "itinerary_slots": [
+          {
+            "activity": "Ramen",
+            "day_number": 2,
+            "duration_hours": 1.5,
+            "key": "2-evening",
+            "location": "Ichiran",
+            "notes": "Queue",
+            "time_of_day": "evening"
+          },
+          {
+            "activity": "Walk",
+            "date": "2027-04-01",
+            "day_number": 1,
+            "estimated_cost_usd": 10,
+            "key": "1-afternoon",
+            "time_of_day": "afternoon"
+          },
+          {
+            "activity": "Coffee",
+            "day_number": 1,
+            "end_time": "09:15",
+            "key": "1-morning",
+            "start_time": "08:30",
+            "time_of_day": "morning"
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Slots only\r\nBEGIN:VEVENT\r\nUID:trip-slots-only-1taduum-slot-1-morning@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270401T083000\r\nDTEND:20270401T091500\r\nSUMMARY:Coffee\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-slots-only-1taduum-slot-1-afternoon@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270401T130000\r\nDTEND:20270401T170000\r\nSUMMARY:Walk\r\nDESCRIPTION:Est. cost: $10\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-slots-only-1taduum-slot-2-evening@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270402T180000\r\nDTEND:20270402T193000\r\nSUMMARY:Ramen\r\nLOCATION:Ichiran\r\nDESCRIPTION:Queue\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}

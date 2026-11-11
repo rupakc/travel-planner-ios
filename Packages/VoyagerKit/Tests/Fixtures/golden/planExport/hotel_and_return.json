@@ -1,0 +1,27 @@
+{
+  "args": [
+    {
+      "itinerary": null,
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": null,
+      "planName": "Hotel",
+      "searchData": {
+        "departure_date": "2027-04-01",
+        "destination": "Tokyo",
+        "origin": "New York",
+        "return_date": "2027-04-08"
+      },
+      "selections": {
+        "hotel": {
+          "booking_url": "https://hotel.example/ph",
+          "location": "Shinjuku; Tokyo",
+          "name": "Park Hyatt, Tokyo"
+        }
+      }
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Hotel\r\nBEGIN:VEVENT\r\nUID:trip-hotel-19wvwvv-hotel@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART;VALUE=DATE:20270401\r\nDTEND;VALUE=DATE:20270408\r\nSUMMARY:🏨 Park Hyatt\\, Tokyo\r\nLOCATION:Shinjuku\\; Tokyo\r\nDESCRIPTION:Booking: https://hotel.example/ph\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}

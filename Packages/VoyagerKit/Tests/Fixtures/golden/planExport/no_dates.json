@@ -1,0 +1,28 @@
+{
+  "args": [
+    {
+      "itinerary": null,
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": null,
+      "planName": "No dates",
+      "searchData": {},
+      "selections": {
+        "hotel": {
+          "name": "X"
+        },
+        "itinerary_slots": [
+          {
+            "activity": "Y",
+            "day_number": 1,
+            "key": "1-morning",
+            "time_of_day": "morning"
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:No dates\r\nEND:VCALENDAR\r\n"
+}

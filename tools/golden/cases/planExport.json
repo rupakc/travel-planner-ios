@@ -1,0 +1,1010 @@
+{
+ "module": "frontend/src/utils/planExport.js",
+ "cases": [
+  {
+   "name": "empty",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "",
+     "searchData": {},
+     "selections": {},
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "named_no_selections",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Tokyo Trip",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {},
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "flight_roundtrip",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Tokyo, Spring; 2027",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "flight": {
+       "outbound": {
+        "airline": "ANA",
+        "flight_number": "NH 109",
+        "origin": "JFK",
+        "destination": "HND",
+        "departure_time": "11:55",
+        "arrival_time": "15:05",
+        "duration_minutes": 850,
+        "departure_date": "2027-04-01"
+       },
+       "return": {
+        "airline": "ANA",
+        "flight_number": "NH 110",
+        "origin": "HND",
+        "destination": "JFK",
+        "departure_time": "5:30 PM",
+        "duration_minutes": 780
+       },
+       "booking_url": "https://flights.example/book?a=1&b=2"
+      }
+     },
+     "itinerary": null,
+     "planId": 7,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "flight_flat_no_time",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Flat flight",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "flight": {
+       "airline": "JAL",
+       "flight_number": "JL5",
+       "origin": "SFO",
+       "destination": "NRT",
+       "departure_date": "2027-04-02",
+       "arrival_time": "2:00 PM"
+      }
+     },
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "multi_leg_flights",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Multi leg",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "flights": [
+       {
+        "leg_index": 0,
+        "leg_from": "Paris, France",
+        "leg_to": "Rome, Italy",
+        "leg_date": "2027-04-01",
+        "outbound": {
+         "airline": "AF",
+         "flight_number": "AF1204",
+         "departure_time": "09:10",
+         "duration_minutes": 125
+        }
+       },
+       {
+        "leg_to": "Athens, Greece",
+        "leg_from": "Rome, Italy",
+        "leg_date": "2027-04-04",
+        "airline": "AZ",
+        "departure_time": "23:30",
+        "duration_minutes": 150,
+        "booking_url": "https://x.example/a"
+       }
+      ]
+     },
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "hotel_and_return",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Hotel",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "hotel": {
+       "name": "Park Hyatt, Tokyo",
+       "location": "Shinjuku; Tokyo",
+       "booking_url": "https://hotel.example/ph"
+      }
+     },
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "hotel_one_way",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Hotel one way",
+     "searchData": {
+      "departure_date": "2027-12-31"
+     },
+     "selections": {
+      "hotel": {
+       "name": "Night Inn"
+      }
+     },
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "local_events",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Events",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "events": [
+       {
+        "name": "Hanami Festival",
+        "start_date": "2027-04-02",
+        "end_date": "2027-04-04",
+        "location": "Ueno Park",
+        "description": "Cherry blossoms, lanterns",
+        "price": "Free"
+       },
+       {
+        "name": "Sumo",
+        "start_date": "2027-04-05",
+        "end_date": "2027-04-01"
+       },
+       {
+        "name": "No date"
+       }
+      ]
+     },
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "itinerary_live_scheduled",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Live itinerary",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "itinerary_edits": {
+       "1-morning": {
+        "activity": "Senso-ji (edited)",
+        "cost": 12,
+        "location": "Asakusa"
+       }
+      },
+      "itinerary_notes": {
+       "1-afternoon": "Try tamagoyaki; ask for a lunch set"
+      }
+     },
+     "itinerary": {
+      "days": [
+       {
+        "day_number": 1,
+        "date": "2027-04-01",
+        "city": "Tokyo",
+        "theme": "Old Tokyo, food; & more",
+        "slots": [
+         {
+          "time_of_day": "morning",
+          "activity": "Senso-ji Temple",
+          "location": "Asakusa, Tokyo",
+          "duration_hours": 2,
+          "lat": 35.7148,
+          "lng": 139.7967,
+          "notes": "Go early\nbring cash",
+          "estimated_cost_usd": 0
+         },
+         {
+          "time_of_day": "afternoon",
+          "activity": "Tsukiji Outer Market",
+          "location": "Tsukiji",
+          "duration_hours": 2.5,
+          "lat": 35.6655,
+          "lng": 139.7707,
+          "estimated_cost_usd": 35.5
+         },
+         {
+          "time_of_day": "evening",
+          "activity": "Izakaya crawl in Omoide Yokocho",
+          "location": "Shinjuku",
+          "lat": 35.6939,
+          "lng": 139.6997,
+          "estimated_cost_usd": 60
+         }
+        ]
+       },
+       {
+        "day_number": 2,
+        "city": "Tokyo",
+        "theme": "Modern Tokyo",
+        "slots": [
+         {
+          "time_of_day": "morning",
+          "activity": "teamLab Planets",
+          "duration_hours": 3,
+          "estimated_cost_usd": 32
+         },
+         {
+          "time_of_day": "evening",
+          "activity": "Late night karaoke in Shibuya, 渋谷 with a very long description that needs folding past seventy five octets for sure",
+          "duration_hours": 5
+         }
+        ]
+       },
+       {
+        "day_number": 3,
+        "date": "2027-04-03",
+        "city": "Kyoto",
+        "theme": "",
+        "slots": []
+       }
+      ]
+     },
+     "planId": 3,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "itinerary_with_edits_notes",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Edits",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "itinerary_edits": {
+       "1-morning": {
+        "activity": "Senso-ji (edited)",
+        "cost": 12,
+        "location": "Asakusa"
+       }
+      },
+      "itinerary_notes": {
+       "1-afternoon": "Try tamagoyaki; ask for a lunch set"
+      }
+     },
+     "itinerary": {
+      "days": [
+       {
+        "day_number": 1,
+        "date": "2027-04-01",
+        "city": "Tokyo",
+        "theme": "Old Tokyo, food; & more",
+        "slots": [
+         {
+          "time_of_day": "morning",
+          "activity": "Senso-ji Temple",
+          "location": "Asakusa, Tokyo",
+          "duration_hours": 2,
+          "lat": 35.7148,
+          "lng": 139.7967,
+          "notes": "Go early\nbring cash",
+          "estimated_cost_usd": 0
+         },
+         {
+          "time_of_day": "afternoon",
+          "activity": "Tsukiji Outer Market",
+          "location": "Tsukiji",
+          "duration_hours": 2.5,
+          "lat": 35.6655,
+          "lng": 139.7707,
+          "estimated_cost_usd": 35.5
+         },
+         {
+          "time_of_day": "evening",
+          "activity": "Izakaya crawl in Omoide Yokocho",
+          "location": "Shinjuku",
+          "lat": 35.6939,
+          "lng": 139.6997,
+          "estimated_cost_usd": 60
+         }
+        ]
+       },
+       {
+        "day_number": 2,
+        "city": "Tokyo",
+        "theme": "Modern Tokyo",
+        "slots": [
+         {
+          "time_of_day": "morning",
+          "activity": "teamLab Planets",
+          "duration_hours": 3,
+          "estimated_cost_usd": 32
+         },
+         {
+          "time_of_day": "evening",
+          "activity": "Late night karaoke in Shibuya, 渋谷 with a very long description that needs folding past seventy five octets for sure",
+          "duration_hours": 5
+         }
+        ]
+       },
+       {
+        "day_number": 3,
+        "date": "2027-04-03",
+        "city": "Kyoto",
+        "theme": "",
+        "slots": []
+       }
+      ]
+     },
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "itinerary_snapshot_in_selections",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Snapshot",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "itinerary": {
+       "days": [
+        {
+         "day_number": 1,
+         "date": "2027-04-01",
+         "city": "Tokyo",
+         "theme": "Old Tokyo, food; & more",
+         "slots": [
+          {
+           "time_of_day": "morning",
+           "activity": "Senso-ji Temple",
+           "location": "Asakusa, Tokyo",
+           "duration_hours": 2,
+           "lat": 35.7148,
+           "lng": 139.7967,
+           "notes": "Go early\nbring cash",
+           "estimated_cost_usd": 0
+          },
+          {
+           "time_of_day": "afternoon",
+           "activity": "Tsukiji Outer Market",
+           "location": "Tsukiji",
+           "duration_hours": 2.5,
+           "lat": 35.6655,
+           "lng": 139.7707,
+           "estimated_cost_usd": 35.5
+          },
+          {
+           "time_of_day": "evening",
+           "activity": "Izakaya crawl in Omoide Yokocho",
+           "location": "Shinjuku",
+           "lat": 35.6939,
+           "lng": 139.6997,
+           "estimated_cost_usd": 60
+          }
+         ]
+        },
+        {
+         "day_number": 2,
+         "city": "Tokyo",
+         "theme": "Modern Tokyo",
+         "slots": [
+          {
+           "time_of_day": "morning",
+           "activity": "teamLab Planets",
+           "duration_hours": 3,
+           "estimated_cost_usd": 32
+          },
+          {
+           "time_of_day": "evening",
+           "activity": "Late night karaoke in Shibuya, 渋谷 with a very long description that needs folding past seventy five octets for sure",
+           "duration_hours": 5
+          }
+         ]
+        },
+        {
+         "day_number": 3,
+         "date": "2027-04-03",
+         "city": "Kyoto",
+         "theme": "",
+         "slots": []
+        }
+       ]
+      }
+     },
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "itinerary_layout_stale",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Stale layout",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "itinerary_layout": {
+       "fingerprint": "zzzz",
+       "positions": {
+        "1-morning": null
+       }
+      }
+     },
+     "itinerary": {
+      "days": [
+       {
+        "day_number": 1,
+        "date": "2027-04-01",
+        "city": "Tokyo",
+        "theme": "Old Tokyo, food; & more",
+        "slots": [
+         {
+          "time_of_day": "morning",
+          "activity": "Senso-ji Temple",
+          "location": "Asakusa, Tokyo",
+          "duration_hours": 2,
+          "lat": 35.7148,
+          "lng": 139.7967,
+          "notes": "Go early\nbring cash",
+          "estimated_cost_usd": 0
+         },
+         {
+          "time_of_day": "afternoon",
+          "activity": "Tsukiji Outer Market",
+          "location": "Tsukiji",
+          "duration_hours": 2.5,
+          "lat": 35.6655,
+          "lng": 139.7707,
+          "estimated_cost_usd": 35.5
+         },
+         {
+          "time_of_day": "evening",
+          "activity": "Izakaya crawl in Omoide Yokocho",
+          "location": "Shinjuku",
+          "lat": 35.6939,
+          "lng": 139.6997,
+          "estimated_cost_usd": 60
+         }
+        ]
+       },
+       {
+        "day_number": 2,
+        "city": "Tokyo",
+        "theme": "Modern Tokyo",
+        "slots": [
+         {
+          "time_of_day": "morning",
+          "activity": "teamLab Planets",
+          "duration_hours": 3,
+          "estimated_cost_usd": 32
+         },
+         {
+          "time_of_day": "evening",
+          "activity": "Late night karaoke in Shibuya, 渋谷 with a very long description that needs folding past seventy five octets for sure",
+          "duration_hours": 5
+         }
+        ]
+       },
+       {
+        "day_number": 3,
+        "date": "2027-04-03",
+        "city": "Kyoto",
+        "theme": "",
+        "slots": []
+       }
+      ]
+     },
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "itinerary_layout_moved",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Moved layout",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "itinerary_layout": {
+       "fingerprint": "1nawadf",
+       "positions": {
+        "1-morning": "1-evening",
+        "1-evening": "1-morning"
+       }
+      }
+     },
+     "itinerary": {
+      "days": [
+       {
+        "day_number": 1,
+        "date": "2027-04-01",
+        "city": "Tokyo",
+        "theme": "Old Tokyo, food; & more",
+        "slots": [
+         {
+          "time_of_day": "morning",
+          "activity": "Senso-ji Temple",
+          "location": "Asakusa, Tokyo",
+          "duration_hours": 2,
+          "lat": 35.7148,
+          "lng": 139.7967,
+          "notes": "Go early\nbring cash",
+          "estimated_cost_usd": 0
+         },
+         {
+          "time_of_day": "afternoon",
+          "activity": "Tsukiji Outer Market",
+          "location": "Tsukiji",
+          "duration_hours": 2.5,
+          "lat": 35.6655,
+          "lng": 139.7707,
+          "estimated_cost_usd": 35.5
+         },
+         {
+          "time_of_day": "evening",
+          "activity": "Izakaya crawl in Omoide Yokocho",
+          "location": "Shinjuku",
+          "lat": 35.6939,
+          "lng": 139.6997,
+          "estimated_cost_usd": 60
+         }
+        ]
+       },
+       {
+        "day_number": 2,
+        "city": "Tokyo",
+        "theme": "Modern Tokyo",
+        "slots": [
+         {
+          "time_of_day": "morning",
+          "activity": "teamLab Planets",
+          "duration_hours": 3,
+          "estimated_cost_usd": 32
+         },
+         {
+          "time_of_day": "evening",
+          "activity": "Late night karaoke in Shibuya, 渋谷 with a very long description that needs folding past seventy five octets for sure",
+          "duration_hours": 5
+         }
+        ]
+       },
+       {
+        "day_number": 3,
+        "date": "2027-04-03",
+        "city": "Kyoto",
+        "theme": "",
+        "slots": []
+       }
+      ]
+     },
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "from_link_and_extras",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Lisbon from link",
+     "searchData": {
+      "origin": "LHR",
+      "destination": "Lisbon",
+      "departure_date": "2027-06-10",
+      "import_source": {
+       "title": "10 things in Lisbon",
+       "url": "https://blog.example/lisbon"
+      }
+     },
+     "selections": {},
+     "itinerary": {
+      "days": [
+       {
+        "day_number": 1,
+        "city": "Lisbon",
+        "slots": [
+         {
+          "time_of_day": "morning",
+          "activity": "Pasteis de Belem",
+          "from_link": true,
+          "link_quote": "best custard tarts, \"unmissable\"",
+          "lat": 38.6975,
+          "lng": -9.2033
+         },
+         {
+          "time_of_day": "afternoon",
+          "activity": "Tram 28",
+          "from_link": true
+         }
+        ],
+        "link_extras": [
+         {
+          "name": "LX Factory",
+          "note": "Sunday market"
+         },
+         {
+          "name": "Time Out Market"
+         }
+        ]
+       }
+      ]
+     },
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "import_source_bad_url",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Bad url",
+     "searchData": {
+      "departure_date": "2027-06-10",
+      "import_source": {
+       "title": "A guide",
+       "url": "javascript:alert(1)"
+      }
+     },
+     "selections": {},
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "slots_only",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Slots only",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "itinerary_slots": [
+       {
+        "key": "2-evening",
+        "day_number": 2,
+        "time_of_day": "evening",
+        "activity": "Ramen",
+        "location": "Ichiran",
+        "duration_hours": 1.5,
+        "notes": "Queue"
+       },
+       {
+        "key": "1-afternoon",
+        "day_number": 1,
+        "date": "2027-04-01",
+        "time_of_day": "afternoon",
+        "activity": "Walk",
+        "estimated_cost_usd": 10
+       },
+       {
+        "key": "1-morning",
+        "day_number": 1,
+        "time_of_day": "morning",
+        "activity": "Coffee",
+        "start_time": "08:30",
+        "end_time": "09:15"
+       }
+      ]
+     },
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "unsaved_uid_fingerprint",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Unsaved ünïcode ✈ plan",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {
+      "hotel": {
+       "name": "X"
+      }
+     },
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "no_dates",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "No dates",
+     "searchData": {},
+     "selections": {
+      "hotel": {
+       "name": "X"
+      },
+      "itinerary_slots": [
+       {
+        "key": "1-morning",
+        "day_number": 1,
+        "time_of_day": "morning",
+        "activity": "Y"
+       }
+      ]
+     },
+     "itinerary": null,
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "past_midnight_slot",
+   "fn": "buildPlanIcs",
+   "args": [
+    {
+     "planName": "Late",
+     "searchData": {
+      "origin": "New York",
+      "destination": "Tokyo",
+      "departure_date": "2027-04-01",
+      "return_date": "2027-04-08"
+     },
+     "selections": {},
+     "itinerary": {
+      "days": [
+       {
+        "day_number": 1,
+        "city": "Tokyo",
+        "slots": [
+         {
+          "time_of_day": "evening",
+          "activity": "Bar hop",
+          "duration_hours": 6,
+          "lat": 35.69,
+          "lng": 139.7
+         },
+         {
+          "time_of_day": "evening",
+          "activity": "Ramen",
+          "duration_hours": 3
+         }
+        ]
+       }
+      ]
+     },
+     "planId": null,
+     "now": {
+      "$date": "2027-03-01T10:20:30.000Z"
+     }
+    }
+   ]
+  },
+  {
+   "name": "escape_specials",
+   "fn": "icsEscape",
+   "args": [
+    "a,b;c\\d\ne\r\nf\rg\th"
+   ]
+  },
+  {
+   "name": "escape_controls",
+   "fn": "icsEscape",
+   "args": [
+    "x\u0001yz\u000b"
+   ]
+  },
+  {
+   "name": "fold_short",
+   "fn": "icsFold",
+   "args": [
+    "short"
+   ]
+  },
+  {
+   "name": "fold_ascii",
+   "fn": "icsFold",
+   "args": [
+    "DESCRIPTION:abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij"
+   ]
+  },
+  {
+   "name": "fold_multibyte",
+   "fn": "icsFold",
+   "args": [
+    "SUMMARY:渋谷あいう渋谷あいう渋谷あいう渋谷あいう渋谷あいう渋谷あいう渋谷あいう渋谷あいう渋谷あいう渋谷あいう渋谷あいう渋谷あいう渋谷あいう渋谷あいう"
+   ]
+  },
+  {
+   "name": "fold_emoji_boundary",
+   "fn": "icsFold",
+   "args": [
+    "SUMMARY:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa🎉🎉🎉x"
+   ]
+  },
+  {
+   "name": "fold_exact_75",
+   "fn": "icsFold",
+   "args": [
+    "Lééééééééééééééééééééééééééééééééééééé"
+   ]
+  },
+  {
+   "name": "filename_basic",
+   "fn": "planFileName",
+   "args": [
+    "Tokyo Trip",
+    "ics"
+   ]
+  },
+  {
+   "name": "filename_symbols",
+   "fn": "planFileName",
+   "args": [
+    "  --Ünï/Code!! ",
+    "ics"
+   ]
+  },
+  {
+   "name": "filename_empty",
+   "fn": "planFileName",
+   "args": [
+    "",
+    "ics"
+   ]
+  },
+  {
+   "name": "filename_null",
+   "fn": "planFileName",
+   "args": [
+    null,
+    "pdf"
+   ]
+  }
+ ]
+}

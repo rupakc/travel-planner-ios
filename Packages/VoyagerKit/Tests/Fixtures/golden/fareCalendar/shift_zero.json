@@ -1,0 +1,12 @@
+{
+  "args": [
+    "2027-04-01",
+    "",
+    0
+  ],
+  "fn": "shiftDates",
+  "output": {
+    "departure_date": "2027-04-01",
+    "return_date": null
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "args": [
+    [
+      null,
+      {
+        "flight": {
+          "price_usd": "700"
+        }
+      },
+      {
+        "daily_cost_usd": 0,
+        "flight": {
+          "price_usd": 650
+        }
+      },
+      {
+        "daily_cost_usd": 0
+      }
+    ]
+  ],
+  "fn": "bestByRow",
+  "output": {
+    "daily": [
+      2,
+      3
+    ]
+  }
+}

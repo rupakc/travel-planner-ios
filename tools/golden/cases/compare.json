@@ -1,0 +1,433 @@
+{
+ "module": "frontend/src/utils/compare.js",
+ "cases": [
+  {
+   "name": "requests_basic",
+   "fn": "buildCompareRequests",
+   "args": [
+    {
+     "origin": "NYC",
+     "departure_date": "2027-04-01",
+     "return_date": "2027-04-08",
+     "adults": 2,
+     "children": 1,
+     "seniors": 0,
+     "infants": 0,
+     "budget_usd": "3000",
+     "interests": [
+      "food"
+     ],
+     "destinations": [
+      "Tokyo",
+      "  tokyo ",
+      "Lisbon",
+      "",
+      "Seoul"
+     ],
+     "destination": "X",
+     "extraStops": [
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "name": "requests_no_return_no_budget",
+   "fn": "buildCompareRequests",
+   "args": [
+    {
+     "origin": "LON",
+     "return_date": "",
+     "budget_usd": "",
+     "adults": 0,
+     "destinations": [
+      "Rome"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "requests_bad_budget",
+   "fn": "buildCompareRequests",
+   "args": [
+    {
+     "budget_usd": "abc",
+     "adults": 1,
+     "infants": 1,
+     "destinations": [
+      "A",
+      "a",
+      "B"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "requests_empty",
+   "fn": "buildCompareRequests",
+   "args": [
+    {
+     "destinations": []
+    }
+   ]
+  },
+  {
+   "name": "requests_null_form",
+   "fn": "buildCompareRequests",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "requests_travelers_min",
+   "fn": "buildCompareRequests",
+   "args": [
+    {
+     "destinations": [
+      "Paris"
+     ],
+     "num_travelers": 9
+    }
+   ]
+  },
+  {
+   "name": "best_two_columns",
+   "fn": "bestByRow",
+   "args": [
+    [
+     {
+      "estimate": {
+       "total_usd": 2000,
+       "partial": false
+      },
+      "flight": {
+       "price_usd": 800
+      },
+      "hotel": {
+       "typical_nightly_usd": 150
+      },
+      "weather": {
+       "poor_days": 2
+      },
+      "ease": {
+       "total": 7,
+       "safety": 8,
+       "english": 6
+      },
+      "daily_cost_usd": 200
+     },
+     {
+      "estimate": {
+       "total_usd": 1800,
+       "partial": false
+      },
+      "flight": {
+       "price_usd": 900
+      },
+      "hotel": {
+       "typical_nightly_usd": 120
+      },
+      "weather": {
+       "poor_days": 1
+      },
+      "ease": {
+       "total": 8,
+       "safety": 6,
+       "english": 6
+      },
+      "daily_cost_usd": 180
+     }
+    ]
+   ]
+  },
+  {
+   "name": "best_ties",
+   "fn": "bestByRow",
+   "args": [
+    [
+     {
+      "estimate": {
+       "total_usd": 1000,
+       "partial": false
+      },
+      "flight": {
+       "price_usd": 500
+      },
+      "hotel": {
+       "typical_nightly_usd": 100
+      },
+      "weather": {
+       "poor_days": 0
+      },
+      "ease": {
+       "total": 5,
+       "safety": 5,
+       "english": 5
+      },
+      "daily_cost_usd": 100
+     },
+     {
+      "estimate": {
+       "total_usd": 1000,
+       "partial": false
+      },
+      "flight": {
+       "price_usd": 500
+      },
+      "hotel": {
+       "typical_nightly_usd": 100
+      },
+      "weather": {
+       "poor_days": 0
+      },
+      "ease": {
+       "total": 5,
+       "safety": 5,
+       "english": 5
+      },
+      "daily_cost_usd": 100
+     },
+     {
+      "estimate": {
+       "total_usd": 1200,
+       "partial": false
+      },
+      "flight": {
+       "price_usd": 600
+      },
+      "hotel": {
+       "typical_nightly_usd": 90
+      },
+      "weather": {
+       "poor_days": 3
+      },
+      "ease": {
+       "total": 4,
+       "safety": 5,
+       "english": 9
+      },
+      "daily_cost_usd": 150
+     }
+    ]
+   ]
+  },
+  {
+   "name": "best_partial_excluded",
+   "fn": "bestByRow",
+   "args": [
+    [
+     {
+      "estimate": {
+       "total_usd": 900,
+       "partial": true
+      },
+      "flight": {
+       "price_usd": null
+      },
+      "hotel": {
+       "typical_nightly_usd": null
+      },
+      "weather": {
+       "poor_days": null
+      },
+      "ease": {
+       "total": null,
+       "safety": null,
+       "english": null
+      },
+      "daily_cost_usd": null
+     },
+     {
+      "estimate": {
+       "total_usd": 1500,
+       "partial": false
+      },
+      "flight": {
+       "price_usd": null
+      },
+      "hotel": {
+       "typical_nightly_usd": null
+      },
+      "weather": {
+       "poor_days": null
+      },
+      "ease": {
+       "total": null,
+       "safety": null,
+       "english": null
+      },
+      "daily_cost_usd": null
+     },
+     {
+      "estimate": {
+       "total_usd": 1600,
+       "partial": false
+      },
+      "flight": {
+       "price_usd": null
+      },
+      "hotel": {
+       "typical_nightly_usd": null
+      },
+      "weather": {
+       "poor_days": null
+      },
+      "ease": {
+       "total": null,
+       "safety": null,
+       "english": null
+      },
+      "daily_cost_usd": null
+     }
+    ]
+   ]
+  },
+  {
+   "name": "best_single_known_omitted",
+   "fn": "bestByRow",
+   "args": [
+    [
+     {
+      "estimate": {
+       "total_usd": 1000,
+       "partial": false
+      },
+      "flight": {
+       "price_usd": null
+      },
+      "hotel": {
+       "typical_nightly_usd": null
+      },
+      "weather": {
+       "poor_days": null
+      },
+      "ease": {
+       "total": null,
+       "safety": null,
+       "english": null
+      },
+      "daily_cost_usd": null
+     },
+     {
+      "estimate": null
+     },
+     null
+    ]
+   ]
+  },
+  {
+   "name": "best_with_nulls_and_strings",
+   "fn": "bestByRow",
+   "args": [
+    [
+     null,
+     {
+      "flight": {
+       "price_usd": "700"
+      }
+     },
+     {
+      "flight": {
+       "price_usd": 650
+      },
+      "daily_cost_usd": 0
+     },
+     {
+      "daily_cost_usd": 0
+     }
+    ]
+   ]
+  },
+  {
+   "name": "best_empty",
+   "fn": "bestByRow",
+   "args": [
+    []
+   ]
+  },
+  {
+   "name": "best_null",
+   "fn": "bestByRow",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "duration_0",
+   "fn": "fmtDuration",
+   "args": [
+    0
+   ]
+  },
+  {
+   "name": "duration_m5",
+   "fn": "fmtDuration",
+   "args": [
+    -5
+   ]
+  },
+  {
+   "name": "duration_5",
+   "fn": "fmtDuration",
+   "args": [
+    5
+   ]
+  },
+  {
+   "name": "duration_59",
+   "fn": "fmtDuration",
+   "args": [
+    59
+   ]
+  },
+  {
+   "name": "duration_60",
+   "fn": "fmtDuration",
+   "args": [
+    60
+   ]
+  },
+  {
+   "name": "duration_61",
+   "fn": "fmtDuration",
+   "args": [
+    61
+   ]
+  },
+  {
+   "name": "duration_125",
+   "fn": "fmtDuration",
+   "args": [
+    125
+   ]
+  },
+  {
+   "name": "duration_59_6",
+   "fn": "fmtDuration",
+   "args": [
+    59.6
+   ]
+  },
+  {
+   "name": "duration_119_5",
+   "fn": "fmtDuration",
+   "args": [
+    119.5
+   ]
+  },
+  {
+   "name": "duration_1440",
+   "fn": "fmtDuration",
+   "args": [
+    1440
+   ]
+  },
+  {
+   "name": "duration_null",
+   "fn": "fmtDuration",
+   "args": [
+    null
+   ]
+  }
+ ]
+}

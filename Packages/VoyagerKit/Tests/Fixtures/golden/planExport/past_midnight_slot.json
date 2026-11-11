@@ -1,0 +1,42 @@
+{
+  "args": [
+    {
+      "itinerary": {
+        "days": [
+          {
+            "city": "Tokyo",
+            "day_number": 1,
+            "slots": [
+              {
+                "activity": "Bar hop",
+                "duration_hours": 6,
+                "lat": 35.69,
+                "lng": 139.7,
+                "time_of_day": "evening"
+              },
+              {
+                "activity": "Ramen",
+                "duration_hours": 3,
+                "time_of_day": "evening"
+              }
+            ]
+          }
+        ]
+      },
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": null,
+      "planName": "Late",
+      "searchData": {
+        "departure_date": "2027-04-01",
+        "destination": "Tokyo",
+        "origin": "New York",
+        "return_date": "2027-04-08"
+      },
+      "selections": {}
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Late\r\nBEGIN:VEVENT\r\nUID:trip-late-1zuntz-slot-1-evening@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270401T183000\r\nDTEND:20270402T003000\r\nSUMMARY:Bar hop\r\nLOCATION:Tokyo\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-late-1zuntz-slot-1-evening#2@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270402T005000\r\nDTEND:20270402T035000\r\nSUMMARY:Ramen\r\nLOCATION:Tokyo\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}

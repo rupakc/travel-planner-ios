@@ -1,0 +1,43 @@
+{
+  "args": [
+    {
+      "itinerary": null,
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": 7,
+      "planName": "Tokyo, Spring; 2027",
+      "searchData": {
+        "departure_date": "2027-04-01",
+        "destination": "Tokyo",
+        "origin": "New York",
+        "return_date": "2027-04-08"
+      },
+      "selections": {
+        "flight": {
+          "booking_url": "https://flights.example/book?a=1&b=2",
+          "outbound": {
+            "airline": "ANA",
+            "arrival_time": "15:05",
+            "departure_date": "2027-04-01",
+            "departure_time": "11:55",
+            "destination": "HND",
+            "duration_minutes": 850,
+            "flight_number": "NH 109",
+            "origin": "JFK"
+          },
+          "return": {
+            "airline": "ANA",
+            "departure_time": "5:30 PM",
+            "destination": "JFK",
+            "duration_minutes": 780,
+            "flight_number": "NH 110",
+            "origin": "HND"
+          }
+        }
+      }
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Tokyo\\, Spring\\; 2027\r\nBEGIN:VEVENT\r\nUID:plan-7-flight-out@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270401T115500\r\nDTEND:20270402T020500\r\nSUMMARY:✈ ANA NH 109 JFK → HND\r\nDESCRIPTION:Arrives 15:05 local time\\nBooking: https://flights.example/book\r\n ?a=1&b=2\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:plan-7-flight-return@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270408T173000\r\nDTEND:20270409T063000\r\nSUMMARY:✈ ANA NH 110 HND → JFK\r\nDESCRIPTION:Booking: https://flights.example/book?a=1&b=2\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}

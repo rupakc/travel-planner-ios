@@ -1,0 +1,33 @@
+{
+  "args": [
+    [
+      {
+        "daily_cost_usd": null,
+        "ease": {
+          "english": null,
+          "safety": null,
+          "total": null
+        },
+        "estimate": {
+          "partial": false,
+          "total_usd": 1000
+        },
+        "flight": {
+          "price_usd": null
+        },
+        "hotel": {
+          "typical_nightly_usd": null
+        },
+        "weather": {
+          "poor_days": null
+        }
+      },
+      {
+        "estimate": null
+      },
+      null
+    ]
+  ],
+  "fn": "bestByRow",
+  "output": {}
+}

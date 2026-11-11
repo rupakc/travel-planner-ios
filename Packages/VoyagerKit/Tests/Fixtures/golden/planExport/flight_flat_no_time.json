@@ -1,0 +1,30 @@
+{
+  "args": [
+    {
+      "itinerary": null,
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": null,
+      "planName": "Flat flight",
+      "searchData": {
+        "departure_date": "2027-04-01",
+        "destination": "Tokyo",
+        "origin": "New York",
+        "return_date": "2027-04-08"
+      },
+      "selections": {
+        "flight": {
+          "airline": "JAL",
+          "arrival_time": "2:00 PM",
+          "departure_date": "2027-04-02",
+          "destination": "NRT",
+          "flight_number": "JL5",
+          "origin": "SFO"
+        }
+      }
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Flat flight\r\nBEGIN:VEVENT\r\nUID:trip-flat-flight-18w9iq2-flight-out@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART;VALUE=DATE:20270402\r\nDTEND;VALUE=DATE:20270403\r\nSUMMARY:✈ JAL JL5 SFO → NRT\r\nDESCRIPTION:Arrives 2:00 PM local time\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}

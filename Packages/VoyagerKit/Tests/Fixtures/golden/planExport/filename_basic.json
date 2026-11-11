@@ -1,0 +1,8 @@
+{
+  "args": [
+    "Tokyo Trip",
+    "ics"
+  ],
+  "fn": "planFileName",
+  "output": "tokyo-trip.ics"
+}

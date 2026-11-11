@@ -1,0 +1,82 @@
+{
+  "args": [
+    {
+      "adults": 2,
+      "budget_usd": "3000",
+      "children": 1,
+      "departure_date": "2027-04-01",
+      "destination": "X",
+      "destinations": [
+        "Tokyo",
+        "  tokyo ",
+        "Lisbon",
+        "",
+        "Seoul"
+      ],
+      "extraStops": [
+        1
+      ],
+      "infants": 0,
+      "interests": [
+        "food"
+      ],
+      "origin": "NYC",
+      "return_date": "2027-04-08",
+      "seniors": 0
+    }
+  ],
+  "fn": "buildCompareRequests",
+  "output": [
+    {
+      "adults": 2,
+      "budget_usd": 3000,
+      "children": 1,
+      "departure_date": "2027-04-01",
+      "destination": "Tokyo",
+      "destination_nights": null,
+      "destinations": null,
+      "infants": 0,
+      "interests": [
+        "food"
+      ],
+      "num_travelers": 3,
+      "origin": "NYC",
+      "return_date": "2027-04-08",
+      "seniors": 0
+    },
+    {
+      "adults": 2,
+      "budget_usd": 3000,
+      "children": 1,
+      "departure_date": "2027-04-01",
+      "destination": "Lisbon",
+      "destination_nights": null,
+      "destinations": null,
+      "infants": 0,
+      "interests": [
+        "food"
+      ],
+      "num_travelers": 3,
+      "origin": "NYC",
+      "return_date": "2027-04-08",
+      "seniors": 0
+    },
+    {
+      "adults": 2,
+      "budget_usd": 3000,
+      "children": 1,
+      "departure_date": "2027-04-01",
+      "destination": "Seoul",
+      "destination_nights": null,
+      "destinations": null,
+      "infants": 0,
+      "interests": [
+        "food"
+      ],
+      "num_travelers": 3,
+      "origin": "NYC",
+      "return_date": "2027-04-08",
+      "seniors": 0
+    }
+  ]
+}

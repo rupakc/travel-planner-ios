@@ -1,0 +1,315 @@
+{
+ "module": "frontend/src/utils/fareCalendar.js",
+ "cases": [
+  {
+   "name": "shift_forward",
+   "fn": "shiftDates",
+   "args": [
+    "2027-04-01",
+    "2027-04-08",
+    3
+   ]
+  },
+  {
+   "name": "shift_back_month",
+   "fn": "shiftDates",
+   "args": [
+    "2027-03-02",
+    "2027-03-09",
+    -5
+   ]
+  },
+  {
+   "name": "shift_one_way",
+   "fn": "shiftDates",
+   "args": [
+    "2027-12-30",
+    null,
+    3
+   ]
+  },
+  {
+   "name": "shift_leap_year",
+   "fn": "shiftDates",
+   "args": [
+    "2028-02-27",
+    "2028-03-05",
+    2
+   ]
+  },
+  {
+   "name": "shift_zero",
+   "fn": "shiftDates",
+   "args": [
+    "2027-04-01",
+    "",
+    0
+   ]
+  },
+  {
+   "name": "offset_positive",
+   "fn": "dayOffset",
+   "args": [
+    "2027-04-01",
+    "2027-04-04"
+   ]
+  },
+  {
+   "name": "offset_negative",
+   "fn": "dayOffset",
+   "args": [
+    "2027-04-10",
+    "2027-04-04"
+   ]
+  },
+  {
+   "name": "offset_across_dst",
+   "fn": "dayOffset",
+   "args": [
+    "2027-03-13",
+    "2027-03-15"
+   ]
+  },
+  {
+   "name": "offset_year",
+   "fn": "dayOffset",
+   "args": [
+    "2027-01-01",
+    "2028-01-01"
+   ]
+  },
+  {
+   "name": "cheapest_basic",
+   "fn": "cheapestDeparture",
+   "args": [
+    [
+     {
+      "departure_date": "2027-04-01",
+      "cheapest_usd": 500
+     },
+     {
+      "departure_date": "2027-04-02",
+      "cheapest_usd": 420
+     },
+     {
+      "departure_date": "2027-04-03",
+      "cheapest_usd": 420.5
+     },
+     {
+      "departure_date": "2027-04-04",
+      "cheapest_usd": null
+     }
+    ]
+   ]
+  },
+  {
+   "name": "cheapest_tie_first",
+   "fn": "cheapestDeparture",
+   "args": [
+    [
+     {
+      "departure_date": "2027-04-01",
+      "cheapest_usd": 300
+     },
+     {
+      "departure_date": "2027-04-02",
+      "cheapest_usd": 300
+     }
+    ]
+   ]
+  },
+  {
+   "name": "cheapest_none",
+   "fn": "cheapestDeparture",
+   "args": [
+    [
+     {
+      "departure_date": "2027-04-01",
+      "cheapest_usd": null
+     },
+     {
+      "departure_date": "2027-04-02",
+      "cheapest_usd": "100"
+     }
+    ]
+   ]
+  },
+  {
+   "name": "cheapest_empty",
+   "fn": "cheapestDeparture",
+   "args": [
+    []
+   ]
+  },
+  {
+   "name": "cheapest_null",
+   "fn": "cheapestDeparture",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "cheapest_zero",
+   "fn": "cheapestDeparture",
+   "args": [
+    [
+     {
+      "departure_date": "2027-04-01",
+      "cheapest_usd": 0
+     },
+     {
+      "departure_date": "2027-04-02",
+      "cheapest_usd": 50
+     }
+    ]
+   ]
+  },
+  {
+   "name": "delta_cheaper",
+   "fn": "fareDelta",
+   "args": [
+    {
+     "departure_date": "a",
+     "cheapest_usd": 420
+    },
+    {
+     "departure_date": "b",
+     "cheapest_usd": 500
+    }
+   ]
+  },
+  {
+   "name": "delta_pricier",
+   "fn": "fareDelta",
+   "args": [
+    {
+     "departure_date": "a",
+     "cheapest_usd": 530.5
+    },
+    {
+     "departure_date": "b",
+     "cheapest_usd": 500
+    }
+   ]
+  },
+  {
+   "name": "delta_same",
+   "fn": "fareDelta",
+   "args": [
+    {
+     "departure_date": "a",
+     "cheapest_usd": 500
+    },
+    {
+     "departure_date": "b",
+     "cheapest_usd": 500
+    }
+   ]
+  },
+  {
+   "name": "delta_unpriced_entry",
+   "fn": "fareDelta",
+   "args": [
+    {
+     "departure_date": "a",
+     "cheapest_usd": null
+    },
+    {
+     "departure_date": "b",
+     "cheapest_usd": 500
+    }
+   ]
+  },
+  {
+   "name": "delta_unpriced_selected",
+   "fn": "fareDelta",
+   "args": [
+    {
+     "departure_date": "a",
+     "cheapest_usd": 100
+    },
+    {
+     "cheapest_usd": null
+    }
+   ]
+  },
+  {
+   "name": "delta_null",
+   "fn": "fareDelta",
+   "args": [
+    null,
+    null
+   ]
+  },
+  {
+   "name": "until_future",
+   "fn": "daysUntil",
+   "args": [
+    "2027-04-01",
+    {
+     "$date": "2027-03-30T15:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "name": "until_today",
+   "fn": "daysUntil",
+   "args": [
+    "2027-03-30",
+    {
+     "$date": "2027-03-30T15:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "name": "until_past",
+   "fn": "daysUntil",
+   "args": [
+    "2027-03-01",
+    {
+     "$date": "2027-03-30T15:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "name": "until_bad",
+   "fn": "daysUntil",
+   "args": [
+    "soon",
+    {
+     "$date": "2027-03-30T15:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "name": "until_missing",
+   "fn": "daysUntil",
+   "args": [
+    null,
+    {
+     "$date": "2027-03-30T15:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "name": "until_next_year",
+   "fn": "daysUntil",
+   "args": [
+    "2028-03-30",
+    {
+     "$date": "2027-03-30T15:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "name": "until_late_night",
+   "fn": "daysUntil",
+   "args": [
+    "2027-03-31",
+    {
+     "$date": "2027-03-30T23:59:59.000Z"
+    }
+   ]
+  }
+ ]
+}

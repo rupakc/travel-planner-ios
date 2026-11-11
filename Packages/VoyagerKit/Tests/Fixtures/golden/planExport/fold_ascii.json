@@ -1,0 +1,7 @@
+{
+  "args": [
+    "DESCRIPTION:abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij"
+  ],
+  "fn": "icsFold",
+  "output": "DESCRIPTION:abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabc\r\n defghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij"
+}
