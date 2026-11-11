@@ -9,7 +9,8 @@ struct PaletteTests {
     private func resolve(_ family: Family, _ stop: Stop, _ style: UIUserInterfaceStyle) -> [CGFloat]? {
         let name = "\(family.rawValue)-\(stop.rawValue)"
         let traits = UITraitCollection(userInterfaceStyle: style)
-        guard let color = UIColor(named: name, in: Bundle.module, compatibleWith: traits) else { return nil }
+        guard let named = UIColor(named: name, in: Bundle.module, compatibleWith: traits) else { return nil }
+        let color = named.resolvedColor(with: traits)
         var (r, g, b, a): (CGFloat, CGFloat, CGFloat, CGFloat) = (0, 0, 0, 0)
         color.getRed(&r, green: &g, blue: &b, alpha: &a)
         return [r, g, b, a]
