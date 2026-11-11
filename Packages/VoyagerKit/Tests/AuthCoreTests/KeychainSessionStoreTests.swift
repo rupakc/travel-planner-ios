@@ -34,7 +34,7 @@ struct KeychainSessionStoreTests {
     }
 
     // The real Keychain path with a unique service. A host without Keychain access
-    // (errSecMissingEntitlement, -34018) is recorded as a warning; the logic is covered above.
+    // (errSecMissingEntitlement, -34018) is printed (not failed); the logic is covered above.
     @Test func test_realKeychainRoundTrip() throws {
         let service = "io.github.rupakc.travelplanner.tests.\(UUID().uuidString)"
         let store = KeychainSessionStore(service: service, defaults: defaults())
@@ -42,7 +42,7 @@ struct KeychainSessionStoreTests {
         do {
             try store.save(session)
         } catch let e as KeychainError where e.status == -34018 {
-            Issue.record("Keychain unavailable on this host (-34018); logic covered by the fake backend", severity: .warning)
+            print("KEYCHAIN-UNAVAILABLE -34018: real Keychain path not exercised on this host")
             return
         }
         #expect(store.load() == session)
