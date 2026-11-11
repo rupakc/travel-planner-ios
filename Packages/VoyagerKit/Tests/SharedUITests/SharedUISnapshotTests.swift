@@ -13,8 +13,8 @@ private struct FakeError: ErrorPresentable {
 
 @MainActor
 final class SharedUISnapshotTests: XCTestCase {
-    func test_vButton() {
-        assertSnapshots(
+    func test_vButton() async {
+        await assertSnapshots(
             of: {
                 VStack(spacing: 12) {
                     VButton("Search flights", tid: "snap.primary", systemImage: "airplane") {}
@@ -25,8 +25,8 @@ final class SharedUISnapshotTests: XCTestCase {
             }, named: "buttons", configs: SnapshotConfig.standard)
     }
 
-    func test_errorState() {
-        assertSnapshots(
+    func test_errorState() async {
+        await assertSnapshots(
             of: {
                 ErrorState(
                     error: FakeError(presentationKind: .rateLimited, userFacingDetail: nil),
@@ -34,11 +34,11 @@ final class SharedUISnapshotTests: XCTestCase {
             }, named: "rate-limited", configs: SnapshotConfig.standard)
     }
 
-    func test_verificationBadge() {
+    func test_verificationBadge() async {
         func badge(_ level: String, _ label: String, pending: Bool = false) -> JSONValue {
             .object(["level": .string(level), "label": .string(label), "pending": .bool(pending)])
         }
-        assertSnapshots(
+        await assertSnapshots(
             of: {
                 VStack(alignment: .leading, spacing: 8) {
                     VerificationBadge(verification: badge("verified", "Verified"))
@@ -50,8 +50,8 @@ final class SharedUISnapshotTests: XCTestCase {
             }, named: "levels", configs: SnapshotConfig.standard)
     }
 
-    func test_priceTextEstimate() {
-        assertSnapshots(
+    func test_priceTextEstimate() async {
+        await assertSnapshots(
             of: {
                 VStack(alignment: .leading, spacing: 12) {
                     PriceText(amount: 1249.5, currency: "USD", estimate: true)

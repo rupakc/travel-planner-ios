@@ -122,7 +122,7 @@ public struct SnapshotConfig: Sendable {
 }
 
 /// Snapshots `view` on every device × colour scheme × language (default: iPhone SE, iPhone 15 Pro Max and
-/// iPad Pro 13", light and dark, English). Fonts are registered first. The view is rendered inside the language
+/// iPad Pro 13", light and dark, English). It waits for the bundled fonts first. The view is rendered inside the language
 /// scope, so `L10n` calls made in `body` use that language; build the view in a closure (the other overload)
 /// when its initializer reads strings too.
 @MainActor
@@ -137,8 +137,8 @@ public func assertSnapshots(
     file: StaticString = #filePath,
     testName: String = #function,
     line: UInt = #line
-) {
-    assertSnapshots(
+) async {
+    await assertSnapshots(
         of: { view }, named: name,
         configs: SnapshotConfig.matrix(devices: devices, schemes: schemes, languages: languages, sizes: sizes),
         layout: layout, file: file, testName: testName, line: line)
@@ -157,8 +157,8 @@ public func assertSnapshots<V: View>(
     file: StaticString = #filePath,
     testName: String = #function,
     line: UInt = #line
-) {
-    assertSnapshots(
+) async {
+    await assertSnapshots(
         of: view, named: name,
         configs: SnapshotConfig.matrix(devices: devices, schemes: schemes, languages: languages, sizes: sizes),
         layout: layout, file: file, testName: testName, line: line)
@@ -174,10 +174,9 @@ public func assertSnapshots<V: View>(
     file: StaticString = #filePath,
     testName: String = #function,
     line: UInt = #line
-) {
-    // swiftlint:disable:next todo
-    // TODO(font-ready): await FontRegistry.ready() once fix/font-ready (PR #17) is on main.
-    FontRegistry.registerOnce()
+) async {
+    // Bundled fonts must be registered before anything renders, or SwiftUI falls back to the system font.
+    await FontRegistry.ready()
     for config in configs {
         LanguageController.withLanguage(config.language) {
             let content = hosted(view(), layout: layout)
