@@ -1,0 +1,6 @@
+#include "Base.xcconfig"
+
+// Local backend (uvicorn on 8001). UI tests override it with `-VoyagerBaseURL <url>`.
+VOYAGER_BASE_URL = http:/$()/127.0.0.1:8001
+// Space-separated; the one setting that also feeds associated domains (spec §2a).
+VOYAGER_TRUSTED_HOSTS = 127.0.0.1 localhost

@@ -1,0 +1,22 @@
+data: {"type": "plan_action", "action": "add", "field": "activities", "data": {"name": "Tsukiji food tour", "price_usd": 120}}
+
+data: {"type": "plan_action", "action": "clear", "field": "all", "data": null}
+
+data: {"type": "planning_start", "destination": "Tokyo"}
+
+data: {"type": "agent_status", "agent": "hotels", "status": "loading"}
+
+data: {"type": "section_result", "section": "hotels", "data": {"results": [{"name": "Park Hyatt Tokyo", "price_per_night_usd": 650}]}, "source": "ai"}
+
+data: {"type": "section_result", "section": "mystery", "data": {"x": 1}, "source": "ai"}
+
+data: {"type": "import_link", "url": "https://example.com/trip", "href": "/?import=https%3A%2F%2Fexample.com%2Ftrip"}
+
+data: {"type": "message", "text": "Legacy text"}
+
+data: {"type": "error", "text": "Sorry, something went wrong."}
+
+data: {"type": "plan_clear"}
+
+data: {"type": "done"}
+

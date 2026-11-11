@@ -1,0 +1,100 @@
+{
+  "events": {
+    "alert_event": {
+      "action": "id",
+      "kind": "id"
+    },
+    "app_background": {},
+    "app_open": {},
+    "consent": {
+      "choice": "enum:granted|denied"
+    },
+    "error": {
+      "kind": "enum:js|promise|api",
+      "source": "id",
+      "status": "int"
+    },
+    "feature_used": {
+      "feature": "id",
+      "page": "id"
+    },
+    "language_change": {
+      "lang": "enum:en|es|de|fr|hi|zh|bn"
+    },
+    "link_out": {
+      "domain": "id",
+      "section": "id"
+    },
+    "onboarding_step": {
+      "action": "enum:view|next|skip|done",
+      "step": "int"
+    },
+    "perf": {
+      "metric": "enum:ttfb|fcp|lcp|inp|cls|long_task|cold_start",
+      "route": "id",
+      "value": "float"
+    },
+    "plan_select": {
+      "section": "id"
+    },
+    "screen_time": {
+      "ms": "int",
+      "route": "id"
+    },
+    "screen_view": {
+      "referrer_route": "id",
+      "route": "id"
+    },
+    "search_abandon": {
+      "ms": "int",
+      "sections": "int"
+    },
+    "search_complete": {
+      "errors": "int",
+      "ms": "int",
+      "sections": "int"
+    },
+    "search_first_section": {
+      "ms": "int"
+    },
+    "search_submit": {
+      "mode": "enum:search|chat|compare|link|discover",
+      "multi_city": "bool",
+      "nights": "int",
+      "travelers": "int"
+    },
+    "section_expand": {
+      "section": "id"
+    },
+    "session_start": {},
+    "share": {
+      "object": "id",
+      "target": "id"
+    },
+    "theme_change": {
+      "theme": "enum:system|light|dark"
+    },
+    "ui_change": {
+      "route": "id",
+      "tid": "id"
+    },
+    "ui_submit": {
+      "route": "id",
+      "tid": "id"
+    },
+    "ui_tap": {
+      "route": "id",
+      "tid": "id"
+    },
+    "ui_toggle": {
+      "on": "bool",
+      "route": "id",
+      "tid": "id"
+    }
+  },
+  "platforms": [
+    "android",
+    "ios",
+    "web"
+  ]
+}
