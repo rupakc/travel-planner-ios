@@ -20,9 +20,9 @@ import VoyagerModel
         #expect(CompareRules.durationText(minutes: golden.arg(0).double, format: { "\($0)h \($1)m" }) == golden.output.string)
     }
 
-    @Test func fixturesCoverEveryFunction() {
-        for fn in ["buildCompareRequests", "bestByRow", "fmtDuration"] {
-            #expect(ExportGolden.cases("compare", fn: fn).count >= 4, "\(fn)")
-        }
+    @Test func fixturesCoverEveryDeclaredCase() throws {
+        let counts = ["buildCompareRequests": 6, "bestByRow": 7, "fmtDuration": 11]
+        for (fn, count) in counts { #expect(ExportGolden.cases("compare", fn: fn).count == count, "\(fn)") }
+        #expect(ExportGolden.cases("compare").count == (try ExportGolden.declaredCaseCount("compare")))
     }
 }

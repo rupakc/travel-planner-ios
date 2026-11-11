@@ -30,13 +30,13 @@ import VoyagerModel
     @Test(arguments: ExportGolden.cases("fareCalendar", fn: "daysUntil"))
     func daysUntilMatchesWeb(_ golden: ExportGoldenCase) {
         // The recorded run used TZ=UTC, so "today" is the UTC date.
-        let days = FareCalendar.daysUntil(golden.arg(0).string, now: ExportGolden.date(golden.arg(1)), calendar: ExportGolden.utc)
+        let days = FareCalendar.daysUntil(golden.arg(0).string, now: ExportGolden.date(golden.arg(1)), timeZone: ExportGolden.utc)
         #expect(days == golden.output.int)
     }
 
-    @Test func fixturesCoverEveryFunction() {
-        for fn in ["shiftDates", "dayOffset", "cheapestDeparture", "fareDelta", "daysUntil"] {
-            #expect(ExportGolden.cases("fareCalendar", fn: fn).count >= 4, "\(fn)")
-        }
+    @Test func fixturesCoverEveryDeclaredCase() throws {
+        let counts = ["shiftDates": 5, "dayOffset": 4, "cheapestDeparture": 6, "fareDelta": 6, "daysUntil": 7]
+        for (fn, count) in counts { #expect(ExportGolden.cases("fareCalendar", fn: fn).count == count, "\(fn)") }
+        #expect(ExportGolden.cases("fareCalendar").count == (try ExportGolden.declaredCaseCount("fareCalendar")))
     }
 }

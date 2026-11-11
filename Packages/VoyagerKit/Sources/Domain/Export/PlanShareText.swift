@@ -11,27 +11,73 @@ public enum PlanShareText {
     /// Headings and money format, from the localised catalogue (domain code holds no UI copy and no default
     /// language). `english` is for tests and previews only.
     public struct Labels: Sendable {
-        public var flights = "Flights"
-        public var hotel = "Hotel"
-        public var activities = "Activities"
-        public var places = "Places"
-        public var walkingTours = "Free walking tours"
-        public var events = "Events"
-        public var sim = "SIM"
-        public var gettingAround = "Getting around"
-        public var tips = "Tips"
-        public var itinerary = "Itinerary"
-        public var estimate = "Estimate"
-        public var day: @Sendable (Int) -> String = { "Day \($0)" }
-        public var perNight: @Sendable (String) -> String = { "\($0) / night" }
-        public var viewOnline: @Sendable (String) -> String = { "View the plan: \($0)" }
-
+        public let flights: String
+        public let hotel: String
+        public let activities: String
+        public let places: String
+        public let walkingTours: String
+        public let events: String
+        public let sim: String
+        public let gettingAround: String
+        public let tips: String
+        public let itinerary: String
+        public let estimate: String
+        public let morning: String
+        public let afternoon: String
+        public let evening: String
+        public let day: @Sendable (Int) -> String
+        public let perNight: @Sendable (String) -> String
+        public let viewOnline: @Sendable (String) -> String
         /// Currency text for a USD amount.
-        public var formatPrice: @Sendable (Double) -> String = { ExportText.usd($0) }
+        public let formatPrice: @Sendable (Double) -> String
 
-        public init() {}
+        public init(
+            flights: String, hotel: String, activities: String, places: String, walkingTours: String,
+            events: String, sim: String, gettingAround: String, tips: String, itinerary: String,
+            estimate: String, morning: String, afternoon: String, evening: String,
+            day: @escaping @Sendable (Int) -> String,
+            perNight: @escaping @Sendable (String) -> String,
+            viewOnline: @escaping @Sendable (String) -> String,
+            formatPrice: @escaping @Sendable (Double) -> String
+        ) {
+            self.flights = flights
+            self.hotel = hotel
+            self.activities = activities
+            self.places = places
+            self.walkingTours = walkingTours
+            self.events = events
+            self.sim = sim
+            self.gettingAround = gettingAround
+            self.tips = tips
+            self.itinerary = itinerary
+            self.estimate = estimate
+            self.morning = morning
+            self.afternoon = afternoon
+            self.evening = evening
+            self.day = day
+            self.perNight = perNight
+            self.viewOnline = viewOnline
+            self.formatPrice = formatPrice
+        }
 
-        public static let english = Labels()
+        /// English copy and en-US prices, for tests and previews only.
+        public static let english = Labels(
+            flights: "Flights", hotel: "Hotel", activities: "Activities", places: "Places",
+            walkingTours: "Free walking tours", events: "Events", sim: "SIM", gettingAround: "Getting around",
+            tips: "Tips", itinerary: "Itinerary", estimate: "Estimate",
+            morning: "Morning", afternoon: "Afternoon", evening: "Evening",
+            day: { "Day \($0)" }, perNight: { "\($0) / night" }, viewOnline: { "View the plan: \($0)" },
+            formatPrice: { ExportText.usd($0) }
+        )
+
+        func timeOfDay(_ raw: JSONValue) -> String? {
+            switch raw.string {
+            case "morning": return morning
+            case "afternoon": return afternoon
+            case "evening": return evening
+            default: return nil
+            }
+        }
     }
 
     public static func text(
@@ -110,7 +156,7 @@ public enum PlanShareText {
                 guard let activity = edited ?? text(slot["activity"]) else { continue }
                 let range = text(slot["start_time"]).flatMap { start in text(slot["end_time"]).map { "\(start)\u{2013}\($0)" } }
                 let note = key.flatMap { text(selections["itinerary_notes"][$0]) }
-                let parts = [range ?? text(slot["time_of_day"]), activity, text(slot["location"])]
+                let parts = [range ?? labels.timeOfDay(slot["time_of_day"]), activity, text(slot["location"])]
                 out.append("  \u{2022} " + ExportText.joined(parts, " \u{00B7} "))
                 if let note { out.append("    \(note)") }
             }
@@ -131,7 +177,7 @@ public enum PlanShareText {
     }
 
     private static func flightLine(_ flight: JSONValue, _ labels: Labels) -> String {
-        let leg = flight["outbound"]
+        let leg = ExportText.or(flight["outbound"], flight)
         let route: String
         if let origin = text(leg["origin"]), let destination = text(leg["destination"]) {
             route = "\(origin) \u{2192} \(destination)"

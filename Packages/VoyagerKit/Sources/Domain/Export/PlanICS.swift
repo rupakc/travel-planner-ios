@@ -11,39 +11,6 @@ import VoyagerModel
 /// Itinerary days come from Task 9's `ItineraryLayout.arrange` and `Schedule.scheduleDays` (the same pipeline
 /// the web's `planItineraryDays` uses).
 public enum PlanICS {
-    /// The user-visible strings inside the file (the web's `plan:ics.*` and `plan:print.*`), from the localised
-    /// catalogue. `english` is the web's English copy, for tests and previews only.
-    public struct Labels: Sendable {
-        public var dayTheme: @Sendable (_ day: String, _ theme: String) -> String
-        public var fromLinkQuote: @Sendable (String) -> String
-        public var fromLink: String
-        public var alsoFromLink: @Sendable (String) -> String
-        public var estCost: @Sendable (String) -> String
-        public var arrives: @Sendable (String) -> String
-        public var booking: @Sendable (String) -> String
-        public var price: @Sendable (String) -> String
-        public var trip: String
-        public var defaultName: String
-        public var inspiredBy: @Sendable (String) -> String
-        /// Whole-dollar-or-cents currency text for an estimated cost (`Intl` style, up to two decimals).
-        public var formatCost: @Sendable (Double) -> String
-
-        public static let english = Labels(
-            dayTheme: { "Day \($0): \($1)" },
-            fromLinkQuote: { "From your link: \u{201C}\($0)\u{201D}" },
-            fromLink: "From your link",
-            alsoFromLink: { "Also from your link: \($0)" },
-            estCost: { "Est. cost: \($0)" },
-            arrives: { "Arrives \($0) local time" },
-            booking: { "Booking: \($0)" },
-            price: { "Price: \($0)" },
-            trip: "Trip",
-            defaultName: "Trip plan",
-            inspiredBy: { "Inspired by \($0)" },
-            formatCost: { ExportText.usdUpTo2($0) }
-        )
-    }
-
     /// The `.ics` text for a plan. `itinerary` is the live itinerary when the plan comes straight from a search;
     /// saved plans carry their own snapshot in `selections.itinerary`. `planID` is the saved plan's id.
     public static func build(

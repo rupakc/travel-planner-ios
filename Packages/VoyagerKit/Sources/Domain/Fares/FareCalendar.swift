@@ -99,9 +99,11 @@ public enum FareCalendar {
         return price - base
     }
 
-    /// Calendar days from the viewer's today (in `calendar`'s time zone) to an ISO departure date;
-    /// `0` for a past, missing or unparseable date.
-    public static func daysUntil(_ iso: String?, now: Date = Date(), calendar: Calendar = .current) -> Int {
+    /// Calendar days from the viewer's today (the date of `now` in `timeZone`, which the caller must choose:
+    /// there is no implicit current zone) to an ISO departure date; `0` for a past, missing or unparseable date.
+    public static func daysUntil(_ iso: String?, now: Date, timeZone: TimeZone) -> Int {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
         guard let iso, IsoDayMath.isIsoDate(iso), let target = IsoDayMath.days(fromIso: iso) else { return 0 }
         let parts = calendar.dateComponents([.year, .month, .day], from: now)
         guard let year = parts.year, let month = parts.month, let day = parts.day else { return 0 }

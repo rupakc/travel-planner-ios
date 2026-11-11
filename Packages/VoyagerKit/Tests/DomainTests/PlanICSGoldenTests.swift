@@ -39,10 +39,10 @@ import VoyagerModel
         #expect(PlanICS.fileName(planName: golden.arg(0).string, ext: golden.arg(1).string ?? "") == golden.output.string)
     }
 
-    @Test func fixturesCoverEveryFunction() {
-        for fn in ["buildPlanIcs", "icsEscape", "icsFold", "planFileName"] {
-            #expect(ExportGolden.cases("planExport", fn: fn).count >= 2, "\(fn)")
-        }
+    @Test func fixturesCoverEveryDeclaredCase() throws {
+        let counts = ["buildPlanIcs": 19, "icsEscape": 2, "icsFold": 5, "planFileName": 4]
+        for (fn, count) in counts { #expect(ExportGolden.cases("planExport", fn: fn).count == count, "\(fn)") }
+        #expect(ExportGolden.cases("planExport").count == (try ExportGolden.declaredCaseCount("planExport")))
     }
 
     @Test func everyLineEndsWithCRLFAndFitsTheFoldLimit() {
