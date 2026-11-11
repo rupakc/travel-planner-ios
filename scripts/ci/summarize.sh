@@ -13,8 +13,11 @@ if [[ ! -d "$result" ]]; then
   exit 0
 fi
 
-summary_json="$(xcrun xcresulttool get test-results summary --path "$result" --compact)"
-tests_json="$(xcrun xcresulttool get test-results tests --path "$result" --compact)"
+if ! summary_json="$(xcrun xcresulttool get test-results summary --path "$result" --compact 2>/dev/null)" ||
+   ! tests_json="$(xcrun xcresulttool get test-results tests --path "$result" --compact 2>/dev/null)"; then
+  echo "summarize: $result is incomplete (the run was stopped before it finished writing results)"
+  exit 0
+fi
 
 SUMMARY_JSON="$summary_json" TESTS_JSON="$tests_json" python3 - "$result" <<'PY' | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 import json, os, sys

@@ -34,4 +34,8 @@
   Vite-only `import.meta.glob`, and use extensionless imports, so plain Node `import()` fails.
 
 ## Runner (macos-15)
-- `iPhone 16` exists on the iOS 26.0 runtime with Xcode 26.0.1 (sim-destination picked it).
+- `iPhone 16` and `iPad Pro 13-inch (M4)` exist on the iOS 26.0 runtime with Xcode 26.0.1.
+- A UI test run can hang after the build, before the first test case (runner/simulator launch); xcodebuild's
+  test timeouts don't cover that. `test-ui.sh` pre-boots the simulator, runs `test-without-building` under a
+  hard per-attempt limit and retries once on an erased simulator; the ui-smoke job has `timeout-minutes: 25`.
+- A unit run (build + 44 tests + app build) takes about 9 min on `build-test`; iPad ui-smoke about 4.5 min.
