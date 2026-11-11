@@ -205,3 +205,17 @@ def test_output_is_deterministic(tmp_path):
     assert _run(root).returncode == 0
     for rel in (gen_catalog.LOCALIZABLE, gen_catalog.KEYS_SWIFT, gen_catalog.INFO_PLIST):
         assert (root / rel).read_text(encoding="utf-8") == (ROOT / rel).read_text(encoding="utf-8")
+
+
+def test_placeholder_not_in_english_fails(tmp_path):
+    root = _tree(tmp_path, {"a": "Hello {{name}}", "n_one": "one", "n_other": "{{count}} items"},
+                 de={"a": "Hallo {{name}} {{extra}}", "n_one": "eins", "n_other": "{{count}} Dinge"})
+    proc = _run(root)
+    assert proc.returncode != 0
+    assert "de t:a" in proc.stderr and "extra" in proc.stderr
+
+
+def test_placeholder_subset_and_plural_count_allowed(tmp_path):
+    root = _tree(tmp_path, {"a": "Hello {{name}}", "n_one": "one", "n_other": "{{count}} items"},
+                 de={"a": "Hallo", "n_one": "{{count}} eins", "n_other": "{{count}} Dinge"})
+    assert _run(root).returncode == 0

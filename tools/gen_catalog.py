@@ -127,6 +127,10 @@ class Result:
     extras: list[tuple[str, str]]  # keys a language has that English lacks (ignored)
 
 
+def _placeholders(entry: Entry) -> set[str]:
+    return {n for text in entry.texts() for n in PLACEHOLDER_RE.findall(text)}
+
+
 def build(root: Path) -> Result:
     upstream = root / "Upstream" / "locales"
     per_lang = {lang: load_namespaces(upstream / lang) for lang in LANGUAGES}
@@ -145,6 +149,7 @@ def build(root: Path) -> Result:
     catalog: dict[str, dict[str, Entry]] = {SOURCE: english}
     missing: list[tuple[str, str]] = []
     extras: list[tuple[str, str]] = []
+    bad_placeholders: list[str] = []
     for lang in LANGUAGES:
         if lang == SOURCE:
             continue
@@ -160,10 +165,16 @@ def build(root: Path) -> Result:
                 merged[key] = en
             elif usable:
                 merged[key] = entry  # type: ignore[assignment]
+                extra = _placeholders(entry) - _placeholders(en) - ({"count"} if en.plural else set())  # type: ignore[arg-type]
+                if extra:
+                    bad_placeholders.append(f"{lang} {key}: {{{{{'}}, {{'.join(sorted(extra))}}}}} not in English")
             else:
                 merged[key] = en
                 missing.append((lang, key))
         catalog[lang] = merged
+
+    if bad_placeholders:
+        raise CatalogError("placeholders missing from the English string:\n  " + "\n  ".join(bad_placeholders))
 
     placeholders: dict[str, frozenset[str]] = {}
     for key, en in english.items():

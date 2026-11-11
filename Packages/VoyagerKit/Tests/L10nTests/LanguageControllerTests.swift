@@ -1,6 +1,7 @@
 import Foundation
 import L10n
 import Testing
+@testable import L10n
 import VoyagerModel
 
 @MainActor @Suite struct LanguageControllerTests {
@@ -39,5 +40,14 @@ import VoyagerModel
         let outside = LanguageController.current
         LanguageController.withLanguage(.bn) { #expect(LanguageController.current == .bn) }
         #expect(LanguageController.current == outside)
+    }
+
+    @Test func initialMirrorValueComesFromStoredLanguage() throws {
+        let defaults = try freshDefaults()
+        defaults.set("fr", forKey: "tp_lang")
+        #expect(LanguageState.initialLanguage(defaults: defaults, preferred: ["de"]) == .fr)
+        defaults.removeObject(forKey: "tp_lang")
+        #expect(LanguageState.initialLanguage(defaults: defaults, preferred: ["de-AT"]) == .de)
+        #expect(LanguageState.initialLanguage(defaults: defaults, preferred: []) == .en)
     }
 }
