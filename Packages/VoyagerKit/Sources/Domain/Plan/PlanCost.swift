@@ -2,7 +2,7 @@ import Foundation
 import VoyagerModel
 
 /// Translates a web i18n key (`"plan:best.reason.cheapestFare"`) with its interpolation values.
-/// Domain has no catalogue of its own: the UI passes `L10n`. Callers must pass it: there is no default, so a raw key can never reach the UI.
+/// Domain has no catalogue of its own: the UI passes `L10n`. Callers must pass it (no default), so no raw key reaches the UI.
 public typealias PlanText = @Sendable (_ key: String, _ params: [String: String]) -> String
 
 /// JS-compatible primitives shared by the plan ports (`Math.round`, `Number(x)`, `new Date(str)`, `String(x)`).
