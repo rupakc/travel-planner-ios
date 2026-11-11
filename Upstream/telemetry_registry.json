@@ -1,13 +1,32 @@
 {
   "events": {
+    "account_action": {
+      "action": "enum:avatar_upload|avatar_remove|name_change|settings_change|export|delete|link|unlink|signout_all|email_verify_request|change_password"
+    },
     "alert_event": {
       "action": "id",
       "kind": "id"
     },
     "app_background": {},
     "app_open": {},
+    "auth_result": {
+      "code": "id",
+      "method": "enum:password|apple|google|facebook|github",
+      "mode": "enum:signin|signup|link",
+      "result": "enum:ok|error|cancelled|coming_soon|needs_username|pending"
+    },
+    "auth_start": {
+      "method": "enum:password|apple|google|facebook|github",
+      "mode": "enum:signin|signup|link"
+    },
+    "badge_earned": {
+      "badge": "id"
+    },
     "consent": {
       "choice": "enum:granted|denied"
+    },
+    "email_verify": {
+      "result": "enum:ok|expired|invalid|used|resent|email_changed"
     },
     "error": {
       "kind": "enum:js|promise|api",
@@ -18,8 +37,18 @@
       "feature": "id",
       "page": "id"
     },
+    "game_award": {
+      "points": "int",
+      "rule": "id"
+    },
+    "game_view": {
+      "surface": "enum:account|nav|celebration"
+    },
     "language_change": {
       "lang": "enum:en|es|de|fr|hi|zh|bn"
+    },
+    "level_up": {
+      "level": "int"
     },
     "link_out": {
       "domain": "id",
@@ -29,6 +58,10 @@
       "action": "enum:view|next|skip|done",
       "step": "int"
     },
+    "password_reset": {
+      "result": "enum:ok|error|expired|invalid|used",
+      "step": "enum:request|confirm"
+    },
     "perf": {
       "metric": "enum:ttfb|fcp|lcp|inp|cls|long_task|cold_start",
       "route": "id",
@@ -36,6 +69,10 @@
     },
     "plan_select": {
       "section": "id"
+    },
+    "quota_block": {
+      "bucket": "enum:search|chat|compare|discover|light_ai|import",
+      "reason": "enum:daily_quota|unverified"
     },
     "screen_time": {
       "ms": "int",
@@ -70,6 +107,9 @@
     "share": {
       "object": "id",
       "target": "id"
+    },
+    "signup_step": {
+      "step": "enum:form|check_email|username|done"
     },
     "theme_change": {
       "theme": "enum:system|light|dark"
