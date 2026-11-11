@@ -1,0 +1,14 @@
+{
+  "args": [
+    {
+      "cheapest_usd": 530.5,
+      "departure_date": "a"
+    },
+    {
+      "cheapest_usd": 500,
+      "departure_date": "b"
+    }
+  ],
+  "fn": "fareDelta",
+  "output": 30.5
+}

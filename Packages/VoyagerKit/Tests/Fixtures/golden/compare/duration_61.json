@@ -1,0 +1,7 @@
+{
+  "args": [
+    61
+  ],
+  "fn": "fmtDuration",
+  "output": "1h 1m"
+}

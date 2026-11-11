@@ -1,0 +1,75 @@
+{
+  "args": [
+    [
+      {
+        "daily_cost_usd": null,
+        "ease": {
+          "english": null,
+          "safety": null,
+          "total": null
+        },
+        "estimate": {
+          "partial": true,
+          "total_usd": 900
+        },
+        "flight": {
+          "price_usd": null
+        },
+        "hotel": {
+          "typical_nightly_usd": null
+        },
+        "weather": {
+          "poor_days": null
+        }
+      },
+      {
+        "daily_cost_usd": null,
+        "ease": {
+          "english": null,
+          "safety": null,
+          "total": null
+        },
+        "estimate": {
+          "partial": false,
+          "total_usd": 1500
+        },
+        "flight": {
+          "price_usd": null
+        },
+        "hotel": {
+          "typical_nightly_usd": null
+        },
+        "weather": {
+          "poor_days": null
+        }
+      },
+      {
+        "daily_cost_usd": null,
+        "ease": {
+          "english": null,
+          "safety": null,
+          "total": null
+        },
+        "estimate": {
+          "partial": false,
+          "total_usd": 1600
+        },
+        "flight": {
+          "price_usd": null
+        },
+        "hotel": {
+          "typical_nightly_usd": null
+        },
+        "weather": {
+          "poor_days": null
+        }
+      }
+    ]
+  ],
+  "fn": "bestByRow",
+  "output": {
+    "estimate": [
+      1
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "args": [
+    {
+      "itinerary": null,
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": null,
+      "planName": "Multi leg",
+      "searchData": {
+        "departure_date": "2027-04-01",
+        "destination": "Tokyo",
+        "origin": "New York",
+        "return_date": "2027-04-08"
+      },
+      "selections": {
+        "flights": [
+          {
+            "leg_date": "2027-04-01",
+            "leg_from": "Paris, France",
+            "leg_index": 0,
+            "leg_to": "Rome, Italy",
+            "outbound": {
+              "airline": "AF",
+              "departure_time": "09:10",
+              "duration_minutes": 125,
+              "flight_number": "AF1204"
+            }
+          },
+          {
+            "airline": "AZ",
+            "booking_url": "https://x.example/a",
+            "departure_time": "23:30",
+            "duration_minutes": 150,
+            "leg_date": "2027-04-04",
+            "leg_from": "Rome, Italy",
+            "leg_to": "Athens, Greece"
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Multi leg\r\nBEGIN:VEVENT\r\nUID:trip-multi-leg-1cflh5c-flight-leg-0@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270401T091000\r\nDTEND:20270401T111500\r\nSUMMARY:✈ AF AF1204 Paris → Rome\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-multi-leg-1cflh5c-flight-leg-1@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270404T233000\r\nDTEND:20270405T020000\r\nSUMMARY:✈ AZ Rome → Athens\r\nDESCRIPTION:Booking: https://x.example/a\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}

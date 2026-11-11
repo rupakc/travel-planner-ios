@@ -1,0 +1,26 @@
+{
+  "args": [
+    {
+      "adults": 0,
+      "budget_usd": "",
+      "destinations": [
+        "Rome"
+      ],
+      "origin": "LON",
+      "return_date": ""
+    }
+  ],
+  "fn": "buildCompareRequests",
+  "output": [
+    {
+      "adults": 0,
+      "budget_usd": null,
+      "destination": "Rome",
+      "destination_nights": null,
+      "destinations": null,
+      "num_travelers": 1,
+      "origin": "LON",
+      "return_date": null
+    }
+  ]
+}

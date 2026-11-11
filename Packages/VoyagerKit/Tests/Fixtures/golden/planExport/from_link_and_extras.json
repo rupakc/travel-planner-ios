@@ -1,0 +1,55 @@
+{
+  "args": [
+    {
+      "itinerary": {
+        "days": [
+          {
+            "city": "Lisbon",
+            "day_number": 1,
+            "link_extras": [
+              {
+                "name": "LX Factory",
+                "note": "Sunday market"
+              },
+              {
+                "name": "Time Out Market"
+              }
+            ],
+            "slots": [
+              {
+                "activity": "Pasteis de Belem",
+                "from_link": true,
+                "lat": 38.6975,
+                "link_quote": "best custard tarts, \"unmissable\"",
+                "lng": -9.2033,
+                "time_of_day": "morning"
+              },
+              {
+                "activity": "Tram 28",
+                "from_link": true,
+                "time_of_day": "afternoon"
+              }
+            ]
+          }
+        ]
+      },
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": null,
+      "planName": "Lisbon from link",
+      "searchData": {
+        "departure_date": "2027-06-10",
+        "destination": "Lisbon",
+        "import_source": {
+          "title": "10 things in Lisbon",
+          "url": "https://blog.example/lisbon"
+        },
+        "origin": "LHR"
+      },
+      "selections": {}
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Lisbon from link\r\nX-WR-CALDESC:Inspired by 10 things in Lisbon — https://blog.example/lisbo\r\n n\r\nBEGIN:VEVENT\r\nUID:trip-lisbon-from-link-k31l57-slot-1-morning@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270610T090000\r\nDTEND:20270610T120000\r\nSUMMARY:Pasteis de Belem\r\nLOCATION:Lisbon\r\nDESCRIPTION:From your link: “best custard tarts\\, \"unmissable\"”\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-lisbon-from-link-k31l57-slot-1-afternoon@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270610T133000\r\nDTEND:20270610T163000\r\nSUMMARY:Tram 28\r\nLOCATION:Lisbon\r\nDESCRIPTION:From your link\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-lisbon-from-link-k31l57-extras-1@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART;VALUE=DATE:20270610\r\nDTEND;VALUE=DATE:20270611\r\nSUMMARY:Also from your link: LX Factory\\, Time Out Market\r\nDESCRIPTION:LX Factory — Sunday market\\nTime Out Market\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}

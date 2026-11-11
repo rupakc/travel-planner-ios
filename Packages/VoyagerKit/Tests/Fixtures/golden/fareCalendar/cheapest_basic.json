@@ -1,0 +1,24 @@
+{
+  "args": [
+    [
+      {
+        "cheapest_usd": 500,
+        "departure_date": "2027-04-01"
+      },
+      {
+        "cheapest_usd": 420,
+        "departure_date": "2027-04-02"
+      },
+      {
+        "cheapest_usd": 420.5,
+        "departure_date": "2027-04-03"
+      },
+      {
+        "cheapest_usd": null,
+        "departure_date": "2027-04-04"
+      }
+    ]
+  ],
+  "fn": "cheapestDeparture",
+  "output": "2027-04-02"
+}

@@ -1,0 +1,22 @@
+{
+  "args": [
+    {
+      "itinerary": null,
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": null,
+      "planName": "Hotel one way",
+      "searchData": {
+        "departure_date": "2027-12-31"
+      },
+      "selections": {
+        "hotel": {
+          "name": "Night Inn"
+        }
+      }
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Hotel one way\r\nBEGIN:VEVENT\r\nUID:trip-hotel-one-way-1xy8rmc-hotel@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART;VALUE=DATE:20271231\r\nDTEND;VALUE=DATE:20280101\r\nSUMMARY:🏨 Night Inn\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}

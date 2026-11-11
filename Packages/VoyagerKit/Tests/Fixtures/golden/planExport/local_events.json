@@ -1,0 +1,40 @@
+{
+  "args": [
+    {
+      "itinerary": null,
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": null,
+      "planName": "Events",
+      "searchData": {
+        "departure_date": "2027-04-01",
+        "destination": "Tokyo",
+        "origin": "New York",
+        "return_date": "2027-04-08"
+      },
+      "selections": {
+        "events": [
+          {
+            "description": "Cherry blossoms, lanterns",
+            "end_date": "2027-04-04",
+            "location": "Ueno Park",
+            "name": "Hanami Festival",
+            "price": "Free",
+            "start_date": "2027-04-02"
+          },
+          {
+            "end_date": "2027-04-01",
+            "name": "Sumo",
+            "start_date": "2027-04-05"
+          },
+          {
+            "name": "No date"
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Events\r\nBEGIN:VEVENT\r\nUID:trip-events-1pvnfzi-event-zhfu5w@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART;VALUE=DATE:20270402\r\nDTEND;VALUE=DATE:20270405\r\nSUMMARY:🎉 Hanami Festival\r\nLOCATION:Ueno Park\r\nDESCRIPTION:Cherry blossoms\\, lanterns\\nPrice: Free\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-events-1pvnfzi-event-12peguz@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART;VALUE=DATE:20270405\r\nDTEND;VALUE=DATE:20270406\r\nSUMMARY:🎉 Sumo\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}

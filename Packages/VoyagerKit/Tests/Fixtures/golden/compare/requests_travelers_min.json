@@ -1,0 +1,21 @@
+{
+  "args": [
+    {
+      "destinations": [
+        "Paris"
+      ],
+      "num_travelers": 9
+    }
+  ],
+  "fn": "buildCompareRequests",
+  "output": [
+    {
+      "budget_usd": null,
+      "destination": "Paris",
+      "destination_nights": null,
+      "destinations": null,
+      "num_travelers": 1,
+      "return_date": null
+    }
+  ]
+}

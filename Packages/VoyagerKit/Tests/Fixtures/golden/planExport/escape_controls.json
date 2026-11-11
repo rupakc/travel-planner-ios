@@ -1,0 +1,7 @@
+{
+  "args": [
+    "x\u0001yz\u000b"
+  ],
+  "fn": "icsEscape",
+  "output": "xyz"
+}

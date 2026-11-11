@@ -1,0 +1,8 @@
+{
+  "args": [
+    "",
+    "ics"
+  ],
+  "fn": "planFileName",
+  "output": "trip.ics"
+}

@@ -1,0 +1,7 @@
+{
+  "args": [
+    "a,b;c\\d\ne\r\nf\rg\th"
+  ],
+  "fn": "icsEscape",
+  "output": "a\\,b\\;c\\\\d\\ne\\nf\\ng\th"
+}

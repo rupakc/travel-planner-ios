@@ -1,0 +1,95 @@
+{
+  "args": [
+    {
+      "itinerary": {
+        "days": [
+          {
+            "city": "Tokyo",
+            "date": "2027-04-01",
+            "day_number": 1,
+            "slots": [
+              {
+                "activity": "Senso-ji Temple",
+                "duration_hours": 2,
+                "estimated_cost_usd": 0,
+                "lat": 35.7148,
+                "lng": 139.7967,
+                "location": "Asakusa, Tokyo",
+                "notes": "Go early\nbring cash",
+                "time_of_day": "morning"
+              },
+              {
+                "activity": "Tsukiji Outer Market",
+                "duration_hours": 2.5,
+                "estimated_cost_usd": 35.5,
+                "lat": 35.6655,
+                "lng": 139.7707,
+                "location": "Tsukiji",
+                "time_of_day": "afternoon"
+              },
+              {
+                "activity": "Izakaya crawl in Omoide Yokocho",
+                "estimated_cost_usd": 60,
+                "lat": 35.6939,
+                "lng": 139.6997,
+                "location": "Shinjuku",
+                "time_of_day": "evening"
+              }
+            ],
+            "theme": "Old Tokyo, food; & more"
+          },
+          {
+            "city": "Tokyo",
+            "day_number": 2,
+            "slots": [
+              {
+                "activity": "teamLab Planets",
+                "duration_hours": 3,
+                "estimated_cost_usd": 32,
+                "time_of_day": "morning"
+              },
+              {
+                "activity": "Late night karaoke in Shibuya, 渋谷 with a very long description that needs folding past seventy five octets for sure",
+                "duration_hours": 5,
+                "time_of_day": "evening"
+              }
+            ],
+            "theme": "Modern Tokyo"
+          },
+          {
+            "city": "Kyoto",
+            "date": "2027-04-03",
+            "day_number": 3,
+            "slots": [],
+            "theme": ""
+          }
+        ]
+      },
+      "now": {
+        "$date": "2027-03-01T10:20:30.000Z"
+      },
+      "planId": null,
+      "planName": "Edits",
+      "searchData": {
+        "departure_date": "2027-04-01",
+        "destination": "Tokyo",
+        "origin": "New York",
+        "return_date": "2027-04-08"
+      },
+      "selections": {
+        "itinerary_edits": {
+          "1-morning": {
+            "activity": "Senso-ji (edited)",
+            "cost": 12,
+            "location": "Asakusa"
+          }
+        },
+        "itinerary_notes": {
+          "1-afternoon": "Try tamagoyaki; ask for a lunch set"
+        }
+      }
+    }
+  ],
+  "fn": "buildPlanIcs",
+  "output": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Voyager Travel Planner//Plan Export//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Edits\r\nBEGIN:VEVENT\r\nUID:trip-edits-jt7ecc-slot-1-morning@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270401T090000\r\nDTEND:20270401T110000\r\nSUMMARY:Senso-ji (edited)\r\nLOCATION:Asakusa\r\nDESCRIPTION:Day 1: Old Tokyo\\, food\\; & more\\nGo early\\nbring cash\\nEst. co\r\n st: $12\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-edits-jt7ecc-slot-1-afternoon@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270401T133000\r\nDTEND:20270401T160000\r\nSUMMARY:Tsukiji Outer Market\r\nLOCATION:Tsukiji\r\nDESCRIPTION:Day 1: Old Tokyo\\, food\\; & more\\nTry tamagoyaki\\; ask for a lu\r\n nch set\\nEst. cost: $35.5\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-edits-jt7ecc-slot-1-evening@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270401T183000\r\nDTEND:20270401T210000\r\nSUMMARY:Izakaya crawl in Omoide Yokocho\r\nLOCATION:Shinjuku\r\nDESCRIPTION:Day 1: Old Tokyo\\, food\\; & more\\nEst. cost: $60\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-edits-jt7ecc-slot-2-morning@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270402T090000\r\nDTEND:20270402T120000\r\nSUMMARY:teamLab Planets\r\nLOCATION:Tokyo\r\nDESCRIPTION:Day 2: Modern Tokyo\\nEst. cost: $32\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:trip-edits-jt7ecc-slot-2-evening@voyager-travel-planner\r\nDTSTAMP:20270301T102030Z\r\nDTSTART:20270402T183000\r\nDTEND:20270402T233000\r\nSUMMARY:Late night karaoke in Shibuya\\, 渋谷 with a very long description\r\n  that needs folding past seventy five octets for sure\r\nLOCATION:Tokyo\r\nDESCRIPTION:Day 2: Modern Tokyo\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+}

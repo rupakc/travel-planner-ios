@@ -1,0 +1,7 @@
+{
+  "args": [
+    -5
+  ],
+  "fn": "fmtDuration",
+  "output": null
+}
