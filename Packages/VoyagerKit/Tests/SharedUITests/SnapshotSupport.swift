@@ -45,9 +45,8 @@ func assertSnapshots<V: View>(
     FontRegistry.registerOnce()
     for config in configs {
         LanguageController.withLanguage(config.language) {
-            let content = view()
-                .padding(16)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            // A ScrollView proposes the content its natural height, so AX5 text never overlaps.
+            let content = ScrollView { view().padding(16) }
                 .background(SemanticColor.surface)
             let traits = UITraitCollection { mutable in
                 mutable.userInterfaceStyle = config.dark ? .dark : .light

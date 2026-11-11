@@ -42,6 +42,7 @@ public struct VButton: View {
                 Text(verbatim: title)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
+                    .minimumScaleFactor(0.7)  // a long single word shrinks instead of breaking mid-word
             }
         }
         .buttonStyle(role: role)
