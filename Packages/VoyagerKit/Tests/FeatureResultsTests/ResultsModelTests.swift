@@ -179,10 +179,10 @@ final class ResultsModelTests: XCTestCase {
     func test_toggleSelectsIntoPlanAndReportsOnce() {
         let (model, env, _, recorder) = make { _ in }
         let hotel: JSONValue = ["name": "Park Hyatt"]
-        model.toggle(field: "hotel", item: hotel)
-        XCTAssertTrue(env.plan.contains(field: "hotel", item: hotel))
-        model.toggle(field: "hotel", item: hotel)
-        XCTAssertFalse(env.plan.contains(field: "hotel", item: hotel))
+        model.toggle(field: "activities", item: hotel)
+        XCTAssertTrue(env.plan.contains(field: "activities", item: hotel))
+        model.toggle(field: "activities", item: hotel)
+        XCTAssertFalse(env.plan.contains(field: "activities", item: hotel))
         XCTAssertEqual(recorder.events.filter { if case .planSelect = $0 { true } else { false } }.count, 1)
     }
 
