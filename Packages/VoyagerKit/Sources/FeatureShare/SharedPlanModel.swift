@@ -78,11 +78,16 @@ public final class SharedPlanModel {
         if flights.isEmpty, selections["flight"].object != nil { flights = [selections["flight"]] }
         if !flights.isEmpty { out.append((.flights, ["flights": .array(flights)])) }
         if selections["hotel"].object != nil { out.append((.hotels, ["hotels": [selections["hotel"]]])) }
-        let lists: [(SectionID, String, String)] = [
-            (.activities, "activities", "activities"), (.placesToSee, "places_to_see", "places"),
-            (.events, "events", "events"), (.walkingTours, "walking_tours", "tours"),
+        struct PickList { let id: SectionID, field: String, key: String }
+        let lists = [
+            PickList(id: .activities, field: "activities", key: "activities"),
+            PickList(id: .placesToSee, field: "places_to_see", key: "places"),
+            PickList(id: .events, field: "events", key: "events"),
+            PickList(id: .walkingTours, field: "walking_tours", key: "tours"),
         ]
-        for (id, field, key) in lists where !list(field).isEmpty { out.append((id, [key: .array(list(field))])) }
+        for pick in lists where !list(pick.field).isEmpty {
+            out.append((pick.id, [pick.key: .array(list(pick.field))]))
+        }
         if selections["sim"].object != nil { out.append((.sim, ["plans": [selections["sim"]]])) }
         if !list("tips").isEmpty { out.append((.tips, ["tips": .array(list("tips"))])) }
         if !list("getting_around").isEmpty { out.append((.gettingAround, ["options": .array(list("getting_around"))])) }
