@@ -2,6 +2,7 @@ import SnapshotTesting
 import SwiftUI
 import TestSupport
 import VoyagerEnv
+import VoyagerModel
 import XCTest
 
 @testable import FeatureTrips
