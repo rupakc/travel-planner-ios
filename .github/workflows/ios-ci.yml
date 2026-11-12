@@ -163,7 +163,7 @@ jobs:
   # short: "not acquired by Runner ... after multiple attempts"), one build, both simulators booting during it.
   ui-smoke:
     name: ui-smoke
-    needs: [tools, build-test]
+    needs: [tools]  # DIAG (temporary): skip waiting on build-test
     if: >-
       github.event_name == 'push' ||
       (github.event_name == 'workflow_dispatch' && inputs.full && inputs.only_testing == '') ||
@@ -186,6 +186,9 @@ jobs:
       - name: Generate
         run: scripts/ci/generate.sh
       - name: UI tests (iPhone, iPad)
+        env:
+          UI_DIAG: "1"
+          UI_ATTEMPT_TIMEOUT: "300"
         run: scripts/ci/test-ui.sh iphone ipad
       - name: Test summary
         if: always()
@@ -197,7 +200,9 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ui-xcresult
-          path: build/ui-*.xcresult
+          path: |
+            build/ui-*.xcresult
+            build/diag-*
           retention-days: 7
 
   archive:

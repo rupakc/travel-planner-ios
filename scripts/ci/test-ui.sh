@@ -82,6 +82,20 @@ for i in "${!devices[@]}"; do
     continue
   fi
   echo "test-ui: $device on ${destinations[$i]}"
+  udid="${destinations[$i]##*id=}"
+  if [[ -n "${UI_DIAG:-}" ]]; then
+    # DIAG (temporary): can this simulator launch any app through FrontBoard at all?
+    t0=$SECONDS
+    perl -e 'alarm 90; exec @ARGV' xcrun simctl launch "$udid" com.apple.Preferences 2>&1 | sed 's/^/diag: launch Preferences: /' || true
+    echo "diag: launch Preferences returned after $((SECONDS - t0))s"
+    perl -e 'alarm 30; exec @ARGV' xcrun simctl terminate "$udid" com.apple.Preferences >/dev/null 2>&1 || true
+    xcrun simctl spawn "$udid" log stream --style compact --level debug \
+      --predicate 'process IN {"SpringBoard","runningboardd","launchd_sim","testmanagerd","VoyagerUITests-Runner","XCTRunner","backboardd","installd"} OR subsystem BEGINSWITH "com.apple.FrontBoard" OR subsystem BEGINSWITH "com.apple.runningboard"' \
+      > "$ROOT/build/diag-$device-sim.log" 2>&1 &
+    logpid=$!
+    ( sleep 150; xcrun simctl io "$udid" screenshot "$ROOT/build/diag-$device-150s.png" >/dev/null 2>&1
+      xcrun simctl spawn "$udid" launchctl list > "$ROOT/build/diag-$device-launchctl.txt" 2>&1 ) &
+  fi
   status=0
   run_limited "$attempt_timeout" xcodebuild test-without-building "${common[@]}" \
     -destination "${destinations[$i]}" \
@@ -89,6 +103,7 @@ for i in "${!devices[@]}"; do
     -test-timeouts-enabled YES \
     -default-test-execution-time-allowance 120 \
     -maximum-test-execution-time-allowance 300 || status=$?
+  if [[ -n "${UI_DIAG:-}" ]]; then kill "$logpid" 2>/dev/null || true; fi
   if [[ $status -ne 0 ]]; then
     echo "::error::test-ui: $device failed (status $status)"
     failed=1
