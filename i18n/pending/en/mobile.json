@@ -1,0 +1,23 @@
+{
+  "trips": {
+    "accessibility": "Accessibility info",
+    "bestValue": "Best value",
+    "budgetPlanner": "Budget planner",
+    "departs": "Departs {{date}}",
+    "explore": "Explore",
+    "filterAll": "All",
+    "filterPast": "Past",
+    "filterUpcoming": "Upcoming",
+    "newSearch": "New search",
+    "nextTrip": "Next trip",
+    "noMatch": "No plans match your search.",
+    "noPlansBody": "Plans you save from Results or Chat show up here.",
+    "noPlansTitle": "No saved plans yet",
+    "openInMyPlan": "Open in My Plan",
+    "savedPlans": "Saved plans",
+    "searchPlans": "Search plans",
+    "selectPlan": "Select a plan",
+    "signInBody": "Sign in to see your saved plans.",
+    "signInTitle": "Your trips"
+  }
+}
