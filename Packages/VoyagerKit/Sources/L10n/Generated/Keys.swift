@@ -1512,6 +1512,17 @@ public enum K {
                 public static let name = LKey("onboarding:types.RELAXATION.name", placeholders: [], plural: false)
             }
         }
+        public enum ui {
+            public static let alsoLike = LKey("onboarding:ui.alsoLike", placeholders: ["types"], plural: false)
+            public static let close = LKey("onboarding:ui.close", placeholders: [], plural: false)
+            public static let continueOffline = LKey("onboarding:ui.continueOffline", placeholders: [], plural: false)
+            public static let exploreFirst = LKey("onboarding:ui.exploreFirst", placeholders: [], plural: false)
+            public static let planTrip = LKey("onboarding:ui.planTrip", placeholders: [], plural: false)
+            public static let saveChanges = LKey("onboarding:ui.saveChanges", placeholders: [], plural: false)
+            public static let saveFailed = LKey("onboarding:ui.saveFailed", placeholders: [], plural: false)
+            public static let saving = LKey("onboarding:ui.saving", placeholders: [], plural: false)
+            public static let yourType = LKey("onboarding:ui.yourType", placeholders: [], plural: false)
+        }
     }
     public enum plan {
         public enum best {
