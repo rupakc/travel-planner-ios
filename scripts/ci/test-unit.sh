@@ -48,10 +48,14 @@ done
 
 # Hard wall-clock limit for the whole build + test run (UNIT_TIMEOUT seconds, default 1500): a simulator
 # hang that test timeouts do not cover (for example while loading the runner) fails fast, not at 45 minutes.
+# Output goes through a FIFO into `tee`, and the log is read only after tee has flushed it.
 limit="${UNIT_TIMEOUT:-1500}"
 flag="$(mktemp)"; rm -f "$flag"
+fifo="$(mktemp -u)"; mkfifo "$fifo"
+tee "$log" < "$fifo" &
+tee_pid=$!
 set +e
-(cd "$ROOT/Packages/VoyagerKit" && exec xcodebuild "${args[@]}") > >(tee "$log") 2>&1 &
+(cd "$ROOT/Packages/VoyagerKit" && exec xcodebuild "${args[@]}") > "$fifo" 2>&1 &
 pid=$!
 ( sleep "$limit"; touch "$flag"
   echo "::error::test-unit: exceeded ${limit}s; stopping xcodebuild (last output is in $log)"
@@ -60,7 +64,15 @@ pid=$!
 watchdog=$!
 wait "$pid"
 status=$?
+# Stop the watchdog subshell first (so it cannot go on to "time out"), then its orphaned sleep.
+sleepers="$(pgrep -P "$watchdog" 2>/dev/null || true)"
 kill "$watchdog" 2>/dev/null; wait "$watchdog" 2>/dev/null
+# shellcheck disable=SC2086
+[[ -n "$sleepers" ]] && kill $sleepers 2>/dev/null
+# tee ends when every writer has closed the FIFO; give stray children of a killed run a moment, then stop it.
+for _ in 1 2 3 4 5 6 7 8 9 10; do kill -0 "$tee_pid" 2>/dev/null || break; sleep 1; done
+kill "$tee_pid" 2>/dev/null; wait "$tee_pid" 2>/dev/null
+rm -f "$fifo"
 set -e
 if [[ -e "$flag" ]]; then status=124; rm -f "$flag"; fi
 
