@@ -28,13 +28,28 @@ final class PlanDetailModel {
     /// Set after a delete: the plan no longer exists, so the host leaves the screen.
     private(set) var deleted = false
 
+    /// The plan on screen is the cached copy (the refresh failed).
+    private(set) var isOffline = false
+
     let planID: Int
     private let env: AppEnvironment
+    private let files: any FileStore
 
-    init(env: AppEnvironment, planID: Int) {
+    init(env: AppEnvironment, planID: Int, files: (any FileStore)? = nil) {
         self.env = env
         self.planID = planID
+        self.files = files ?? DiskFileStore.applicationSupport()
     }
+
+    private var username: String? { env.auth.session?.user.username }
+
+    /// One file per plan (`plans-detail/<id>.json`), tagged with the account it belongs to.
+    private struct CachedPlan: Codable {
+        var username: String?
+        var plan: SavedPlan
+    }
+
+    private var cachePath: String { "plans-detail/\(planID).json" }
 
     var plan: SavedPlan? {
         if case .loaded(let plan) = phase { return plan }
@@ -43,13 +58,24 @@ final class PlanDetailModel {
 
     func load() async {
         do {
-            phase = .loaded(try await env.repos.plans.get(id: planID))
+            let plan = try await env.repos.plans.get(id: planID)
+            phase = .loaded(plan)
+            isOffline = false
             error = nil
+            if let data = try? JSONEncoder().encode(CachedPlan(username: username, plan: plan)) {
+                try? await files.write(data, to: cachePath)
+            }
         } catch is CancellationError {
             return
         } catch APIError.cancelled {
             return
         } catch {
+            if plan == nil, let data = try? await files.read(cachePath),
+                let cached = try? JSONDecoder().decode(CachedPlan.self, from: data), cached.username == username {
+                phase = .loaded(cached.plan)
+                isOffline = true
+                return
+            }
             self.error = error as? any ErrorPresentable
             if plan == nil { phase = .failed }
         }
@@ -126,6 +152,7 @@ final class PlanDetailModel {
             deleteFailed = true
             return false
         }
+        try? await files.remove(cachePath)
         if env.plan.savedPlanID == planID { env.plan.savedPlanID = nil }
         deleted = true
         return true

@@ -57,6 +57,11 @@ final class TripsModel {
     /// The plan the user asked to delete; the confirmation dialog shows while it is set.
     var pendingDelete: PlanSummary?
 
+    /// Plans deleted in this session: a refresh that started before the delete must not bring them back.
+    private var deletedIDs: Set<Int> = []
+    /// The user whose plans are in `plans` (`.some(nil)` = signed out, `.none` = nothing loaded yet).
+    private var shownUser: String??
+
     private let env: AppEnvironment
     private let files: any FileStore
     private let now: @Sendable () -> Date
@@ -80,12 +85,16 @@ final class TripsModel {
 
     /// Shows the cached list at once, then refreshes it. A failed refresh keeps the cache and sets `isOffline`.
     func load() async {
-        guard !isLoading else { return }
+        await syncUser()
+        guard !isLoading, username != nil else { return }
         isLoading = true
         defer { isLoading = false }
+        let user = username
         if plans.isEmpty, let cached = await readCache() { plans = cached }
         do {
-            let fresh = try await env.repos.plans.list()
+            let fetched = try await env.repos.plans.list()
+            guard user == username else { return } // the account changed while the request ran
+            let fresh = fetched.filter { !deletedIDs.contains($0.id) }
             plans = fresh
             isOffline = false
             failed = false
@@ -103,6 +112,23 @@ final class TripsModel {
                 isOffline = true
             }
         }
+    }
+
+    /// Another account (or none) is signed in now: nothing of the previous one stays on screen or in the cache.
+    func syncUser() async {
+        let user = username
+        if let shown = shownUser, shown == user { return }
+        let hadUser = shownUser != nil
+        shownUser = .some(user)
+        plans = []
+        isOffline = false
+        failed = false
+        error = nil
+        query = ""
+        filter = .all
+        pendingDelete = nil
+        deletedIDs = []
+        if hadUser || user == nil { try? await files.remove(PlansCache.path) }
     }
 
     private func readCache() async -> [PlanSummary]? {
@@ -185,6 +211,7 @@ final class TripsModel {
 
     /// The server no longer has plan `id` (deleted here or from the detail screen): drop it from the list and the cache.
     func didDelete(id: Int) async {
+        deletedIDs.insert(id)
         plans.removeAll { $0.id == id }
         if env.plan.savedPlanID == id { env.plan.savedPlanID = nil }
         await writeCache(plans)

@@ -82,6 +82,12 @@ public struct PlanDetailView: View {
         case .loaded(let plan):
             ScrollView {
                 VStack(alignment: .leading, spacing: Spacing.lg) {
+                    if model.isOffline {
+                        Text(verbatim: L10n.text(K.mobile.offline.banner))
+                            .font(VFont.body(.footnote))
+                            .foregroundStyle(SemanticColor.textMuted)
+                            .accessibilityIdentifier("plan.detail.offline")
+                    }
                     header(plan)
                     actions
                     if let itinerary = PlanDetailModel.itinerary(in: plan.selections) {

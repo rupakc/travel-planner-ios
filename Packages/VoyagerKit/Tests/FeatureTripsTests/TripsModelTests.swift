@@ -127,4 +127,24 @@ final class TripsModelTests: XCTestCase {
         model.filter = .all
         XCTAssertEqual(model.visiblePlans.count, 4)
     }
+
+    func test_userSwitchClearsPlansAndCache() async {
+        let (model, env, _, files) = make()
+        await model.load()
+        XCTAssertEqual(model.plans.count, 4)
+        await env.auth.signOut()
+        await model.load()
+        XCTAssertTrue(model.plans.isEmpty)
+        XCTAssertNil(files.files[PlansCache.path])
+    }
+
+    func test_refreshStartedBeforeDeleteDoesNotReAddThePlan() async {
+        let (model, _, fakes, _) = make()
+        await model.load()
+        model.requestDelete(TripsFixtures.near)
+        _ = await model.confirmDelete()
+        fakes.plans.onList.returns(TripsFixtures.all) // a stale snapshot that still has the plan
+        await model.load()
+        XCTAssertFalse(model.plans.contains { $0.id == 2 })
+    }
 }

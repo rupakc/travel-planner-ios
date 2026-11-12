@@ -1,3 +1,5 @@
+import AuthCore
+import Networking
 import SectionsUI
 import TestSupport
 import VoyagerEnv
@@ -8,11 +10,11 @@ import XCTest
 
 @MainActor
 final class PlanDetailModelTests: XCTestCase {
-    private func make() async -> (PlanDetailModel, AppEnvironment, FakeRepositories) {
+    private func make(files: MemoryFileStore = MemoryFileStore()) async -> (PlanDetailModel, AppEnvironment, FakeRepositories) {
         let fakes = FakeRepositories()
         fakes.plans.onGet.returns(TripsFixtures.savedPlan)
         let env = AppEnvironment.fake(fakes: fakes)
-        let model = PlanDetailModel(env: env, planID: 2)
+        let model = PlanDetailModel(env: env, planID: 2, files: files)
         await model.load()
         return (model, env, fakes)
     }
@@ -56,5 +58,40 @@ final class PlanDetailModelTests: XCTestCase {
         XCTAssertTrue(model.deleted)
         XCTAssertEqual(fakes.plans.onDelete.calls, [2])
         XCTAssertNil(env.plan.savedPlanID)
+    }
+
+    func test_offlineOpensCachedPlan() async {
+        let files = MemoryFileStore()
+        _ = await make(files: files) // a successful load caches the plan
+        let (model, _, fakes) = await {
+            let fakes = FakeRepositories()
+            fakes.plans.onGet.fails(APIError.network)
+            let env = AppEnvironment.fake(fakes: fakes)
+            return (PlanDetailModel(env: env, planID: 2, files: files), env, fakes)
+        }()
+        _ = fakes
+        await model.load()
+        XCTAssertEqual(model.plan?.name, "Tokyo food trip")
+        XCTAssertTrue(model.isOffline)
+    }
+
+    func test_offlineWithoutCacheFails() async {
+        let fakes = FakeRepositories()
+        fakes.plans.onGet.fails(APIError.network)
+        let model = PlanDetailModel(env: AppEnvironment.fake(fakes: fakes), planID: 2, files: MemoryFileStore())
+        await model.load()
+        XCTAssertNil(model.plan)
+        XCTAssertFalse(model.isOffline)
+    }
+
+    func test_otherUsersCachedPlanIsNotShown() async {
+        let files = MemoryFileStore()
+        _ = await make(files: files)
+        let fakes = FakeRepositories()
+        fakes.plans.onGet.fails(APIError.network)
+        let env = AppEnvironment.fake(user: User(username: "bob"), fakes: fakes)
+        let model = PlanDetailModel(env: env, planID: 2, files: files)
+        await model.load()
+        XCTAssertNil(model.plan)
     }
 }

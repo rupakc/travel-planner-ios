@@ -2,6 +2,7 @@ import DesignSystem
 import L10n
 import SharedUI
 import SwiftUI
+import Telemetry
 import VoyagerModel
 
 /// The saved plans: search by name, filter by upcoming or past, tap to open, context menu to delete.
@@ -10,6 +11,7 @@ struct PlansList: View {
     @Bindable var model: TripsModel
     let selectedID: Int?
     let onSelect: (Int) -> Void
+    @Environment(\.telemetryRoute) private var route
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
@@ -67,6 +69,7 @@ struct PlansList: View {
 
     private func row(_ plan: PlanSummary) -> some View {
         Button {
+            Telemetry.shared.track(.uiTap(tid: "trips.plan", route: route))
             onSelect(plan.id)
         } label: {
             HStack(spacing: Spacing.sm) {

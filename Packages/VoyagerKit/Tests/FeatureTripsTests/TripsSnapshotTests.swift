@@ -37,7 +37,7 @@ final class TripsSnapshotTests: XCTestCase {
 
     func test_detail() async {
         let (env, _) = env(plans: TripsFixtures.all)
-        let detail = PlanDetailModel(env: env, planID: 2)
+        let detail = PlanDetailModel(env: env, planID: 2, files: MemoryFileStore())
         await detail.load()
         await assertSnapshots(
             of: { NavigationStack { PlanDetailView(env: env, model: detail) } },
@@ -48,7 +48,7 @@ final class TripsSnapshotTests: XCTestCase {
         let (env, _) = env(plans: TripsFixtures.all)
         let model = TripsFixtures.model(env)
         await model.load()
-        let detail = PlanDetailModel(env: env, planID: 2)
+        let detail = PlanDetailModel(env: env, planID: 2, files: MemoryFileStore())
         await detail.load()
         await assertSnapshots(
             of: { TripsRootView(env: env, model: model, selectedID: 2, detailModel: { _ in detail }) },

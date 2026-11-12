@@ -53,7 +53,7 @@ public struct TripsRootView: View {
                 .frame(maxWidth: .infinity)
             }
         }
-        .task { if env.auth.session != nil { await model.load() } }
+        .task(id: env.auth.session?.user.username) { await model.load() }
         .telemetryScreen("/trips")
         .telemetryRoute("/trips")
         .toast($toast)
