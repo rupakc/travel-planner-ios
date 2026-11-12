@@ -2503,6 +2503,10 @@ public enum K {
         }
     }
     public enum sections {
+        public enum card {
+            public static let collapsed = LKey("sections:card.collapsed", placeholders: [], plural: false)
+            public static let expanded = LKey("sections:card.expanded", placeholders: [], plural: false)
+        }
         public enum clientItinerary {
             public static let airport = LKey("sections:clientItinerary.airport", placeholders: [], plural: false)
             public static let arrive = LKey("sections:clientItinerary.arrive", placeholders: ["dest", "hotel"], plural: false)

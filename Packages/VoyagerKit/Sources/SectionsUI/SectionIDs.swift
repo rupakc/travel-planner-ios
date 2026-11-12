@@ -1,0 +1,74 @@
+import DesignSystem
+import L10n
+
+/// The sixteen section tiles, in the web's `AGENT_ORDER`. `confidence` and `pricing_advisor` are separate
+/// events with their own views, not tiles.
+public enum SectionID: String, CaseIterable, Sendable, Identifiable {
+    case flights, weather, hotels, activities
+    case placesToSee = "places_to_see", walkingTours = "walking_tours", events, visa, sim, tips
+    case emergencyCard = "emergency_card", gettingAround = "getting_around", forex, itinerary
+    case stressTest = "stress_test", packingList = "packing_list"
+
+    public var id: String { rawValue }
+
+    /// The localised title (`results:agents.<id>.label`, the web's section header text).
+    public var title: String {
+        L10n.text(titleKey)
+    }
+
+    var titleKey: LKey {
+        switch self {
+        case .flights: K.results.agents.flights.label
+        case .weather: K.results.agents.weather.label
+        case .hotels: K.results.agents.hotels.label
+        case .activities: K.results.agents.activities.label
+        case .placesToSee: K.results.agents.places_to_see.label
+        case .walkingTours: K.results.agents.walking_tours.label
+        case .events: K.results.agents.events.label
+        case .visa: K.results.agents.visa.label
+        case .sim: K.results.agents.sim.label
+        case .tips: K.results.agents.tips.label
+        case .emergencyCard: K.results.agents.emergency_card.label
+        case .gettingAround: K.results.agents.getting_around.label
+        case .forex: K.results.agents.forex.label
+        case .itinerary: K.results.agents.itinerary.label
+        case .stressTest: K.results.agents.stress_test.label
+        case .packingList: K.results.agents.packing_list.label
+        }
+    }
+
+    /// The copy for a section whose AI call failed and left no data: the web's per-section "unavailable" line
+    /// where it has one, else the generic error.
+    var unavailableKey: LKey {
+        switch self {
+        case .visa: K.results.visa.unavailable
+        case .forex: K.results.forex.unavailable
+        case .emergencyCard: K.sections.emergency.unavailable
+        case .packingList: K.sections.packing.unavailable
+        case .stressTest: K.sections.stress.unavailable
+        default: K.errors.generic
+        }
+    }
+
+    /// SF Symbol for the header (the web uses lucide icons of the same meaning).
+    var symbol: String {
+        switch self {
+        case .flights: "airplane"
+        case .weather: "cloud.sun"
+        case .hotels: "bed.double"
+        case .activities: "figure.hiking"
+        case .placesToSee: "mappin.and.ellipse"
+        case .walkingTours: "figure.walk"
+        case .events: "ticket"
+        case .visa: "doc.text"
+        case .sim: "simcard"
+        case .tips: "lightbulb"
+        case .emergencyCard: "cross.case"
+        case .gettingAround: "tram"
+        case .forex: "dollarsign.circle"
+        case .itinerary: "calendar"
+        case .stressTest: "checkmark.shield"
+        case .packingList: "suitcase"
+        }
+    }
+}
