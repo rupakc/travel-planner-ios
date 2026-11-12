@@ -6,9 +6,8 @@
 # Until Task 38 adds the stub backend and the smoke flow, this runs the launch-only test.
 # Writes build/ui-<device>.xcresult per device. Needs scripts/ci/generate.sh first.
 #
-# The simulators boot one after another (scripts/ci/sim-boot.sh: one boot, its own budget) in the background while
-# the app and the UI test runner compile, so the 2-4 minute cold boots overlap the build. Not at the same time, to
-# keep two cold boots plus the compile from competing for a 3-core runner (sim-boot.sh handles a boot that hangs). Each device's run has a hard wall-clock limit
+# The simulators boot one after another BEFORE the build (scripts/ci/sim-boot.sh: bounded attempts, erase + one
+# retry): a boot that overlapped the compile on a 3-core runner often wedged, and boots on an idle runner did not. Each device's run has a hard wall-clock limit
 # (UI_ATTEMPT_TIMEOUT, default 480 s), because a hang while launching the runner is not covered by test timeouts.
 # All devices run even when one fails; the script fails if any did.
 set -euo pipefail
@@ -59,17 +58,13 @@ run_limited() {
 declare -a devices destinations
 for device in "$@"; do
   destinations+=("$("$ROOT/scripts/ci/sim-destination.sh" "$device")"); devices+=("$device")
-  rm -f "$ROOT/build/boot-$device.status"
 done
-# Boot chain: build/boot-<device>.log, then build/boot-<device>.status (sim-boot's exit status) once it is done.
-(
-  for i in "${!devices[@]}"; do
-    status=0
-    "$ROOT/scripts/ci/sim-boot.sh" "${destinations[$i]##*id=}" > "$ROOT/build/boot-${devices[$i]}.log" 2>&1 || status=$?
-    echo "$status" > "$ROOT/build/boot-${devices[$i]}.status"
-  done
-) &
-boot_chain=$!
+declare -a booted
+for i in "${!devices[@]}"; do
+  status=0
+  "$ROOT/scripts/ci/sim-boot.sh" "${destinations[$i]##*id=}" || status=$?
+  booted+=("$status")
+done
 
 xcodebuild build-for-testing "${common[@]}" -destination 'generic/platform=iOS Simulator'
 
@@ -78,10 +73,7 @@ for i in "${!devices[@]}"; do
   device="${devices[$i]}"
   result="$ROOT/build/ui-$device.xcresult"
   rm -rf "$result"
-  while [[ ! -s "$ROOT/build/boot-$device.status" ]] && kill -0 "$boot_chain" 2>/dev/null; do sleep 2; done
-  boot_status="$(cat "$ROOT/build/boot-$device.status" 2>/dev/null || echo 1)"
-  cat "$ROOT/build/boot-$device.log"
-  if [[ $boot_status -ne 0 ]]; then
+  if [[ ${booted[$i]} -ne 0 ]]; then
     echo "::error::test-ui: $device simulator did not boot; not running its tests"
     failed=1
     continue
@@ -99,5 +91,4 @@ for i in "${!devices[@]}"; do
     failed=1
   fi
 done
-wait "$boot_chain" 2>/dev/null || true
 exit "$failed"

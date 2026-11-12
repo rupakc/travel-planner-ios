@@ -39,21 +39,22 @@ esac
 def test_healthy_boot_is_ready_when_bootstatus_returns(tmp_path):
     result, calls = _boot(tmp_path, "echo booted")
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "bootstatus reported the boot complete" in result.stdout and "attempt 1" in result.stdout
+    assert "booted and responsive" in result.stdout and "attempt 1" in result.stdout
     assert "erase" not in calls and "boot" not in calls
 
 
-def test_booted_responsive_device_is_ready_although_bootstatus_never_returns(tmp_path):
-    result, calls = _boot(tmp_path, "exec sleep 120", state="Booted", attempt_timeout="30")
-    assert result.returncode == 0, result.stdout + result.stderr
-    assert "Booted and responsive for 4 polls (bootstatus had not returned)" in result.stdout
-    assert "erase" not in calls
+def test_booted_is_not_ready_until_bootstatus_returns(tmp_path):
+    # CI showed Booted + launchd answering while bootstatus waited, and UIKit tests hung on that device.
+    result, calls = _boot(tmp_path, "exec sleep 120", state="Booted", attempt_timeout="3")
+    assert result.returncode == 1
+    assert "state Booted, bootstatus still waiting" in result.stdout
+    assert calls.count("erase") == 1
 
 
 def test_hung_boot_is_erased_and_booted_again(tmp_path):
     result, calls = _boot(tmp_path, "[[ $n -eq 1 ]] && exec sleep 120; echo booted", attempt_timeout="3")
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "attempt 1: UDID not ready within 3s (state Booting)" in result.stdout
+    assert "attempt 1: UDID not booted within 3s" in result.stdout and "state Booting" in result.stdout
     assert "attempt 2" in result.stdout
     assert calls.count("erase") == 1 and "delete" not in calls and "create" not in calls
 
@@ -66,7 +67,7 @@ def test_boot_that_never_gets_ready_fails_loudly(tmp_path):
 
 
 def test_no_bootstatus_left_running(tmp_path):
-    _boot(tmp_path, "exec sleep 97", state="Booted", attempt_timeout="30")
+    _boot(tmp_path, "exec sleep 97", attempt_timeout="2", attempts="1")
     leftover = subprocess.run(["pgrep", "-f", "sleep 97"], capture_output=True, text=True)
     assert leftover.stdout.strip() == ""
 

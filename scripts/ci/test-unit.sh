@@ -22,6 +22,10 @@ result="$ROOT/build/unit-$device.xcresult"
 log="$ROOT/build/unit-$device.log"
 rm -rf "$result"
 
+# Boot first, on an idle runner (scripts/ci/sim-boot.sh: bounded attempts, erase + one retry, fails loudly). A boot
+# that overlapped the compile often wedged, and tests on a wedged simulator hang. sim-boot has its own time bound.
+"$ROOT/scripts/ci/sim-boot.sh" "$udid"
+
 args=(
   -scheme VoyagerKit-Package
   -destination "$destination"
@@ -32,8 +36,8 @@ args=(
 )
 test_args=(
   -resultBundlePath "$result"
-  # The simulator is proven booted and responsive before the tests start, so a test stuck for 4 minutes is a real
-  # hang; the wall-clock watchdog below is the overall bound.
+  # The simulator is booted (bootstatus complete) before the build, so a test stuck for 4 minutes is a real hang;
+  # the wall-clock watchdog below is the overall bound.
   # One test process on one simulator at a time: concurrent clones/destinations contend for CoreSimulator on a 3-core runner.
   -parallel-testing-enabled NO
   -disable-concurrent-destination-testing
@@ -54,14 +58,9 @@ fifo="$(mktemp -u)"; mkfifo "$fifo"
 tee "$log" < "$fifo" &
 tee_pid=$!
 set +e
-# The simulator boots (scripts/ci/sim-boot.sh, one boot with its own budget) while xcodebuild compiles; the tests
-# start only once it is up, and a boot that never finishes fails here with exit 1 instead of hanging the tests.
 (
   cd "$ROOT/Packages/VoyagerKit"
-  "$ROOT/scripts/ci/sim-boot.sh" "$udid" &
-  boot_pid=$!
-  xcodebuild build-for-testing "${args[@]}" || { s=$?; kill "$boot_pid" 2>/dev/null; exit "$s"; }
-  wait "$boot_pid" || exit 1
+  xcodebuild build-for-testing "${args[@]}" || exit
   exec xcodebuild test-without-building "${args[@]}" "${test_args[@]}"
 ) > "$fifo" 2>&1 &
 pid=$!

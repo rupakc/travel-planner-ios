@@ -107,7 +107,8 @@ jobs:
     name: build-test
     needs: tools
     runs-on: macos-15
-    timeout-minutes: 30
+    # Room for a worst-case boot (2 x 330 s + erase) before the 25-minute build + test bound.
+    timeout-minutes: 40
     env:
       ONLY_TESTING: ${{ inputs.only_testing }}
       # xcodebuild passes TEST_RUNNER_<NAME> to the test process as <NAME> (TestSupport reads SNAPSHOT_RECORD).
@@ -195,9 +196,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ui-xcresult
-          path: |
-            build/ui-*.xcresult
-            build/boot-*.log
+          path: build/ui-*.xcresult
           retention-days: 7
 
   archive:

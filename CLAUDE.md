@@ -39,9 +39,9 @@ Everything Xcode-shaped runs on GitHub Actions `macos-15` with Xcode 26.0.1 (`.g
   also `ui-smoke` (one job, iPhone then iPad); `archive` on main only.
 - Pinned simulators (`scripts/ci/sim-destination.sh`, no fallback, fails if missing): iPhone 16 and iPad Pro 13-inch
   (M4) on iOS 26.0 (`SimRuntime.iOS-26-0`, 26.0.1). Snapshots are recorded and compared only there; the script's
-  header says how to bump the pin (with a full re-record). A healthy cold boot takes 2-4 min and overlaps the
-  build. `simctl bootstatus -b` sometimes never returns for a Booted, responsive iOS 26 device, so `sim-boot.sh` also
-  accepts Booted + launchd answering for 60 s; an attempt that is not ready in 330 s is erased and booted once more.
+  header says how to bump the pin (with a full re-record). `sim-boot.sh` boots BEFORE any build (a boot during the
+  compile often wedged): a healthy cold boot takes 2-4 min; only `bootstatus` returning means ready; an attempt not
+  done in 330 s is erased and booted once more; never delete/recreate the device.
 - Filtered run / snapshot recording:
   `gh workflow run ios-ci.yml --ref <branch> -f only_testing=DomainTests` (comma-separated `-only-testing:` values),
   add `-f record_snapshots=true` to record, then `gh run download <id> -n snapshots -D Packages/VoyagerKit/Tests`.
