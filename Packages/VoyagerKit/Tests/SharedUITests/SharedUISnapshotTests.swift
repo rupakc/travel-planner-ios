@@ -1,5 +1,6 @@
 import SnapshotTesting
 import SwiftUI
+import TestSupport
 import VoyagerModel
 import XCTest
 
@@ -12,8 +13,8 @@ private struct FakeError: ErrorPresentable {
 
 @MainActor
 final class SharedUISnapshotTests: XCTestCase {
-    func test_vButton() {
-        assertSnapshots(
+    func test_vButton() async {
+        await assertSnapshots(
             of: {
                 VStack(spacing: 12) {
                     VButton("Search flights", tid: "snap.primary", systemImage: "airplane") {}
@@ -21,23 +22,23 @@ final class SharedUISnapshotTests: XCTestCase {
                     VButton("Clear", tid: "snap.tonal", role: .tonal) {}
                     VButton("Delete trip", tid: "snap.destructive", role: .destructive) {}
                 }
-            }, named: "buttons")
+            }, named: "buttons", configs: SnapshotConfig.standard)
     }
 
-    func test_errorState() {
-        assertSnapshots(
+    func test_errorState() async {
+        await assertSnapshots(
             of: {
                 ErrorState(
                     error: FakeError(presentationKind: .rateLimited, userFacingDetail: nil),
                     retry: {})
-            }, named: "rate-limited")
+            }, named: "rate-limited", configs: SnapshotConfig.standard)
     }
 
-    func test_verificationBadge() {
+    func test_verificationBadge() async {
         func badge(_ level: String, _ label: String, pending: Bool = false) -> JSONValue {
             .object(["level": .string(level), "label": .string(label), "pending": .bool(pending)])
         }
-        assertSnapshots(
+        await assertSnapshots(
             of: {
                 VStack(alignment: .leading, spacing: 8) {
                     VerificationBadge(verification: badge("verified", "Verified"))
@@ -46,17 +47,17 @@ final class SharedUISnapshotTests: XCTestCase {
                     VerificationBadge(verification: badge("conflict", "Check details"))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-            }, named: "levels")
+            }, named: "levels", configs: SnapshotConfig.standard)
     }
 
-    func test_priceTextEstimate() {
-        assertSnapshots(
+    func test_priceTextEstimate() async {
+        await assertSnapshots(
             of: {
                 VStack(alignment: .leading, spacing: 12) {
                     PriceText(amount: 1249.5, currency: "USD", estimate: true)
                     PriceText(amount: 89, currency: "EUR", estimate: false)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-            }, named: "estimate")
+            }, named: "estimate", configs: SnapshotConfig.standard)
     }
 }
