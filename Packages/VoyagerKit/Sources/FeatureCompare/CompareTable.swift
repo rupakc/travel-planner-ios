@@ -164,93 +164,110 @@ struct CompareTable: View {
     /// The cell for `key`, or nil when the summary has nothing for it (shown as a dash).
     static func content(_ key: String, _ summary: CompareSummary) -> AnyView? {
         switch key {
-        case "estimate":
-            guard let estimate = summary.estimate, let total = estimate.totalUsd else { return nil }
-            return AnyView(
-                VStack(alignment: .leading, spacing: Spacing.xs) {
-                    strong(usd(total))
-                    Pill(text: L10n.text(K.misc.compare.estimate), tone: .neutral)
-                    if estimate.budgetStatus == "under" { Pill(text: L10n.text(K.misc.compare.underBudget), tone: .good) }
-                    if estimate.budgetStatus == "over" { Pill(text: L10n.text(K.misc.compare.overBudget), tone: .bad) }
-                    if estimate.partial == true { note(L10n.text(K.misc.compare.partial)) }
-                })
-        case "flight":
-            guard let flight = summary.flight else { return nil }
-            var parts: [String] = []
-            if let stops = flight.stops {
-                parts.append(stops == 0 ? L10n.text(K.misc.compare.nonstop) : L10n.text(K.misc.compare.stops, count: stops))
-            }
-            let duration = CompareRules.durationText(minutes: flight.durationMinutes.map(Double.init)) { hours, minutes in
-                L10n.text(K.misc.compare.duration, ["h": String(hours), "m": String(minutes)])
-            }
-            if let duration { parts.append(duration) }
-            if let airline = flight.airline, !airline.isEmpty { parts.append(airline) }
-            return AnyView(
-                VStack(alignment: .leading, spacing: Spacing.xs) {
-                    strong(usd(flight.priceUsd))
-                    if flight.source == "estimate" { Pill(text: L10n.text(K.misc.compare.estimate), tone: .warn) }
-                    if !parts.isEmpty { note(parts.joined(separator: " · ")) }
-                })
-        case "hotel":
-            guard let hotel = summary.hotel else { return nil }
-            return AnyView(
-                VStack(alignment: .leading, spacing: Spacing.xs) {
-                    strong(usd(hotel.typicalNightlyUsd) + " " + L10n.text(K.misc.compare.typical))
-                    if let cheapest = hotel.cheapestGoodNightlyUsd {
-                        note(L10n.text(K.misc.compare.fromWellReviewed, ["amount": usd(cheapest)]))
-                    }
-                })
-        case "weather":
-            guard let weather = summary.weather else { return nil }
-            let high = weather.avgHighC.map { "\(Int($0.rounded()))°" } ?? "—"
-            let low = weather.avgLowC.map { "\(Int($0.rounded()))°" } ?? "—"
-            let unit = weather.avgHighC != nil || weather.avgLowC != nil ? "C" : ""
-            return AnyView(
-                VStack(alignment: .leading, spacing: Spacing.xs) {
-                    strong("\(high) / \(low)\(unit)")
-                    if weather.source != "open-meteo" { Pill(text: L10n.text(K.misc.compare.climateEstimate), tone: .warn) }
-                    if let poor = weather.poorDays, let total = weather.totalDays {
-                        note(L10n.text(K.misc.compare.daysPoor, ["poor": String(poor), "total": String(total)]))
-                    }
-                })
-        case "visa":
-            guard let visa = summary.visa else { return nil }
-            var parts: [String] = []
-            if let fee = visa.feeUsd {
-                parts.append(fee == 0 ? L10n.text(K.misc.compare.noFee) : L10n.text(K.misc.compare.fee, ["amount": usd(fee)]))
-            }
-            if let stay = visa.maxStayDays { parts.append(L10n.text(K.misc.compare.maxStay, count: stay)) }
-            return AnyView(
-                VStack(alignment: .leading, spacing: Spacing.xs) {
-                    strong(visa.visaType ?? "—")
-                    if visa.verified == true {
-                        Pill(text: L10n.text(K.misc.compare.verified), tone: .good)
-                    } else {
-                        Pill(text: L10n.text(K.misc.compare.aiCheck), tone: .warn)
-                    }
-                    if !parts.isEmpty { note(parts.joined(separator: " · ")) }
-                })
-        case "ease":
-            guard let total = summary.ease?.total else { return nil }
-            return AnyView(
-                VStack(alignment: .leading, spacing: Spacing.xs) {
-                    strong("\(total)/100")
-                    switch summary.ease?.grade {
-                    case "green": Pill(text: L10n.text(K.misc.compare.grade.green), tone: .good)
-                    case "amber": Pill(text: L10n.text(K.misc.compare.grade.amber), tone: .warn)
-                    case "red": Pill(text: L10n.text(K.misc.compare.grade.red), tone: .bad)
-                    default: EmptyView()
-                    }
-                })
-        case "safety":
-            guard let value = summary.ease?.safety else { return nil }
-            return AnyView(strong("\(value)/20"))
-        case "english":
-            guard let value = summary.ease?.english else { return nil }
-            return AnyView(strong("\(value)/20"))
-        default:
-            guard let daily = summary.dailyCostUsd else { return nil }
-            return AnyView(strong(L10n.text(K.misc.compare.perDay, ["amount": usd(daily)])))
+        case "estimate": estimateCell(summary.estimate)
+        case "flight": flightCell(summary.flight)
+        case "hotel": hotelCell(summary.hotel)
+        case "weather": weatherCell(summary.weather)
+        case "visa": visaCell(summary.visa)
+        case "ease": easeCell(summary.ease)
+        case "safety": summary.ease?.safety.map { AnyView(strong("\($0)/20")) }
+        case "english": summary.ease?.english.map { AnyView(strong("\($0)/20")) }
+        default: summary.dailyCostUsd.map { AnyView(strong(L10n.text(K.misc.compare.perDay, ["amount": usd($0)]))) }
+        }
+    }
+
+    private static func estimateCell(_ estimate: CompareEstimate?) -> AnyView? {
+        guard let estimate, let total = estimate.totalUsd else { return nil }
+        return AnyView(
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                strong(usd(total))
+                Pill(text: L10n.text(K.misc.compare.estimate), tone: .neutral)
+                if estimate.budgetStatus == "under" { Pill(text: L10n.text(K.misc.compare.underBudget), tone: .good) }
+                if estimate.budgetStatus == "over" { Pill(text: L10n.text(K.misc.compare.overBudget), tone: .bad) }
+                if estimate.partial == true { note(L10n.text(K.misc.compare.partial)) }
+            })
+    }
+
+    private static func flightCell(_ flight: CompareFlight?) -> AnyView? {
+        guard let flight else { return nil }
+        var parts: [String] = []
+        if let stops = flight.stops {
+            parts.append(stops == 0 ? L10n.text(K.misc.compare.nonstop) : L10n.text(K.misc.compare.stops, count: stops))
+        }
+        let duration = CompareRules.durationText(minutes: flight.durationMinutes.map(Double.init)) { hours, minutes in
+            L10n.text(K.misc.compare.duration, ["h": String(hours), "m": String(minutes)])
+        }
+        if let duration { parts.append(duration) }
+        if let airline = flight.airline, !airline.isEmpty { parts.append(airline) }
+        let details = parts.joined(separator: " · ")
+        return AnyView(
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                strong(usd(flight.priceUsd))
+                if flight.source == "estimate" { Pill(text: L10n.text(K.misc.compare.estimate), tone: .warn) }
+                if !details.isEmpty { note(details) }
+            })
+    }
+
+    private static func hotelCell(_ hotel: CompareHotel?) -> AnyView? {
+        guard let hotel else { return nil }
+        return AnyView(
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                strong(usd(hotel.typicalNightlyUsd) + " " + L10n.text(K.misc.compare.typical))
+                if let cheapest = hotel.cheapestGoodNightlyUsd {
+                    note(L10n.text(K.misc.compare.fromWellReviewed, ["amount": usd(cheapest)]))
+                }
+            })
+    }
+
+    private static func weatherCell(_ weather: CompareWeather?) -> AnyView? {
+        guard let weather else { return nil }
+        let high = weather.avgHighC.map { "\(Int($0.rounded()))°" } ?? "—"
+        let low = weather.avgLowC.map { "\(Int($0.rounded()))°" } ?? "—"
+        let unit = weather.avgHighC != nil || weather.avgLowC != nil ? "C" : ""
+        let poor = weather.poorDays.map(String.init)
+        let total = weather.totalDays.map(String.init)
+        return AnyView(
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                strong("\(high) / \(low)\(unit)")
+                if weather.source != "open-meteo" { Pill(text: L10n.text(K.misc.compare.climateEstimate), tone: .warn) }
+                if let poor, let total { note(L10n.text(K.misc.compare.daysPoor, ["poor": poor, "total": total])) }
+            })
+    }
+
+    private static func visaCell(_ visa: CompareVisa?) -> AnyView? {
+        guard let visa else { return nil }
+        var parts: [String] = []
+        if let fee = visa.feeUsd {
+            parts.append(fee == 0 ? L10n.text(K.misc.compare.noFee) : L10n.text(K.misc.compare.fee, ["amount": usd(fee)]))
+        }
+        if let stay = visa.maxStayDays { parts.append(L10n.text(K.misc.compare.maxStay, count: stay)) }
+        let details = parts.joined(separator: " · ")
+        let verified = visa.verified == true
+        return AnyView(
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                strong(visa.visaType ?? "—")
+                Pill(
+                    text: L10n.text(verified ? K.misc.compare.verified : K.misc.compare.aiCheck),
+                    tone: verified ? .good : .warn)
+                if !details.isEmpty { note(details) }
+            })
+    }
+
+    private static func easeCell(_ ease: CompareEase?) -> AnyView? {
+        guard let total = ease?.total else { return nil }
+        return AnyView(
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                strong("\(total)/100")
+                if let grade = ease?.grade, let pill = gradePill(grade) { pill }
+            })
+    }
+
+    private static func gradePill(_ grade: String) -> Pill? {
+        switch grade {
+        case "green": Pill(text: L10n.text(K.misc.compare.grade.green), tone: .good)
+        case "amber": Pill(text: L10n.text(K.misc.compare.grade.amber), tone: .warn)
+        case "red": Pill(text: L10n.text(K.misc.compare.grade.red), tone: .bad)
+        default: nil
         }
     }
 }
