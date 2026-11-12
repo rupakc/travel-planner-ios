@@ -17,16 +17,27 @@ start=$SECONDS
 
 # "Unable to boot device in current state: Booted" is fine; any other boot error shows up in bootstatus below.
 xcrun simctl boot "$udid" 2>&1 | grep -v "current state: Booted" || true
+echo "sim-boot: $udid simctl boot returned after $((SECONDS - start))s; waiting for the boot to complete"
 
-# perl's alarm is the timeout macOS lacks; bootstatus -b waits for the boot to complete (data migration included).
-if perl -e "alarm $budget; exec @ARGV" xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 &&
-   # A booted but wedged device does not answer a launchd query.
+# bootstatus -b waits for the boot to complete (data migration included) and prints each stage it waits on; each
+# new stage is logged with the elapsed time, so a stalled boot shows where it stalled. perl's alarm is the timeout
+# macOS lacks; the budget counts from the start of this script.
+remaining=$((budget - (SECONDS - start))); (( remaining > 30 )) || remaining=30
+set +e
+perl -e "alarm $remaining; exec @ARGV" xcrun simctl bootstatus "$udid" -b 2>&1 |
+  { prev=""; while IFS= read -r line; do
+      [[ "$line" == "$prev" ]] || echo "sim-boot: [+$((SECONDS - start))s] $line"; prev="$line"
+    done; }
+booted=${PIPESTATUS[0]}
+set -e
+
+# A booted but wedged device does not answer a launchd query.
+if [[ $booted -eq 0 ]] &&
    perl -e 'alarm 60; exec @ARGV' xcrun simctl spawn "$udid" launchctl print system >/dev/null 2>&1; then
   echo "sim-boot: $udid booted and responsive in $((SECONDS - start))s"
   exit 0
 fi
 
-echo "::error::sim-boot: $udid did not finish booting within ${budget}s (elapsed $((SECONDS - start))s)"
+echo "::error::sim-boot: $udid did not finish booting within ${budget}s (elapsed $((SECONDS - start))s, bootstatus status $booted)"
 xcrun simctl list devices | grep -F "$udid" || echo "sim-boot: $udid is not listed by simctl"
-perl -e 'alarm 20; exec @ARGV' xcrun simctl bootstatus "$udid" 2>&1 | tail -5 || true
 exit 1
