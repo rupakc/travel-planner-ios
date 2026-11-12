@@ -16,6 +16,7 @@ struct SidebarShell: View {
     let env: AppEnvironment
     let router: AppRouter
     let unread: UnreadBadge
+    let consent: ConsentState
     @State private var visibility = NavigationSplitViewVisibility.all
 
     var body: some View {
@@ -36,6 +37,7 @@ struct SidebarShell: View {
         } detail: {
             detail
         }
+        .safeAreaInset(edge: .bottom) { ConsentCard(telemetry: env.telemetry, state: consent) }
     }
 
     private var selection: Binding<SidebarItem?> {

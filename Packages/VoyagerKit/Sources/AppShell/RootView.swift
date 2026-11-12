@@ -26,10 +26,8 @@ public struct RootView: View {
 
     public var body: some View {
         AuthGate(env: env, router: router)
-            .overlay(alignment: .bottom) {
-                // Never over the login screen's button; the shell is the first screen that can show it.
-                if showsConsent { ConsentCard(telemetry: env.telemetry) }
-            }
+            // A language switch rebuilds the screens so every `L10n` string is read again.
+            .id(env.language.language)
             .tint(SemanticColor.primary)
             .preferredColorScheme(env.theme.colorScheme)
             .environment(\.locale, env.language.locale)
@@ -47,12 +45,6 @@ public struct RootView: View {
             }
     }
 
-    private var showsConsent: Bool {
-        GateScreen.screen(
-            phase: env.auth.phase, onboardingCompleted: env.device.onboardingCompleted, sharedToken: router.sharedToken
-        ) == .shell
-    }
-
     private func open(_ url: URL) {
         if let route = DeepLinks.route(for: url, env: env) { router.open(route) }
     }
@@ -65,12 +57,13 @@ struct ShellView: View {
     let router: AppRouter
     @Environment(\.scenePhase) private var scenePhase
     @State private var unread = UnreadBadge()
+    @State private var consent = ConsentState()
 
     var body: some View {
         AdaptiveColumns {
-            TabShell(env: env, router: router, unread: unread)
+            TabShell(env: env, router: router, unread: unread, consent: consent)
         } regular: {
-            SidebarShell(env: env, router: router, unread: unread)
+            SidebarShell(env: env, router: router, unread: unread, consent: consent)
         }
         .modifier(MyPlanPresentation(env: env, router: router))
         .sheet(isPresented: mainBinding(get: { router.nearbyPresented }, set: { router.nearbyPresented = $0 })) {

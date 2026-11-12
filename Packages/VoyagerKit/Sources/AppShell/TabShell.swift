@@ -8,12 +8,15 @@ struct TabShell: View {
     let env: AppEnvironment
     let router: AppRouter
     let unread: UnreadBadge
+    let consent: ConsentState
 
     var body: some View {
         TabView(selection: mainBinding(get: { router.selectedTab }, set: { router.selectedTab = $0 })) {
             ForEach(AppTab.allCases, id: \.self) { tab in
                 NavigationStack(path: router.binding(for: tab)) {
                     TabRoot(env: env, router: router, tab: tab)
+                        // Above the tab bar, so the bar stays tappable.
+                        .safeAreaInset(edge: .bottom) { ConsentCard(telemetry: env.telemetry, state: consent) }
                         .navigationDestination(for: Route.self) { route in
                             RouteDestination(env: env, router: router, route: route)
                         }

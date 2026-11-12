@@ -1,4 +1,6 @@
 import DesignSystem
+import Foundation
+import Observation
 import L10n
 import SharedUI
 import SwiftUI
@@ -13,12 +15,24 @@ enum ConsentPrompt {
     }
 }
 
+/// Shared by every place the card can appear, so one answer hides all of them.
+@MainActor @Observable
+final class ConsentState {
+    private(set) var answered = false
+
+    func isVisible(telemetry: Telemetry, timeZone: String = TimeZone.current.identifier) -> Bool {
+        !answered && ConsentPrompt.shouldShow(choice: telemetry.consentChoice, timeZone: timeZone)
+    }
+
+    func markAnswered() { answered = true }
+}
+
 struct ConsentCard: View {
     let telemetry: Telemetry
-    @State private var answered = false
+    let state: ConsentState
 
     var body: some View {
-        if !answered && telemetry.requiresConsentPrompt {
+        if state.isVisible(telemetry: telemetry) {
             VStack(alignment: .leading, spacing: Spacing.md) {
                 Text(verbatim: L10n.text(K.privacy.prompt.title))
                     .font(VFont.display(.headline))
@@ -45,6 +59,6 @@ struct ConsentCard: View {
 
     private func choose(_ granted: Bool) {
         telemetry.setConsent(granted)
-        withAnimation { answered = true }
+        withAnimation { state.markAnswered() }
     }
 }

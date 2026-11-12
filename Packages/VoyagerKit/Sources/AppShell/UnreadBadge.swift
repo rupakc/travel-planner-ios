@@ -19,6 +19,4 @@ final class UnreadBadge {
             try? await Task.sleep(for: interval)
         }
     }
-
-    func reset() { count = 0 }
 }
