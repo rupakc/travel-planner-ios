@@ -29,7 +29,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ios-ci-${{ github.event.pull_request.number || github.ref }}
+  group: ios-ci-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 env:
@@ -92,7 +92,7 @@ jobs:
     name: build-test
     needs: tools
     runs-on: macos-15
-    timeout-minutes: 45
+    timeout-minutes: 30
     env:
       ONLY_TESTING: ${{ inputs.only_testing }}
       # xcodebuild passes TEST_RUNNER_<NAME> to the test process as <NAME> (TestSupport reads SNAPSHOT_RECORD).
