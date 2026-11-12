@@ -125,16 +125,22 @@ public struct TripsRootView: View {
     }
 
     private var quickActions: some View {
-        HStack(spacing: Spacing.sm) {
-            VButton(L10n.text(K.mobile.trips.newSearch), tid: "trips.action.search", role: .tonal, systemImage: "magnifyingglass") {
-                env.router.open(.explore(.search))
-            }
-            VButton(L10n.text(K.common.nav.chat), tid: "trips.action.chat", role: .tonal, systemImage: "bubble.left") {
-                env.router.open(.explore(.chat))
-            }
-            VButton(L10n.text(K.common.nav.nearby), tid: "trips.action.nearby", role: .tonal, systemImage: "location") {
-                env.router.open(.nearby)
-            }
+        // Side by side when the labels fit on one line, stacked otherwise (iPhone SE, large type, long languages).
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: Spacing.sm) { actionButtons }
+            VStack(spacing: Spacing.sm) { actionButtons }
+        }
+    }
+
+    @ViewBuilder private var actionButtons: some View {
+        VButton(L10n.text(K.mobile.trips.newSearch), tid: "trips.action.search", role: .tonal, systemImage: "magnifyingglass") {
+            env.router.open(.explore(.search))
+        }
+        VButton(L10n.text(K.common.nav.chat), tid: "trips.action.chat", role: .tonal, systemImage: "bubble.left") {
+            env.router.open(.explore(.chat))
+        }
+        VButton(L10n.text(K.common.nav.nearby), tid: "trips.action.nearby", role: .tonal, systemImage: "location") {
+            env.router.open(.nearby)
         }
     }
 

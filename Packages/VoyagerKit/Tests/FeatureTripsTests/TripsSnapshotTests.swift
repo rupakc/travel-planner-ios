@@ -28,6 +28,7 @@ final class TripsSnapshotTests: XCTestCase {
 
     func test_list() async {
         let (env, _) = env(plans: TripsFixtures.all)
+        env.device.travellerTypes = ["BUDGET_BACKPACKER"]
         let model = TripsFixtures.model(env)
         await model.load()
         await assertSnapshots(
