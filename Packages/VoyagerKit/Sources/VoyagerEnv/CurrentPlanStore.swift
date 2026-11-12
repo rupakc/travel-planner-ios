@@ -60,6 +60,8 @@ public final class CurrentPlanStore {
     /// retried read succeeds.
     @ObservationIgnored private var loaded = true
     @ObservationIgnored private var retryTask: Task<Void, Never>?
+    /// A change was made while the file was unread; a later (retry) restore must not overwrite it.
+    @ObservationIgnored private var changedWhileUnloaded = false
     @ObservationIgnored private var path = CurrentPlanStore.fileName
 
     public init(files: any FileStore, persistDelay: Duration = .seconds(1)) {
@@ -78,6 +80,7 @@ public final class CurrentPlanStore {
             userGeneration += 1
             retryTask?.cancel()
             loaded = true
+            changedWhileUnloaded = false
             path = Self.path(for: username)
             applyingRestore = true
             selections = Selections.empty
@@ -190,6 +193,7 @@ public final class CurrentPlanStore {
     private func changed(dirty: Bool) {
         guard !applyingRestore else { return }
         revision += 1
+        if !loaded { changedWhileUnloaded = true }
         if dirty { isDirty = true }
         schedulePersist()
     }
@@ -247,9 +251,11 @@ public final class CurrentPlanStore {
             return
         }
         let wasBlocked = !loaded
+        let userChanged = revision != startRevision || (wasBlocked && changedWhileUnloaded)
         loaded = true
-        guard let restored = outcome.value, revision == startRevision else {
-            if wasBlocked, revision != startRevision { schedulePersist() }
+        changedWhileUnloaded = false
+        guard let restored = outcome.value, !userChanged else {
+            if wasBlocked, userChanged { schedulePersist() }
             return
         }
         applyingRestore = true

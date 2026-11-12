@@ -25,7 +25,7 @@ import VoyagerModel
         await harness.env.startDeferredWork().value
         #expect(harness.configRequests == 1)
         #expect(harness.stub.requests.count == 1)
-        #expect(Set(harness.files.reads) == [CurrentPlanStore.fileName, ChatThreadStore.path(for: User.sample.username)])
+        #expect(Set(harness.files.reads) == [CurrentPlanStore.path(for: User.sample.username), ChatThreadStore.path(for: User.sample.username)])
         #expect(harness.env.chatThreads.username == User.sample.username)
         #expect(harness.recorder.bootstraps.count == 1)
     }
