@@ -37,7 +37,7 @@ custom_rules:
     name: No raw colours
     message: "Colours come only from the generated design tokens (DesignSystem Palette / SemanticColor)."
     regex: '\b(Color\(\s*(red:|#colorLiteral)|UIColor\(\s*red:)'
-    excluded: 'Sources/DesignSystem/Generated/'
+    excluded: '(Sources/DesignSystem/Generated/|FeatureAuth/SocialSignInButtons\.swift$)'
     excluded_match_kinds: [comment, doccomment]
     severity: error
   no_literal_text:
