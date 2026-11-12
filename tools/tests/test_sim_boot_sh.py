@@ -51,6 +51,7 @@ def test_hung_boot_is_erased_and_booted_again(tmp_path):
     assert "iPhone 16 (UDID) (Booting)" in result.stdout
     assert "attempt 2" in result.stdout
     assert calls.count("erase") == 1 and "delete" not in calls and "create" not in calls
+    assert "boot" not in calls  # bootstatus -b boots the device itself
 
 
 def test_boot_that_always_hangs_fails_loudly(tmp_path):
@@ -95,3 +96,10 @@ def test_ui_a_failed_boot_skips_that_device_runs_the_other_and_fails(tmp_path):
     assert "iphone simulator did not boot" in result.stdout
     tests = [c for c in calls if c.startswith("xcodebuild test-without-building")]
     assert len(tests) == 1 and "ID-ipad" in tests[0]
+
+
+def test_no_orphaned_poller_sleep_after_a_boot(tmp_path):
+    result, _ = _boot(tmp_path, "echo booted")
+    assert result.returncode == 0, result.stdout + result.stderr
+    leftover = subprocess.run(["pgrep", "-f", "^sleep 30$"], capture_output=True, text=True)
+    assert leftover.stdout.strip() == ""

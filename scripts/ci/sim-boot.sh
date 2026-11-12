@@ -23,13 +23,33 @@ start=$SECONDS
 # limited <seconds> <command...>: perl's alarm is the timeout macOS lacks.
 limited() { local s="$1"; shift; perl -e "alarm $s; exec @ARGV" "$@"; }
 
+# Every 30 s: the device state and whether its launchd answers, so a slow or stuck boot shows what it was doing.
+watch_boot() {
+  local t0=$1
+  while sleep 30; do
+    local state launchd=no
+    state="$(limited 20 xcrun simctl list devices 2>/dev/null | grep -F "$udid" | grep -oE '\((Shutdown|Booting|Booted|Shutting Down)\)' || echo '(?)')"
+    limited 20 xcrun simctl spawn "$udid" launchctl print system >/dev/null 2>&1 && launchd=yes
+    echo "sim-boot: [+$((SECONDS - t0))s] state $state launchd $launchd"
+  done
+}
+
 for attempt in $(seq 1 "$attempts"); do
   t0=$SECONDS
-  # "Unable to boot device in current state: Booted" is fine; other boot errors show up in bootstatus.
-  limited 120 xcrun simctl boot "$udid" 2>&1 | grep -v "current state: Booted" || true
-  # bootstatus -b waits for the boot to complete (data migration included).
+  watch_boot "$t0" &
+  watcher=$!
+  # `bootstatus -b` boots the device itself and waits for the boot to complete (data migration included). Do not
+  # `simctl boot` first: every green run booted this way, and a bootstatus attached to a device already booting was
+  # seen to wait on a device CoreSimulator reported as Booted until the timeout.
   status=0
   limited "$attempt_timeout" xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 || status=$?
+  sleepers="$(pgrep -P "$watcher" 2>/dev/null || true)"
+  kill "$watcher" 2>/dev/null || true
+  wait "$watcher" 2>/dev/null || true
+  if [[ -n "$sleepers" ]]; then
+    # shellcheck disable=SC2086
+    kill $sleepers 2>/dev/null || true
+  fi
   if [[ $status -eq 0 ]] && limited 60 xcrun simctl spawn "$udid" launchctl print system >/dev/null 2>&1; then
     echo "sim-boot: $udid booted and responsive in $((SECONDS - t0))s (attempt $attempt, $((SECONDS - start))s total)"
     exit 0
