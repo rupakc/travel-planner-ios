@@ -49,5 +49,5 @@ final class SectionCardSnapshotTests: XCTestCase {
         assertSnapshots(of: { Host(id: .visa, status: .error("")) { EmptyView() } }, named: "error", configs: lean)
     }
 
-    private var lean: [SnapshotConfig] { [.phoneLight, .padDark] }
+    private var lean: [SnapshotConfig] { [.phoneLight, .phoneDark, .padLight, .padDark] }
 }
