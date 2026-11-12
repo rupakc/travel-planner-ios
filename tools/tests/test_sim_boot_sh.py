@@ -13,7 +13,7 @@ def _exe(path: Path, body: str) -> None:
     path.chmod(path.stat().st_mode | stat.S_IXUSR)
 
 
-def _boot(tmp_path: Path, bootstatus: str, attempt_timeout: str = "5", attempts: str = "2"):
+def _boot(tmp_path: Path, bootstatus: str, state: str = "Booting", attempt_timeout: str = "5", attempts: str = "2"):
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
     calls = tmp_path / "calls"
@@ -23,11 +23,11 @@ case "$2" in
   boot) exit 0 ;;
   bootstatus) n=$(grep -c '^bootstatus$' "{calls}"); {bootstatus} ;;
   spawn) exit 0 ;;
-  list) echo "    iPhone 16 (UDID) (Booting)" ;;
+  list) echo "    iPhone 16 (UDID) ({state})" ;;
 esac
 """)
     env = {
-        **os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}",
+        **os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}", "SIM_POLL_SECONDS": "1",
         "SIM_BOOT_ATTEMPT_TIMEOUT": attempt_timeout, "SIM_BOOT_ATTEMPTS": attempts,
     }
     result = subprocess.run(
@@ -36,29 +36,39 @@ esac
     return result, calls.read_text().split()
 
 
-def test_healthy_boot_succeeds_first_time(tmp_path):
-    result, calls = _boot(tmp_path, 'echo "Waiting on System App"; echo "Device booted"')
+def test_healthy_boot_is_ready_when_bootstatus_returns(tmp_path):
+    result, calls = _boot(tmp_path, "echo booted")
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "booted and responsive" in result.stdout and "attempt 1" in result.stdout
+    assert "bootstatus reported the boot complete" in result.stdout and "attempt 1" in result.stdout
+    assert "erase" not in calls and "boot" not in calls
+
+
+def test_booted_responsive_device_is_ready_although_bootstatus_never_returns(tmp_path):
+    result, calls = _boot(tmp_path, "exec sleep 120", state="Booted", attempt_timeout="30")
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "Booted and responsive for 4 polls (bootstatus had not returned)" in result.stdout
     assert "erase" not in calls
 
 
 def test_hung_boot_is_erased_and_booted_again(tmp_path):
-    hang_first = '[[ $n -eq 1 ]] && { echo "Waiting on Data Migration"; exec sleep 120; }; echo booted'
-    result, calls = _boot(tmp_path, hang_first, attempt_timeout="2")
+    result, calls = _boot(tmp_path, "[[ $n -eq 1 ]] && exec sleep 120; echo booted", attempt_timeout="3")
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "attempt 1 did not finish within 2s" in result.stdout
-    assert "iPhone 16 (UDID) (Booting)" in result.stdout
+    assert "attempt 1: UDID not ready within 3s (state Booting)" in result.stdout
     assert "attempt 2" in result.stdout
     assert calls.count("erase") == 1 and "delete" not in calls and "create" not in calls
-    assert "boot" not in calls  # bootstatus -b boots the device itself
 
 
-def test_boot_that_always_hangs_fails_loudly(tmp_path):
-    result, calls = _boot(tmp_path, 'echo "Waiting on Data Migration"; exec sleep 120', attempt_timeout="2")
+def test_boot_that_never_gets_ready_fails_loudly(tmp_path):
+    result, calls = _boot(tmp_path, "exec sleep 120", attempt_timeout="3")
     assert result.returncode == 1
-    assert "::error::sim-boot: UDID did not boot in 2 attempt(s) of 2s" in result.stdout
+    assert "::error::sim-boot: UDID did not boot in 2 attempt(s) of 3s" in result.stdout
     assert calls.count("bootstatus") == 2 and calls.count("erase") == 1
+
+
+def test_no_bootstatus_left_running(tmp_path):
+    _boot(tmp_path, "exec sleep 97", state="Booted", attempt_timeout="30")
+    leftover = subprocess.run(["pgrep", "-f", "sleep 97"], capture_output=True, text=True)
+    assert leftover.stdout.strip() == ""
 
 
 def _ui(tmp_path: Path, failing_boot: str):

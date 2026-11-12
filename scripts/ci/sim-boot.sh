@@ -3,16 +3,17 @@
 #
 #   scripts/ci/sim-boot.sh <udid>
 #
-# Two facts from the CI logs (2026-11-12) shape this:
+# What the CI logs (2026-11-12) showed, and why this does not simply wait for `simctl bootstatus -b`:
 #   1. A healthy cold first boot of the iOS 26.0 runtime on GitHub's macos-15 arm64 runners takes 2-4 minutes
-#      (137-260 s seen). A budget below that (the old 150 s) aborts healthy boots, and every retry is cold again.
-#   2. Some boots of the iOS 26 runtime hang and never finish (still not up after 600-750 s, same device that boots
-#      in 2-3 min on other runners); a known intermittent iOS 26 simulator problem, also seen on other CI providers.
-#      Waiting longer does not help; shutting the device down, erasing it and booting again does.
-# So: each attempt gets SIM_BOOT_ATTEMPT_TIMEOUT seconds (default 330, above a healthy cold boot); a hung attempt is
-# shut down and erased, and booted again, up to SIM_BOOT_ATTEMPTS (default 2). The device is never deleted or
-# recreated (the pinned UDID must stay valid for xcodebuild). When every attempt hangs this exits 1 loudly, with the
-# device state CoreSimulator reports. Callers start it in the background while xcodebuild compiles.
+#      (120-260 s seen). A budget below that (the old 150 s) aborts healthy boots, and every retry is cold again.
+#   2. `bootstatus -b` sometimes never returns although CoreSimulator reports the device Booted and its launchd
+#      answers (run 43282252543: Booted + responsive from +45 s, bootstatus still waiting at 330 s). Waiting on
+#      bootstatus alone was why "the simulator never boots".
+# So the device is ready when bootstatus returns, or when it has been Booted with a responsive launchd for
+# SIM_READY_POLLS consecutive polls (default 4, every 15 s), whichever comes first. An attempt that reaches neither
+# within SIM_BOOT_ATTEMPT_TIMEOUT seconds (default 330) is shut down, erased and booted again, up to
+# SIM_BOOT_ATTEMPTS (default 2). The device is never deleted or recreated (the pinned UDID must stay valid for
+# xcodebuild). When every attempt fails this exits 1 loudly. Callers start it in the background during the build.
 set -euo pipefail
 
 udid="${1:?usage: sim-boot.sh <udid>}"
@@ -23,39 +24,49 @@ start=$SECONDS
 # limited <seconds> <command...>: perl's alarm is the timeout macOS lacks.
 limited() { local s="$1"; shift; perl -e "alarm $s; exec @ARGV" "$@"; }
 
-# Every 30 s: the device state and whether its launchd answers, so a slow or stuck boot shows what it was doing.
-watch_boot() {
-  local t0=$1
-  while sleep 30; do
-    local state launchd=no
-    state="$(limited 20 xcrun simctl list devices 2>/dev/null | grep -F "$udid" | grep -oE '\((Shutdown|Booting|Booted|Shutting Down)\)' || echo '(?)')"
-    limited 20 xcrun simctl spawn "$udid" launchctl print system >/dev/null 2>&1 && launchd=yes
-    echo "sim-boot: [+$((SECONDS - t0))s] state $state launchd $launchd"
-  done
+ready_polls="${SIM_READY_POLLS:-4}"
+poll="${SIM_POLL_SECONDS:-15}"
+
+# device_state: Booted, Booting, Shutdown, ... or "?" when simctl does not answer in time.
+device_state() {
+  limited 30 xcrun simctl list devices 2>/dev/null | grep -F "$udid" |
+    grep -oE '\((Shutdown|Booting|Booted|Shutting Down)\)' | tr -d '()' || echo "?"
 }
 
 for attempt in $(seq 1 "$attempts"); do
   t0=$SECONDS
-  watch_boot "$t0" &
-  watcher=$!
-  # `bootstatus -b` boots the device itself and waits for the boot to complete (data migration included). Do not
-  # `simctl boot` first: every green run booted this way, and a bootstatus attached to a device already booting was
-  # seen to wait on a device CoreSimulator reported as Booted until the timeout.
-  status=0
-  limited "$attempt_timeout" xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 || status=$?
-  sleepers="$(pgrep -P "$watcher" 2>/dev/null || true)"
-  kill "$watcher" 2>/dev/null || true
-  wait "$watcher" 2>/dev/null || true
-  if [[ -n "$sleepers" ]]; then
-    # shellcheck disable=SC2086
-    kill $sleepers 2>/dev/null || true
-  fi
-  if [[ $status -eq 0 ]] && limited 60 xcrun simctl spawn "$udid" launchctl print system >/dev/null 2>&1; then
-    echo "sim-boot: $udid booted and responsive in $((SECONDS - t0))s (attempt $attempt, $((SECONDS - start))s total)"
+  # `bootstatus -b` boots the device and waits for the boot to complete (data migration included).
+  # perl directly (not the shell function) so $! is bootstatus itself and `kill` reaches it.
+  perl -e "alarm $attempt_timeout; exec @ARGV" xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 &
+  bootstatus=$!
+  streak=0
+  ready=""
+  while (( SECONDS - t0 < attempt_timeout )); do
+    sleep "$poll"
+    if ! kill -0 "$bootstatus" 2>/dev/null; then
+      status=0
+      wait "$bootstatus" || status=$?
+      [[ $status -eq 0 ]] && { ready="bootstatus reported the boot complete"; break; }
+      [[ $status -eq 142 ]] && break # bootstatus ran out of the attempt's time
+      echo "sim-boot: bootstatus exited with status $status; going by the device state"
+    fi
+    state="$(device_state)"
+    launchd=no
+    limited 30 xcrun simctl spawn "$udid" launchctl print system >/dev/null 2>&1 && launchd=yes
+    echo "sim-boot: [+$((SECONDS - t0))s] state $state launchd $launchd"
+    if [[ $state == Booted && $launchd == yes ]]; then streak=$((streak + 1)); else streak=0; fi
+    if (( streak >= ready_polls )); then
+      ready="Booted and responsive for $streak polls (bootstatus had not returned)"
+      break
+    fi
+  done
+  kill "$bootstatus" 2>/dev/null || true
+  wait "$bootstatus" 2>/dev/null || true
+  if [[ -n "$ready" ]]; then
+    echo "sim-boot: $udid ready after $((SECONDS - t0))s (attempt $attempt, $((SECONDS - start))s total): $ready"
     exit 0
   fi
-  state="$(limited 30 xcrun simctl list devices 2>/dev/null | grep -F "$udid" | sed 's/^ *//' || true)"
-  echo "::warning::sim-boot: attempt $attempt did not finish within ${attempt_timeout}s (status $status): ${state:-$udid not listed}"
+  echo "::warning::sim-boot: attempt $attempt: $udid not ready within ${attempt_timeout}s (state $(device_state))"
   [[ $attempt -lt $attempts ]] || break
   echo "sim-boot: shutting down and erasing $udid, then booting again"
   limited 90 xcrun simctl shutdown "$udid" >/dev/null 2>&1 || true
