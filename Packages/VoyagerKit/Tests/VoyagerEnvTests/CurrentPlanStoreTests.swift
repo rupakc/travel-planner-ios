@@ -145,4 +145,39 @@ import VoyagerModel
         #expect(store.savedPlanID == nil)
         #expect(store.selections == Selections.empty)
     }
+
+    @Test func test_thrownReadBlocksWritesUntilARetrySucceeds() async throws {
+        let seeded = MemoryFileStore()
+        let first = CurrentPlanStore(files: seeded)
+        first.searchData = ["destination": "Kyoto"]
+        first.savedPlanID = 4
+        await first.flushPersistence()
+        let files = FlakyReadFileStore(MemoryFileStore(files: seeded.files))
+        files.failReads = true
+        let store = CurrentPlanStore(files: files, persistDelay: .milliseconds(20))
+        await store.restore()
+        store.toggle(field: "hotel", item: ["name": "Inn"])
+        await store.flushPersistence()
+        #expect(files.inner.writes.isEmpty)
+        files.failReads = false
+        #expect(await waitUntil { !files.inner.writes.isEmpty })
+        await store.flushPersistence()
+        #expect(!files.inner.writes.isEmpty)
+    }
+
+    @Test func test_saveResultDroppedWhenUserChangedDuringAwait() async throws {
+        let plans = FakePlansRepository()
+        let store = CurrentPlanStore(files: MemoryFileStore())
+        await store.switchUser("amy")
+        store.searchData = ["destination": "Kyoto"]
+        plans.onCreate.handler = { new in
+            await store.switchUser("bob")
+            return SavedPlan(id: 9, name: "Amy trip", searchData: new.searchData, selections: new.selections)
+        }
+        let saved = try await store.save(name: "Amy trip", using: plans)
+        #expect(saved.id == 9)
+        #expect(store.username == "bob")
+        #expect(store.savedPlanID == nil)
+        #expect(store.planName == nil)
+    }
 }

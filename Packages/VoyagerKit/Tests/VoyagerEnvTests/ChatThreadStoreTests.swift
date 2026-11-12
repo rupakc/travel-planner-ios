@@ -132,4 +132,44 @@ private final class GatedFileStore: FileStore, @unchecked Sendable {
 
     func write(_ data: Data, to path: String) async throws { try await inner.write(data, to: path) }
     func remove(_ path: String) async throws { try await inner.remove(path) }
+
+    @Test func test_thrownReadBlocksWritesUntilARetrySucceeds() async throws {
+        let amy = ChatThreadStore.path(for: "amy")
+        let seed = MemoryFileStore()
+        let seeded = ChatThreadStore(files: seed)
+        await seeded.switchUser("amy")
+        let old = seeded.create(title: "Old")
+        await seeded.flushPersistence()
+        let files = FlakyReadFileStore(MemoryFileStore(files: seed.files))
+        files.failReads = true
+        let store = ChatThreadStore(files: files, persistDelay: .milliseconds(20))
+        await store.switchUser("amy")
+        store.create(title: "New")
+        await store.flushPersistence()
+        #expect(files.inner.writes.isEmpty)
+        files.failReads = false
+        #expect(await waitUntilOnMain { Set(store.threads.map(\.title)) == ["Old", "New"] })
+        await store.flushPersistence()
+        #expect(files.inner.writes.contains(amy))
+        #expect(store.thread(old.id) != nil)
+    }
+}
+
+/// Reads throw while `failReads` is set (a locked file), as opposed to returning nil (no file).
+final class FlakyReadFileStore: FileStore, @unchecked Sendable {
+    let inner: MemoryFileStore
+    private let lock = NSLock()
+    private var fail = false
+    var failReads: Bool {
+        get { lock.withLock { fail } }
+        set { lock.withLock { fail = newValue } }
+    }
+    init(_ inner: MemoryFileStore) { self.inner = inner }
+    struct Locked: Error {}
+    func read(_ path: String) async throws -> Data? {
+        if failReads { throw Locked() }
+        return try await inner.read(path)
+    }
+    func write(_ data: Data, to path: String) async throws { try await inner.write(data, to: path) }
+    func remove(_ path: String) async throws { try await inner.remove(path) }
 }

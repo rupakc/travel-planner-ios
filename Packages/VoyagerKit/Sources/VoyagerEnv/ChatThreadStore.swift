@@ -52,6 +52,7 @@ public final class ChatThreadStore {
     /// that: a partial list must never replace the stored one.
     @ObservationIgnored private var loaded = true
     @ObservationIgnored private var switchTask: Task<Void, Never>?
+    @ObservationIgnored private var retryTask: Task<Void, Never>?
 
     public init(files: any FileStore, persistDelay: Duration = .seconds(1), now: @escaping @Sendable () -> Date = { Date() }) {
         self.files = files
@@ -119,29 +120,62 @@ public final class ChatThreadStore {
         if pendingWrite != nil { writeNow() }
         // The read must not overtake a write to the same file (same user signing out and straight back in).
         await lastWrite?.value
+        retryTask?.cancel()
         loadGeneration += 1
         let generation = loadGeneration
         loaded = false
         self.username = username
         threads = []
+        if await attemptLoad(generation: generation) == false { scheduleLoadRetry(generation: generation) }
+    }
+
+    private enum LoadResult: Sendable {
+        case threads([ChatThread])
+        case unreadable(Data)
+        case failed
+    }
+
+    /// Reads the current user's file. Returns false when the read threw (locked file, I/O error): that is not
+    /// "no file", so `loaded` stays false (writes stay blocked) until a later read succeeds.
+    private func attemptLoad(generation: Int) async -> Bool {
         let files = files
         let path = Self.path(for: username)
-        let result = await Task.detached(priority: .utility) { () -> (threads: [ChatThread], unreadable: Data?) in
-            guard let data = try? await files.read(path) else { return ([], nil) }
-            guard let threads = try? Self.decoder.decode([ChatThread].self, from: data) else { return ([], data) }
-            return (threads, nil)
+        let result = await Task.detached(priority: .utility) { () -> LoadResult in
+            let data: Data?
+            do { data = try await files.read(path) } catch { return .failed }
+            guard let data else { return .threads([]) }
+            guard let threads = try? Self.decoder.decode([ChatThread].self, from: data) else { return .unreadable(data) }
+            return .threads(threads)
         }.value
-        guard generation == loadGeneration else { return }
-        if let unreadable = result.unreadable {
+        guard generation == loadGeneration else { return true }
+        var stored: [ChatThread] = []
+        switch result {
+        case .failed: return false
+        case .unreadable(let bytes):
             // E.g. a newer schema: keep the bytes before the next write replaces the file.
-            try? await files.write(unreadable, to: path + ".bak")
+            try? await files.write(bytes, to: path + ".bak")
+        case .threads(let threads): stored = threads
         }
+        guard generation == loadGeneration else { return true }
         // Threads created while the file was loading stay on top.
         let created = threads
         let known = Set(created.map(\.id))
-        threads = created + result.threads.filter { !known.contains($0.id) }.sorted { $0.updatedAt > $1.updatedAt }
+        threads = created + stored.filter { !known.contains($0.id) }.sorted { $0.updatedAt > $1.updatedAt }
         loaded = true
         if !created.isEmpty { schedulePersist() }
+        return true
+    }
+
+    private func scheduleLoadRetry(generation: Int) {
+        retryTask?.cancel()
+        let delay = persistDelay
+        retryTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: delay)
+                guard let self, !Task.isCancelled, generation == self.loadGeneration else { return }
+                if await self.attemptLoad(generation: generation) { return }
+            }
+        }
     }
 
     // MARK: - Persistence

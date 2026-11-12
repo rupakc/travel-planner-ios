@@ -54,6 +54,12 @@ public final class CurrentPlanStore {
     /// Bumped by every change; `restore` does not overwrite changes made before it finished.
     @ObservationIgnored private var revision = 0
     @ObservationIgnored private var applyingRestore = false
+    /// Bumped when the user changes; an in-flight save of the previous user's plan is dropped.
+    @ObservationIgnored private var userGeneration = 0
+    /// False after a read of the plan file threw: the file may hold real data, so nothing is written until a
+    /// retried read succeeds.
+    @ObservationIgnored private var loaded = true
+    @ObservationIgnored private var retryTask: Task<Void, Never>?
     @ObservationIgnored private var path = CurrentPlanStore.fileName
 
     public init(files: any FileStore, persistDelay: Duration = .seconds(1)) {
@@ -69,6 +75,9 @@ public final class CurrentPlanStore {
         if username != self.username {
             if pendingWrite != nil { writeNow() }
             self.username = username
+            userGeneration += 1
+            retryTask?.cancel()
+            loaded = true
             path = Self.path(for: username)
             applyingRestore = true
             selections = Selections.empty
@@ -126,6 +135,7 @@ public final class CurrentPlanStore {
     /// generates one for a new plan (`PlanName.generate`).
     public func save(name: String?, using plans: any PlansRepository) async throws -> SavedPlan {
         let startRevision = revision
+        let startUser = userGeneration
         let body = Self.selectionsForSave(selections, latestResults: latestResults)
         let saved: SavedPlan
         if let id = savedPlanID {
@@ -138,6 +148,7 @@ public final class CurrentPlanStore {
                 departureDate: search["departure_date"].string)
             saved = try await plans.create(NewPlan(name: name ?? planName ?? generated, searchData: search, selections: body))
         }
+        guard startUser == userGeneration else { return saved } // another user's plan is on screen now
         let untouched = revision == startRevision
         savedPlanID = saved.id
         planName = saved.name
@@ -195,6 +206,7 @@ public final class CurrentPlanStore {
 
     private func writeNow() {
         pendingWrite = nil
+        guard loaded else { return }
         let snapshot = Persisted(
             selections: selections, searchData: searchData, savedPlanID: savedPlanID, planName: planName, isDirty: isDirty)
         let files = files
@@ -221,11 +233,25 @@ public final class CurrentPlanStore {
         let startRevision = revision
         let files = files
         let path = path
-        let restored = await Task.detached(priority: .utility) { () -> Persisted? in
-            guard let data = try? await files.read(path) else { return nil }
-            return try? JSONDecoder().decode(Persisted.self, from: data)
+        let generation = userGeneration
+        let outcome = await Task.detached(priority: .utility) { () -> (read: Bool, value: Persisted?) in
+            let data: Data?
+            do { data = try await files.read(path) } catch { return (false, nil) }
+            guard let data else { return (true, nil) }
+            return (true, try? JSONDecoder().decode(Persisted.self, from: data))
         }.value
-        guard let restored, revision == startRevision else { return }
+        guard generation == userGeneration else { return }
+        guard outcome.read else {
+            loaded = false
+            scheduleRestoreRetry(generation: generation)
+            return
+        }
+        let wasBlocked = !loaded
+        loaded = true
+        guard let restored = outcome.value, revision == startRevision else {
+            if wasBlocked, revision != startRevision { schedulePersist() }
+            return
+        }
         applyingRestore = true
         selections = Self.merged(over: Selections.empty, restored.selections)
         searchData = restored.searchData
@@ -233,5 +259,15 @@ public final class CurrentPlanStore {
         planName = restored.planName
         isDirty = restored.isDirty
         applyingRestore = false
+    }
+
+    private func scheduleRestoreRetry(generation: Int) {
+        retryTask?.cancel()
+        let delay = persistDelay
+        retryTask = Task { [weak self] in
+            try? await Task.sleep(for: delay)
+            guard let self, !Task.isCancelled, generation == self.userGeneration else { return }
+            await self.restore()
+        }
     }
 }
