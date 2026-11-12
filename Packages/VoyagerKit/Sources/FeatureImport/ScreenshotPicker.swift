@@ -26,11 +26,10 @@ public enum ScreenshotEncoder {
         // Each round tries the qualities, then shrinks the picture by a quarter.
         for _ in 0..<8 {
             for quality in qualities {
-                if let encoded = write(image, png: isGIF, quality: quality),
-                    encoded.base64EncodedString().utf8.count <= maxBase64Bytes
-                {
-                    return ImportImage(
-                        mediaType: isGIF ? "image/png" : "image/jpeg", dataBase64: encoded.base64EncodedString())
+                guard let encoded = write(image, png: isGIF, quality: quality) else { continue }
+                let base64 = encoded.base64EncodedString()
+                if base64.utf8.count <= maxBase64Bytes {
+                    return ImportImage(mediaType: isGIF ? "image/png" : "image/jpeg", dataBase64: base64)
                 }
             }
             qualities = isGIF ? [1] : [0.4]

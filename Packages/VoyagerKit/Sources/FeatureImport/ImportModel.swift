@@ -88,9 +88,9 @@ public final class ImportModel {
         let value = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if value.isEmpty { return .empty }
         let pattern = #"^(https?://)?([a-z0-9-]+\.)+[a-z]{2,}(:\d+)?([/?#]\S*)?$"#
-        if value.rangeOfCharacter(from: .whitespacesAndNewlines) == nil,
-            value.range(of: pattern, options: [.regularExpression, .caseInsensitive]) != nil
-        {
+        let singleToken = value.rangeOfCharacter(from: .whitespacesAndNewlines) == nil
+        let looksLikeHost = value.range(of: pattern, options: [.regularExpression, .caseInsensitive]) != nil
+        if singleToken && looksLikeHost {
             let hasScheme = value.lowercased().hasPrefix("http://") || value.lowercased().hasPrefix("https://")
             return .url(hasScheme ? value : "https://\(value)")
         }
