@@ -27,6 +27,9 @@ common=(
   -clonedSourcePackagesDirPath "$ROOT/build/SourcePackages"
   -onlyUsePackageVersionsFromResolvedFile
   -skipMacroValidation
+  # Simulator builds are arm64 only (the runner is Apple silicon); building x86_64 too doubles the compile.
+  ARCHS=arm64
+  ONLY_ACTIVE_ARCH=YES
 )
 
 # run_limited <seconds> <command...>: the command's status, or 124 when it ran out of time.

@@ -33,6 +33,9 @@ args=(
   -clonedSourcePackagesDirPath "$ROOT/build/SourcePackages"
   -onlyUsePackageVersionsFromResolvedFile
   -skipMacroValidation
+  # Simulator builds are arm64 only (the runner is Apple silicon); building x86_64 too doubles the compile.
+  ARCHS=arm64
+  ONLY_ACTIVE_ARCH=YES
 )
 test_args=(
   -resultBundlePath "$result"
