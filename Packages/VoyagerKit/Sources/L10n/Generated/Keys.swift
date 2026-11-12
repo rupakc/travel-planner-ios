@@ -1371,6 +1371,14 @@ public enum K {
         public enum session {
             public static let expired = LKey("mobile:session.expired", placeholders: [], plural: false)
         }
+        public enum share {
+            public static let byline = LKey("mobile:share.byline", placeholders: ["name"], plural: false)
+            public static let recapTag = LKey("mobile:share.recapTag", placeholders: [], plural: false)
+            public static let remix = LKey("mobile:share.remix", placeholders: [], plural: false)
+            public static let savingsTag = LKey("mobile:share.savingsTag", placeholders: [], plural: false)
+            public static let signIn = LKey("mobile:share.signIn", placeholders: [], plural: false)
+            public static let signInToRemix = LKey("mobile:share.signInToRemix", placeholders: [], plural: false)
+        }
         public enum shortcuts {
             public static let newChat = LKey("mobile:shortcuts.newChat", placeholders: [], plural: false)
             public static let newSearch = LKey("mobile:shortcuts.newSearch", placeholders: [], plural: false)

@@ -37,6 +37,7 @@ public final class AppRouter: AppRouting {
     public func open(_ route: Route) {
         switch route {
         case .tab(let tab):
+            sharedToken = nil
             selectedTab = tab
         case .explore(let mode):
             exploreMode = mode
@@ -47,6 +48,7 @@ public final class AppRouter: AppRouting {
         case .planDetail:
             push(route, on: .trips)
         case .myPlan:
+            sharedToken = nil  // a remix leaves the share viewer for the shell that hosts My Plan
             myPlanPresented = true
         case .alerts(let kind, let watchID):
             alertsFocus = AlertsFocus(kind: kind, watchID: watchID)
