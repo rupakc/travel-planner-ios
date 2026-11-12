@@ -99,6 +99,27 @@ import VoyagerModel
         await store.flushPersistence()
         #expect(files.files[path + ".bak"] == garbage)
     }
+
+    @Test func test_thrownReadBlocksWritesUntilARetrySucceeds() async throws {
+        let amy = ChatThreadStore.path(for: "amy")
+        let seed = MemoryFileStore()
+        let seeded = ChatThreadStore(files: seed)
+        await seeded.switchUser("amy")
+        let old = seeded.create(title: "Old")
+        await seeded.flushPersistence()
+        let files = FlakyReadFileStore(MemoryFileStore(files: seed.files))
+        files.failReads = true
+        let store = ChatThreadStore(files: files, persistDelay: .milliseconds(20))
+        await store.switchUser("amy")
+        store.create(title: "New")
+        await store.flushPersistence()
+        #expect(files.inner.writes.isEmpty)
+        files.failReads = false
+        #expect(await waitUntilOnMain { Set(store.threads.map(\.title)) == ["Old", "New"] })
+        await store.flushPersistence()
+        #expect(files.inner.writes.contains(amy))
+        #expect(store.thread(old.id) != nil)
+    }
 }
 
 private extension JSONDecoder {
@@ -132,27 +153,6 @@ private final class GatedFileStore: FileStore, @unchecked Sendable {
 
     func write(_ data: Data, to path: String) async throws { try await inner.write(data, to: path) }
     func remove(_ path: String) async throws { try await inner.remove(path) }
-
-    @Test func test_thrownReadBlocksWritesUntilARetrySucceeds() async throws {
-        let amy = ChatThreadStore.path(for: "amy")
-        let seed = MemoryFileStore()
-        let seeded = ChatThreadStore(files: seed)
-        await seeded.switchUser("amy")
-        let old = seeded.create(title: "Old")
-        await seeded.flushPersistence()
-        let files = FlakyReadFileStore(MemoryFileStore(files: seed.files))
-        files.failReads = true
-        let store = ChatThreadStore(files: files, persistDelay: .milliseconds(20))
-        await store.switchUser("amy")
-        store.create(title: "New")
-        await store.flushPersistence()
-        #expect(files.inner.writes.isEmpty)
-        files.failReads = false
-        #expect(await waitUntilOnMain { Set(store.threads.map(\.title)) == ["Old", "New"] })
-        await store.flushPersistence()
-        #expect(files.inner.writes.contains(amy))
-        #expect(store.thread(old.id) != nil)
-    }
 }
 
 /// Reads throw while `failReads` is set (a locked file), as opposed to returning nil (no file).
