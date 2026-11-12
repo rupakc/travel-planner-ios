@@ -1,6 +1,8 @@
 # iOS CI. No Xcode locally: every build, lint and test runs here on macos-15.
 #   PR:                      tools (ubuntu) -> build-test (one macOS job: lint, unit tests on the iPhone simulator, app build)
-#   push to main / dispatch full=true:  + ui-smoke (iphone, ipad); archive on main only
+#   push to main / dispatch full=true / a PR that changes CI itself (.github/workflows, scripts/ci):
+#                            + ui-smoke (one job: iPhone then iPad); archive on main only
+#   Simulators are pinned (device + runtime) in scripts/ci/sim-destination.sh; snapshots are recorded on that pin.
 #   dispatch only_testing=X: build-test with `-only-testing:X` (comma-separated); record_snapshots=true records
 name: ios-ci
 
@@ -40,8 +42,21 @@ jobs:
     name: tools
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    outputs:
+      ci_changed: ${{ steps.changes.outputs.ci_changed }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 2
+      - name: Does this PR change CI itself?
+        id: changes
+        run: |
+          changed=false
+          if [[ "${{ github.event_name }}" == "pull_request" ]] &&
+             git diff --name-only HEAD^1 HEAD | grep -qE '^(\.github/workflows/|scripts/ci/)'; then
+            changed=true
+          fi
+          echo "ci_changed=$changed" | tee -a "$GITHUB_OUTPUT"
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
@@ -143,18 +158,17 @@ jobs:
           path: build/Voyager-sim.zip
           retention-days: 14
 
+  # One job for both devices: one macOS runner to acquire (a queued job can be dropped when macOS arm64 capacity is
+  # short: "not acquired by Runner ... after multiple attempts"), one build, both simulators booting during it.
   ui-smoke:
-    name: ui-smoke (${{ matrix.device }})
-    needs: build-test
+    name: ui-smoke
+    needs: [tools, build-test]
     if: >-
       github.event_name == 'push' ||
-      (github.event_name == 'workflow_dispatch' && inputs.full && inputs.only_testing == '')
+      (github.event_name == 'workflow_dispatch' && inputs.full && inputs.only_testing == '') ||
+      (github.event_name == 'pull_request' && needs.tools.outputs.ci_changed == 'true')
     runs-on: macos-15
-    timeout-minutes: 25
-    strategy:
-      fail-fast: false
-      matrix:
-        device: [iphone, ipad]
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
@@ -169,17 +183,21 @@ jobs:
         run: scripts/ci/select-xcode.sh
       - name: Generate
         run: scripts/ci/generate.sh
-      - name: UI tests
-        run: scripts/ci/test-ui.sh ${{ matrix.device }}
+      - name: UI tests (iPhone, iPad)
+        run: scripts/ci/test-ui.sh iphone ipad
       - name: Test summary
         if: always()
-        run: scripts/ci/summarize.sh build/ui-${{ matrix.device }}.xcresult
+        run: |
+          scripts/ci/summarize.sh build/ui-iphone.xcresult
+          scripts/ci/summarize.sh build/ui-ipad.xcresult
       - name: Upload test results
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: ui-${{ matrix.device }}-xcresult
-          path: build/ui-${{ matrix.device }}.xcresult
+          name: ui-xcresult
+          path: |
+            build/ui-*.xcresult
+            build/boot-*.log
           retention-days: 7
 
   archive:

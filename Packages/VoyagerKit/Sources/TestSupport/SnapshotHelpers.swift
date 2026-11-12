@@ -5,11 +5,13 @@ import SwiftUI
 import UIKit
 import VoyagerModel
 
-/// `SNAPSHOT_RECORD=1` (CI `record_snapshots`, passed to the runner as `TEST_RUNNER_SNAPSHOT_RECORD`) records
-/// every snapshot; otherwise a missing PNG is recorded and fails the test, and a changed one fails.
+/// `SNAPSHOT_RECORD=1` (CI `record_snapshots`, passed to the runner as `TEST_RUNNER_SNAPSHOT_RECORD`) records each
+/// snapshot that is missing or no longer matches and leaves matching PNGs untouched (`.failed`, so a record run never
+/// churns unchanged references); otherwise a missing PNG is recorded and fails the test, and a changed one fails.
+/// Record and compare only on the pinned simulator (scripts/ci/sim-destination.sh).
 public enum SnapshotSetup {
     public static var record: SnapshotTestingConfiguration.Record {
-        ProcessInfo.processInfo.environment["SNAPSHOT_RECORD"] == "1" ? .all : .missing
+        ProcessInfo.processInfo.environment["SNAPSHOT_RECORD"] == "1" ? .failed : .missing
     }
 }
 
