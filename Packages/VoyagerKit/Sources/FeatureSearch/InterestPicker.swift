@@ -112,7 +112,9 @@ struct FlowLayout: Layout {
     var spacing: CGFloat
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        let width = proposal.width ?? .infinity
+        // An ideal-size (nil) or unbounded proposal must not report one endless row: that made the whole form
+        // wider than a phone inside the shell's TabView. Wrap at a phone-ish width instead.
+        let width = proposal.width.flatMap { $0.isFinite ? $0 : nil } ?? 300
         var x: CGFloat = 0
         var y: CGFloat = 0
         var rowHeight: CGFloat = 0
