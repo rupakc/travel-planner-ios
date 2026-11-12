@@ -38,15 +38,26 @@ import VoyagerModel
         #expect(await waitUntilOnMain { harness.env.chatThreads.username == nil })
     }
 
-    @Test func test_buildConfigFromBundle() {
-        let empty = AppBuildConfig.fromBundle(.main, arguments: [], isDebug: true)
-        #expect(empty.baseURL == nil || empty.baseURL?.scheme != nil)
-        let overridden = AppBuildConfig.fromBundle(
-            .main, arguments: ["app", "-VoyagerBaseURL", "http://127.0.0.1:9000"], isDebug: true)
-        #expect(overridden.baseURL == URL(string: "http://127.0.0.1:9000"))
-        let release = AppBuildConfig.fromBundle(
-            .main, arguments: ["app", "-VoyagerBaseURL", "http://127.0.0.1:9000"], isDebug: false)
-        #expect(release.baseURL != URL(string: "http://127.0.0.1:9000"))
+    @Test func test_buildConfigFromBundle() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("bundle-\(UUID().uuidString).bundle")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let plist: [String: Any] = [
+            "CFBundleIdentifier": "test.bundle", "CFBundleShortVersionString": "4.5.6",
+            "VoyagerBaseURL": "https://prod.example.org", "VoyagerTrustedHosts": "Prod.Example.org  other.example.org",
+        ]
+        try (plist as NSDictionary).write(to: directory.appendingPathComponent("Info.plist"))
+        let bundle = try #require(Bundle(url: directory))
+        let prod = URL(string: "https://prod.example.org")
+        let override = URL(string: "http://127.0.0.1:9000")
+
+        let plain = AppBuildConfig.fromBundle(bundle, arguments: [], isDebug: true)
+        #expect(plain.baseURL == prod)
+        #expect(plain.trustedHosts == ["prod.example.org", "other.example.org"])
+        #expect(plain.appVersion == "4.5.6")
+        let args = ["app", "-VoyagerBaseURL", "http://127.0.0.1:9000"]
+        #expect(AppBuildConfig.fromBundle(bundle, arguments: args, isDebug: true).baseURL == override)
+        #expect(AppBuildConfig.fromBundle(bundle, arguments: args, isDebug: false).baseURL == prod)
+        #expect(AppBuildConfig.fromBundle(bundle, arguments: ["app", "-VoyagerBaseURL"], isDebug: true).baseURL == prod)
         #expect(AppBuildConfig.url("$(VOYAGER_PROD_BASE_URL)") == nil)
         #expect(AppBuildConfig.url("") == nil)
     }

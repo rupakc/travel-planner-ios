@@ -48,6 +48,10 @@ public final class ChatThreadStore {
     @ObservationIgnored private var pendingWrite: Task<Void, Never>?
     @ObservationIgnored private var lastWrite: Task<Void, Never>?
     @ObservationIgnored private var loadGeneration = 0
+    /// `threads` hold the whole of `username`'s file (or the load failed benignly). Nothing is written before
+    /// that: a partial list must never replace the stored one.
+    @ObservationIgnored private var loaded = true
+    @ObservationIgnored private var switchTask: Task<Void, Never>?
 
     public init(files: any FileStore, persistDelay: Duration = .seconds(1), now: @escaping @Sendable () -> Date = { Date() }) {
         self.files = files
@@ -100,23 +104,44 @@ public final class ChatThreadStore {
     }
 
     /// Shows `username`'s threads: writes the current user's pending changes, then reads the new user's file.
+    /// Switches run one after another, so an earlier load always finishes (and keeps its changes) first.
     public func switchUser(_ username: String?) async {
+        let previous = switchTask
+        let task = Task { [weak self] in
+            await previous?.value
+            await self?.performSwitch(username)
+        }
+        switchTask = task
+        await task.value
+    }
+
+    private func performSwitch(_ username: String?) async {
         if pendingWrite != nil { writeNow() }
+        // The read must not overtake a write to the same file (same user signing out and straight back in).
+        await lastWrite?.value
         loadGeneration += 1
         let generation = loadGeneration
+        loaded = false
         self.username = username
         threads = []
         let files = files
         let path = Self.path(for: username)
-        let loaded = await Task.detached(priority: .utility) { () -> [ChatThread] in
-            guard let data = try? await files.read(path) else { return [] }
-            return (try? Self.decoder.decode([ChatThread].self, from: data)) ?? []
+        let result = await Task.detached(priority: .utility) { () -> (threads: [ChatThread], unreadable: Data?) in
+            guard let data = try? await files.read(path) else { return ([], nil) }
+            guard let threads = try? Self.decoder.decode([ChatThread].self, from: data) else { return ([], data) }
+            return (threads, nil)
         }.value
         guard generation == loadGeneration else { return }
+        if let unreadable = result.unreadable {
+            // E.g. a newer schema: keep the bytes before the next write replaces the file.
+            try? await files.write(unreadable, to: path + ".bak")
+        }
         // Threads created while the file was loading stay on top.
         let created = threads
         let known = Set(created.map(\.id))
-        threads = created + loaded.filter { !known.contains($0.id) }.sorted { $0.updatedAt > $1.updatedAt }
+        threads = created + result.threads.filter { !known.contains($0.id) }.sorted { $0.updatedAt > $1.updatedAt }
+        loaded = true
+        if !created.isEmpty { schedulePersist() }
     }
 
     // MARK: - Persistence
@@ -146,6 +171,7 @@ public final class ChatThreadStore {
     private func writeNow() {
         pendingWrite?.cancel()
         pendingWrite = nil
+        guard loaded else { return }
         let snapshot = threads
         let path = Self.path(for: username)
         let files = files
@@ -159,6 +185,7 @@ public final class ChatThreadStore {
 
     /// Writes pending changes now and waits for every write.
     public func flushPersistence() async {
+        await switchTask?.value
         if pendingWrite != nil { writeNow() }
         await lastWrite?.value
     }

@@ -164,10 +164,15 @@ public final class AppEnvironment {
     public func startDeferredWork() -> Task<Void, Never> {
         if let deferredTask { return deferredTask }
         let task = Task { [self] in
-            let chatLoad = observeAuth()
-            let plan = self.plan
-            async let planRestore: Void = plan.restore()
-            let config = await ClientConfigLoader(health: repos.health).load()
+            let userLoad = observeAuth()
+            let fetched = await ClientConfigLoader(health: repos.health).fetch()
+            let config = fetched.config
+            if fetched.failed {
+                // Offline or a server error: stay off for now, and let the next start try again.
+                deferredTask = nil
+                await userLoad?.value
+                return
+            }
             apply(config)
             let bootstrap = ClientConfigLoader.telemetryBootstrap(
                 config: config, appVersion: build.appVersion,
@@ -176,8 +181,7 @@ public final class AppEnvironment {
                 setup: telemetrySetup)
             let configure = configureTelemetry
             await Task.detached(priority: .utility) { configure(bootstrap) }.value
-            await planRestore
-            await chatLoad?.value
+            await userLoad?.value
         }
         deferredTask = task
         return task
@@ -198,7 +202,7 @@ public final class AppEnvironment {
         }
     }
 
-    /// Follows the signed-in user: their chat threads replace the previous user's.
+    /// Follows the signed-in user: their plan and chat threads replace the previous user's.
     @discardableResult
     private func observeAuth() -> Task<Void, Never>? {
         let username = withObservationTracking {
@@ -209,7 +213,12 @@ public final class AppEnvironment {
         guard chatUser != .some(username) else { return nil }
         chatUser = .some(username)
         let threads = chatThreads
-        return Task { await threads.switchUser(username) }
+        let plan = plan
+        return Task {
+            async let planSwitch: Void = plan.switchUser(username)
+            await threads.switchUser(username)
+            await planSwitch
+        }
     }
 }
 

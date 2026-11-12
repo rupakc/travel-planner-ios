@@ -112,4 +112,37 @@ import VoyagerModel
         quick.reset()
         #expect(await waitUntil { files.writes.count == 2 })
     }
+
+    @Test func test_perUserIsolation() async throws {
+        let files = MemoryFileStore()
+        let store = CurrentPlanStore(files: files)
+        await store.switchUser("amy")
+        store.searchData = ["destination": "Kyoto"]
+        store.toggle(field: "activities", item: ["name": "Fushimi Inari"])
+        store.savedPlanID = 4
+        store.planName = "Kyoto trip"
+
+        // Bob signs in on the same device: nothing of Amy's is shown, and a save creates his own plan.
+        await store.switchUser("bob")
+        #expect(store.selections == Selections.empty)
+        #expect(store.searchData == nil)
+        #expect(store.savedPlanID == nil)
+        #expect(store.planName == nil)
+        #expect(!store.isDirty)
+        store.toggle(field: "hotel", item: ["name": "Inn"])
+        await store.flushPersistence()
+
+        // Amy's plan was written to her own file before the switch, and comes back for her only.
+        await store.switchUser("amy")
+        #expect(store.savedPlanID == 4)
+        #expect(store.searchData == ["destination": "Kyoto"])
+        #expect(store.selections["hotel"].isNull || store.selections["hotel"] == Selections.empty["hotel"])
+        #expect(Set(files.files.keys) == [CurrentPlanStore.path(for: "amy"), CurrentPlanStore.path(for: "bob")])
+        #expect(!CurrentPlanStore.path(for: "amy").contains("amy"))
+
+        // Signed out: the guest file, not Amy's plan.
+        await store.switchUser(nil)
+        #expect(store.savedPlanID == nil)
+        #expect(store.selections == Selections.empty)
+    }
 }

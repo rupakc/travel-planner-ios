@@ -1,5 +1,6 @@
 import AuthCore
 import Foundation
+import os
 import Testing
 import TestSupport
 import VoyagerEnv
@@ -26,6 +27,26 @@ import VoyagerModel
         #expect(bootstrap.remote == nil)
         #expect(bootstrap.appVersion == "1.2.3")
         #expect(harness.transport.posts.isEmpty)
+    }
+
+    @Test func test_failedConfigIsNotMemoised() async {
+        let calls = OSAllocatedUnfairLock(initialState: 0)
+        let harness = LiveHarness { request in
+            guard request.url?.path == "/api/config" else { return .init(status: 500, json: "{}") }
+            let call = calls.withLock { $0 += 1; return $0 }
+            return call == 1 ? .init(status: 503, json: "{}") : .init(json: #"{"features": {"signup": true}}"#)
+        }
+        await harness.env.startDeferredWork().value
+        #expect(harness.env.clientConfig == nil)
+        #expect(harness.recorder.bootstraps.isEmpty)
+
+        await harness.env.startDeferredWork().value // e.g. on the next foreground
+        #expect(harness.configRequests == 2)
+        #expect(harness.env.capabilities.signUp)
+        #expect(harness.recorder.bootstraps.count == 1)
+
+        await harness.env.startDeferredWork().value // settled: no third request
+        #expect(harness.configRequests == 2)
     }
 
     @Test func test_networkFailureIsNil() async {

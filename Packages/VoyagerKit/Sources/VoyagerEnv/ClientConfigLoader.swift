@@ -12,10 +12,16 @@ public struct ClientConfigLoader: Sendable {
     public init(health: any HealthRepository) { self.health = health }
 
     public func load() async -> ClientConfig? {
+        await fetch().config
+    }
+
+    /// `failed` is true for an error other than the backend answering 404 (which is a settled `nil`): offline,
+    /// a 5xx, a cancellation. The environment does not remember a failure, so the next start tries again.
+    public func fetch() async -> (config: ClientConfig?, failed: Bool) {
         do {
-            return try await health.clientConfig()
+            return (try await health.clientConfig(), false)
         } catch {
-            return nil
+            return (nil, true)
         }
     }
 

@@ -1,3 +1,4 @@
+import CryptoKit
 import Domain
 import Foundation
 import Observation
@@ -8,7 +9,17 @@ import VoyagerModel
 /// main actor) so a relaunch keeps the drawer. Nothing is read from disk until `restore()`.
 @MainActor @Observable
 public final class CurrentPlanStore {
+    /// The signed-out (guest) plan file; a signed-in user's plan lives in `plans/<sha256(username)>.json`.
     public nonisolated static let fileName = "current-plan.json"
+
+    public nonisolated static func path(for username: String?) -> String {
+        guard let username else { return fileName }
+        let digest = SHA256.hash(data: Data(username.utf8))
+        return "plans/" + digest.map { String(format: "%02x", $0) }.joined() + ".json"
+    }
+
+    /// Whose plan this is (`nil` = signed out).
+    public private(set) var username: String?
 
     /// A `Selections.empty`-shaped object.
     public var selections: JSONValue = Selections.empty {
@@ -43,10 +54,33 @@ public final class CurrentPlanStore {
     /// Bumped by every change; `restore` does not overwrite changes made before it finished.
     @ObservationIgnored private var revision = 0
     @ObservationIgnored private var applyingRestore = false
+    @ObservationIgnored private var path = CurrentPlanStore.fileName
 
     public init(files: any FileStore, persistDelay: Duration = .seconds(1)) {
         self.files = files
         self.persistDelay = persistDelay
+    }
+
+    // MARK: - User
+
+    /// Shows `username`'s plan (the signed-out guest when nil): another user's selections, search, saved plan id
+    /// and name never carry over. Pending changes are written to the previous user's file first.
+    public func switchUser(_ username: String?) async {
+        if username != self.username {
+            if pendingWrite != nil { writeNow() }
+            self.username = username
+            path = Self.path(for: username)
+            applyingRestore = true
+            selections = Selections.empty
+            searchData = nil
+            savedPlanID = nil
+            planName = nil
+            latestResults = .object([:])
+            isDirty = false
+            applyingRestore = false
+            revision += 1 // an in-flight restore of the previous user's file is discarded
+        }
+        await restore()
     }
 
     // MARK: - Selections
@@ -164,11 +198,12 @@ public final class CurrentPlanStore {
         let snapshot = Persisted(
             selections: selections, searchData: searchData, savedPlanID: savedPlanID, planName: planName, isDirty: isDirty)
         let files = files
+        let path = path
         let previous = lastWrite
         lastWrite = Task.detached(priority: .utility) {
             await previous?.value
             guard let data = try? JSONEncoder().encode(snapshot) else { return }
-            try? await files.write(data, to: Self.fileName)
+            try? await files.write(data, to: path)
         }
     }
 
@@ -185,8 +220,9 @@ public final class CurrentPlanStore {
     public func restore() async {
         let startRevision = revision
         let files = files
+        let path = path
         let restored = await Task.detached(priority: .utility) { () -> Persisted? in
-            guard let data = try? await files.read(Self.fileName) else { return nil }
+            guard let data = try? await files.read(path) else { return nil }
             return try? JSONDecoder().decode(Persisted.self, from: data)
         }.value
         guard let restored, revision == startRevision else { return }
