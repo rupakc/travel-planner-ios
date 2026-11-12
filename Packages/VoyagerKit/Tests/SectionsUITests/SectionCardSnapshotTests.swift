@@ -20,7 +20,7 @@ final class SectionCardSnapshotTests: XCTestCase {
         }
     }
 
-    private var data: JSONValue {
+    private static var sample: JSONValue {
         .object(["results": .array([.object(["name": .string("Skyline Hotel"), "price_usd": .number(180), "rating": .number(4.5)])])])
     }
 
@@ -34,14 +34,14 @@ final class SectionCardSnapshotTests: XCTestCase {
 
     func test_enhancing() {
         assertSnapshots(
-            of: { Host(id: .visa, status: .enhancing) { GenericSectionView(data: data, ctx: .inert) } },
+            of: { Host(id: .visa, status: .enhancing) { GenericSectionView(data: Self.sample, ctx: .inert) } },
             named: "enhancing", configs: lean)
     }
 
     func test_doneVerified() {
         let verified: JSONValue = .object(["level": .string("verified"), "label": .string("Verified")])
         assertSnapshots(
-            of: { Host(id: .hotels, status: .done, verification: verified) { GenericSectionView(data: data, ctx: .inert) } },
+            of: { Host(id: .hotels, status: .done, verification: verified) { GenericSectionView(data: Self.sample, ctx: .inert) } },
             named: "done-verified")
     }
 
