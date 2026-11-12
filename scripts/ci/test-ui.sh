@@ -8,13 +8,13 @@
 #
 # The simulators boot one after another BEFORE the build (scripts/ci/sim-boot.sh: bounded attempts, erase + one
 # retry): a boot that overlapped the compile on a 3-core runner often wedged, and boots on an idle runner did not. Each device's run has a hard wall-clock limit
-# (UI_ATTEMPT_TIMEOUT, default 480 s), because a hang while launching the runner is not covered by test timeouts.
+# (UI_ATTEMPT_TIMEOUT, default 300 s; a healthy run takes 100-160 s), because a hang while launching the runner is not covered by test timeouts.
 # All devices run even when one fails; the script fails if any did.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 [[ $# -ge 1 ]] || { echo "usage: test-ui.sh iphone [ipad]" >&2; exit 2; }
-attempt_timeout="${UI_ATTEMPT_TIMEOUT:-480}"
+attempt_timeout="${UI_ATTEMPT_TIMEOUT:-300}"
 derived="$ROOT/build/DerivedData-ui"
 mkdir -p "$ROOT/build"
 cd "$ROOT"
@@ -83,21 +83,20 @@ for i in "${!devices[@]}"; do
   fi
   echo "test-ui: $device on ${destinations[$i]}"
   udid="${destinations[$i]##*id=}"
-  if [[ -n "${UI_DIAG:-}" ]]; then
-    # DIAG (temporary): can this simulator launch any app through FrontBoard at all?
-    if [[ "${UI_WARMUP:-1}" == "1" ]]; then
-    t0=$SECONDS
-    perl -e 'alarm 90; exec @ARGV' xcrun simctl launch "$udid" com.apple.Preferences 2>&1 | sed 's/^/diag: launch Preferences: /' || true
-    echo "diag: launch Preferences returned after $((SECONDS - t0))s"
-    perl -e 'alarm 30; exec @ARGV' xcrun simctl terminate "$udid" com.apple.Preferences >/dev/null 2>&1 || true
-    fi
-    xcrun simctl spawn "$udid" log stream --style compact --level debug \
-      --predicate 'process IN {"SpringBoard","runningboardd","launchd_sim","testmanagerd","VoyagerUITests-Runner","XCTRunner","backboardd","installd"} OR subsystem BEGINSWITH "com.apple.FrontBoard" OR subsystem BEGINSWITH "com.apple.runningboard"' \
-      > "$ROOT/build/diag-$device-sim.log" 2>&1 &
-    logpid=$!
-    ( sleep 150; xcrun simctl io "$udid" screenshot "$ROOT/build/diag-$device-150s.png" >/dev/null 2>&1
-      xcrun simctl spawn "$udid" launchctl list > "$ROOT/build/diag-$device-launchctl.txt" 2>&1 ) &
-  fi
+  # Warm up: on a freshly created iOS 18.6 device the FIRST host-initiated app launch (xcodebuild launching the
+  # UI-test runner) was sometimes never delivered to SpringBoard, so xcodebuild waited silently until the watchdog
+  # (runs 43307335383, 43322096480; no RBSLaunchRequest for the runner in the simulator log). A `simctl launch` of a
+  # system app first makes the path work (run 43317210574: 25 s and 6 s, then both devices ran their tests).
+  t0=$SECONDS
+  wstatus=0
+  perl -e 'alarm 120; exec @ARGV' xcrun simctl launch "$udid" com.apple.Preferences >/dev/null 2>&1 || wstatus=$?
+  echo "test-ui: warm-up launch on $device: status $wstatus after $((SECONDS - t0))s"
+  perl -e 'alarm 30; exec @ARGV' xcrun simctl terminate "$udid" com.apple.Preferences >/dev/null 2>&1 || true
+  # Simulator log for this run (uploaded with the xcresult on failure).
+  xcrun simctl spawn "$udid" log stream --style compact \
+    --predicate 'process IN {"SpringBoard","runningboardd","testmanagerd","CoreSimulatorBridge","VoyagerUITests-Runner","Voyager"} OR subsystem BEGINSWITH "com.apple.FrontBoard"' \
+    > "$ROOT/build/ui-$device-sim.log" 2>&1 &
+  logpid=$!
   status=0
   run_limited "$attempt_timeout" xcodebuild test-without-building "${common[@]}" \
     -destination "${destinations[$i]}" \
@@ -105,7 +104,7 @@ for i in "${!devices[@]}"; do
     -test-timeouts-enabled YES \
     -default-test-execution-time-allowance 120 \
     -maximum-test-execution-time-allowance 300 || status=$?
-  if [[ -n "${UI_DIAG:-}" ]]; then kill "$logpid" 2>/dev/null || true; fi
+  kill "$logpid" 2>/dev/null || true
   if [[ $status -ne 0 ]]; then
     echo "::error::test-ui: $device failed (status $status)"
     failed=1
