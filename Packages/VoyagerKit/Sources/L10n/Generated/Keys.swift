@@ -2404,6 +2404,9 @@ public enum K {
             public static let clear = LKey("search:nationality.clear", placeholders: [], plural: false)
             public static let placeholder = LKey("search:nationality.placeholder", placeholders: [], plural: false)
         }
+        public enum pace {
+            public static let label = LKey("search:pace.label", placeholders: [], plural: false)
+        }
         public enum preview {
             public static let addBack = LKey("search:preview.addBack", placeholders: ["city"], plural: false)
             public static let all = LKey("search:preview.all", placeholders: [], plural: false)
@@ -2532,6 +2535,10 @@ public enum K {
             public static let more = LKey("search:travelers.more", placeholders: ["group"], plural: false)
             public static let seniors = LKey("search:travelers.seniors", placeholders: [], plural: false)
             public static let total = LKey("search:travelers.total", placeholders: [], plural: true)
+        }
+        public enum validation {
+            public static let required = LKey("search:validation.required", placeholders: [], plural: false)
+            public static let returnBeforeDeparture = LKey("search:validation.returnBeforeDeparture", placeholders: [], plural: false)
         }
     }
     public enum sections {
