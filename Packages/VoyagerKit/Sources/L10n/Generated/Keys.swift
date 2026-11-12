@@ -1383,6 +1383,27 @@ public enum K {
             public static let trips = LKey("mobile:tabs.trips", placeholders: [], plural: false)
             public static let you = LKey("mobile:tabs.you", placeholders: [], plural: false)
         }
+        public enum trips {
+            public static let accessibility = LKey("mobile:trips.accessibility", placeholders: [], plural: false)
+            public static let bestValue = LKey("mobile:trips.bestValue", placeholders: [], plural: false)
+            public static let budgetPlanner = LKey("mobile:trips.budgetPlanner", placeholders: [], plural: false)
+            public static let departs = LKey("mobile:trips.departs", placeholders: ["date"], plural: false)
+            public static let explore = LKey("mobile:trips.explore", placeholders: [], plural: false)
+            public static let filterAll = LKey("mobile:trips.filterAll", placeholders: [], plural: false)
+            public static let filterPast = LKey("mobile:trips.filterPast", placeholders: [], plural: false)
+            public static let filterUpcoming = LKey("mobile:trips.filterUpcoming", placeholders: [], plural: false)
+            public static let newSearch = LKey("mobile:trips.newSearch", placeholders: [], plural: false)
+            public static let nextTrip = LKey("mobile:trips.nextTrip", placeholders: [], plural: false)
+            public static let noMatch = LKey("mobile:trips.noMatch", placeholders: [], plural: false)
+            public static let noPlansBody = LKey("mobile:trips.noPlansBody", placeholders: [], plural: false)
+            public static let noPlansTitle = LKey("mobile:trips.noPlansTitle", placeholders: [], plural: false)
+            public static let openInMyPlan = LKey("mobile:trips.openInMyPlan", placeholders: [], plural: false)
+            public static let savedPlans = LKey("mobile:trips.savedPlans", placeholders: [], plural: false)
+            public static let searchPlans = LKey("mobile:trips.searchPlans", placeholders: [], plural: false)
+            public static let selectPlan = LKey("mobile:trips.selectPlan", placeholders: [], plural: false)
+            public static let signInBody = LKey("mobile:trips.signInBody", placeholders: [], plural: false)
+            public static let signInTitle = LKey("mobile:trips.signInTitle", placeholders: [], plural: false)
+        }
     }
     public enum onboarding {
         public enum nav {
