@@ -231,7 +231,7 @@ struct SearchFormModelTests {
 
     @Test func test_recentSearchesAreTheLastEight() async {
         let fakes = FakeRepositories()
-        fakes.recent.onList.returns((1...10).map { RecentSearch(id: $0, search: .object(["origin": "A\($0)"])) })
+        fakes.recent.onList.returns((1...10).map { RecentSearch(id: $0, search: .object(["origin": .string("A\($0)")])) })
         let (model, _) = makeModel(fakes: fakes)
         await model.load()
         #expect(model.recents.count == 8)
