@@ -17,12 +17,39 @@ only="${2:-}"
 destination="$("$ROOT/scripts/ci/sim-destination.sh" "$device")"
 mkdir -p "$ROOT/build"
 
-# Boot the simulator and wait until its system services are up before the first test touches
-# fonts, assets or preferences (a cold-booting simulator stalled a whole test run for minutes).
+# Boot the simulator and prove it is responsive before xcodebuild uses it. On macOS runners a simulator whose boot
+# never completes (bootstatus still waiting after 5 minutes) makes the FIRST UIKit-touching test hang for its whole
+# time allowance, and xcodebuild's relaunch then hangs again on the same wedged device. So a boot that does not
+# finish in 150 s is reset (shutdown, erase) and retried, and the last attempt uses a freshly created device.
 udid="${destination##*id=}"
-warm=0
-perl -e 'alarm 300; exec @ARGV' xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 || warm=$?
-[[ $warm -eq 0 ]] || echo "test-unit: simulator warm-up did not finish (exit status $warm; continuing)"
+boot_sim() {
+  perl -e 'alarm 150; exec @ARGV' xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 || return 1
+  # Responsive probe: a booted-but-wedged device does not answer a launchd query.
+  perl -e 'alarm 30; exec @ARGV' xcrun simctl spawn "$udid" launchctl print system >/dev/null 2>&1 || return 1
+}
+booted=0
+for attempt in 1 2 3; do
+  if boot_sim; then booted=1; break; fi
+  echo "test-unit: simulator boot attempt $attempt did not finish; resetting"
+  xcrun simctl shutdown "$udid" >/dev/null 2>&1 || true
+  if [[ $attempt -lt 2 ]]; then
+    xcrun simctl erase "$udid" >/dev/null 2>&1 || true
+  else
+    runtime="$(xcrun simctl list devices -j | U="$udid" python3 -c "
+import json,sys,os
+u=os.environ['U']
+for r,ds in json.load(sys.stdin)['devices'].items():
+    for d in ds:
+        if d['udid']==u: print(r, d['name'])" 2>/dev/null || true)"
+    runtime_id="${runtime%% *}"; dev_name="${runtime#* }"
+    if [[ -n "$runtime_id" ]]; then
+      xcrun simctl delete "$udid" >/dev/null 2>&1 || true
+      new="$(xcrun simctl create "voyager-ci-$attempt" "$dev_name" "$runtime_id" 2>/dev/null || true)"
+      if [[ -n "$new" ]]; then udid="$new"; destination="platform=iOS Simulator,id=$udid"; fi
+    fi
+  fi
+done
+[[ $booted -eq 1 ]] || echo "test-unit: simulator never became responsive; continuing (tests may stall)"
 result="$ROOT/build/unit-$device.xcresult"
 log="$ROOT/build/unit-$device.log"
 rm -rf "$result"
@@ -36,11 +63,14 @@ args=(
   -clonedSourcePackagesDirPath "$ROOT/build/SourcePackages"
   -onlyUsePackageVersionsFromResolvedFile
   -skipMacroValidation
-  # A cold simulator can freeze the whole test process for 130-200 s and then recover, so the per-test
-  # allowance is generous; the wall-clock watchdog below is the real hang bound.
+  # The simulator is proven responsive above, so a test stuck for 4 minutes is a real hang (a freeze of 130-200 s
+  # was seen on cold devices); the wall-clock watchdog below is the overall bound.
+  # One test process on one simulator at a time: concurrent clones/destinations contend for CoreSimulator on a 3-core runner.
+  -parallel-testing-enabled NO
+  -disable-concurrent-destination-testing
   -test-timeouts-enabled YES
-  -default-test-execution-time-allowance 600
-  -maximum-test-execution-time-allowance 900
+  -default-test-execution-time-allowance 240
+  -maximum-test-execution-time-allowance 300
 )
 for filter in ${only//,/ }; do
   args+=("-only-testing:$filter")
