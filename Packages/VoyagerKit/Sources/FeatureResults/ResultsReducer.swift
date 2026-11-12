@@ -140,11 +140,11 @@ public enum ResultsReducer {
             if let data = entry.data { next.sections[id]?.data = clearingPending(data) }
         }
         let itinerary = next.sections[.itinerary]?.data
-        if !(itinerary?["days"].array?.isEmpty == false),
+        let hasDays = itinerary?["days"].array?.isEmpty == false
+        if !hasDays {
             let fallback = clientItinerary(
                 activities: next.sections[.activities]?.data, hotels: next.sections[.hotels]?.data, searchData: next.searchData)
-        {
-            next.sections[.itinerary] = SectionEntry(status: .done, data: fallback)
+            if let fallback { next.sections[.itinerary] = SectionEntry(status: .done, data: fallback) }
         }
         for (id, entry) in next.sections {
             switch entry.status {
@@ -241,9 +241,9 @@ public enum ResultsReducer {
             self.dest = dest
         }
 
-        private func slot(_ time: String, _ activity: String, _ location: String, _ hours: Double, _ notes: String, _ cost: Double)
-            -> JSONValue
-        {
+        private func slot(
+            _ time: String, _ activity: String, _ location: String, _ hours: Double, _ notes: String, _ cost: Double
+        ) -> JSONValue {
             .object([
                 "time_of_day": .string(time), "activity": .string(activity), "location": .string(location),
                 "duration_hours": .number(hours), "notes": .string(notes), "estimated_cost_usd": .number(cost),
