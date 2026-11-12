@@ -67,6 +67,10 @@ targets:
           - UIInterfaceOrientationLandscapeRight
         NSAppTransportSecurity:
           NSAllowsLocalNetworking: true
+        UIBackgroundModes: [fetch]
+        BGTaskSchedulerPermittedIdentifiers:
+          - io.github.rupakc.travelplanner.telemetry
+          - io.github.rupakc.travelplanner.alert-poll
         VoyagerBaseURL: $(VOYAGER_BASE_URL)
         VoyagerTrustedHosts: $(VOYAGER_TRUSTED_HOSTS)
         CFBundleURLTypes:
