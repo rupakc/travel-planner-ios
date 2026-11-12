@@ -9,7 +9,12 @@ import XCTest
 
 @MainActor
 final class DiscoverSnapshotTests: XCTestCase {
-    private let configs: [SnapshotConfig] = [.phoneLight, .phoneDark, .padLight]
+    /// Tall canvases so the form and all five cards are in frame.
+    private let configs: [SnapshotConfig] = [
+        SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 2400)),
+        SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 2400)),
+        SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 2000)),
+    ]
 
     func test_fivePicks() async {
         await assertSnapshots(
