@@ -51,20 +51,22 @@ struct ImportReview: View {
                     .font(VFont.body(.subheadline, weight: .semibold))
                     .foregroundStyle(SemanticColor.text)
                 ForEach(model.stops) { stop in
-                    HStack {
-                        Toggle(isOn: Binding(get: { stop.included }, set: { model.setIncluded(stop.id, $0) })) {
-                            Text(verbatim: stop.id).font(VFont.body(.subheadline))
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
+                        HStack {
+                            Text(verbatim: stop.id).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)
+                            Spacer(minLength: 0)
+                            Toggle(isOn: Binding(get: { stop.included }, set: { model.setIncluded(stop.id, $0) })) {
+                                Text(verbatim: stop.id)
+                            }
+                            .labelsHidden()
+                            .accessibilityIdentifier("import.stop.\(stop.id)")
                         }
-                        .accessibilityIdentifier("import.stop.\(stop.id)")
                         Stepper(
                             value: Binding(get: { stop.nights }, set: { model.setNights(stop.id, $0) }), in: 1...30
                         ) {
                             Text(verbatim: L10n.text(K.search.preview.nights, count: stop.nights))
-                                .font(VFont.body(.footnote))
+                                .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
                         }
-                        .labelsHidden()
-                        Text(verbatim: L10n.text(K.search.preview.nights, count: stop.nights))
-                            .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
                     }
                 }
             }
