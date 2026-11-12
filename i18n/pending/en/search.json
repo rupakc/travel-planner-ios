@@ -1,0 +1,9 @@
+{
+  "pace": {
+    "label": "Trip pace"
+  },
+  "validation": {
+    "required": "Choose where you fly from and to, and your nationality, then plan your trip.",
+    "returnBeforeDeparture": "The return date can't be before the departure date."
+  }
+}

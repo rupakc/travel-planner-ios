@@ -164,13 +164,15 @@ public func assertSnapshots<V: View>(
         layout: layout, file: file, testName: testName, line: line)
 }
 
-/// One PNG per config, `<name>-<config.name>.png` in the test file's `__Snapshots__/`.
+/// One PNG per config, `<name>-<config.name>.png` in the test file's `__Snapshots__/`. `settle` waits that many
+/// seconds before the capture, for hosts (a `TabView`) that lay their content out after the first frame.
 @MainActor
 public func assertSnapshots<V: View>(
     of view: @MainActor () -> V,
     named name: String,
     configs: [SnapshotConfig],
     layout: SnapshotLayout = .component,
+    settle: TimeInterval = 0,
     file: StaticString = #filePath,
     testName: String = #function,
     line: UInt = #line
@@ -184,10 +186,12 @@ public func assertSnapshots<V: View>(
                 mutable.userInterfaceStyle = config.dark ? .dark : .light
                 mutable.preferredContentSizeCategory = config.size
             }
+            let image = Snapshotting<UIViewController, UIImage>.image(
+                on: config.device, precision: 0.99, perceptualPrecision: 0.98, size: config.canvas, traits: traits)
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
-                    as: .image(on: config.device, precision: 0.99, perceptualPrecision: 0.98, size: config.canvas, traits: traits),
+                    as: settle > 0 ? .wait(for: settle, on: image) : image,
                     named: "\(name)-\(config.name)", file: file, testName: testName, line: line)
             }
         }
