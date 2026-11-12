@@ -19,12 +19,22 @@ enum ConsentPrompt {
 @MainActor @Observable
 final class ConsentState {
     private(set) var answered = false
+    /// "Privacy choices" in Settings: the card shows for anyone, whatever the time zone or an earlier answer.
+    private(set) var reopened = false
 
     func isVisible(telemetry: Telemetry, timeZone: String = TimeZone.current.identifier) -> Bool {
-        !answered && ConsentPrompt.shouldShow(choice: telemetry.consentChoice, timeZone: timeZone)
+        !answered && (reopened || ConsentPrompt.shouldShow(choice: telemetry.consentChoice, timeZone: timeZone))
     }
 
-    func markAnswered() { answered = true }
+    func markAnswered() {
+        answered = true
+        reopened = false
+    }
+
+    func reopen() {
+        answered = false
+        reopened = true
+    }
 }
 
 struct ConsentCard: View {

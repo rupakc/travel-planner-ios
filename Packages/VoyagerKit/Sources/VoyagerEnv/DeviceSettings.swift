@@ -14,6 +14,8 @@ public final class DeviceSettings {
         public static let featureDisabled = "tp_feature_disabled"
         public static let reminderOptIn = "tp_reminder_opt_in"
         public static let nearbyInvites = "tp_nearby_invites"
+        public static let alertPoll = "tp_alert_poll"
+        public static let pushToken = "tp_push_token"
     }
 
     @ObservationIgnored private let defaults: UserDefaults
@@ -53,6 +55,16 @@ public final class DeviceSettings {
         didSet { defaults.set(nearbyInvites, forKey: Keys.nearbyInvites) }
     }
 
+    /// Whether the app looks for new alerts every minute while it is open (on by default).
+    public var alertPoll: Bool {
+        didSet { defaults.set(alertPoll, forKey: Keys.alertPoll) }
+    }
+
+    /// The device's push token, once one was registered; sign-out unregisters it.
+    public var pushToken: String? {
+        didSet { defaults.set(pushToken, forKey: Keys.pushToken) }
+    }
+
     public init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         onboardingCompleted = defaults.bool(forKey: Keys.onboardingCompleted)
@@ -63,6 +75,8 @@ public final class DeviceSettings {
         featureDisabled = Set(defaults.stringArray(forKey: Keys.featureDisabled) ?? [])
         reminderOptIn = defaults.bool(forKey: Keys.reminderOptIn)
         nearbyInvites = defaults.bool(forKey: Keys.nearbyInvites)
+        alertPoll = defaults.object(forKey: Keys.alertPoll) as? Bool ?? true
+        pushToken = defaults.string(forKey: Keys.pushToken)
     }
 
     private static func answers(_ raw: [String: Any]?) -> [String: [String]] {

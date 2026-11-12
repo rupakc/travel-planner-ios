@@ -27,6 +27,8 @@ public final class AppEnvironment {
     public let telemetry: Telemetry
     /// AppShell installs its router; until then `open` does nothing.
     public var router: any AppRouting
+    /// Settings sets it ("Privacy choices"); the shell shows the consent card again and clears it.
+    public var consentPromptRequested = false
     /// `GET /api/config`; nil until it loaded, and for good on an older backend (404) or a failure.
     public private(set) var clientConfig: ClientConfig?
     public private(set) var capabilities: AccountCapabilities
