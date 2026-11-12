@@ -21,14 +21,15 @@ struct HomeAndPassportStep: View {
                     chosen: model.homeAirport.map(Self.airportLabel),
                     text: $model.airportQuery,
                     clear: { model.clearAirport() },
-                    tid: "onboarding.airport"
-                ) {
+                    tid: "onboarding.airport",
+                    rows: {
                     ForEach(model.airportSuggestions, id: \.self) { airport in
                         suggestion(Self.airportLabel(airport), tid: "onboarding.airport.\(airport.iataCode ?? "")") {
                             model.choose(airport: airport)
                         }
                     }
-                }
+                    }
+                )
                 .task(id: model.airportQuery) { await model.refreshAirports() }
 
                 field(
@@ -37,14 +38,15 @@ struct HomeAndPassportStep: View {
                     chosen: model.passport?.nationality,
                     text: $model.nationalityQuery,
                     clear: { model.clearPassport() },
-                    tid: "onboarding.passport"
-                ) {
+                    tid: "onboarding.passport",
+                    rows: {
                     ForEach(model.nationalitySuggestions, id: \.self) { item in
                         suggestion(item.nationality ?? item.country ?? "", tid: "onboarding.passport.\(item.countryCode ?? "")") {
                             model.choose(nationality: item)
                         }
                     }
-                }
+                    }
+                )
                 .task(id: model.nationalityQuery) { await model.refreshNationalities() }
             }
         }
