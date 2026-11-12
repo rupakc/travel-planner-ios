@@ -70,6 +70,12 @@ final class ResultsReducerTests: XCTestCase {
         XCTAssertEqual(state.status(.stressTest), .loading)
     }
 
+    func test_erroredItineraryStillStartsStressTest() {
+        var state = ResultsState()
+        state = ResultsReducer.reduce(state, section("itinerary", ["error": "boom"]))
+        XCTAssertEqual(state.status(.stressTest), .loading)
+    }
+
     func test_confidenceAndPricingAreNotTiles() {
         var state = ResultsState()
         state = ResultsReducer.reduce(state, section("confidence", ["grade": "green"], source: .static))

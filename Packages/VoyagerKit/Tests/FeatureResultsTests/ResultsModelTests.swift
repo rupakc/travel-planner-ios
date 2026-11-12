@@ -97,6 +97,14 @@ final class ResultsModelTests: XCTestCase {
         XCTAssertEqual(recorder.completes, 1)
         XCTAssertEqual(recorder.firstSections, 1)
         XCTAssertEqual(recorder.abandons, 0)
+
+        let (clean, _, _, cleanRecorder) = make { $0.onStream.replays(events) }
+        clean.start()
+        await settle(clean)
+        XCTAssertEqual(model.state, clean.state, "a retried run ends where an uninterrupted one does")
+        let finishedOnce = Dictionary(grouping: recorder.announcements, by: { $0 }).values.allSatisfy { $0.count == 1 }
+        XCTAssertTrue(finishedOnce, "each finished section is announced once across the replay")
+        XCTAssertEqual(recorder.announcements.count, cleanRecorder.announcements.count)
     }
 
     func test_secondInterruptionSetsInterrupted() async {
@@ -109,6 +117,43 @@ final class ResultsModelTests: XCTestCase {
         XCTAssertTrue(model.state.done)
         XCTAssertNotNil(model.state.data(.visa), "what arrived is kept")
         for id in SectionID.allCases { XCTAssertEqual(model.state.status(id), .done, id.rawValue) }
+    }
+
+    func test_hardFailureFabricatesNoItinerary() async {
+        let (model, env, _, _) = make {
+            $0.onStream.replays([], thenFails: APIError.rateLimited(message: "Slow down", retryAfter: 30))
+        }
+        model.start()
+        await settle(model)
+        XCTAssertTrue(model.state.done)
+        XCTAssertNil(model.state.data(.itinerary), "no template itinerary from empty data")
+        XCTAssertNil(env.plan.latestResults["itinerary"].array)
+        for id in SectionID.allCases {
+            if case .done = model.state.status(id) { XCTFail("\(id.rawValue) must not read Done") }
+        }
+    }
+
+    func test_cancelThenAppearDoesNotRestartSearch() async {
+        let (pending, _, search, recorder) = make { $0.onStream.handler = { _ in AsyncThrowingStream { _ in } } }
+        pending.start()
+        try? await Task.sleep(for: .milliseconds(50))
+        pending.cancel()
+        pending.start()
+        pending.cancel()
+        try? await Task.sleep(for: .milliseconds(50))
+        XCTAssertEqual(search.onStream.callCount, 1)
+        XCTAssertEqual(recorder.abandons, 1)
+
+        let events = fixture()
+        let (finished, _, finishedSearch, finishedRecorder) = make { $0.onStream.replays(events) }
+        finished.start()
+        await settle(finished)
+        finished.cancel()
+        finished.start()
+        try? await Task.sleep(for: .milliseconds(50))
+        XCTAssertEqual(finishedSearch.onStream.callCount, 1)
+        XCTAssertEqual(finishedRecorder.completes, 1)
+        XCTAssertEqual(finishedRecorder.abandons, 0)
     }
 
     func test_streamEndingWithoutDoneIsRetried() async {

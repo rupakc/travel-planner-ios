@@ -120,7 +120,7 @@ public enum ResultsReducer {
         if settled(state, .activities), settled(state, .hotels), state.status(.itinerary) == .waiting {
             state.sections[.itinerary]?.status = .loading
         }
-        if state.status(.itinerary) == .done, state.status(.stressTest) == .waiting {
+        if settled(state, .itinerary), state.status(.stressTest) == .waiting {
             state.sections[.stressTest]?.status = .loading
         }
     }
@@ -149,6 +149,22 @@ public enum ResultsReducer {
         for (id, entry) in next.sections {
             switch entry.status {
             case .waiting, .loading, .enhancing: next.sections[id]?.status = .done
+            case .done, .error: break
+            }
+        }
+        next.done = true
+        return next
+    }
+
+    /// The stream failed outright (rate limit, sign-in, server): nothing is fabricated. Pending verification is
+    /// cleared, unfinished sections show the failure and the screen is done (the web's error callback).
+    static func failed(_ state: ResultsState, message: String) -> ResultsState {
+        var next = state
+        for (id, entry) in state.sections {
+            if let data = entry.data { next.sections[id]?.data = clearingPending(data) }
+            switch entry.status {
+            case .waiting, .loading, .enhancing:
+                next.sections[id]?.status = entry.hasGoodData ? .done : .error(message)
             case .done, .error: break
             }
         }

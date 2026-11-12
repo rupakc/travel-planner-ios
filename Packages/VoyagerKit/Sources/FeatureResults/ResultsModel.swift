@@ -34,6 +34,8 @@ public final class ResultsModel {
     @ObservationIgnored private var sentComplete = false
     @ObservationIgnored private var sentAbandon = false
     @ObservationIgnored private var frozen = false
+    @ObservationIgnored private var cancelled = false
+    @ObservationIgnored private var announced: Set<SectionID> = []
 
     /// `track` and `announce` default to the environment's telemetry and VoiceOver; tests record them.
     public init(
@@ -66,7 +68,7 @@ public final class ResultsModel {
 
     /// Starts the stream (once; a later call while it runs, or after it finished, does nothing).
     public func start() {
-        guard task == nil, !state.done, !frozen else { return }
+        guard task == nil, !state.done, !frozen, !cancelled else { return }
         if startedAt == nil {
             startedAt = Date()
             env.plan.latestResults = .object([:])
@@ -76,9 +78,11 @@ public final class ResultsModel {
     }
 
     /// The view went away: stops the stream and, if it had not finished, reports the abandon (once).
+    /// Leaving is final for this model: a later `start()` (the view reappearing) never restarts a billable search.
     public func cancel() {
         task?.cancel()
         task = nil
+        if startedAt != nil { cancelled = true }
         guard startedAt != nil, !state.done, !sentAbandon else { return }
         sentAbandon = true
         track(.searchAbandon(ms: elapsedMS, sections: state.readyCount))
@@ -177,7 +181,7 @@ public final class ResultsModel {
 
     private func announceFinished(type: String, previous: ResultsState, next: ResultsState) {
         guard let id = SectionID(rawValue: type), next.status(id) == .done, previous.status(id) != .done,
-            next.sections[id]?.hasGoodData == true
+            next.sections[id]?.hasGoodData == true, announced.insert(id).inserted
         else { return }
         announce("\(id.title): \(L10n.text(K.sections.page.done))")
     }
@@ -192,8 +196,9 @@ public final class ResultsModel {
 
     private func fail(_ error: any ErrorPresentable) {
         task = nil
-        failureMessage = ErrorCopy.message(kind: error.presentationKind, detail: error.userFacingDetail)
-        state = ResultsReducer.reduce(state, .done)
+        let message = ErrorCopy.message(kind: error.presentationKind, detail: error.userFacingDetail)
+        failureMessage = message
+        state = ResultsReducer.failed(state, message: message)
         env.plan.latestResults = state.latestResults
     }
 
