@@ -42,12 +42,15 @@ struct TravelerPanel: View {
                 Text(verbatim: name)
                     .font(VFont.body(.body))
                     .foregroundStyle(SemanticColor.text)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
                 if let age = Self.ages[group] {
                     Text(verbatim: age)
                         .font(VFont.body(.footnote))
                         .foregroundStyle(SemanticColor.textMuted)
                 }
             }
+            .layoutPriority(1)
             Spacer(minLength: Spacing.sm)
             stepButton("minus.circle", group: group, delta: -1, label: K.search.travelers.fewer)
             Text(verbatim: "\(model.count(group))")

@@ -16,7 +16,7 @@ final class ShellSnapshotTests: XCTestCase {
     }
 
     func test_iPhoneTabBar() async {
-        await assertSnapshots(of: { shell() }, named: "tabs", configs: [.phoneLight, .phoneDark], layout: .screen)
+        await assertSnapshots(of: { shell() }, named: "tabs", configs: [.phoneLight, .phoneDark], layout: .screen, settle: 1.5)
     }
 
     func test_iPadSidebar() async {
@@ -24,6 +24,6 @@ final class ShellSnapshotTests: XCTestCase {
             SnapshotConfig(name: "ipad13-light", device: SnapshotDevice.iPadPro13.config, dark: false),
             SnapshotConfig(name: "ipad13-dark", device: SnapshotDevice.iPadPro13.config, dark: true),
         ]
-        await assertSnapshots(of: { shell() }, named: "sidebar", configs: pad, layout: .screen)
+        await assertSnapshots(of: { shell() }, named: "sidebar", configs: pad, layout: .screen, settle: 1.5)
     }
 }
