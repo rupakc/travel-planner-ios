@@ -33,7 +33,7 @@ public struct GenericSectionView: View {
                 .font(VFont.body(.subheadline))
                 .foregroundStyle(SemanticColor.textMuted)
         } else {
-            LazyVStack(spacing: Spacing.sm) {
+            VStack(spacing: Spacing.sm) {
                 ForEach(Array(rows.enumerated()), id: \.offset) { _, item in
                     VCard {
                         VStack(alignment: .leading, spacing: Spacing.sm) {
