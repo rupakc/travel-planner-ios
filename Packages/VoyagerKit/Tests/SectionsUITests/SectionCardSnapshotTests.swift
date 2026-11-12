@@ -24,10 +24,6 @@ final class SectionCardSnapshotTests: XCTestCase {
         .object(["results": .array([.object(["name": .string("Skyline Hotel"), "price_usd": .number(180), "rating": .number(4.5)])])])
     }
 
-    override func setUp() async throws {
-        await FontRegistry.ready()
-    }
-
     func test_loading() {
         assertSnapshots(of: { Host(id: .flights, status: .loading) { EmptyView() } }, named: "loading", configs: lean)
     }
