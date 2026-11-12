@@ -5,8 +5,9 @@ import L10n
 /// events with their own views, not tiles.
 public enum SectionID: String, CaseIterable, Sendable, Identifiable {
     case flights, weather, hotels, activities
-    case places_to_see, walking_tours, events, visa, sim, tips
-    case emergency_card, getting_around, forex, itinerary, stress_test, packing_list
+    case placesToSee = "places_to_see", walkingTours = "walking_tours", events, visa, sim, tips
+    case emergencyCard = "emergency_card", gettingAround = "getting_around", forex, itinerary
+    case stressTest = "stress_test", packingList = "packing_list"
 
     public var id: String { rawValue }
 
@@ -21,18 +22,18 @@ public enum SectionID: String, CaseIterable, Sendable, Identifiable {
         case .weather: K.results.agents.weather.label
         case .hotels: K.results.agents.hotels.label
         case .activities: K.results.agents.activities.label
-        case .places_to_see: K.results.agents.places_to_see.label
-        case .walking_tours: K.results.agents.walking_tours.label
+        case .placesToSee: K.results.agents.places_to_see.label
+        case .walkingTours: K.results.agents.walking_tours.label
         case .events: K.results.agents.events.label
         case .visa: K.results.agents.visa.label
         case .sim: K.results.agents.sim.label
         case .tips: K.results.agents.tips.label
-        case .emergency_card: K.results.agents.emergency_card.label
-        case .getting_around: K.results.agents.getting_around.label
+        case .emergencyCard: K.results.agents.emergency_card.label
+        case .gettingAround: K.results.agents.getting_around.label
         case .forex: K.results.agents.forex.label
         case .itinerary: K.results.agents.itinerary.label
-        case .stress_test: K.results.agents.stress_test.label
-        case .packing_list: K.results.agents.packing_list.label
+        case .stressTest: K.results.agents.stress_test.label
+        case .packingList: K.results.agents.packing_list.label
         }
     }
 
@@ -42,9 +43,9 @@ public enum SectionID: String, CaseIterable, Sendable, Identifiable {
         switch self {
         case .visa: K.results.visa.unavailable
         case .forex: K.results.forex.unavailable
-        case .emergency_card: K.sections.emergency.unavailable
-        case .packing_list: K.sections.packing.unavailable
-        case .stress_test: K.sections.stress.unavailable
+        case .emergencyCard: K.sections.emergency.unavailable
+        case .packingList: K.sections.packing.unavailable
+        case .stressTest: K.sections.stress.unavailable
         default: K.errors.generic
         }
     }
@@ -56,18 +57,18 @@ public enum SectionID: String, CaseIterable, Sendable, Identifiable {
         case .weather: "cloud.sun"
         case .hotels: "bed.double"
         case .activities: "figure.hiking"
-        case .places_to_see: "mappin.and.ellipse"
-        case .walking_tours: "figure.walk"
+        case .placesToSee: "mappin.and.ellipse"
+        case .walkingTours: "figure.walk"
         case .events: "ticket"
         case .visa: "doc.text"
         case .sim: "simcard"
         case .tips: "lightbulb"
-        case .emergency_card: "cross.case"
-        case .getting_around: "tram"
+        case .emergencyCard: "cross.case"
+        case .gettingAround: "tram"
         case .forex: "dollarsign.circle"
         case .itinerary: "calendar"
-        case .stress_test: "checkmark.shield"
-        case .packing_list: "suitcase"
+        case .stressTest: "checkmark.shield"
+        case .packingList: "suitcase"
         }
     }
 }

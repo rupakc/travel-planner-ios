@@ -28,7 +28,7 @@ struct SectionRegistryTests {
             #expect(!L10n.text(id.unavailableKey).isEmpty)
         }
         #expect(SectionID.flights.title == "Flights")
-        #expect(SectionID.stress_test.title == "Trip Health Check")
+        #expect(SectionID.stressTest.title == "Trip Health Check")
     }
 
     @Test func test_genericItemsFindsTheMainList() {
