@@ -2,6 +2,7 @@ import DesignSystem
 import L10n
 import SharedUI
 import SwiftUI
+import Telemetry
 import VoyagerEnv
 
 /// How the onboarding ended.
@@ -40,6 +41,7 @@ public struct OnboardingView: View {
         }
         .background(SemanticColor.surface)
         .telemetryRoute("/onboarding")
+        .telemetryScreen("/onboarding")
         .task {
             model.start()
             if fromSettings { await model.loadExisting() }

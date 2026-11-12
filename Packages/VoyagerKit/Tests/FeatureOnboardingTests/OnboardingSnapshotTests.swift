@@ -11,7 +11,9 @@ import XCTest
 final class OnboardingSnapshotTests: XCTestCase {
     private let configs = [
         SnapshotConfig(name: "se-de", device: .iPhoneSe(.portrait), dark: false, language: .de),
+        SnapshotConfig(name: "se-de-dark", device: .iPhoneSe(.portrait), dark: true, language: .de),
         SnapshotConfig.padLight,
+        SnapshotConfig.padDark,
     ]
 
     private func model(step: OnboardingStep, quizPages: Int = 0) -> OnboardingModel {
@@ -23,13 +25,14 @@ final class OnboardingSnapshotTests: XCTestCase {
         return model
     }
 
-    private func snap(_ name: String, step: OnboardingStep, quizPages: Int = 0, prepare: (OnboardingModel) -> Void = { _ in }) async {
+    private func snap(_ name: String, step: OnboardingStep, quizPages: Int = 0, prepare: (OnboardingModel) -> Void = { _ in },
+        testName: String = #function) async {
         await assertSnapshots(
             of: {
                 let built = model(step: step, quizPages: quizPages)
                 prepare(built)
                 return OnboardingView(model: built)
-            }, named: name, configs: configs, layout: .screen)
+            }, named: name, configs: configs, layout: .screen, testName: testName)
     }
 
     func test_welcome() async { await snap("welcome", step: .welcome) }

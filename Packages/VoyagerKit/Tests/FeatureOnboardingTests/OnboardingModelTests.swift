@@ -43,6 +43,13 @@ private func makeModel(
 }
 
 @MainActor
+private func answerSomething(_ model: OnboardingModel) {
+    if let question = TravellerQuiz.question(TravellerQuiz.pace), let option = question.options.first {
+        model.toggle(option, in: question)
+    }
+}
+
+@MainActor
 struct OnboardingModelTests {
     @Test func test_resumesAtSavedStep() {
         let (model, _, _) = makeModel { $0.device.onboardingStep = 2 }
@@ -64,7 +71,7 @@ struct OnboardingModelTests {
         #expect(model.step == .howYouTravel)
     }
 
-    @Test func test_finishMergesPreferences() async throws {
+    @Test func test_finishMergesQuizIntoExistingPreferences() async throws {
         let fakes = FakeRepositories()
         fakes.preferences.onGet.returns(Preferences(nationality: "Indian", interests: ["art"]))
         let (model, env, recorder) = makeModel(fakes: fakes)
@@ -77,6 +84,21 @@ struct OnboardingModelTests {
         #expect(env.device.onboardingCompleted)
         #expect(env.device.travellerTypes.first == TravellerType.cultureFoodie.rawValue)
         #expect(env.device.quizAnswers[TravellerQuiz.interests] == ["history_culture"])
+        #expect(recorder.outcomes == [.completed])
+    }
+
+    @Test func test_allSkippedSendsNoPreferencesAndKeepsDefaults() async {
+        let fakes = FakeRepositories()
+        fakes.preferences.onGet.returns(Preferences())
+        let (model, env, recorder) = makeModel(fakes: fakes) {
+            $0.device.travellerTypes = [TravellerType.family.rawValue]
+            $0.device.featureEnabled = ["chat"]
+        }
+        await model.finish().value
+        #expect(fakes.preferences.onPut.callCount == 0)
+        #expect(env.device.travellerTypes == [TravellerType.family.rawValue])
+        #expect(env.device.featureEnabled == ["chat"])
+        #expect(env.device.onboardingCompleted)
         #expect(recorder.outcomes == [.completed])
     }
 
@@ -105,6 +127,7 @@ struct OnboardingModelTests {
         fakes.preferences.onGet.returns(Preferences())
         fakes.preferences.onPut.fails(Boom())
         let (model, env, recorder) = makeModel(fakes: fakes)
+        answerSomething(model)
         await model.finish().value
         #expect(model.syncState == .failed)
         #expect(!env.device.onboardingCompleted)
@@ -121,6 +144,7 @@ struct OnboardingModelTests {
         fakes.preferences.onGet.returns(Preferences())
         fakes.preferences.onPut.fails(Boom())
         let (model, env, _) = makeModel(fakes: fakes)
+        answerSomething(model)
         await model.finish().value
         fakes.preferences.onPut.handler = { $0 }
         await model.retrySync().value

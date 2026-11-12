@@ -255,7 +255,8 @@ public final class OnboardingModel {
     public func finish(route: Route? = nil) -> Task<Void, Never> {
         guard syncState != .saving else { return Task {} }
         track(.onboardingStep(step: telemetryStep(step), action: .done))
-        saveLocally()
+        // Nothing answered (everything skipped): keep the existing types and feature defaults.
+        if !answers.isEmpty { saveLocally() }
         pendingRoute = route
         return Task { await sync() }
     }
@@ -274,6 +275,8 @@ public final class OnboardingModel {
         complete()
     }
 
+    private var hasChanges: Bool { !answers.isEmpty || passport != nil || homeAirport != nil }
+
     private func saveLocally() {
         let result = classification
         let types = [result.primary] + result.secondary
@@ -284,7 +287,8 @@ public final class OnboardingModel {
 
     /// Read-modify-write of `PUT /api/preferences`; no session means nothing to sync.
     func sync() async {
-        guard env.auth.session != nil else {
+        // Nothing to send when nothing was answered or picked, and no session means no account.
+        guard env.auth.session != nil, hasChanges else {
             complete()
             return
         }
