@@ -39,8 +39,8 @@ esac
 def test_healthy_boot_is_ready_when_bootstatus_returns(tmp_path):
     result, calls = _boot(tmp_path, "echo booted")
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "booted and responsive" in result.stdout and "attempt 1" in result.stdout
-    assert "erase" not in calls and "boot" not in calls
+    assert "UDID booted in" in result.stdout and "attempt 1" in result.stdout
+    assert "erase" not in calls and "boot" not in calls and "spawn" not in calls
 
 
 def test_booted_is_not_ready_until_bootstatus_returns(tmp_path):

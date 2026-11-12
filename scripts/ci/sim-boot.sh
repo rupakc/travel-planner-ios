@@ -9,7 +9,8 @@
 #   2. Booting while xcodebuild compiles (3-core runner) wedged the iPhone boot in 5 of 7 tries: CoreSimulator said
 #      Booted and launchd answered, but `bootstatus -b` never returned, and UIKit tests run on it hung for their whole
 #      time allowance. Boots on an idle runner were fine. So callers boot BEFORE building, and only `bootstatus`
-#      returning means ready ("Booted" alone does not).
+#      returning means ready ("Booted" alone does not). Tests run on iOS 18.6 (sim-destination.sh), which boots
+#      in about 2 minutes on a fresh device.
 # Each attempt gets SIM_BOOT_ATTEMPT_TIMEOUT seconds (default 330); one that does not finish is shut down, erased and
 # booted again, up to SIM_BOOT_ATTEMPTS (default 2). The device is never deleted or recreated (the pinned UDID must
 # stay valid for xcodebuild). When every attempt fails this exits 1 loudly. The state is logged every 30 s.
@@ -48,8 +49,10 @@ for attempt in $(seq 1 "$attempts"); do
       echo "sim-boot: [+$((SECONDS - t0))s] state $(device_state), bootstatus still waiting"
     fi
   done
-  if [[ $status -eq 0 ]] && limited 60 xcrun simctl spawn "$udid" launchctl print system >/dev/null 2>&1; then
-    echo "sim-boot: $udid booted and responsive in $((SECONDS - t0))s (attempt $attempt, $((SECONDS - start))s total)"
+  # bootstatus returning 0 is the ready signal. No extra probe: right after a boot CoreSimulator can take over a
+  # minute to answer `simctl spawn` (run 43299001226), and such a probe erased devices bootstatus had reported ready.
+  if [[ $status -eq 0 ]]; then
+    echo "sim-boot: $udid booted in $((SECONDS - t0))s (attempt $attempt, $((SECONDS - start))s total)"
     exit 0
   fi
   echo "::warning::sim-boot: attempt $attempt: $udid not booted within ${attempt_timeout}s (bootstatus status $status, state $(device_state))"
