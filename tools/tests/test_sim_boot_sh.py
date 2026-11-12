@@ -13,35 +13,51 @@ def _exe(path: Path, body: str) -> None:
     path.chmod(path.stat().st_mode | stat.S_IXUSR)
 
 
-def _boot(tmp_path: Path, bootstatus: str, budget: str = "5"):
+def _boot(tmp_path: Path, bootstatus: str, attempt_timeout: str = "5", attempts: str = "2"):
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
+    calls = tmp_path / "calls"
     _exe(bin_dir / "xcrun", f"""
+echo "$2" >> "{calls}"
 case "$2" in
   boot) exit 0 ;;
-  bootstatus) {bootstatus} ;;
+  bootstatus) n=$(grep -c '^bootstatus$' "{calls}"); {bootstatus} ;;
   spawn) exit 0 ;;
-  list) echo "    iPhone 16 (UDID) (Booted)" ;;
+  list) echo "    iPhone 16 (UDID) (Booting)" ;;
 esac
 """)
-    env = {**os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}", "SIM_BOOT_TIMEOUT": budget}
-    return subprocess.run(
+    env = {
+        **os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}",
+        "SIM_BOOT_ATTEMPT_TIMEOUT": attempt_timeout, "SIM_BOOT_ATTEMPTS": attempts,
+    }
+    result = subprocess.run(
         ["bash", str(REPO / "scripts/ci/sim-boot.sh"), "UDID"], env=env, capture_output=True, text=True, timeout=60
     )
+    return result, calls.read_text().split()
 
 
-def test_boot_logs_each_stage_once_and_succeeds(tmp_path):
-    result = _boot(tmp_path, 'echo "Waiting on System App"; echo "Waiting on System App"; echo "Device booted"')
+def test_healthy_boot_succeeds_first_time(tmp_path):
+    result, calls = _boot(tmp_path, 'echo "Waiting on System App"; echo "Device booted"')
     assert result.returncode == 0, result.stdout + result.stderr
-    assert result.stdout.count("Waiting on System App") == 1
-    assert "booted and responsive" in result.stdout
+    assert "booted and responsive" in result.stdout and "attempt 1" in result.stdout
+    assert "erase" not in calls
 
 
-def test_stalled_boot_fails_loudly_within_the_budget(tmp_path):
-    result = _boot(tmp_path, 'echo "Waiting on Data Migration"; exec sleep 120', budget="3")
+def test_hung_boot_is_erased_and_booted_again(tmp_path):
+    hang_first = '[[ $n -eq 1 ]] && { echo "Waiting on Data Migration"; exec sleep 120; }; echo booted'
+    result, calls = _boot(tmp_path, hang_first, attempt_timeout="2")
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "attempt 1 did not finish within 2s" in result.stdout
+    assert "iPhone 16 (UDID) (Booting)" in result.stdout
+    assert "attempt 2" in result.stdout
+    assert calls.count("erase") == 1 and "delete" not in calls and "create" not in calls
+
+
+def test_boot_that_always_hangs_fails_loudly(tmp_path):
+    result, calls = _boot(tmp_path, 'echo "Waiting on Data Migration"; exec sleep 120', attempt_timeout="2")
     assert result.returncode == 1
-    assert "Waiting on Data Migration" in result.stdout
-    assert "::error::sim-boot: UDID did not finish booting within 3s" in result.stdout
+    assert "::error::sim-boot: UDID did not boot in 2 attempt(s) of 2s" in result.stdout
+    assert calls.count("bootstatus") == 2 and calls.count("erase") == 1
 
 
 def _ui(tmp_path: Path, failing_boot: str):

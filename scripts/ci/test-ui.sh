@@ -7,8 +7,8 @@
 # Writes build/ui-<device>.xcresult per device. Needs scripts/ci/generate.sh first.
 #
 # The simulators boot one after another (scripts/ci/sim-boot.sh: one boot, its own budget) in the background while
-# the app and the UI test runner compile, so the 2-4 minute cold boots overlap the build. Not at the same time: two
-# cold boots plus the compile on a 3-core runner starved one boot past 10 minutes (run 43262978658). Each device's run has a hard wall-clock limit
+# the app and the UI test runner compile, so the 2-4 minute cold boots overlap the build. Not at the same time, to
+# keep two cold boots plus the compile from competing for a 3-core runner (sim-boot.sh handles a boot that hangs). Each device's run has a hard wall-clock limit
 # (UI_ATTEMPT_TIMEOUT, default 480 s), because a hang while launching the runner is not covered by test timeouts.
 # All devices run even when one fails; the script fails if any did.
 set -euo pipefail
