@@ -75,11 +75,11 @@ public final class CurrentPlanStore {
     /// and name never carry over. Pending changes are written to the previous user's file first.
     public func switchUser(_ username: String?) async {
         if username != self.username {
-            if pendingWrite != nil { writeNow() }
+            if pendingWrite != nil { writeNow() } // cancels the debounce: a stale timer must not write the new user's file
             self.username = username
             userGeneration += 1
             retryTask?.cancel()
-            loaded = true
+            loaded = false // nothing is written to the new file until its read has succeeded
             changedWhileUnloaded = false
             path = Self.path(for: username)
             applyingRestore = true
@@ -209,6 +209,7 @@ public final class CurrentPlanStore {
     }
 
     private func writeNow() {
+        pendingWrite?.cancel()
         pendingWrite = nil
         guard loaded else { return }
         let snapshot = Persisted(

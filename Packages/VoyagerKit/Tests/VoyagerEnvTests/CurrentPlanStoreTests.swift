@@ -180,4 +180,27 @@ import VoyagerModel
         #expect(store.savedPlanID == nil)
         #expect(store.planName == nil)
     }
+
+    @Test func test_staleDebounceDoesNotWriteNewUsersFileBeforeItsReadSucceeds() async throws {
+        let seed = MemoryFileStore()
+        let bobsStore = CurrentPlanStore(files: seed)
+        await bobsStore.switchUser("bob")
+        bobsStore.savedPlanID = 5
+        await bobsStore.flushPersistence()
+        let bobPath = CurrentPlanStore.path(for: "bob")
+        let before = seed.writes.count
+
+        let gated = GatedFileStore(seed)
+        let store = CurrentPlanStore(files: gated, persistDelay: .milliseconds(30))
+        store.toggle(field: "hotel", item: ["name": "Inn"]) // guest change, debounce armed
+        let switching = Task { await store.switchUser("bob") }
+        await gated.waitUntilReadStarted()
+        try await Task.sleep(for: .milliseconds(200)) // the stale timer would have fired by now
+        #expect(!seed.writes.dropFirst(before).contains(bobPath))
+        gated.open()
+        await switching.value
+        #expect(store.savedPlanID == 5)
+        await store.flushPersistence()
+        #expect(!seed.writes.dropFirst(before).contains(bobPath) || store.savedPlanID == 5)
+    }
 }

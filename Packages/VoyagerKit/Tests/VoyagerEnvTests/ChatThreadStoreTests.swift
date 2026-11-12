@@ -120,6 +120,28 @@ import VoyagerModel
         #expect(files.inner.writes.contains(amy))
         #expect(store.thread(old.id) != nil)
     }
+
+    @Test func test_threadsMadeWhileAFileWasUnreadableSurviveASwitch() async throws {
+        let amy = ChatThreadStore.path(for: "amy")
+        let seed = MemoryFileStore()
+        let seeded = ChatThreadStore(files: seed)
+        await seeded.switchUser("amy")
+        seeded.create(title: "Old")
+        await seeded.flushPersistence()
+        let files = FlakyReadFileStore(MemoryFileStore(files: seed.files))
+        files.failReads = true
+        let store = ChatThreadStore(files: files, persistDelay: .seconds(60))
+        await store.switchUser("amy")
+        store.create(title: "Unsaved")
+        files.failReads = false
+        await store.switchUser("bob")
+        #expect(store.threads.isEmpty)
+        await store.switchUser("amy")
+        #expect(Set(store.threads.map(\.title)) == ["Old", "Unsaved"])
+        await store.flushPersistence()
+        #expect(files.inner.writes.contains(amy))
+    }
+
 }
 
 private extension JSONDecoder {
@@ -131,8 +153,8 @@ private extension JSONDecoder {
 }
 
 /// Holds every read until `open()`.
-private final class GatedFileStore: FileStore, @unchecked Sendable {
-    private let inner: MemoryFileStore
+final class GatedFileStore: FileStore, @unchecked Sendable {
+    let inner: MemoryFileStore
     private let lock = NSLock()
     private var isOpen = false
     private var readStarted = false

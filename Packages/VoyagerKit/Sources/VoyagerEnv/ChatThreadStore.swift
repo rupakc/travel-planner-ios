@@ -53,6 +53,9 @@ public final class ChatThreadStore {
     @ObservationIgnored private var loaded = true
     @ObservationIgnored private var switchTask: Task<Void, Never>?
     @ObservationIgnored private var retryTask: Task<Void, Never>?
+    /// Threads made for a user whose file was never read (so they could not be written) before another user was
+    /// shown; merged into that user's threads when their file is next read.
+    @ObservationIgnored private var orphans: [String: [ChatThread]] = [:]
 
     public init(files: any FileStore, persistDelay: Duration = .seconds(1), now: @escaping @Sendable () -> Date = { Date() }) {
         self.files = files
@@ -123,6 +126,7 @@ public final class ChatThreadStore {
         retryTask?.cancel()
         loadGeneration += 1
         let generation = loadGeneration
+        if !loaded, !threads.isEmpty { orphans[Self.path(for: self.username), default: []] += threads }
         loaded = false
         self.username = username
         threads = []
@@ -158,9 +162,13 @@ public final class ChatThreadStore {
         }
         guard generation == loadGeneration else { return true }
         // Threads created while the file was loading stay on top.
-        let created = threads
+        var created: [ChatThread] = []
+        for thread in threads + (orphans.removeValue(forKey: path) ?? []) where !created.contains(where: { $0.id == thread.id }) {
+            created.append(thread)
+        }
         let known = Set(created.map(\.id))
-        threads = created + stored.filter { !known.contains($0.id) }.sorted { $0.updatedAt > $1.updatedAt }
+        let older = stored.filter { !known.contains($0.id) }.sorted { $0.updatedAt > $1.updatedAt }
+        threads = created + older
         loaded = true
         if !created.isEmpty { schedulePersist() }
         return true
