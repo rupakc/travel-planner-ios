@@ -48,8 +48,10 @@ run_limited() {
   sleepers="$(pgrep -P "$watchdog" 2>/dev/null || true)"
   kill "$watchdog" 2>/dev/null || true
   wait "$watchdog" 2>/dev/null || true
-  # shellcheck disable=SC2086
-  [[ -n "$sleepers" ]] && kill $sleepers 2>/dev/null || true
+  if [[ -n "$sleepers" ]]; then
+    # shellcheck disable=SC2086
+    kill $sleepers 2>/dev/null || true
+  fi
   if [[ -e "$flag" ]]; then status=124; rm -f "$flag"; fi
   return "$status"
 }
