@@ -188,6 +188,7 @@ jobs:
       - name: UI tests (iPhone, iPad)
         env:
           UI_DIAG: "1"
+          UI_WARMUP: "0"
           UI_ATTEMPT_TIMEOUT: "300"
         run: scripts/ci/test-ui.sh iphone ipad
       - name: Test summary

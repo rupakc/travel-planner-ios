@@ -85,10 +85,12 @@ for i in "${!devices[@]}"; do
   udid="${destinations[$i]##*id=}"
   if [[ -n "${UI_DIAG:-}" ]]; then
     # DIAG (temporary): can this simulator launch any app through FrontBoard at all?
+    if [[ "${UI_WARMUP:-1}" == "1" ]]; then
     t0=$SECONDS
     perl -e 'alarm 90; exec @ARGV' xcrun simctl launch "$udid" com.apple.Preferences 2>&1 | sed 's/^/diag: launch Preferences: /' || true
     echo "diag: launch Preferences returned after $((SECONDS - t0))s"
     perl -e 'alarm 30; exec @ARGV' xcrun simctl terminate "$udid" com.apple.Preferences >/dev/null 2>&1 || true
+    fi
     xcrun simctl spawn "$udid" log stream --style compact --level debug \
       --predicate 'process IN {"SpringBoard","runningboardd","launchd_sim","testmanagerd","VoyagerUITests-Runner","XCTRunner","backboardd","installd"} OR subsystem BEGINSWITH "com.apple.FrontBoard" OR subsystem BEGINSWITH "com.apple.runningboard"' \
       > "$ROOT/build/diag-$device-sim.log" 2>&1 &
