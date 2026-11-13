@@ -1,13 +1,63 @@
+import DesignSystem
+import Domain
 import SectionsUI
+import SharedUI
 import SwiftUI
 import VoyagerEnv
+import VoyagerModel
 
-/// Plan tools above the sections (best-value package, budget planner, fare calendar, export). Task 25 owns this
-/// file and replaces the body; the signature below is what `ResultsView` calls.
+/// Plan tools above the sections once the search is done: remix, best-value package, budget planner.
+/// The signature below is what `ResultsView` calls.
 struct PlanToolsPanel: View {
     let env: AppEnvironment
     let state: ResultsState
     let ctx: SectionContext
 
-    var body: some View { EmptyView() }
+    @State private var tools: PlanToolsModel
+
+    @MainActor init(env: AppEnvironment, state: ResultsState, ctx: SectionContext) {
+        self.env = env
+        self.state = state
+        self.ctx = ctx
+        _tools = State(initialValue: PlanToolsModel(env: env))
+    }
+
+    var body: some View {
+        Group {
+            if state.done, state.readyCount > 0 { content(tools) }
+        }
+        .onDisappear { tools.cancel() }
+    }
+
+    @ViewBuilder private func content(_ tools: PlanToolsModel) -> some View {
+        let results = state.latestResults
+        let searchData = state.searchData ?? env.plan.searchData
+        let computed = tools.fit(searchData: searchData, results: results)
+        VStack(alignment: .leading, spacing: Spacing.lg) {
+            if !tools.baselineDismissed, let baseline = RemixBaselines.baseline(for: searchData) {
+                RemixDiffBanner(baseline: baseline, results: results) {
+                    tools.baselineDismissed = true
+                    RemixBaselines.clear(for: searchData)
+                }
+            }
+            RemixMenu(searchData: searchData) { preset in
+                tools.remix(preset, searchData: searchData, results: results)
+            }
+            if let pkg = tools.package(results: results, searchData: searchData, fit: computed?.1) {
+                BestValueCard(
+                    pkg: pkg, selections: env.plan.selections,
+                    canUndo: tools.undoSelections != nil, onApply: { tools.applyPackage(pkg) }, onUndo: { tools.undoPackage() })
+            }
+            if let (allocation, fit) = computed {
+                BudgetPlannerView(
+                    allocation: allocation, fit: fit, cheaper: tools.cheaper, ctx: ctx,
+                    onChange: { tools.change($0, to: $1, searchData: searchData, results: results) },
+                    onTotal: { tools.setTotal($0, searchData: searchData, results: results) },
+                    onReset: { tools.resetBudget() },
+                    onFindCheaper: { tools.findCheaperHotels(maxNightly: $0, searchData: searchData) })
+            }
+        }
+        .toast(Binding(get: { tools.toast }, set: { tools.toast = $0 }))
+        .accessibilityIdentifier("results.planTools")
+    }
 }
