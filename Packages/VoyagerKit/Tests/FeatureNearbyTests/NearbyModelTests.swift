@@ -77,7 +77,7 @@ struct NearbyModelTests {
         #expect(model.phase == .loaded)
         let sent = fakes.nearby.onNearby.lastCall
         #expect(sent?.sections == true)
-        #expect(sent?.language == env.language.language)
+        #expect(sent?.language == env.language.language.rawValue)
         #expect(sent?.language?.isEmpty == false)
         #expect(sent?.lat == 38.722)
         #expect(sent?.lng == -9.139)
