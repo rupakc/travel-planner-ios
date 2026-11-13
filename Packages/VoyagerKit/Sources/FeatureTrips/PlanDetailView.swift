@@ -1,5 +1,6 @@
 import DesignSystem
 import L10n
+import Networking
 import SectionsUI
 import SharedUI
 import SwiftUI
@@ -54,6 +55,16 @@ public struct PlanDetailView: View {
                 toast = ToastMessage(L10n.text(K.plan.modal.msg.shareFailed))
                 model.clearShareFailure()
             }
+            .onChange(of: model.saveEditsFailed) { _, failed in
+                guard failed else { return }
+                toast = ToastMessage(L10n.text(K.plan.modal.msg.saveFailed))
+                model.clearEditFeedback()
+            }
+            .onChange(of: model.editsSaved) { _, saved in
+                guard saved else { return }
+                toast = ToastMessage(L10n.text(K.plan.modal.msg.saved))
+                model.clearEditFeedback()
+            }
             .onChange(of: model.deleteFailed) { _, failed in
                 guard failed else { return }
                 toast = ToastMessage(L10n.text(K.errors.generic))
@@ -91,7 +102,7 @@ public struct PlanDetailView: View {
                     header(plan)
                     actions
                     if let itinerary = PlanDetailModel.itinerary(in: plan.selections) {
-                        ItinerarySectionView(data: itinerary, ctx: .inert)
+                        itinerarySection(itinerary, plan: plan)
                     }
                     ForEach(PlanDetailModel.blocks(for: plan.selections)) { block in
                         blockView(block)
@@ -105,6 +116,30 @@ public struct PlanDetailView: View {
                 }
                 .padding(Spacing.lg)
                 .readableWidth()
+            }
+        }
+    }
+
+    /// The saved itinerary, editable: edits wait in a draft until "Save changes" writes them to the plan.
+    private func itinerarySection(_ itinerary: JSONValue, plan: SavedPlan) -> some View {
+        var context = SectionContext.inert
+        context.searchData = plan.searchData
+        let host = ItineraryHost(
+            itinerary: { [model] in PlanDetailModel.itinerary(in: model.plan?.selections ?? .null) },
+            selections: { [model] in model.selections },
+            setSelections: { [model] in model.setDraft($0) },
+            recheck: ItineraryHost.recheck(
+                agents: env.repos.agents, searchData: plan.searchData,
+                message: { ($0 as? APIError)?.userFacingDetail }),
+            editable: !model.isOffline)
+        return VStack(alignment: .leading, spacing: Spacing.sm) {
+            ItinerarySectionView(data: itinerary, ctx: context)
+                .environment(\.itineraryHost, host)
+            if model.hasUnsavedEdits {
+                VButton(L10n.text(K.plan.modal.save), tid: "plan.detail.saveEdits", systemImage: "square.and.arrow.down") {
+                    Task { await model.saveEdits() }
+                }
+                .disabled(model.isSavingEdits)
             }
         }
     }

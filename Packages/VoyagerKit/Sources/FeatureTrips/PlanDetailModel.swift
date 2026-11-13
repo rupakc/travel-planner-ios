@@ -31,6 +31,12 @@ final class PlanDetailModel {
     /// The plan on screen is the cached copy (the refresh failed).
     private(set) var isOffline = false
 
+    /// The selections with itinerary edits (layout, notes, picked slots) not yet saved; nil = no edits.
+    private(set) var draft: JSONValue?
+    private(set) var isSavingEdits = false
+    private(set) var saveEditsFailed = false
+    private(set) var editsSaved = false
+
     let planID: Int
     private let env: AppEnvironment
     private let files: any FileStore
@@ -79,6 +85,43 @@ final class PlanDetailModel {
             self.error = error as? any ErrorPresentable
             if plan == nil { phase = .failed }
         }
+    }
+
+    // MARK: - Itinerary edits
+
+    /// What the itinerary editor reads: the draft while editing, else the saved selections.
+    var selections: JSONValue { draft ?? plan?.selections ?? .null }
+
+    var hasUnsavedEdits: Bool { draft != nil && draft != plan?.selections }
+
+    func setDraft(_ new: JSONValue) {
+        draft = new == plan?.selections ? nil : new
+    }
+
+    /// Writes the edited selections to the plan (`PUT /plans/{id}`). Offline or on a failure the draft stays.
+    func saveEdits() async {
+        guard let draft, hasUnsavedEdits, !isSavingEdits, !isOffline else { return }
+        isSavingEdits = true
+        defer { isSavingEdits = false }
+        do {
+            let updated = try await env.repos.plans.update(id: planID, PlanUpdate(selections: draft))
+            phase = .loaded(updated)
+            self.draft = nil
+            editsSaved = true
+            // My Plan holds this same plan: keep its selections in step unless it has changes of its own.
+            if env.plan.savedPlanID == planID, !env.plan.isDirty { env.plan.load(updated) }
+            env.telemetry.track(.featureUsed(feature: "plan_edit_save", page: "plan_detail"))
+            if let data = try? JSONEncoder().encode(CachedPlan(username: username, plan: updated)) {
+                try? await files.write(data, to: cachePath)
+            }
+        } catch {
+            saveEditsFailed = true
+        }
+    }
+
+    func clearEditFeedback() {
+        saveEditsFailed = false
+        editsSaved = false
     }
 
     // MARK: - Content

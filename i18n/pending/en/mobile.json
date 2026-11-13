@@ -50,5 +50,9 @@
     "about": "About",
     "account": "Account",
     "version": "Version {{version}}"
+  },
+  "plan": {
+    "export": "Export",
+    "signInToSave": "Sign in to save, share and export this plan."
   }
 }
