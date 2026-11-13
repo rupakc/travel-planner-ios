@@ -23,6 +23,12 @@ enum Commerce {
         Fmt.number(value, fractionDigits: value.rounded() == value ? 0 : 1)
     }
 
+    /// A double from loose AI output as an `Int`: nil when not finite, else clamped to +-1e9 (never traps).
+    static func clampedInt(_ value: Double) -> Int? {
+        guard value.isFinite else { return nil }
+        return Int(min(max(value, -1e9), 1e9))
+    }
+
     // MARK: Flights
 
     static func isMultiCity(_ data: JSONValue) -> Bool {
@@ -36,7 +42,7 @@ enum Commerce {
             return [FlightLegGroup(id: 0, label: nil, flights: data["results"].array ?? [], error: nil)]
         }
         return legs.enumerated().map { position, leg in
-            let index = leg["leg_index"].double.map { Int($0) } ?? position
+            let index = leg["leg_index"].double.flatMap(clampedInt) ?? position
             let flights = (leg["results"].array ?? []).map { flight -> JSONValue in
                 guard flight["leg_index"].double == nil, case .object(var object) = flight else { return flight }
                 object["leg_index"] = .number(Double(index))
@@ -76,7 +82,7 @@ enum Commerce {
     /// Minutes as `(hours, minutes)`; nil for a missing or non-positive duration.
     static func hoursMinutes(_ minutes: Double?) -> (Int, Int)? {
         guard let minutes, minutes.isFinite, minutes > 0 else { return nil }
-        let total = Int(minutes.rounded())
+        guard let total = clampedInt(minutes.rounded()) else { return nil }
         return (total / 60, total % 60)
     }
 
@@ -84,7 +90,7 @@ enum Commerce {
 
     static func tier(of hotel: JSONValue) -> HotelTier {
         guard let stars = hotel["star_rating"].double, stars.isFinite, stars > 0 else { return .other }
-        switch Int(stars.rounded()) {
+        switch clampedInt(stars.rounded()) ?? 0 {
         case 5...: return .luxury
         case 4: return .premium
         case 3: return .midRange
@@ -112,7 +118,8 @@ enum Commerce {
     /// `data_gb` arrives as a number or a string (`"10"`, `"Unlimited"`).
     static func simData(_ plan: JSONValue) -> (gb: String?, unlimited: Bool) {
         if case .number(let number) = plan["data_gb"], number.isFinite {
-            return (number.rounded() == number ? String(Int(number)) : String(number), false)
+            if number.rounded() == number, let whole = clampedInt(number), Double(whole) == number { return (String(whole), false) }
+            return (String(number), false)
         }
         guard let text = plan["data_gb"].string?.trimmingCharacters(in: .whitespaces), !text.isEmpty else { return (nil, false) }
         if text.lowercased().contains("unlimited") { return (nil, true) }

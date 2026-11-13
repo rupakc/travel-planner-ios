@@ -48,7 +48,7 @@ struct HotelRow: View {
                 }
                 HStack(spacing: Spacing.sm) {
                     if let stars = hotel["star_rating"].double, stars.isFinite, stars > 0 {
-                        Text(verbatim: String(repeating: "★", count: min(5, Int(stars.rounded()))))
+                        Text(verbatim: String(repeating: "★", count: min(5, Commerce.clampedInt(stars.rounded()) ?? 0)))
                             .font(VFont.body(.caption))
                             .foregroundStyle(Palette.color(.amber, .s600))
                             .accessibilityLabel(Text(verbatim: Fmt.number(stars, fractionDigits: 0) + " ★"))

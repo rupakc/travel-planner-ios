@@ -142,4 +142,14 @@ struct CommerceTests {
         #expect(FareCalendarStrip.deltaText(-40).hasPrefix("−"))
         #expect(FareCalendarStrip.deltaText(nil).isEmpty)
     }
+
+    @Test func test_looseNumbersNeverTrap() {
+        #expect(Commerce.clampedInt(.nan) == nil && Commerce.clampedInt(.infinity) == nil)
+        #expect(Commerce.clampedInt(1e30) == 1_000_000_000 && Commerce.clampedInt(-1e30) == -1_000_000_000)
+        #expect(Commerce.hoursMinutes(1e30) != nil && Commerce.hoursMinutes(.nan) == nil)
+        #expect(Commerce.tier(of: ["star_rating": 1e30]) == .luxury)
+        #expect(Commerce.simData(["data_gb": 1e30]).gb != nil)
+        let legs: JSONValue = ["trip_type": "multi_city", "legs": [["leg_index": 1e30, "results": []]]]
+        #expect(Commerce.flightGroups(legs).count == 1)
+    }
 }

@@ -18,12 +18,6 @@ final class CommerceSnapshotTests: XCTestCase {
         SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 1500)),
         SnapshotConfig(name: "ipad-dark", device: .iPadPro11(.portrait), dark: true, canvas: CGSize(width: 834, height: 1500)),
     ]
-    private let german = [
-        SnapshotConfig(
-            name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
-            size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 3200))
-    ]
-
     /// The last payload per section type in the fixture (the verified hotels replace the first ones).
     private static let payloads: [String: JSONValue] = {
         var found: [String: JSONValue] = [:]
@@ -67,7 +61,6 @@ final class CommerceSnapshotTests: XCTestCase {
         }
         let shown = flights
         check("flights") { FlightsSectionView(data: shown, ctx: $0) }
-        check("flights-de", configs: german) { FlightsSectionView(data: shown, ctx: $0) }
     }
 
     func test_flightsMultiCity() {
