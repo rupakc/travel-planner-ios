@@ -8,13 +8,13 @@
 #
 # The simulators boot one after another BEFORE the build (scripts/ci/sim-boot.sh: bounded attempts, erase + one
 # retry): a boot that overlapped the compile on a 3-core runner often wedged, and boots on an idle runner did not. Each device's run has a hard wall-clock limit
-# (UI_ATTEMPT_TIMEOUT, default 300 s; a healthy run takes 100-160 s), because a hang while launching the runner is not covered by test timeouts.
+# (UI_ATTEMPT_TIMEOUT, default 600 s; xcodebuild spends 80-320 s before the test body starts, the app launch itself takes 14-25 s), because a hang while launching the runner is not covered by test timeouts.
 # All devices run even when one fails; the script fails if any did.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 [[ $# -ge 1 ]] || { echo "usage: test-ui.sh iphone [ipad]" >&2; exit 2; }
-attempt_timeout="${UI_ATTEMPT_TIMEOUT:-300}"
+attempt_timeout="${UI_ATTEMPT_TIMEOUT:-600}"
 derived="$ROOT/build/DerivedData-ui"
 mkdir -p "$ROOT/build"
 cd "$ROOT"

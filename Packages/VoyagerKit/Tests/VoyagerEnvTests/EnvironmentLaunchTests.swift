@@ -30,6 +30,27 @@ import VoyagerModel
         #expect(harness.recorder.bootstraps.count == 1)
     }
 
+    /// First frame never waits on the network: with `/api/config` stalled for good (headers sent, body never
+    /// finishes), the environment is built and signed in at once, the main actor keeps running, and
+    /// `startDeferredWork()` hands back a still-running task that nothing on the launch path awaits.
+    @Test func test_stalledConfigNeverBlocksFirstFrame() async throws {
+        var stalled = StubServer.Reply(json: "{")
+        stalled.chunks = []
+        stalled.endless = Data(" ".utf8)
+        stalled.chunkDelay = 0.05
+        let reply = stalled
+        let harness = LiveHarness(session: .sample(token: "tok")) { _ in reply }
+        let started = ContinuousClock.now
+        #expect(harness.env.auth.phase == .signedIn)
+        let task = harness.env.startDeferredWork()
+        // The main actor is free: this sleep and the checks after it complete while the request hangs.
+        try await Task.sleep(for: .milliseconds(300))
+        #expect(ContinuousClock.now - started < .seconds(2))
+        #expect(harness.env.auth.phase == .signedIn)
+        #expect(harness.recorder.bootstraps.isEmpty, "telemetry waits for the config; it never gates the UI")
+        task.cancel()
+    }
+
     @Test func test_chatThreadsFollowTheUser() async throws {
         let harness = LiveHarness(session: .sample(token: "tok")) { _ in .init(status: 404, json: "{}") }
         await harness.env.startDeferredWork().value

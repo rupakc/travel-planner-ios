@@ -6,7 +6,11 @@ final class LaunchTests: XCTestCase {
     func test_launches() {
         continueAfterFailure = false
         let app = XCUIApplication()
+        let start = ContinuousClock.now
         app.launch()
-        XCTAssertTrue(app.windows.firstMatch.waitForExistence(timeout: 30), "the app shows a window")
+        let shown = app.windows.firstMatch.waitForExistence(timeout: 30)
+        // Printed so CI logs separate the app's own launch time from the runner/simulator overhead around it.
+        print("LaunchTests: launch to first window took \(ContinuousClock.now - start)")
+        XCTAssertTrue(shown, "the app shows a window")
     }
 }
