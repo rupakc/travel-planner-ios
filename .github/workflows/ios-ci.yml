@@ -158,6 +158,17 @@ jobs:
           name: Voyager-sim
           path: build/Voyager-sim.zip
           retention-days: 14
+      # Release build pointed at production, for testing the app in the Simulator (main and manual runs only).
+      - name: Build the app against production (simulator, Release)
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        run: scripts/ci/build-sim-prod.sh
+      - name: Upload production simulator app
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: Voyager-sim-prod
+          path: build/Voyager-sim-prod.zip
+          retention-days: 30
 
   # One job for both devices: one macOS runner to acquire (a queued job can be dropped when macOS arm64 capacity is
   # short: "not acquired by Runner ... after multiple attempts"), one build, both simulators booting during it.
