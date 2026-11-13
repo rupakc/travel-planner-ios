@@ -34,11 +34,12 @@ func hotel(_ id: Int = 4, status: String = "active", last: Double? = 352) -> Pri
 func frozenEstimateHotel(_ id: Int = 4) -> PriceWatch {
     PriceWatch(
         id: id, kind: .hotel, title: "Lumen Hotel", subtitle: "Lisbon · 10–14 Dec", currency: "EUR", alertMode: "below_target",
-        targetPrice: 320, status: "active", lastCheckedAt: iso(fixedNow.addingTimeInterval(-86_400 * 2)),
-        nextCheckAt: iso(fixedNow.addingTimeInterval(7200)),
+        targetPrice: 320, status: "active",
         lastObservation: PriceObservation(
             status: "unavailable",
-            observed: .object(["estimate": .object(["price": .number(352), "source": .string("typical")]), "frozen": .bool(true)])))
+            observed: .object(["estimate": .object(["price": .number(352), "source": .string("typical")]), "frozen": .bool(true)])),
+        lastCheckedAt: iso(fixedNow.addingTimeInterval(-86_400 * 2)),
+        nextCheckAt: iso(fixedNow.addingTimeInterval(7200)))
 }
 
 func activity(_ id: Int = 9) -> PriceWatch {
