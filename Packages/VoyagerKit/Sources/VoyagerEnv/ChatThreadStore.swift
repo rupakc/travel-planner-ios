@@ -44,6 +44,8 @@ public final class ChatThreadStore {
     /// True once `username`'s file was read successfully; false before the first `switchUser(_:)` and while a
     /// switch or a retried read is pending. Observers (the chat screen) resume the latest thread when it flips.
     public private(set) var isReady = false
+    /// True once a `switchUser(_:)` has begun, i.e. `username` is a real answer and not just the initial `nil`.
+    public private(set) var hasSwitched = false
 
     @ObservationIgnored private let files: any FileStore
     @ObservationIgnored private let now: @Sendable () -> Date
@@ -133,6 +135,7 @@ public final class ChatThreadStore {
         loaded = false
         isReady = false
         self.username = username
+        hasSwitched = true
         threads = []
         if await attemptLoad(generation: generation) == false { scheduleLoadRetry(generation: generation) }
     }

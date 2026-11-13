@@ -170,15 +170,65 @@ final class ChatModelTests: XCTestCase {
         await gated.waitUntilReadStarted()
         model.resumeLatestIfFresh()
         model.syncWithStore()
-        XCTAssertTrue(model.messages.isEmpty, "nothing to resume while the file is still being read")
+        // Threads exist but are not loaded: a resume attempt must neither open one nor count as done.
+        let early = env.chatThreads.create(title: "early")
+        XCTAssertFalse(env.chatThreads.threads.isEmpty)
+        let before = model.threadID
+        model.resumeLatestIfFresh()
+        model.syncWithStore()
+        XCTAssertEqual(model.threadID, before)
+        XCTAssertNotEqual(model.threadID, early.id)
         XCTAssertFalse(env.chatThreads.isReady)
 
         gated.open()
         await loading.value
         XCTAssertTrue(env.chatThreads.isReady)
         model.syncWithStore()
+        XCTAssertEqual(model.threadID, env.chatThreads.threads.first?.id)
+        XCTAssertNotNil(env.chatThreads.thread(storedID))
+    }
+
+    func test_resumesTheStoredLatestThreadAfterLoad() async {
+        let (seed, storedID) = await seedGuestThread()
+        let gated = ReadGateFileStore(seed)
+        let env = AppEnvironment.fake(files: gated)
+        let model = ChatModel(env: env, track: { _ in })
+        let loading = Task { await env.chatThreads.switchUser(nil) }
+        await gated.waitUntilReadStarted()
+        model.syncWithStore()
+        XCTAssertTrue(model.messages.isEmpty)
+        gated.open()
+        await loading.value
+        model.syncWithStore()
         XCTAssertEqual(model.threadID, storedID)
         XCTAssertEqual(model.messages.map(\.content), ["Tokyo in April?"])
+    }
+
+    func test_typingWhileLoadingThenSwitchingUserDropsTheConversation() async {
+        let (seed, _) = await seedGuestThread()
+        let gated = ReadGateFileStore(seed)
+        let fakes = FakeRepositories()
+        fakes.chat.onStream.replays(events("chat_qa"), thenFails: nil)
+        let env = AppEnvironment.fake(fakes: fakes, files: gated)
+        let model = ChatModel(env: env, track: { _ in })
+
+        let amy = Task { await env.chatThreads.switchUser("amy") }
+        await gated.waitUntilReadStarted()
+        model.send("typed for amy")
+        await settle(model)
+        let bob = Task { await env.chatThreads.switchUser("bob") }
+        gated.open()
+        await amy.value
+        await bob.value
+        model.syncWithStore()
+        XCTAssertTrue(model.messages.isEmpty)
+
+        model.send("hello from bob")
+        await settle(model)
+        await env.chatThreads.flushPersistence()
+        let bobs = env.chatThreads.threads.flatMap(\.messages).compactMap { $0["content"].string }
+        XCTAssertFalse(bobs.contains("typed for amy"))
+        XCTAssertTrue(bobs.contains("hello from bob"))
     }
 
     func test_typedTextIsNotReplacedByAThreadThatLoadsLater() async {

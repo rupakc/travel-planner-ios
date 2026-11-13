@@ -49,19 +49,23 @@ final class ChatModel {
     /// belongs to the previous user) is dropped, so `persist()` can never write it into the new user's file.
     /// Then, once the store has read the current user's file, resumes their latest conversation.
     func syncWithStore() {
+        dropForeignConversation()
         let store = env.chatThreads
-        if let owner, owner.name != store.username {
-            self.owner = nil
-            stop()
-            started = false
-            input = ""
-            threadID = UUID()
-            messages = []
-            sessionContext = .object([:])
-        }
         guard store.isReady else { return }
         if owner == nil { owner = Owner(name: store.username) }
         resumeLatestIfFresh()
+    }
+
+    /// Drops this conversation when it was started for another user than the one the store shows now.
+    private func dropForeignConversation() {
+        guard let owner, owner.name != env.chatThreads.username else { return }
+        self.owner = nil
+        stop()
+        started = false
+        input = ""
+        threadID = UUID()
+        messages = []
+        sessionContext = .object([:])
     }
 
     /// The most recent stored conversation, when nothing was typed yet and the threads are loaded.
@@ -109,6 +113,9 @@ final class ChatModel {
     func send(_ raw: String) {
         let text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty, !isStreaming else { return }
+        dropForeignConversation()
+        // Typed text belongs to the user the store shows now, even before their threads finished loading.
+        if owner == nil, env.chatThreads.hasSwitched { owner = Owner(name: env.chatThreads.username) }
         started = true
         input = ""
         messages.append(ChatMessageState(role: .user, content: text))
@@ -222,6 +229,7 @@ final class ChatModel {
     }
 
     private func persist() {
+        if let owner, owner.name != env.chatThreads.username { return }
         let stored = messages.filter { !$0.isBlank }.map(\.json)
         if stored.isEmpty, env.chatThreads.thread(threadID) == nil { return }
         let context = sessionContext
