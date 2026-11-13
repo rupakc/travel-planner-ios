@@ -15,7 +15,7 @@ final class AlertsSnapshotTests: XCTestCase {
         SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 2000)),
         SnapshotConfig(
             name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
-            size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 9000)),
+            size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 6200)),
     ]
     private let small: [SnapshotConfig] = [
         SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 1400)),

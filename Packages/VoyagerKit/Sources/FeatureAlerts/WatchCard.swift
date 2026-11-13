@@ -101,6 +101,8 @@ struct WatchCard: View {
         } else {
             Text(verbatim: noPriceText)
                 .font(VFont.body(.subheadline))
+                .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+                .fixedSize(horizontal: false, vertical: true)
                 .foregroundStyle(SemanticColor.textMuted)
         }
     }

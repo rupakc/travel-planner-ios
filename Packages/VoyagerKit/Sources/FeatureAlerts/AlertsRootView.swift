@@ -156,6 +156,9 @@ public struct AlertsRootView: View {
         if !rows.isEmpty {
             if let title {
                 Text(verbatim: title).font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
+                    .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .minimumScaleFactor(0.7)
                     .accessibilityAddTraits(.isHeader)
             }
             ForEach(rows) { row in
