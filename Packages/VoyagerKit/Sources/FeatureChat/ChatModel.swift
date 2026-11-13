@@ -30,6 +30,9 @@ final class ChatModel {
     @ObservationIgnored private var flushTask: Task<Void, Never>?
     @ObservationIgnored private var lastCommit: ContinuousClock.Instant?
     @ObservationIgnored private var started = false
+    private struct Owner { let name: String? }
+    /// Whose threads this conversation belongs to; nil until the store has loaded a user.
+    @ObservationIgnored private var owner: Owner?
 
     init(
         env: AppEnvironment, coalesce: Duration = .milliseconds(50),
@@ -42,9 +45,28 @@ final class ChatModel {
 
     // MARK: - Threads
 
-    /// The most recent stored conversation, when nothing was typed yet.
+    /// Follows the signed-in user: when the store now shows another user's threads, this conversation (which
+    /// belongs to the previous user) is dropped, so `persist()` can never write it into the new user's file.
+    /// Then, once the store has read the current user's file, resumes their latest conversation.
+    func syncWithStore() {
+        let store = env.chatThreads
+        if let owner, owner.name != store.username {
+            self.owner = nil
+            stop()
+            started = false
+            input = ""
+            threadID = UUID()
+            messages = []
+            sessionContext = .object([:])
+        }
+        guard store.isReady else { return }
+        if owner == nil { owner = Owner(name: store.username) }
+        resumeLatestIfFresh()
+    }
+
+    /// The most recent stored conversation, when nothing was typed yet and the threads are loaded.
     func resumeLatestIfFresh() {
-        guard !started, messages.isEmpty, let latest = env.chatThreads.threads.first else { return }
+        guard env.chatThreads.isReady, !started, messages.isEmpty, let latest = env.chatThreads.threads.first else { return }
         open(latest.id)
     }
 
@@ -201,6 +223,7 @@ final class ChatModel {
 
     private func persist() {
         let stored = messages.filter { !$0.isBlank }.map(\.json)
+        if stored.isEmpty, env.chatThreads.thread(threadID) == nil { return }
         let context = sessionContext
         let firstUser = messages.first { $0.role == .user }?.content
         env.chatThreads.update(threadID) { thread in

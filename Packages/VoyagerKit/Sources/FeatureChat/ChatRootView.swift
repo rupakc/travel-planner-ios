@@ -31,6 +31,11 @@ public struct ChatRootView: View {
         _model = State(initialValue: model)
     }
 
+    private struct StoreState: Equatable {
+        let ready: Bool
+        let username: String?
+    }
+
     public var body: some View {
         let regular = AdaptiveLayout.isRegular(sizeClass)
         Group {
@@ -76,7 +81,9 @@ public struct ChatRootView: View {
         }
         #endif
         .telemetryRoute("/chat")
-        .task { model.resumeLatestIfFresh() }
+        .task(id: StoreState(ready: env.chatThreads.isReady, username: env.chatThreads.username)) {
+            model.syncWithStore()
+        }
         .accessibilityIdentifier("chat.root")
     }
 

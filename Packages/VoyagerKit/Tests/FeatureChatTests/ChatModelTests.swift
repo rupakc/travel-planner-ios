@@ -147,4 +147,110 @@ final class ChatModelTests: XCTestCase {
         XCTAssertTrue(model.messages.isEmpty)
         XCTAssertNil(env.chatThreads.thread(first))
     }
+
+    // MARK: - Resume and user switches
+
+    private func seedGuestThread() async -> (MemoryFileStore, UUID) {
+        let seed = MemoryFileStore()
+        let store = ChatThreadStore(files: seed)
+        await store.switchUser(nil)
+        let thread = store.create(title: "Stored")
+        store.append(["id": "m1", "role": "user", "content": "Tokyo in April?"], to: thread.id)
+        await store.flushPersistence()
+        return (seed, thread.id)
+    }
+
+    func test_resumeWaitsForTheThreadsToLoad() async {
+        let (seed, storedID) = await seedGuestThread()
+        let gated = ReadGateFileStore(seed)
+        let env = AppEnvironment.fake(files: gated)
+        let model = ChatModel(env: env, track: { _ in })
+
+        let loading = Task { await env.chatThreads.switchUser(nil) }
+        await gated.waitUntilReadStarted()
+        model.resumeLatestIfFresh()
+        model.syncWithStore()
+        XCTAssertTrue(model.messages.isEmpty, "nothing to resume while the file is still being read")
+        XCTAssertFalse(env.chatThreads.isReady)
+
+        gated.open()
+        await loading.value
+        XCTAssertTrue(env.chatThreads.isReady)
+        model.syncWithStore()
+        XCTAssertEqual(model.threadID, storedID)
+        XCTAssertEqual(model.messages.map(\.content), ["Tokyo in April?"])
+    }
+
+    func test_typedTextIsNotReplacedByAThreadThatLoadsLater() async {
+        let (seed, storedID) = await seedGuestThread()
+        let gated = ReadGateFileStore(seed)
+        let fakes = FakeRepositories()
+        fakes.chat.onStream.replays(events("chat_qa"), thenFails: nil)
+        let env = AppEnvironment.fake(fakes: fakes, files: gated)
+        let model = ChatModel(env: env, track: { _ in })
+
+        let loading = Task { await env.chatThreads.switchUser(nil) }
+        await gated.waitUntilReadStarted()
+        model.send("typed first")
+        await settle(model)
+        let typedID = model.threadID
+        gated.open()
+        await loading.value
+        model.syncWithStore()
+
+        XCTAssertEqual(model.threadID, typedID)
+        XCTAssertNotEqual(model.threadID, storedID)
+        XCTAssertEqual(model.messages.first?.content, "typed first")
+    }
+
+    func test_switchingUserDropsThePreviousUsersConversation() async {
+        let fakes = FakeRepositories()
+        fakes.chat.onStream.replays(events("chat_qa"), thenFails: nil)
+        let env = AppEnvironment.fake(fakes: fakes)
+        let model = ChatModel(env: env, track: { _ in })
+
+        await env.chatThreads.switchUser("amy")
+        model.syncWithStore()
+        model.send("amy's secret")
+        await settle(model)
+        let amysThread = model.threadID
+        await env.chatThreads.flushPersistence()
+
+        await env.chatThreads.switchUser("bob")
+        model.syncWithStore()
+        XCTAssertTrue(model.messages.isEmpty)
+        XCTAssertNotEqual(model.threadID, amysThread)
+        await env.chatThreads.flushPersistence()
+        XCTAssertTrue(env.chatThreads.threads.isEmpty, "Bob's store must not receive Amy's conversation")
+
+        await env.chatThreads.switchUser("amy")
+        model.syncWithStore()
+        XCTAssertEqual(model.threadID, amysThread)
+        XCTAssertEqual(model.messages.first?.content, "amy's secret")
+    }
+}
+
+/// Holds every read until `open()`.
+private final class ReadGateFileStore: FileStore, @unchecked Sendable {
+    private let inner: MemoryFileStore
+    private let lock = NSLock()
+    private var isOpen = false
+    private var readStarted = false
+
+    init(_ inner: MemoryFileStore) { self.inner = inner }
+
+    func open() { lock.withLock { isOpen = true } }
+
+    func waitUntilReadStarted() async {
+        while !lock.withLock({ readStarted }) { try? await Task.sleep(for: .milliseconds(5)) }
+    }
+
+    func read(_ path: String) async throws -> Data? {
+        lock.withLock { readStarted = true }
+        while !lock.withLock({ isOpen }) { try await Task.sleep(for: .milliseconds(5)) }
+        return try await inner.read(path)
+    }
+
+    func write(_ data: Data, to path: String) async throws { try await inner.write(data, to: path) }
+    func remove(_ path: String) async throws { try await inner.remove(path) }
 }

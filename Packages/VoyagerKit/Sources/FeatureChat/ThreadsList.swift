@@ -28,7 +28,15 @@ struct ThreadsList: View {
             .padding(.horizontal, Spacing.lg)
             Divider().overlay(SemanticColor.border)
             if threads.isEmpty {
-                EmptyState(icon: "bubble.left.and.bubble.right", title: L10n.text(K.chat.page.intro))
+                // Compact: a long intro sentence in a 300 pt sidebar must not read as a headline.
+                VStack(spacing: Spacing.sm) {
+                    Image(systemName: "bubble.left.and.bubble.right")
+                        .font(.system(size: 22)).foregroundStyle(SemanticColor.textMuted).accessibilityHidden(true)
+                    Text(verbatim: L10n.text(K.chat.page.intro))
+                        .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted).multilineTextAlignment(.center)
+                }
+                .padding(Spacing.lg)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 List {
                     ForEach(threads) { thread in
