@@ -28,7 +28,7 @@ struct PlanPrintDocument: Equatable {
     let blocks: [Block]
     let days: [Block]
 
-    static func make(
+    @MainActor static func make(
         name: String, searchData: JSONValue, selections: JSONValue, itinerary: JSONValue?,
         costParts: [CostPart], total: Double
     ) -> PlanPrintDocument {
