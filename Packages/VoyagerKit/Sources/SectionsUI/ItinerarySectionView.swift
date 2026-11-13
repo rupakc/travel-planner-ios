@@ -200,7 +200,7 @@ public struct ItinerarySectionView: View {
 
 /// "Planned around N places from <your link>: M of N are in your itinerary", with the ones that did not fit.
 struct LinkCoverageBanner: View {
-    let coverage: ItineraryText.LinkCoverage
+    let coverage: ItineraryLinkCoverage
     let title: String?
     @State private var showMissing = false
 

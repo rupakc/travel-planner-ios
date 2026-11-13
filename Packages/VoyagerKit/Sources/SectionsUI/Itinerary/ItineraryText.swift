@@ -58,19 +58,11 @@ enum ItineraryText {
     }
 
     /// The link-import summary line of the web `linkCoverageSummary`: how many wanted places made it in.
-    struct LinkCoverage: Equatable {
-        enum State { case pending, ready }
-        var total: Int
-        var inItinerary: Int
-        var missing: [String]
-        var state: State
-    }
-
-    static func linkCoverage(searchData: JSONValue?, itinerary: JSONValue) -> LinkCoverage? {
+    static func linkCoverage(searchData: JSONValue?, itinerary: JSONValue) -> ItineraryLinkCoverage? {
         let wanted = (searchData?["must_include"].array ?? []).compactMap { $0["name"].string }
         guard !wanted.isEmpty else { return nil }
         let days = itinerary["days"].array ?? []
-        guard !days.isEmpty else { return LinkCoverage(total: wanted.count, inItinerary: 0, missing: [], state: .pending) }
+        guard !days.isEmpty else { return ItineraryLinkCoverage(total: wanted.count, inItinerary: 0, missing: [], state: .pending) }
         var linked = Set<String>()
         for day in days {
             for slot in day["slots"].array ?? [] where slot["from_link"].isTruthy {
@@ -80,6 +72,14 @@ enum ItineraryText {
             for extra in day["link_extras"].array ?? [] { if let name = extra["name"].string { linked.insert(name) } }
         }
         let missing = wanted.filter { !linked.contains($0) }
-        return LinkCoverage(total: wanted.count, inItinerary: wanted.count - missing.count, missing: missing, state: .ready)
+        return ItineraryLinkCoverage(total: wanted.count, inItinerary: wanted.count - missing.count, missing: missing, state: .ready)
     }
+}
+
+struct ItineraryLinkCoverage: Equatable {
+    enum State { case pending, ready }
+    var total: Int
+    var inItinerary: Int
+    var missing: [String]
+    var state: State
 }
