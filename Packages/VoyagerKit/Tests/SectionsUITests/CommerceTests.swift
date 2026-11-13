@@ -5,6 +5,7 @@ import VoyagerModel
 
 @testable import SectionsUI
 
+@MainActor
 struct CommerceTests {
     private static let now = Date(timeIntervalSince1970: 1_767_225_600)  // 2026-01-01
     private static let search: JSONValue = [

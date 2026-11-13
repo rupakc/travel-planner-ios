@@ -19,11 +19,17 @@ if ! summary_json="$(xcrun xcresulttool get test-results summary --path "$result
   exit 0
 fi
 
-SUMMARY_JSON="$summary_json" TESTS_JSON="$tests_json" python3 - "$result" <<'PY' | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
+# Large suites overflow the environment size limit ("Argument list too long"), so pass files.
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "$tmp_dir"' EXIT
+printf '%s' "$summary_json" > "$tmp_dir/summary.json"
+printf '%s' "$tests_json" > "$tmp_dir/tests.json"
+
+SUMMARY_JSON="$tmp_dir/summary.json" TESTS_JSON="$tmp_dir/tests.json" python3 - "$result" <<'PY' | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 import json, os, sys
 
-summary = json.loads(os.environ["SUMMARY_JSON"])
-tree = json.loads(os.environ["TESTS_JSON"])
+summary = json.load(open(os.environ["SUMMARY_JSON"]))
+tree = json.load(open(os.environ["TESTS_JSON"]))
 name = os.path.basename(sys.argv[1])
 
 def cases(node):
