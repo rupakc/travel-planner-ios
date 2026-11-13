@@ -31,14 +31,17 @@ struct RemixBaseline: Equatable {
 }
 
 /// Remix opens a new Results screen (a fresh model), so the numbers to compare against wait here, keyed by the
-/// search data that screen will carry.
+/// search data that screen will carry. One slot: a newer remix replaces the pending one, so nothing piles up.
 @MainActor
 enum RemixBaselines {
-    private static var store: [JSONValue: RemixBaseline] = [:]
-    static func set(_ baseline: RemixBaseline, for searchData: JSONValue) { store[searchData] = baseline }
-    static func baseline(for searchData: JSONValue?) -> RemixBaseline? { searchData.flatMap { store[$0] } }
-    static func clear(for searchData: JSONValue?) { if let searchData { store[searchData] = nil } }
-    static func removeAll() { store.removeAll() }
+    private static var pending: (searchData: JSONValue, baseline: RemixBaseline)?
+    static func set(_ baseline: RemixBaseline, for searchData: JSONValue) { pending = (searchData, baseline) }
+    static func baseline(for searchData: JSONValue?) -> RemixBaseline? {
+        guard let pending, pending.searchData == searchData else { return nil }
+        return pending.baseline
+    }
+    static func clear(for searchData: JSONValue?) { if pending?.searchData == searchData { pending = nil } }
+    static func removeAll() { pending = nil }
 }
 
 /// State and actions of the plan tools (best value, budget planner, remix). Client-side except "Find cheaper
@@ -54,8 +57,12 @@ final class PlanToolsModel {
     @ObservationIgnored private let env: AppEnvironment
     @ObservationIgnored private let track: @MainActor (TelemetryEvent) -> Void
     @ObservationIgnored private var cheaperTask: Task<Void, Never>?
+    @ObservationIgnored private var budgetUsedTask: Task<Void, Never>?
+    @ObservationIgnored private let debounce: Duration
 
-    init(env: AppEnvironment, track: (@MainActor (TelemetryEvent) -> Void)? = nil) {
+    /// `debounce`: budget edits report one `budget_planner` use once they settle (the web waits 1 s).
+    init(env: AppEnvironment, track: (@MainActor (TelemetryEvent) -> Void)? = nil, debounce: Duration = .seconds(1)) {
+        self.debounce = debounce
         self.env = env
         self.track = track ?? { [telemetry = env.telemetry] event in telemetry.track(event) }
     }
@@ -76,13 +83,23 @@ final class PlanToolsModel {
     func change(_ key: String, to value: Double, searchData: JSONValue?, results: JSONValue) {
         guard let base = allocation(searchData: searchData, results: results) else { return }
         budgetEdit = BudgetPlanner.reallocate(base, key: key, value: .number(value), total: base.sum)
-        used("budget_planner")
+        budgetEdited()
     }
 
     func setTotal(_ total: Double, searchData: JSONValue?, results: JSONValue) {
         guard total.isFinite, total > 0, let base = allocation(searchData: searchData, results: results) else { return }
         budgetEdit = BudgetPlanner.withTotal(base, total: .number(total))
-        used("budget_planner")
+        budgetEdited()
+    }
+
+    private func budgetEdited() {
+        budgetUsedTask?.cancel()
+        let wait = debounce
+        budgetUsedTask = Task { [weak self] in
+            try? await Task.sleep(for: wait)
+            guard !Task.isCancelled else { return }
+            self?.used("budget_planner")
+        }
     }
 
     func resetBudget() { budgetEdit = nil }
@@ -97,7 +114,7 @@ final class PlanToolsModel {
     /// The only API call of the tools: the hotel filter with a nightly cap.
     func findCheaperHotels(maxNightly: Double, searchData: JSONValue?) {
         guard cheaper != .loading, let request = Self.request(from: searchData) else { return }
-        used("budget_planner")
+        used("budget_planner_cheaper_hotels")
         cheaper = .loading
         cheaperTask = Task { [weak self, agents = env.repos.agents] in
             let outcome: CheaperHotels
@@ -119,7 +136,10 @@ final class PlanToolsModel {
         }
     }
 
-    func cancel() { cheaperTask?.cancel() }
+    func cancel() {
+        cheaperTask?.cancel()
+        budgetUsedTask?.cancel()
+    }
 
     // MARK: - Best value
 

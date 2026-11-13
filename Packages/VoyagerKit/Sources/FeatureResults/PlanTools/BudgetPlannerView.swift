@@ -19,6 +19,7 @@ struct BudgetPlannerView: View {
 
     @State private var open = true
     @State private var draftTotal: String?
+    @FocusState private var totalFocused: Bool
 
     private static let categories = BudgetPlanner.keys
 
@@ -77,7 +78,17 @@ struct BudgetPlannerView: View {
                 .font(VFont.body(.subheadline, weight: .semibold))
                 .textFieldStyle(.roundedBorder)
                 .frame(maxWidth: 120)
+                .focused($totalFocused)
                 .onSubmit(commitTotal)
+                .onChange(of: totalFocused) { _, focused in if !focused { commitTotal() } }
+                #if os(iOS)
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button(L10n.text(K.sections.page.done)) { totalFocused = false }
+                    }
+                }
+                #endif
                 .accessibilityLabel(L10n.text(K.plan.budget.total))
                 .accessibilityIdentifier("plan.budget-total")
             Text(verbatim: L10n.text(K.plan.budget.perPerson)).font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)
@@ -97,9 +108,8 @@ struct BudgetPlannerView: View {
 
     private func commitTotal() {
         defer { draftTotal = nil }
-        guard let text = draftTotal, let value = Double(text.trimmingCharacters(in: .whitespaces)),
-            value.isFinite, value > 0 else { return }
-        onTotal(value.rounded())
+        guard let value = PlanToolsFormat.parseTotal(draftTotal) else { return }
+        onTotal(value)
     }
 
     private func name(_ key: String) -> String {

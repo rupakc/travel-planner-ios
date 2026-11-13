@@ -13,20 +13,19 @@ struct PlanToolsPanel: View {
     let state: ResultsState
     let ctx: SectionContext
 
-    @State private var tools: PlanToolsModel
+    @State private var box = ToolsBox()
 
     @MainActor init(env: AppEnvironment, state: ResultsState, ctx: SectionContext) {
         self.env = env
         self.state = state
         self.ctx = ctx
-        _tools = State(initialValue: PlanToolsModel(env: env))
     }
 
     var body: some View {
         Group {
-            if state.done, state.readyCount > 0 { content(tools) }
+            if state.done, state.readyCount > 0 { content(box.model(env: env)) }
         }
-        .onDisappear { tools.cancel() }
+        .onDisappear { box.existing?.cancel() }
     }
 
     @ViewBuilder private func content(_ tools: PlanToolsModel) -> some View {
@@ -59,5 +58,18 @@ struct PlanToolsPanel: View {
         }
         .toast(Binding(get: { tools.toast }, set: { tools.toast = $0 }))
         .accessibilityIdentifier("results.planTools")
+    }
+}
+
+/// Holds the tools model, created on first use (a `State` initial value would build a throwaway on every re-render).
+@MainActor
+final class ToolsBox {
+    private(set) var existing: PlanToolsModel?
+
+    func model(env: AppEnvironment) -> PlanToolsModel {
+        if let existing { return existing }
+        let made = PlanToolsModel(env: env)
+        existing = made
+        return made
     }
 }

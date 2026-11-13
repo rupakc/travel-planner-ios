@@ -50,7 +50,8 @@ final class PlanToolsTests: XCTestCase {
         let fakes = FakeRepositories()
         fakes.agents.onFiltered.returns(["results": [["name": "Budget Inn", "price_per_night_usd": 80]]])
         let env = AppEnvironment.fake(fakes: fakes)
-        let tools = PlanToolsModel(env: env, track: { _ in })
+        var events: [TelemetryEvent] = []
+        let tools = PlanToolsModel(env: env, track: { events.append($0) })
         tools.findCheaperHotels(maxNightly: 90, searchData: done.searchData)
         XCTAssertEqual(tools.cheaper, .loading)
         let deadline = Date().addingTimeInterval(5)
@@ -62,21 +63,28 @@ final class PlanToolsTests: XCTestCase {
         guard case .loaded(let cap, let hotels)? = tools.cheaper else { return XCTFail("not loaded: \(String(describing: tools.cheaper))") }
         XCTAssertEqual(cap, 90)
         XCTAssertEqual(hotels.count, 1)
+        assertUsed(events, "budget_planner_cheaper_hotels")
     }
 
-    func test_budgetEditsAreClientSide() {
+    func test_budgetEditsAreClientSideAndReportOnceWhenSettled() async {
         let fakes = FakeRepositories()
         let env = AppEnvironment.fake(fakes: fakes)
-        let tools = PlanToolsModel(env: env, track: { _ in })
+        var events: [TelemetryEvent] = []
+        let tools = PlanToolsModel(env: env, track: { events.append($0) }, debounce: .milliseconds(60))
         let state = done
         guard let first = tools.allocation(searchData: state.searchData, results: state.latestResults) else {
             return XCTFail("no allocation")
         }
-        tools.change("stay", to: 500, searchData: state.searchData, results: state.latestResults)
+        for value in [300.0, 400, 500] {
+            tools.change("stay", to: value, searchData: state.searchData, results: state.latestResults)
+        }
+        XCTAssertTrue(events.isEmpty, "nothing is reported while the slider is moving")
         XCTAssertEqual(tools.budgetEdit?.stay, 500)
         XCTAssertEqual(tools.budgetEdit?.sum, first.sum)
         tools.setTotal(.infinity, searchData: state.searchData, results: state.latestResults)
         XCTAssertEqual(tools.budgetEdit?.stay, 500)
+        try? await Task.sleep(for: .milliseconds(300))
+        assertUsed(events, "budget_planner")
         tools.resetBudget()
         XCTAssertNil(tools.budgetEdit)
         XCTAssertEqual(fakes.agents.onFiltered.callCount, 0)
@@ -104,6 +112,26 @@ final class PlanToolsTests: XCTestCase {
         RemixBaselines.removeAll()
     }
 
+    func test_parseTotal() {
+        XCTAssertEqual(PlanToolsFormat.parseTotal(" 2500.4 "), 2500)
+        XCTAssertNil(PlanToolsFormat.parseTotal(""))
+        XCTAssertNil(PlanToolsFormat.parseTotal("0"))
+        XCTAssertNil(PlanToolsFormat.parseTotal("-5"))
+        XCTAssertNil(PlanToolsFormat.parseTotal("abc"))
+        XCTAssertNil(PlanToolsFormat.parseTotal(nil))
+    }
+
+    func test_remixBaselineKeepsOnlyTheLatest() {
+        RemixBaselines.removeAll()
+        let one: JSONValue = ["a": 1], two: JSONValue = ["a": 2]
+        RemixBaselines.set(RemixBaseline(presetID: "luxe", before: .null), for: one)
+        RemixBaselines.set(RemixBaseline(presetID: "week_later", before: .null), for: two)
+        XCTAssertNil(RemixBaselines.baseline(for: one))
+        XCTAssertEqual(RemixBaselines.baseline(for: two)?.presetID, "week_later")
+        RemixBaselines.clear(for: two)
+        XCTAssertNil(RemixBaselines.baseline(for: two))
+    }
+
     func test_remixNotApplicableDoesNothing() {
         let env = AppEnvironment.fake()
         let tools = PlanToolsModel(env: env, track: { _ in })
@@ -122,8 +150,13 @@ final class PlanToolsTests: XCTestCase {
         let sd: JSONValue = ["budget_usd": 1e300, "departure_date": "x", "return_date": 7]
         let env = AppEnvironment.fake()
         let tools = PlanToolsModel(env: env, track: { _ in })
-        _ = tools.fit(searchData: sd, results: results)
-        _ = tools.package(results: results, searchData: sd, fit: nil)
+        let computed = tools.fit(searchData: sd, results: results)
+        XCTAssertNotNil(computed)
+        XCTAssertEqual(computed?.0.sum.isFinite, true)
+        let pkg = tools.package(results: results, searchData: sd, fit: computed?.1)
+        XCTAssertTrue(pkg == nil || pkg?["items"].array != nil)
+        XCTAssertNil(PlanToolsFormat.parseTotal("nan"))
+        XCTAssertNil(PlanToolsFormat.parseTotal("1e999"))
         XCTAssertEqual(PlanToolsFormat.usd(.nan), "—")
         XCTAssertEqual(PlanToolsFormat.usd(1e300).isEmpty, false)
     }

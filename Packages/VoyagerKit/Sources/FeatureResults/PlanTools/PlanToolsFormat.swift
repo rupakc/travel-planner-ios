@@ -16,6 +16,13 @@ enum PlanToolsFormat {
         return number
     }
 
+    /// The budget total typed by the user: a finite number above zero, rounded; nil otherwise.
+    static func parseTotal(_ text: String?) -> Double? {
+        guard let text, let value = Double(text.trimmingCharacters(in: .whitespacesAndNewlines)),
+            value.isFinite, value > 0 else { return nil }
+        return value.rounded()
+    }
+
     static func metric(_ value: Double, kind: String) -> String {
         kind == "usd" ? usd(value) : Fmt.number(value, fractionDigits: value.rounded() == value ? 0 : 1)
     }
