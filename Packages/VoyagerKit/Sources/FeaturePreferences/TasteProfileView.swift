@@ -154,7 +154,7 @@ struct TasteProfileCard: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             if model.resetFailed {
-                Text(verbatim: L10n.text(K.account.prefs.saveFailed))
+                Text(verbatim: L10n.text(K.account.prefs.taste.resetFailed))
                     .font(VFont.body(.caption)).foregroundStyle(SemanticColor.destructive)
             }
         }

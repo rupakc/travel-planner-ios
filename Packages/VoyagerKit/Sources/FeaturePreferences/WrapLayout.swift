@@ -1,28 +1,15 @@
 import SwiftUI
 
-/// A plain wrapping layout, so it also works in hosted snapshots.
-struct WrapLayout: Layout {
-    var spacing: CGFloat
-
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        arrange(width: proposal.width ?? .infinity, subviews: subviews).size
-    }
-
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        let result = arrange(width: bounds.width, subviews: subviews)
-        for (subview, origin) in zip(subviews, result.origins) {
-            subview.place(at: CGPoint(x: bounds.minX + origin.x, y: bounds.minY + origin.y), proposal: .unspecified)
-        }
-    }
-
-    private func arrange(width: CGFloat, subviews: Subviews) -> (size: CGSize, origins: [CGPoint]) {
+/// The wrapping arithmetic, pure so a test can pin that measuring and placing agree.
+enum WrapGeometry {
+    /// Origins and content size when the items are wrapped at `width`.
+    static func arrange(sizes: [CGSize], width: CGFloat, spacing: CGFloat) -> (size: CGSize, origins: [CGPoint]) {
         var origins: [CGPoint] = []
         var x: CGFloat = 0
         var y: CGFloat = 0
         var rowHeight: CGFloat = 0
         var maxX: CGFloat = 0
-        for subview in subviews {
-            let size = subview.sizeThatFits(.unspecified)
+        for size in sizes {
             if x > 0, x + size.width > width {
                 x = 0
                 y += rowHeight + spacing
@@ -33,6 +20,34 @@ struct WrapLayout: Layout {
             rowHeight = max(rowHeight, size.height)
             maxX = max(maxX, x - spacing)
         }
-        return (CGSize(width: maxX, height: y + rowHeight), origins)
+        return (CGSize(width: maxX, height: sizes.isEmpty ? 0 : y + rowHeight), origins)
     }
+
+    /// What the layout reports for a proposal. With a finite width it reports that whole width: the parent then
+    /// places the layout in exactly that width, so placing wraps the same rows that were measured. (Reporting the
+    /// widest row instead made the parent place us in a narrower box and wrap into more rows than we had measured.)
+    static func measured(sizes: [CGSize], proposalWidth: CGFloat?, spacing: CGFloat) -> CGSize {
+        let width = proposalWidth.flatMap { $0.isFinite ? $0 : nil }
+        let laid = arrange(sizes: sizes, width: width ?? .infinity, spacing: spacing)
+        guard let width else { return laid.size }
+        return CGSize(width: max(width, 0), height: laid.size.height)
+    }
+}
+
+/// A plain wrapping layout, so it also works in hosted snapshots.
+struct WrapLayout: Layout {
+    var spacing: CGFloat
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        WrapGeometry.measured(sizes: sizes(subviews), proposalWidth: proposal.width, spacing: spacing)
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        let laid = WrapGeometry.arrange(sizes: sizes(subviews), width: bounds.width, spacing: spacing)
+        for (subview, origin) in zip(subviews, laid.origins) {
+            subview.place(at: CGPoint(x: bounds.minX + origin.x, y: bounds.minY + origin.y), proposal: .unspecified)
+        }
+    }
+
+    private func sizes(_ subviews: Subviews) -> [CGSize] { subviews.map { $0.sizeThatFits(.unspecified) } }
 }

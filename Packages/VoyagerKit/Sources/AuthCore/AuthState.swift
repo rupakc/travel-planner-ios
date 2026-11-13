@@ -94,6 +94,15 @@ public final class AuthState {
         try adopt(next)
     }
 
+    /// Updates the signed-in user's email after the account email was changed (`PUT /auth/email`). Keeps the
+    /// token and phase; does nothing without a session.
+    public func updateEmail(_ email: String?) {
+        guard var next = session else { return }
+        next.user.email = email
+        try? store.save(next)
+        session = next
+    }
+
     public func signOut() async { drop(reason: .userInitiated) }
 
     /// A 401 arrived for `token`. Only the current token matters: a late 401 for a previous token is ignored.

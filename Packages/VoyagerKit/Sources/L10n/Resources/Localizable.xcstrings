@@ -6901,6 +6901,53 @@
         }
       }
     },
+    "account:prefs.taste.resetFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t reset your taste profile. Try again."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t reset your taste profile. Try again."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t reset your taste profile. Try again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t reset your taste profile. Try again."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t reset your taste profile. Try again."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t reset your taste profile. Try again."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t reset your taste profile. Try again."
+          }
+        }
+      }
+    },
     "account:prefs.taste.title" : {
       "extractionState" : "manual",
       "localizations" : {

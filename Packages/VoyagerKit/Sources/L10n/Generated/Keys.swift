@@ -190,6 +190,7 @@ public enum K {
                 public static let loadFailed = LKey("account:prefs.taste.loadFailed", placeholders: [], plural: false)
                 public static let personalised = LKey("account:prefs.taste.personalised", placeholders: [], plural: false)
                 public static let reset = LKey("account:prefs.taste.reset", placeholders: [], plural: false)
+                public static let resetFailed = LKey("account:prefs.taste.resetFailed", placeholders: [], plural: false)
                 public static let title = LKey("account:prefs.taste.title", placeholders: [], plural: false)
             }
             public static let title = LKey("account:prefs.title", placeholders: [], plural: false)

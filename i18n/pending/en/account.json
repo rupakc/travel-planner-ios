@@ -5,7 +5,8 @@
     },
     "loadFailed": "Couldn’t load your preferences.",
     "taste": {
-      "loadFailed": "Couldn’t load your taste profile."
+      "loadFailed": "Couldn’t load your taste profile.",
+      "resetFailed": "Couldn’t reset your taste profile. Try again."
     }
   }
 }

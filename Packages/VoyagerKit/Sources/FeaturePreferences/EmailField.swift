@@ -45,6 +45,7 @@ final class EmailModel {
         do {
             let stored = try await env.repos.preferences.setEmail(trimmed)
             text = stored ?? ""
+            env.auth.updateEmail(stored)
             status = .saved
         } catch let error as APIError {
             switch error {

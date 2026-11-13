@@ -135,6 +135,17 @@ struct EmailModelTests {
         #expect(model.text == "")
     }
 
+    @Test func test_sessionEmailFollowsSave() async {
+        let env = AppEnvironment.fake()
+        let model = EmailModel(env: env)
+        model.text = "new@example.com"
+        await model.save()
+        #expect(env.auth.session?.user.email == "new@example.com")
+        model.text = ""
+        await model.save()
+        #expect(env.auth.session?.user.email == nil)
+    }
+
     @Test func test_networkFailureIsGeneric() async {
         let (model, _) = make { $0.preferences.onSetEmail.fails(APIError.network) }
         model.text = "me@example.com"
@@ -200,5 +211,38 @@ struct TasteModelTests {
         await model.confirmReset()
         #expect(model.resetFailed)
         #expect(model.hasSignals)
+    }
+}
+
+struct WrapGeometryTests {
+    /// Placing in the width the parent was given must wrap exactly the rows that were measured.
+    @Test func test_measuredHeightEqualsPlacedHeight() {
+        for scale in [1.0, 1.3, 1.6, 2.4, 3.1] {
+            let sizes = (0..<10).map { CGSize(width: (40 + Double($0 * 13 % 47)) * scale, height: 44) }
+            for proposal in [90.0, 150, 232, 252, 320, 480, 800] as [CGFloat] {
+                let measured = WrapGeometry.measured(sizes: sizes, proposalWidth: proposal, spacing: 8)
+                let placed = WrapGeometry.arrange(sizes: sizes, width: measured.width, spacing: 8)
+                #expect(placed.size.height == measured.height, "scale \(scale) width \(proposal)")
+                #expect(placed.origins.allSatisfy { $0.y + 44 <= measured.height })
+            }
+        }
+    }
+
+    @Test func test_unspecifiedWidthIsOneRowAndEmptyIsZero() {
+        let sizes = [CGSize(width: 50, height: 44), CGSize(width: 60, height: 44)]
+        #expect(WrapGeometry.measured(sizes: sizes, proposalWidth: nil, spacing: 8) == CGSize(width: 118, height: 44))
+        #expect(WrapGeometry.measured(sizes: [], proposalWidth: 100, spacing: 8).height == 0)
+    }
+}
+
+@MainActor
+struct LooseJSONTests {
+    @Test func test_hugeAndWrongTypedPreferencesNeverTrap() throws {
+        let json = #"{"adults": 1e30, "children": "x", "interests": "food", "num_travelers": -9e99, "budget_category": 7}"#
+        let prefs = try JSONDecoder().decode(Preferences.self, from: Data(json.utf8))
+        let model = PreferencesModel(env: AppEnvironment.fake(), track: { _ in })
+        model.apply(prefs)
+        #expect(model.adults >= 0 && model.adults <= PreferencesModel.maxPerGroup)
+        #expect(model.draft().numTravelers ?? 0 >= 1)
     }
 }
