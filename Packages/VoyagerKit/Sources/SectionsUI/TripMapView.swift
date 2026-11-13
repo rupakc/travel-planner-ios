@@ -18,6 +18,7 @@ public struct TripMapView: View {
     @State private var expanded: Bool
     @State private var selected: Int?
     @Environment(\.telemetryRoute) private var route
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     public init(data: JSONValue, ctx: SectionContext, edits: JSONValue = .null) {
         self.data = data
@@ -87,14 +88,18 @@ public struct TripMapView: View {
                     Telemetry.shared.track(.uiToggle(tid: "itinerary.map", route: route, on: expanded))
                 } label: {
                     HStack {
-                        Label { Text(verbatim: L10n.text(K.search.map.aria)) } icon: { Image(systemName: "map") }
+                        Label { Text(verbatim: L10n.text(K.search.map.aria)) } icon: {
+                            if !typeSize.isAccessibilitySize { Image(systemName: "map") }
+                        }
                             .font(VFont.body(.subheadline, weight: .medium))
                             .foregroundStyle(SemanticColor.primary)
                             .multilineTextAlignment(.leading)
                             .fixedSize(horizontal: false, vertical: true)
                         Spacer(minLength: Spacing.sm)
-                        Image(systemName: expanded ? "chevron.up" : "chevron.down")
-                            .foregroundStyle(SemanticColor.textMuted).accessibilityHidden(true)
+                        if !typeSize.isAccessibilitySize {
+                            Image(systemName: expanded ? "chevron.up" : "chevron.down")
+                                .foregroundStyle(SemanticColor.textMuted).accessibilityHidden(true)
+                        }
                     }
                     .frame(minHeight: 44)
                     .contentShape(Rectangle())

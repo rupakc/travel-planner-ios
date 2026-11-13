@@ -26,6 +26,7 @@ struct SlotRow: View {
     let onMove: () -> Void
     let onEdit: () -> Void
     @Environment(\.telemetryRoute) private var route
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     private var key: String { slot["key"].string ?? "" }
     private var edit: JSONValue { model.edits[key] }
@@ -53,7 +54,10 @@ struct SlotRow: View {
     private var card: some View {
         VCard {
             VStack(alignment: .leading, spacing: Spacing.sm) {
-                HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
+                let timeLayout = typeSize.isAccessibilitySize
+                    ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.xs))
+                    : AnyLayout(HStackLayout(alignment: .firstTextBaseline, spacing: Spacing.sm))
+                timeLayout {
                     Text(verbatim: ItineraryText.timeOfDay(slot["time_of_day"].string))
                         .font(VFont.body(.caption, weight: .medium))
                         .foregroundStyle(SemanticColor.textMuted)
