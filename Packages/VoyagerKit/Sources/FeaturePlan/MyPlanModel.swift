@@ -225,7 +225,6 @@ final class MyPlanModel {
         env.telemetry.track(.featureUsed(feature: "plan_remove_item", page: "my_plan"))
     }
 
-
     // MARK: - Itinerary editing
 
     /// What the itinerary editor reads and writes: the plan's selections (layout, edits, notes, picked slots)
