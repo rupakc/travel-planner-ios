@@ -10,6 +10,7 @@ import VoyagerModel
 public struct AlertsRootView: View {
     @State private var model: AlertsModel
     @State private var deleting: WatchRow?
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     /// `onWatchesChanged` runs after a watch is deleted (the app refreshes local reminders and polls for alerts).
     @MainActor public init(
@@ -28,6 +29,16 @@ public struct AlertsRootView: View {
             ScrollView {
                 // VStack, not LazyVStack: lazy stacks hang hosted snapshot tests.
                 VStack(alignment: .leading, spacing: Spacing.lg) {
+                    // The system caps the bar title small; at accessibility sizes the heading is repeated here so it
+                    // follows Dynamic Type and wraps by word.
+                    if dynamicTypeSize.isAccessibilitySize {
+                        Text(verbatim: L10n.text(K.alerts.page.title))
+                            .font(VFont.display(.title))
+                            .foregroundStyle(SemanticColor.text)
+                            .dynamicTypeSize(...DynamicTypeSize.accessibility2)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .accessibilityHidden(true)
+                    }
                     Text(verbatim: L10n.text(K.alerts.page.intro))
                         .font(VFont.body(.subheadline))
                         .foregroundStyle(SemanticColor.textMuted)
@@ -47,8 +58,7 @@ public struct AlertsRootView: View {
         }
         .navigationTitle(L10n.text(K.alerts.page.title))
         #if os(iOS)
-        // A large title follows Dynamic Type; the inline bar title is capped small by the system.
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         #endif
         .toolbar {
             if !model.notifications404 {
