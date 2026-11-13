@@ -120,7 +120,8 @@ struct DailyChart: View {
         return L10n.text(
             K.adminTelemetry.chartSummary,
             [
-                "from": first.date.formatted(style), "to": last.date.formatted(style), "max": Fmt.number(Double(peak.value), fractionDigits: 0),
+                "from": first.date.formatted(style), "to": last.date.formatted(style),
+                "max": Fmt.number(Double(peak.value), fractionDigits: 0),
                 "peak": peak.date.formatted(style),
             ])
     }
