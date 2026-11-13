@@ -194,7 +194,7 @@ public final class ItineraryEditorModel {
     public func setEdit(key: String, field: String, value: JSONValue) {
         guard editable else { return }
         var all = edits.object ?? [:]
-        var entry = all[key].object ?? [:]
+        var entry = all[key]?.object ?? [:]
         entry[field] = value
         all[key] = .object(entry)
         setSelections("itinerary_edits", .object(all))
