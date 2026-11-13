@@ -15,7 +15,7 @@ final class AlertsSnapshotTests: XCTestCase {
         SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 2000)),
         SnapshotConfig(
             name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
-            size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 6000)),
+            size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 9000)),
     ]
     private let small: [SnapshotConfig] = [
         SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 1400)),
@@ -30,8 +30,7 @@ final class AlertsSnapshotTests: XCTestCase {
     }
 
     private var sampleRows: [WatchRow] {
-        var estimate = WatchRow(hotel(4))
-        estimate.isEstimate = true
+        let estimate = WatchRow(frozenEstimateHotel(4))
         return [
             WatchRow(fare(1, email: true)), WatchRow(fare(2, status: "paused", mode: "below_target", target: 400, flexible: 3)),
             estimate, WatchRow(activity(9)), WatchRow(fare(3, status: "expired")),

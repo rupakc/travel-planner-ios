@@ -28,6 +28,7 @@ public struct AlertsRootView: View {
                         .font(VFont.body(.subheadline))
                         .foregroundStyle(SemanticColor.textMuted)
                         .fixedSize(horizontal: false, vertical: true)
+                        .dynamicTypeSize(...DynamicTypeSize.accessibility2)
                     content
                 }
                 .frame(maxWidth: AdaptiveLayout.readableMaxWidth, alignment: .leading)
@@ -133,19 +134,21 @@ public struct AlertsRootView: View {
     }
 
     private var filterBar: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: Spacing.sm) {
-                ForEach(AlertsFilter.allCases) { filter in
-                    VChip(
-                        title: "\(model.tabTitle(filter)) \(model.count(filter))", tid: "alerts.filter-\(filter.rawValue)",
-                        selected: model.filter == filter
-                    ) { model.filter = filter }
-                    .accessibilityLabel(
-                        L10n.text(
-                            K.alerts.page.tabAria, ["label": model.tabTitle(filter), "n": String(model.count(filter))]))
-                }
+        // Wraps onto further lines instead of scrolling, so no chip is ever cut off at an edge.
+        AlertsWrapLayout(spacing: Spacing.sm) {
+            ForEach(AlertsFilter.allCases) { filter in
+                VChip(
+                    title: "\(model.tabTitle(filter)) \(model.count(filter))", tid: "alerts.filter-\(filter.rawValue)",
+                    selected: model.filter == filter
+                ) { model.filter = filter }
+                .accessibilityLabel(
+                    L10n.text(
+                        K.alerts.page.tabAria, ["label": model.tabTitle(filter), "n": String(model.count(filter))]))
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+        .accessibilityElement(children: .contain)
         .accessibilityLabel(L10n.text(K.alerts.page.filterLabel))
     }
 

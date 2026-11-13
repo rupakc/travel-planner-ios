@@ -168,3 +168,16 @@ struct AlertsModelTests {
         #expect(model.notifications404)
     }
 }
+
+struct WatchRowEstimateTests {
+    @Test func frozenEstimateIsDetectedFromObserved() {
+        let row = WatchRow(frozenEstimateHotel())
+        #expect(row.isEstimate)
+        #expect(row.estimatePrice == 352)
+        #expect(row.price == nil)
+    }
+
+    @Test func observedPriceIsNotAnEstimate() {
+        #expect(!WatchRow(hotel()).isEstimate)
+    }
+}

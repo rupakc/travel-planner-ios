@@ -51,6 +51,8 @@ public struct WatchRow: Identifiable, Equatable, Sendable {
     public var flexible: Bool
     public var emailEnabled: Bool
     public var isEstimate: Bool
+    /// The frozen estimate a watch shows while it has no observed price (`last_observation.observed.estimate`).
+    public var estimatePrice: Double?
     public var problem: String?
     public var link: URL?
     public var history: [Double]
@@ -70,7 +72,7 @@ public struct WatchRow: Identifiable, Equatable, Sendable {
         endDay: Date? = nil, travellers: Int? = nil, currency: String = "USD", status: String = "active",
         price: Double? = nil, baseline: Double? = nil, lowest: Double? = nil, checkedAt: Date? = nil,
         nextCheckAt: Date? = nil, alertMode: String = "any_drop", target: Double? = nil, flexible: Bool = false,
-        emailEnabled: Bool = false, isEstimate: Bool = false, problem: String? = nil, link: URL? = nil,
+        emailEnabled: Bool = false, isEstimate: Bool = false, estimatePrice: Double? = nil, problem: String? = nil, link: URL? = nil,
         history: [Double] = []
     ) {
         self.kind = kind
@@ -92,6 +94,7 @@ public struct WatchRow: Identifiable, Equatable, Sendable {
         self.flexible = flexible
         self.emailEnabled = emailEnabled
         self.isEstimate = isEstimate
+        self.estimatePrice = estimatePrice
         self.problem = problem
         self.link = link
         self.history = history
@@ -113,6 +116,12 @@ public struct WatchRow: Identifiable, Equatable, Sendable {
     }
 
     init(_ watch: PriceWatch) {
+        // The server freezes an estimate as status "unavailable" with `observed: {estimate: {price, source}, frozen: true}`
+        // and no observed price; it never sends status "estimate".
+        let observation = watch.lastObservation
+        let estimate = observation?.observed?["estimate"]["price"].double
+        let frozen = observation?.observed?["frozen"].bool == true
+        let isEstimate = observation?.price == nil && watch.lastPrice == nil && (estimate != nil || frozen)
         self.init(
             kind: watch.kind ?? .hotel, watchID: watch.id, title: watch.title ?? "", subtitle: watch.subtitle,
             currency: watch.currency ?? "USD", status: watch.status ?? "active", price: watch.lastPrice,
@@ -120,7 +129,7 @@ public struct WatchRow: Identifiable, Equatable, Sendable {
             checkedAt: AlertDates.timestamp(watch.lastCheckedAt), nextCheckAt: AlertDates.timestamp(watch.nextCheckAt),
             alertMode: watch.alertMode ?? "any_drop", target: watch.targetPrice,
             emailEnabled: watch.emailEnabled ?? false,
-            isEstimate: watch.lastObservation?.status == "estimate", problem: watch.problem,
+            isEstimate: isEstimate, estimatePrice: isEstimate ? estimate : nil, problem: watch.problem,
             link: (watch.link ?? watch.lastObservation?.link).flatMap(URL.init(string:)),
             history: (watch.history ?? []).compactMap(\.price))
     }

@@ -63,6 +63,7 @@ struct WatchCard: View {
             }
             Text(verbatim: ruleText)
                 .font(VFont.body(.caption))
+                .dynamicTypeSize(...DynamicTypeSize.accessibility1)
                 .foregroundStyle(SemanticColor.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
         }
@@ -79,6 +80,7 @@ struct WatchCard: View {
         let family: Family = row.isPast ? .slate : row.isErrored ? .amber : row.isPaused ? .slate : .emerald
         return Text(verbatim: statusText)
             .font(VFont.body(.caption, weight: .medium))
+            .dynamicTypeSize(...DynamicTypeSize.accessibility1)
             .foregroundStyle(Palette.color(family, .s800))
             .padding(.horizontal, Spacing.sm)
             .padding(.vertical, Spacing.xs)
@@ -86,12 +88,13 @@ struct WatchCard: View {
     }
 
     @ViewBuilder private var priceBlock: some View {
-        if let price = row.price ?? row.baseline {
+        if let price = row.price ?? row.baseline ?? row.estimatePrice {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 PriceText(amount: price, currency: row.currency, estimate: row.isEstimate)
                 if let change = changeText {
                     Text(verbatim: change.text)
                         .font(VFont.body(.caption, weight: .medium))
+                        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
                         .foregroundStyle(change.family.map { Palette.color($0, .s700) } ?? SemanticColor.textMuted)
                 }
             }
@@ -119,6 +122,7 @@ struct WatchCard: View {
             }
         }
         .font(VFont.body(.caption))
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
         .foregroundStyle(SemanticColor.textMuted)
         .fixedSize(horizontal: false, vertical: true)
     }

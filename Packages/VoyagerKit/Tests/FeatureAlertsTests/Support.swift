@@ -29,6 +29,18 @@ func hotel(_ id: Int = 4, status: String = "active", last: Double? = 352) -> Pri
         lastCheckedAt: iso(fixedNow.addingTimeInterval(-86_400 * 2)), nextCheckAt: iso(fixedNow.addingTimeInterval(7200)))
 }
 
+/// The shape the server stores for a frozen estimate (price_watch.py): `status: "unavailable"`, no price, and
+/// `observed: {estimate: {price, source}, frozen: true}`.
+func frozenEstimateHotel(_ id: Int = 4) -> PriceWatch {
+    PriceWatch(
+        id: id, kind: .hotel, title: "Lumen Hotel", subtitle: "Lisbon · 10–14 Dec", currency: "EUR", alertMode: "below_target",
+        targetPrice: 320, status: "active", lastCheckedAt: iso(fixedNow.addingTimeInterval(-86_400 * 2)),
+        nextCheckAt: iso(fixedNow.addingTimeInterval(7200)),
+        lastObservation: PriceObservation(
+            status: "unavailable",
+            observed: .object(["estimate": .object(["price": .number(352), "source": .string("typical")]), "frozen": .bool(true)])))
+}
+
 func activity(_ id: Int = 9) -> PriceWatch {
     PriceWatch(id: id, kind: .activity, title: "Belém walking tour", subtitle: "Lisbon", currency: "USD", status: "active")
 }
