@@ -7,7 +7,7 @@ import VoyagerModel
 @testable import NotificationsCore
 
 final class FakeCenter: NotificationCenterClient, Sendable {
-    private struct State { var pending: [String: LocalNotification] = [:]; var requests = 0; var granted = true }
+    private struct State { var pending: [String: LocalNotification] = [:]; var requests = 0; var granted = true; var failIDs: Set<String> = [] }
     private let state = OSAllocatedUnfairLock(initialState: State())
     init(granted: Bool = true) { state.withLock { $0.granted = granted } }
 
@@ -15,7 +15,18 @@ final class FakeCenter: NotificationCenterClient, Sendable {
     var requests: Int { state.withLock { $0.requests } }
     func requestAuthorization() async -> Bool { state.withLock { $0.requests += 1; return $0.granted } }
     func isAuthorized() async -> Bool { state.withLock { $0.granted } }
-    func add(_ notification: LocalNotification) async { state.withLock { $0.pending[notification.id] = notification } }
+    @discardableResult
+    func add(_ notification: LocalNotification) async -> Bool {
+        state.withLock { s in
+            if s.failIDs.contains(notification.id) { return false }
+            s.pending[notification.id] = notification
+            return true
+        }
+    }
+    func failAdds(for ids: Set<String>) { state.withLock { $0.failIDs = ids } }
+    func purge(prefixes: [String]) async {
+        state.withLock { s in s.pending = s.pending.filter { entry in !prefixes.contains { entry.key.hasPrefix($0) } } }
+    }
     func pendingIdentifiers() async -> [String] { state.withLock { Array($0.pending.keys) } }
     func removePending(identifiers: [String]) async {
         state.withLock { for id in identifiers { $0.pending[id] = nil } }
@@ -88,7 +99,7 @@ private let text = TripReminderScheduler.Text(
     @Test func pastT7IsSkippedButLaterOnesKept() {
         let items = TripReminderScheduler.reminders(
             for: [plan(1, from: "2027-03-05", to: nil)], now: date("2027-03-01"), calendar: utc, text: text)
-        #expect(items.map(\.id) == ["trip-1-t1", "trip-1-day1"])
+        #expect(items.map(\.id) == ["trip-1-t1", "trip-1-day1", "trip-1-last"])
     }
 
     @Test func capAt60() async {
@@ -106,6 +117,24 @@ private let text = TripReminderScheduler.Text(
         await center.add(LocalNotification(id: "alert-5", title: "keep", body: ""))
         await TripReminderScheduler.reschedule(plans: [], center: center, now: Date(), calendar: utc, text: text)
         #expect(Set(center.added.map(\.id)) == ["alert-5"])
+    }
+
+    @Test func lastDayForSingleDayAndLongTrips() {
+        let single = TripReminderScheduler.reminders(
+            for: [plan(1, from: "2027-03-20", to: "2027-03-20")], now: date("2027-03-19"), calendar: utc, text: text)
+        #expect(single.map(\.id).contains("trip-1-last") && single.map(\.id).contains("trip-1-day1"))
+        let long = TripReminderScheduler.reminders(
+            for: [plan(2, from: "2027-03-20", to: "2027-06-20")], now: date("2027-03-19"), calendar: utc, text: text)
+        #expect(long.map(\.id).contains("trip-2-last"))
+    }
+
+    @Test func purgeClearsTripAndAlertNotificationsOnly() async {
+        let center = FakeCenter()
+        await center.add(LocalNotification(id: "trip-1-t7", title: "", body: ""))
+        await center.add(LocalNotification(id: "alert-3", title: "", body: ""))
+        await center.add(LocalNotification(id: "nearby-x", title: "", body: ""))
+        await TripReminderScheduler.purgeAccountNotifications(center: center)
+        #expect(Set(center.added.map(\.id)) == ["nearby-x"])
     }
 
     @Test func notAuthorizedSchedulesNothing() async {
@@ -128,7 +157,7 @@ private let text = TripReminderScheduler.Text(
         let repo = FakeNotifications()
         repo.items = [AppNotification(id: 1, title: "Drop", body: "NYC-TYO"), AppNotification(id: 2, title: "Drop 2")]
         let center = FakeCenter()
-        let poller = AlertPoller(repo: repo, center: center, defaults: defaults())
+        let poller = AlertPoller(repo: repo, userID: "ann", center: center, defaults: defaults())
         #expect(await poller.poll() == 2)
         #expect(await poller.poll() == 0)
         repo.items.append(AppNotification(id: 3, title: "New"))
@@ -140,15 +169,42 @@ private let text = TripReminderScheduler.Text(
         let repo = FakeNotifications()
         repo.items = (1...300).map { AppNotification(id: $0, title: "t") }
         let store = defaults()
-        let poller = AlertPoller(repo: repo, center: FakeCenter(), defaults: store)
+        let poller = AlertPoller(repo: repo, userID: "ann", center: FakeCenter(), defaults: store)
         await poller.poll()
-        #expect((store.array(forKey: AlertPoller.seenKey) ?? []).count == AlertPoller.maxSeen)
+        #expect((store.array(forKey: poller.seenKey) ?? []).count == AlertPoller.maxSeen)
+    }
+
+    @Test func seenIDsArePerUser() async {
+        let repo = FakeNotifications()
+        repo.items = [AppNotification(id: 1, title: "Drop")]
+        let store = defaults()
+        let center = FakeCenter()
+        let ann = AlertPoller(repo: repo, userID: "ann", center: center, defaults: store)
+        let bob = AlertPoller(repo: repo, userID: "Bob", center: center, defaults: store)
+        #expect(await ann.poll() == 1)
+        #expect(await ann.poll() == 0)
+        #expect(await bob.poll() == 1)
+        #expect(ann.seenKey != bob.seenKey)
+    }
+
+    @Test func failedAddStaysUnseenAndNewestWinsTheCap() async {
+        let repo = FakeNotifications()
+        repo.items = (1...8).map { AppNotification(id: $0, title: "t\($0)") }
+        let center = FakeCenter()
+        center.failAdds(for: ["alert-8"])
+        let poller = AlertPoller(repo: repo, userID: "ann", center: center, defaults: defaults())
+        // Newest five are 8...4; 8 fails, so 4 posts. 1...3 are too old to show and count as seen.
+        #expect(await poller.poll() == 4)
+        #expect(Set(center.added.map(\.id)) == ["alert-7", "alert-6", "alert-5", "alert-4"])
+        center.failAdds(for: [])
+        #expect(await poller.poll() == 1)
+        #expect(center.added.contains { $0.id == "alert-8" })
     }
 
     @Test func poller404Stops() async {
         let repo = FakeNotifications()
         repo.error = .notFound(nil)
-        let poller = AlertPoller(repo: repo, center: FakeCenter(), defaults: defaults())
+        let poller = AlertPoller(repo: repo, userID: "ann", center: FakeCenter(), defaults: defaults())
         #expect(await poller.poll() == 0)
         #expect(poller.isDisabled)
         _ = await poller.poll()
@@ -158,14 +214,14 @@ private let text = TripReminderScheduler.Text(
     @Test func otherErrorsDoNotDisable() async {
         let repo = FakeNotifications()
         repo.error = .network
-        let poller = AlertPoller(repo: repo, center: FakeCenter(), defaults: defaults())
+        let poller = AlertPoller(repo: repo, userID: "ann", center: FakeCenter(), defaults: defaults())
         _ = await poller.poll()
         #expect(!poller.isDisabled)
     }
 
     @Test func noPermissionMeansNoRequest() async {
         let repo = FakeNotifications()
-        let poller = AlertPoller(repo: repo, center: FakeCenter(granted: false), defaults: defaults())
+        let poller = AlertPoller(repo: repo, userID: "ann", center: FakeCenter(granted: false), defaults: defaults())
         _ = await poller.poll()
         #expect(repo.calls == 0)
     }
@@ -181,6 +237,11 @@ private let text = TripReminderScheduler.Text(
         let item = AppNotification(id: 1, data: ["watch_id": 7, "kind": "hotel"])
         #expect(NotificationRouting.route(AlertPoller.userInfo(item)) == .alerts(kind: .hotel, watchID: 7))
         #expect(NotificationRouting.route(userInfo: ["route": "alerts"]) == .alerts(kind: nil, watchID: nil))
+    }
+
+    @Test func coldLaunchTapWithNumericPayload() {
+        let info: [AnyHashable: Any] = ["route": "alerts", "watch_id": NSNumber(value: 9), "kind": "flight"]
+        #expect(NotificationRouting.route(userInfo: info) == .alerts(kind: .flight, watchID: 9))
     }
 
     @Test func tripAndNearbyRoutes() {

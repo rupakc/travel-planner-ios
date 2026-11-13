@@ -42,6 +42,9 @@ public struct RootView: View {
                 if phase == .background { Lifecycle.didEnterBackground(env: env) }
                 if phase == .active { Task(priority: .utility) { await TripReminderScheduler.refresh(env: env) } }
             }
+            .onChange(of: env.auth.session?.user.username) { _, _ in
+                Task(priority: .utility) { await TripReminderScheduler.accountChanged(env: env) }
+            }
             .onOpenURL(perform: open)
             .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
                 if let url = activity.webpageURL { open(url) }

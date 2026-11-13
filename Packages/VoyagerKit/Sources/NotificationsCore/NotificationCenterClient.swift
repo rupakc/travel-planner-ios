@@ -31,9 +31,13 @@ public protocol NotificationCenterClient: Sendable {
     func requestAuthorization() async -> Bool
     /// Whether notifications may be shown now (authorized or provisional).
     func isAuthorized() async -> Bool
-    func add(_ notification: LocalNotification) async
+    /// True when the system accepted the notification.
+    @discardableResult
+    func add(_ notification: LocalNotification) async -> Bool
     func pendingIdentifiers() async -> [String]
     func removePending(identifiers: [String]) async
+    /// Removes pending and already delivered notifications whose identifier starts with one of `prefixes`.
+    func purge(prefixes: [String]) async
 }
 
 /// The live center. `UNUserNotificationCenter` is thread-safe.
@@ -56,7 +60,7 @@ public struct SystemNotificationCenter: NotificationCenterClient {
         }
     }
 
-    public func add(_ notification: LocalNotification) async {
+    public func add(_ notification: LocalNotification) async -> Bool {
         let content = UNMutableNotificationContent()
         content.title = notification.title
         content.body = notification.body
@@ -67,7 +71,12 @@ public struct SystemNotificationCenter: NotificationCenterClient {
             trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
         }
         let request = UNNotificationRequest(identifier: notification.id, content: content, trigger: trigger)
-        try? await UNUserNotificationCenter.current().add(request)
+        do {
+            try await UNUserNotificationCenter.current().add(request)
+            return true
+        } catch {
+            return false
+        }
     }
 
     public func pendingIdentifiers() async -> [String] {
@@ -76,5 +85,14 @@ public struct SystemNotificationCenter: NotificationCenterClient {
 
     public func removePending(identifiers: [String]) async {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+    }
+
+    public func purge(prefixes: [String]) async {
+        let center = UNUserNotificationCenter.current()
+        func match(_ id: String) -> Bool { prefixes.contains { id.hasPrefix($0) } }
+        let pending = await center.pendingNotificationRequests().map(\.identifier).filter(match)
+        center.removePendingNotificationRequests(withIdentifiers: pending)
+        let delivered = await center.deliveredNotifications().map { $0.request.identifier }.filter(match)
+        center.removeDeliveredNotifications(withIdentifiers: delivered)
     }
 }

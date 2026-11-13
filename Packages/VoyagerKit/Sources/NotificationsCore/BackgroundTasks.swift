@@ -53,8 +53,8 @@ public enum BackgroundTasks {
 
     @MainActor
     static func pollAlerts(env: AppEnvironment) async {
-        guard env.device.alertPoll, env.auth.phase == .signedIn else { return }
-        let poller = pollerBox.poller(for: env.repos.notifications)
+        guard env.device.alertPoll, env.auth.phase == .signedIn, let user = env.auth.session?.user.username else { return }
+        let poller = pollerBox.poller(for: env.repos.notifications, userID: user)
         await poller.poll()
     }
 
@@ -95,11 +95,12 @@ private final class PollerBox: @unchecked Sendable {
     private let lock = NSLock()
     private var current: AlertPoller?
 
-    func poller(for repo: any NotificationsRepository) -> AlertPoller {
+    /// A new user gets a new poller (its own seen ids, a clean 404 flag).
+    func poller(for repo: any NotificationsRepository, userID: String) -> AlertPoller {
         lock.lock()
         defer { lock.unlock() }
-        if let current { return current }
-        let made = AlertPoller(repo: repo)
+        if let current, current.userID == userID { return current }
+        let made = AlertPoller(repo: repo, userID: userID)
         current = made
         return made
     }

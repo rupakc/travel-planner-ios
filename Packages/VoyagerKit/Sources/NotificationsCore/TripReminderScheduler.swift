@@ -34,6 +34,7 @@ public enum TripReminderScheduler {
         )
     }
 
+    /// Fire times are device-local (the calendar's time zone): 08:00 means 08:00 wherever the phone is.
     /// Replaces every pending trip reminder with those for `plans`. Does nothing when notifications are not
     /// allowed (any trip reminders still pending are removed).
     public static func reschedule(
@@ -42,6 +43,34 @@ public enum TripReminderScheduler {
         now: Date = Date(),
         calendar: Calendar = .current,
         text: Text = .catalogue
+    ) async {
+        // One reschedule at a time: two overlapping runs would interleave their remove and add steps.
+        await gate.run {
+            await replace(plans: plans, center: center, now: now, calendar: calendar, text: text)
+        }
+    }
+
+    private static let gate = Gate()
+
+    private actor Gate {
+        private var tail: Task<Void, Never>?
+        func run(_ operation: @escaping @Sendable () async -> Void) async {
+            let previous = tail
+            let task = Task {
+                await previous?.value
+                await operation()
+            }
+            tail = task
+            await task.value
+        }
+    }
+
+    private static func replace(
+        plans: [PlanSummary],
+        center: any NotificationCenterClient,
+        now: Date,
+        calendar: Calendar,
+        text: Text
     ) async {
         let stale = await center.pendingIdentifiers().filter { $0.hasPrefix(idPrefix) }
         if !stale.isEmpty { await center.removePending(identifiers: stale) }
@@ -56,12 +85,23 @@ public enum TripReminderScheduler {
     @MainActor
     public static func refresh(env: AppEnvironment, center: any NotificationCenterClient = SystemNotificationCenter()) async {
         guard env.auth.phase == .signedIn else {
-            let stale = await center.pendingIdentifiers().filter { $0.hasPrefix(idPrefix) }
-            if !stale.isEmpty { await center.removePending(identifiers: stale) }
+            await purgeAccountNotifications(center: center)
             return
         }
         guard let plans = try? await env.repos.plans.list() else { return }
         await reschedule(plans: plans, center: center)
+    }
+
+    /// Removes the trip reminders and alert notifications (pending and delivered) of the previous account.
+    public static func purgeAccountNotifications(center: any NotificationCenterClient = SystemNotificationCenter()) async {
+        await center.purge(prefixes: [idPrefix, AlertPoller.idPrefix])
+    }
+
+    /// Sign-out or user switch: clears the old account's notifications, then loads the new user's trips.
+    @MainActor
+    public static func accountChanged(env: AppEnvironment, center: any NotificationCenterClient = SystemNotificationCenter()) async {
+        await purgeAccountNotifications(center: center)
+        await refresh(env: env, center: center)
     }
 
     /// The reminders to schedule, soonest first, future ones only, at most `maxPending`.
@@ -105,16 +145,14 @@ public enum TripReminderScheduler {
         add("t7", dayOffset: -7, from: start, hour: 9, title: text.t7Title(destination), body: text.t7Body())
         add("t1", dayOffset: -1, from: start, hour: 18, title: text.t1Title(destination), body: text.t1Body())
         let span = calendar.dateComponents([.day], from: start, to: end).day ?? 0
-        let lastIndex = min(max(span, 0), maxTripDays)
-        for index in 0...lastIndex {
-            if index == lastIndex && span > 0 && span <= maxTripDays {
-                add("last", dayOffset: index, from: start, hour: 8,
-                    title: text.lastDayTitle(destination), body: text.lastDayBody())
-            } else {
-                add("day\(index + 1)", dayOffset: index, from: start, hour: 8,
-                    title: text.dayTitle(index + 1, destination), body: text.dayBody())
-            }
+        // Day reminders cover the first days (never the last); the last day always gets its own reminder.
+        for index in 0..<min(max(span, 1), maxTripDays) {
+            add("day\(index + 1)", dayOffset: index, from: start, hour: 8,
+                title: text.dayTitle(index + 1, destination), body: text.dayBody())
         }
+        // A one-day trip checks out the same day, later in the morning than its day reminder.
+        add("last", dayOffset: span, from: start, hour: span == 0 ? 11 : 8,
+            title: text.lastDayTitle(destination), body: text.lastDayBody())
         return out
     }
 
