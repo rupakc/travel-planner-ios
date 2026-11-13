@@ -1,0 +1,11 @@
+{
+  "prefs": {
+    "email": {
+      "conflict": "That email address is already used by another account."
+    },
+    "loadFailed": "Couldn’t load your preferences.",
+    "taste": {
+      "loadFailed": "Couldn’t load your taste profile."
+    }
+  }
+}
