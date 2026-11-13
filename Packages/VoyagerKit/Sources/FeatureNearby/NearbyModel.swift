@@ -117,7 +117,8 @@ public final class NearbyModel {
         guard token == run else { return }
         phase = .loading
         let request = NearbyRequest(
-            lat: Self.rounded(coordinate.lat), lng: Self.rounded(coordinate.lng), sections: true)
+            lat: Self.rounded(coordinate.lat), lng: Self.rounded(coordinate.lng), sections: true,
+            language: env.language.language)
         do {
             let response = try await env.repos.nearby.nearby(request)
             guard token == run else { return }

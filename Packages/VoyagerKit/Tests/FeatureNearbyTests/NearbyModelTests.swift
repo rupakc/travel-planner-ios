@@ -71,18 +71,52 @@ struct NearbyModelTests {
     @Test func test_v2SectionsAndRoundedRequest() async {
         let fakes = FakeRepositories()
         fakes.nearby.onNearby.returns(v2)
-        let (model, _, _) = make(location: FakeLocation(), fakes: fakes)
+        let (model, env, _) = make(location: FakeLocation(), fakes: fakes)
         await model.begin()
 
         #expect(model.phase == .loaded)
         let sent = fakes.nearby.onNearby.lastCall
         #expect(sent?.sections == true)
+        #expect(sent?.language == env.language.language)
+        #expect(sent?.language?.isEmpty == false)
         #expect(sent?.lat == 38.722)
         #expect(sent?.lng == -9.139)
         #expect(model.result?.isV2 == true)
         #expect(model.result?.groups.map(\.id) == ["see", "eat"])
         #expect(model.result?.groups[0].rows.first?.mapsURL?.host() == "maps.google.com")
         #expect(model.result?.attribution == "Google Maps")
+        // The empty "eat" section carries its hint; the filled one does not need it.
+        #expect(model.result?.groups[1].rows.isEmpty == true)
+        #expect(model.result?.groups[1].emptyText?.isEmpty == false)
+    }
+
+    @Test func test_nestedDetailMessagesReachTheUser() {
+        let limit = ErrorMapping.map(
+            status: 503, body: Data(#"{"detail":{"code":"ai_limit","message":"AI limit reached for this month"}}"#.utf8), headers: [:])
+        let billing = ErrorMapping.map(
+            status: 503, body: Data(#"{"detail":{"code":"ai_billing","message":"AI billing is disabled"}}"#.utf8), headers: [:])
+        let noPlace = ErrorMapping.map(
+            status: 404, body: Data(#"{"detail":{"code":"no_place","message":"Nothing known within 75 km"}}"#.utf8), headers: [:])
+        #expect(NearbyModel.reason(for: limit) == "AI limit reached for this month")
+        #expect(NearbyModel.reason(for: billing) == "AI billing is disabled")
+        #expect(NearbyModel.reason(for: noPlace) == "Nothing known within 75 km")
+    }
+
+    @Test func test_failedThenRetryAndRefreshRecover() async {
+        let fakes = FakeRepositories()
+        fakes.nearby.onNearby.fails(APIError.server(status: 503, detail: "Live map results are off."))
+        let (model, _, _) = make(location: FakeLocation(), fakes: fakes)
+        await model.begin()
+        #expect(model.phase == .failed("Live map results are off."))
+
+        fakes.nearby.onNearby.returns(v2)
+        await model.load()  // "Try again"
+        #expect(model.phase == .loaded)
+        #expect(fakes.nearby.onNearby.callCount == 2)
+
+        await model.load()  // "Refresh"
+        #expect(model.phase == .loaded)
+        #expect(fakes.nearby.onNearby.callCount == 3)
     }
 
     @Test func test_v1Fallback() async {
