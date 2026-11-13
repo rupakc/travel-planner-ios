@@ -1,4 +1,5 @@
 import DesignSystem
+import NotificationsCore
 import SharedUI
 import SwiftUI
 import Telemetry
@@ -35,9 +36,14 @@ public struct RootView: View {
             .onAppear {
                 ColdStart.markFirstFrame()
                 Task(priority: .utility) { env.startDeferredWork() }
+                Task(priority: .utility) { await TripReminderScheduler.refresh(env: env) }
             }
             .onChange(of: scenePhase) { _, phase in
                 if phase == .background { Lifecycle.didEnterBackground(env: env) }
+                if phase == .active { Task(priority: .utility) { await TripReminderScheduler.refresh(env: env) } }
+            }
+            .onChange(of: env.auth.session?.user.username) { _, _ in
+                Task(priority: .utility) { await TripReminderScheduler.accountChanged(env: env) }
             }
             .onOpenURL(perform: open)
             .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
