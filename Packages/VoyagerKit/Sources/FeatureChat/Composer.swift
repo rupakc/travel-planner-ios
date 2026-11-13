@@ -28,9 +28,8 @@ struct Composer: View {
             .padding(.horizontal, Spacing.md)
             .padding(.vertical, Spacing.sm)
             .frame(minHeight: 44)
-            .background(SemanticColor.surfaceRaised)
-            .clipShape(RoundedRectangle(cornerRadius: Radius.largeCard))
-            .overlay { RoundedRectangle(cornerRadius: Radius.largeCard).strokeBorder(SemanticColor.border, lineWidth: 1) }
+            .borderedSurface(
+                RoundedRectangle(cornerRadius: Radius.largeCard), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
             .accessibilityIdentifier("chat.input")
             actionButton
         }

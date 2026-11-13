@@ -28,8 +28,9 @@ public struct VChip: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, Spacing.md)
                 .frame(minHeight: 44)
-                .background(selected ? SemanticColor.primary : SemanticColor.surfaceRaised, in: Capsule())
-                .overlay { Capsule().strokeBorder(selected ? Color.clear : SemanticColor.border, lineWidth: 1) }
+                .borderedSurface(
+                    Capsule(), fill: selected ? SemanticColor.primary : SemanticColor.surfaceRaised,
+                    border: selected ? nil : SemanticColor.border)
                 .contentShape(Capsule())
         }
         .buttonStyle(.plain)
