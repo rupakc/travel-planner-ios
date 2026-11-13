@@ -36,7 +36,13 @@ struct FlowLayout: Layout {
         }
     }
 
-    private func arrange(width: CGFloat, subviews: Subviews) -> (frames: [CGRect], width: CGFloat, height: CGFloat) {
+    private struct Arrangement {
+        var frames: [CGRect]
+        var width: CGFloat
+        var height: CGFloat
+    }
+
+    private func arrange(width: CGFloat, subviews: Subviews) -> Arrangement {
         var frames: [CGRect] = []
         var x: CGFloat = 0
         var y: CGFloat = 0
@@ -55,6 +61,6 @@ struct FlowLayout: Layout {
             rowHeight = max(rowHeight, size.height)
             maxX = max(maxX, x - spacing)
         }
-        return (frames, maxX, y + rowHeight)
+        return Arrangement(frames: frames, width: maxX, height: y + rowHeight)
     }
 }

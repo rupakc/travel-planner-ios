@@ -100,25 +100,8 @@ enum ChatReducer {
             return [.planAction(action: action, field: field, data: data)]
         case .planningStart(let destination):
             return startPlanning(&turn, destination: destination)
-        case .tripMap(let map):
-            var planning = turn.message.planning ?? PlanningState()
-            planning.tripMap = map
-            turn.message.planning = planning
-            return [.tripMapped(map)]
-        case .itineraryGenerating:
-            var planning = turn.message.planning ?? PlanningState()
-            planning.generating = true
-            turn.message.planning = planning
-        case .comprehensiveItinerary(let data):
-            var planning = turn.message.planning ?? PlanningState()
-            planning.generating = false
-            if let error = data["error"].string {
-                planning.itineraryError = error
-            } else {
-                planning.itinerary = data
-                planning.itineraryError = nil
-            }
-            turn.message.planning = planning
+        case .tripMap, .itineraryGenerating, .comprehensiveItinerary:
+            return reducePlanning(&turn, event)
         case .agentStatus(let agent, let status):
             if status == "loading", !turn.message.loadingAgents.contains(agent) { turn.message.loadingAgents.append(agent) }
         case .sectionResult(let section, let source, let data):
@@ -140,6 +123,30 @@ enum ChatReducer {
             break
         }
         return []
+    }
+
+    private static func reducePlanning(_ turn: inout ChatTurn, _ event: ChatStreamEvent) -> [ChatEffect] {
+        var planning = turn.message.planning ?? PlanningState()
+        var effects: [ChatEffect] = []
+        switch event {
+        case .tripMap(let map):
+            planning.tripMap = map
+            effects = [.tripMapped(map)]
+        case .itineraryGenerating:
+            planning.generating = true
+        case .comprehensiveItinerary(let data):
+            planning.generating = false
+            if let error = data["error"].string {
+                planning.itineraryError = error
+            } else {
+                planning.itinerary = data
+                planning.itineraryError = nil
+            }
+        default:
+            break
+        }
+        turn.message.planning = planning
+        return effects
     }
 
     /// The stream ended (cleanly or not): closes the turn, and says so when nothing at all came back.
