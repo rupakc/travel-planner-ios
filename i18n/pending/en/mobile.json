@@ -1,4 +1,12 @@
 {
+  "share": {
+    "byline": "Shared by {{name}}",
+    "recapTag": "Trip recap",
+    "remix": "Remix into my trips",
+    "savingsTag": "Price drops caught",
+    "signInToRemix": "Sign in to remix this trip",
+    "signIn": "Sign in"
+  },
   "trips": {
     "accessibility": "Accessibility info",
     "bestValue": "Best value",
