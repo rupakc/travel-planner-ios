@@ -19,7 +19,9 @@ final class PlanToolsTests: XCTestCase {
     }
 
     private func assertUsed(_ events: [TelemetryEvent], _ feature: String, line: UInt = #line) {
-        guard events.count == 1, case .featureUsed(let name, let page) = events[0] else { return XCTFail("events: \(events.count)", line: line) }
+        guard events.count == 1, case .featureUsed(let name, let page) = events[0] else {
+            return XCTFail("events: \(events.count)", line: line)
+        }
         XCTAssertEqual(name, feature, line: line)
         XCTAssertEqual(page, "results", line: line)
     }
@@ -67,7 +69,9 @@ final class PlanToolsTests: XCTestCase {
         let env = AppEnvironment.fake(fakes: fakes)
         let tools = PlanToolsModel(env: env, track: { _ in })
         let state = done
-        guard let first = tools.allocation(searchData: state.searchData, results: state.latestResults) else { return XCTFail("no allocation") }
+        guard let first = tools.allocation(searchData: state.searchData, results: state.latestResults) else {
+            return XCTFail("no allocation")
+        }
         tools.change("stay", to: 500, searchData: state.searchData, results: state.latestResults)
         XCTAssertEqual(tools.budgetEdit?.stay, 500)
         XCTAssertEqual(tools.budgetEdit?.sum, first.sum)

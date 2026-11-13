@@ -46,12 +46,14 @@ struct RemixDiffBanner: View {
     let results: JSONValue
     let onDismiss: () -> Void
 
+    private var presetLabel: String { PlanTranslator.text("sections:remix.preset.\(baseline.presetID).label", [:]) }
+
     var body: some View {
         let rows = Remix.diffMetrics(baseline.before, Remix.snapshotMetrics(results), translate: PlanTranslator.text)
         VCard {
             VStack(alignment: .leading, spacing: Spacing.md) {
                 HStack(alignment: .top) {
-                    Text(verbatim: L10n.text(K.sections.remix.banner, ["label": PlanTranslator.text("sections:remix.preset.\(baseline.presetID).label", [:])]))
+                    Text(verbatim: L10n.text(K.sections.remix.banner, ["label": presetLabel]))
                         .font(VFont.body(.subheadline, weight: .semibold))
                     Spacer(minLength: Spacing.sm)
                     Button(action: onDismiss) {
@@ -60,7 +62,8 @@ struct RemixDiffBanner: View {
                     .accessibilityLabel(L10n.text(K.sections.remix.dismiss))
                 }
                 if rows.isEmpty {
-                    Text(verbatim: L10n.text(K.sections.remix.notEnough)).font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)
+                    Text(verbatim: L10n.text(K.sections.remix.notEnough))
+                        .font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)
                 } else {
                     ForEach(Array(rows.enumerated()), id: \.offset) { _, row in metric(row) }
                 }

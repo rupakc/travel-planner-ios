@@ -97,7 +97,8 @@ struct BudgetPlannerView: View {
 
     private func commitTotal() {
         defer { draftTotal = nil }
-        guard let text = draftTotal, let value = Double(text.trimmingCharacters(in: .whitespaces)), value.isFinite, value > 0 else { return }
+        guard let text = draftTotal, let value = Double(text.trimmingCharacters(in: .whitespaces)),
+            value.isFinite, value > 0 else { return }
         onTotal(value.rounded())
     }
 

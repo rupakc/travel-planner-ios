@@ -94,7 +94,9 @@ struct BestValueCard: View {
                 role: applied ? .tonal : .primary, systemImage: applied ? "checkmark" : nil, action: onApply)
                 .disabled(applied)
             if applied && canUndo {
-                VButton(L10n.text(K.plan.best.undo), tid: "plan.best-undo", role: .secondary, systemImage: "arrow.uturn.backward", action: onUndo)
+                VButton(
+                    L10n.text(K.plan.best.undo), tid: "plan.best-undo", role: .secondary,
+                    systemImage: "arrow.uturn.backward", action: onUndo)
             }
         }
     }
