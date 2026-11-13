@@ -16,6 +16,8 @@ struct WatchCard: View {
     var onEdit: () -> Void = {}
     var onTogglePause: () -> Void = {}
     var onDelete: () -> Void = {}
+    @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         VCard {
@@ -40,13 +42,18 @@ struct WatchCard: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
-            HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
-                Text(verbatim: row.title)
-                    .font(VFont.display(.headline))
-                    .foregroundStyle(SemanticColor.text)
-                    .fixedSize(horizontal: false, vertical: true)
-                Spacer(minLength: Spacing.sm)
-                statusChip
+            // At accessibility sizes the status chip goes under the title, so the title keeps the full width.
+            ViewThatFits(in: .horizontal) {
+                HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
+                    titleText
+                    Spacer(minLength: Spacing.sm)
+                    statusChip
+                }
+                .frame(maxWidth: .infinity)
+                VStack(alignment: .leading, spacing: Spacing.xs) {
+                    titleText
+                    statusChip
+                }
             }
             if let subtitle = subtitleText {
                 Text(verbatim: subtitle)
@@ -59,6 +66,13 @@ struct WatchCard: View {
                 .foregroundStyle(SemanticColor.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
         }
+    }
+
+    private var titleText: some View {
+        Text(verbatim: row.title)
+            .font(VFont.display(.headline))
+            .foregroundStyle(SemanticColor.text)
+            .fixedSize(horizontal: false, vertical: true)
     }
 
     private var statusChip: some View {
@@ -110,42 +124,81 @@ struct WatchCard: View {
     }
 
     private var actions: some View {
-        let working = busy != nil
+        let stacked = sizeClass != .regular || dynamicTypeSize.isAccessibilitySize
         return VStack(alignment: .leading, spacing: Spacing.sm) {
-            HStack(spacing: Spacing.sm) {
-                VButton(
-                    busy == .check ? L10n.text(K.alerts.ui.checking) : L10n.text(K.alerts.ui.checkNow),
-                    tid: "alerts.check-now", role: .secondary, systemImage: "arrow.clockwise", action: onCheck
-                )
-                .disabled(working || row.isPast)
-                VButton(
-                    L10n.text(K.alerts.live.searchNow), tid: "alerts.live-check", role: .secondary,
-                    systemImage: "globe", action: onLive
-                )
-                .disabled(working || row.isPast)
-            }
-            HStack(spacing: Spacing.sm) {
-                VButton(L10n.text(K.alerts.ui.edit), tid: "alerts.edit", role: .tonal, systemImage: "pencil", action: onEdit)
-                    .disabled(working || row.isPast)
-                if !row.isPast {
-                    VButton(
-                        row.isPaused || row.isErrored ? L10n.text(K.alerts.ui.resume) : L10n.text(K.alerts.ui.pause),
-                        tid: row.isPaused || row.isErrored ? "alerts.resume" : "alerts.pause", role: .tonal,
-                        systemImage: row.isPaused || row.isErrored ? "play.fill" : "pause.fill", action: onTogglePause
-                    )
-                    .disabled(working)
+            if stacked {
+                // Phones and large text: one full-width button per row, so labels never wrap letter by letter.
+                checkButton
+                liveButton
+                if dynamicTypeSize.isAccessibilitySize {
+                    editButton
+                    pauseButton
+                } else {
+                    HStack(spacing: Spacing.sm) {
+                        editButton
+                        pauseButton
+                    }
                 }
-                VButton(
-                    L10n.text(K.alerts.ui.delete), tid: "alerts.delete", role: .destructive, systemImage: "trash",
-                    action: onDelete
-                )
-                .disabled(working)
-                .accessibilityLabel(L10n.text(K.alerts.card.deleteAria, ["name": row.title]))
+                deleteButton
+            } else {
+                HStack(spacing: Spacing.sm) {
+                    checkButton
+                    liveButton
+                }
+                HStack(spacing: Spacing.sm) {
+                    editButton
+                    pauseButton
+                    deleteButton
+                }
             }
             if let link = row.link {
                 BookingLink(url: link, section: row.kind == .flight ? "flights" : "\(row.kind.rawValue)s", tid: "alerts.book")
             }
         }
+    }
+
+    private var working: Bool { busy != nil }
+
+    private var checkButton: some View {
+        VButton(
+            busy == .check ? L10n.text(K.alerts.ui.checking) : L10n.text(K.alerts.ui.checkNow),
+            tid: "alerts.check-now", role: .secondary, systemImage: "arrow.clockwise", action: onCheck
+        )
+        .disabled(working || row.isPast)
+    }
+
+    private var liveButton: some View {
+        VButton(
+            L10n.text(K.alerts.live.searchNow), tid: "alerts.live-check", role: .secondary, systemImage: "globe",
+            action: onLive
+        )
+        .disabled(working || row.isPast)
+    }
+
+    private var editButton: some View {
+        VButton(L10n.text(K.alerts.ui.edit), tid: "alerts.edit", role: .tonal, systemImage: "pencil", action: onEdit)
+            .disabled(working || row.isPast)
+    }
+
+    @ViewBuilder private var pauseButton: some View {
+        if !row.isPast {
+            let resume = row.isPaused || row.isErrored
+            VButton(
+                resume ? L10n.text(K.alerts.ui.resume) : L10n.text(K.alerts.ui.pause),
+                tid: resume ? "alerts.resume" : "alerts.pause", role: .tonal,
+                systemImage: resume ? "play.fill" : "pause.fill", action: onTogglePause
+            )
+            .disabled(working)
+        }
+    }
+
+    private var deleteButton: some View {
+        VButton(
+            L10n.text(K.alerts.ui.delete), tid: "alerts.delete", role: .destructive, systemImage: "trash",
+            action: onDelete
+        )
+        .disabled(working)
+        .accessibilityLabel(L10n.text(K.alerts.card.deleteAria, ["name": row.title]))
     }
 
     // MARK: Text
