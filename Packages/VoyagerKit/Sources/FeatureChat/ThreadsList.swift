@@ -45,6 +45,7 @@ struct ThreadsList: View {
                 .listStyle(.plain)
             }
         }
+        .frame(maxHeight: .infinity, alignment: .top)
         .background(SemanticColor.surface)
     }
 

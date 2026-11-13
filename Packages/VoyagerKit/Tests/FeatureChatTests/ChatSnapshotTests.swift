@@ -9,7 +9,12 @@ import XCTest
 
 @MainActor
 final class ChatSnapshotTests: XCTestCase {
-    private let configs: [SnapshotConfig] = [.phoneLight, .phoneDark, .padLight]
+    /// Tall phone canvases show the whole conversation, so nothing scrolls under the navigation bar.
+    private let configs: [SnapshotConfig] = [
+        SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 1500)),
+        SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 1500)),
+        .padLight,
+    ]
 
     private func turn(_ name: String) -> ChatMessageState {
         var turn = ChatTurn()
@@ -50,7 +55,7 @@ final class ChatSnapshotTests: XCTestCase {
     func test_planningInProgress() async {
         let plan = ChatMessageState(id: "a1", role: .assistant, planning: PlanningState(destination: "Tokyo", generating: true))
         let messages = [ChatMessageState(id: "u1", role: .user, content: "Plan 5 days in Tokyo"), plan]
-        await assertSnapshots(of: { screen(messages) }, named: "planning-progress", configs: [.phoneLight], layout: .screen)
+        await assertSnapshots(of: { screen(messages) }, named: "planning-progress", configs: [configs[0]], layout: .screen)
     }
 
     func test_sectionCard() async {

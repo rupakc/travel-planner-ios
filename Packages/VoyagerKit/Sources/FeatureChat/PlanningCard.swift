@@ -139,7 +139,9 @@ private struct DayCard: View {
     private var details: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             if day["is_travel_day"].bool == true {
-                line(symbol: "airplane", text: L10n.text(K.chat.trip.travelDay))
+                // The catalogue text carries its own plane emoji.
+                Text(verbatim: L10n.text(K.chat.trip.travelDay))
+                    .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)
             }
             if let hotel = day["hotel"]["name"].string {
                 line(symbol: "bed.double", text: hotel)
