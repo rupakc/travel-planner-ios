@@ -103,6 +103,33 @@ struct AlertsModelTests {
         #expect(model.count(.all) == 3)
     }
 
+    @Test func test_deleteNotifiesTheApp() async {
+        let (env, _) = makeEnv {
+            $0.watches.onFareWatches.returns([fare(1)])
+            $0.watches.onPriceWatches.returns([])
+        }
+        var calls = 0
+        let model = AlertsModel(
+            env: env, track: { _ in }, now: { fixedNow }, onWatchesChanged: { calls += 1 })
+        await model.load()
+        await model.delete(model.rows[0])
+        #expect(calls == 1)
+    }
+
+    @Test func test_failedDeleteDoesNotNotifyTheApp() async {
+        let (env, fakes) = makeEnv {
+            $0.watches.onFareWatches.returns([fare(1)])
+            $0.watches.onPriceWatches.returns([])
+        }
+        fakes.watches.onDelete.fails(APIError.network)
+        var calls = 0
+        let model = AlertsModel(
+            env: env, track: { _ in }, now: { fixedNow }, onWatchesChanged: { calls += 1 })
+        await model.load()
+        await model.delete(model.rows[0])
+        #expect(calls == 0)
+    }
+
     @Test func test_deleteFailureKeepsRow() async {
         let (model, fakes, _) = await loaded()
         fakes.watches.onDelete.fails(APIError.network)
@@ -175,6 +202,13 @@ struct WatchRowEstimateTests {
         #expect(row.isEstimate)
         #expect(row.estimatePrice == 352)
         #expect(row.price == nil)
+    }
+
+    @Test func pendingWatchWithoutObservationIsNotAnEstimate() {
+        let pending = WatchRow(activity())
+        #expect(!pending.isEstimate)
+        #expect(pending.estimatePrice == nil)
+        #expect(pending.isPending)
     }
 
     @Test func observedPriceIsNotAnEstimate() {

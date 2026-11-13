@@ -52,7 +52,7 @@ public enum BackgroundTasks {
     }
 
     @MainActor
-    static func pollAlerts(env: AppEnvironment) async {
+    public static func pollAlerts(env: AppEnvironment) async {
         guard env.device.alertPoll, env.auth.phase == .signedIn, let user = env.auth.session?.user.username else { return }
         let poller = pollerBox.poller(for: env.repos.notifications, userID: user)
         await poller.poll()

@@ -77,11 +77,13 @@ public final class AlertsModel {
     @ObservationIgnored private let focusWatch: Int?
     @ObservationIgnored private let track: @MainActor (TelemetryEvent) -> Void
     @ObservationIgnored private let now: @MainActor () -> Date
+    @ObservationIgnored private let onWatchesChanged: @MainActor () async -> Void
     @ObservationIgnored private var liveRun = 0
 
     public init(
         env: AppEnvironment, kind: WatchKind? = nil, watchID: Int? = nil,
-        track: (@MainActor (TelemetryEvent) -> Void)? = nil, now: (@MainActor () -> Date)? = nil
+        track: (@MainActor (TelemetryEvent) -> Void)? = nil, now: (@MainActor () -> Date)? = nil,
+        onWatchesChanged: (@MainActor () async -> Void)? = nil
     ) {
         self.env = env
         focusKind = kind
@@ -89,6 +91,7 @@ public final class AlertsModel {
         filter = AlertsFilter(kind)
         self.track = track ?? { [telemetry = env.telemetry] event in telemetry.track(event) }
         self.now = now ?? { Date() }
+        self.onWatchesChanged = onWatchesChanged ?? {}
     }
 
     // MARK: - Reading
@@ -270,6 +273,7 @@ public final class AlertsModel {
             rows.removeAll { $0.id == row.id }
             if focusedID == row.id { focusedID = nil }
             track(.alertEvent(action: "watch_delete", kind: row.kind.rawValue))
+            await onWatchesChanged()
         } catch {
             toast = ToastMessage(Self.failureText(error, fallback: L10n.text(K.alerts.checks.deleteFailed)))
         }

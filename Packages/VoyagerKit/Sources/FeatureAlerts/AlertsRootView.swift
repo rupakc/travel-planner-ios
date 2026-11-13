@@ -11,8 +11,12 @@ public struct AlertsRootView: View {
     @State private var model: AlertsModel
     @State private var deleting: WatchRow?
 
-    @MainActor public init(env: AppEnvironment, kind: WatchKind?, watchID: Int?) {
-        _model = State(initialValue: AlertsModel(env: env, kind: kind, watchID: watchID))
+    /// `onWatchesChanged` runs after a watch is deleted (the app refreshes local reminders and polls for alerts).
+    @MainActor public init(
+        env: AppEnvironment, kind: WatchKind?, watchID: Int?, onWatchesChanged: (@MainActor () async -> Void)? = nil
+    ) {
+        _model = State(
+            initialValue: AlertsModel(env: env, kind: kind, watchID: watchID, onWatchesChanged: onWatchesChanged))
     }
 
     @MainActor init(model: AlertsModel) {
@@ -43,7 +47,8 @@ public struct AlertsRootView: View {
         }
         .navigationTitle(L10n.text(K.alerts.page.title))
         #if os(iOS)
-        .navigationBarTitleDisplayMode(.inline)
+        // A large title follows Dynamic Type; the inline bar title is capped small by the system.
+        .navigationBarTitleDisplayMode(.large)
         #endif
         .toolbar {
             if !model.notifications404 {
