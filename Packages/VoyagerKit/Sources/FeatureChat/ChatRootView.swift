@@ -107,7 +107,13 @@ public struct ChatRootView: View {
     private var intro: some View {
         ScrollView {
             VStack(spacing: Spacing.lg) {
-                EmptyState(icon: "bubble.left.and.bubble.right", title: L10n.text(K.chat.page.title), message: L10n.text(K.chat.page.intro))
+                // No large icon: the title, intro and four chips must fit an iPhone SE without scrolling.
+                VStack(spacing: Spacing.sm) {
+                    Text(verbatim: L10n.text(K.chat.page.title))
+                        .font(VFont.display(.title3)).foregroundStyle(SemanticColor.text).multilineTextAlignment(.center)
+                    Text(verbatim: L10n.text(K.chat.page.intro))
+                        .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted).multilineTextAlignment(.center)
+                }
                 SuggestionChips(
                     chips: [K.chat.suggestion._1, K.chat.suggestion._2, K.chat.suggestion._3, K.chat.suggestion._4].map { L10n.text($0) },
                     onTap: { model.send($0) })
