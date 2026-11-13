@@ -9,10 +9,10 @@ import XCTest
 
 @MainActor
 final class ChatSnapshotTests: XCTestCase {
-    /// Tall phone canvases show the whole conversation, so nothing scrolls under the navigation bar.
     private let configs: [SnapshotConfig] = [
-        SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 1500)),
-        SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 1500)),
+        .phoneLight, .phoneDark,
+        SnapshotConfig(name: "15promax-light", device: SnapshotDevice.iPhone15ProMax.config, dark: false),
+        SnapshotConfig(name: "15promax-dark", device: SnapshotDevice.iPhone15ProMax.config, dark: true),
         .padLight,
     ]
 

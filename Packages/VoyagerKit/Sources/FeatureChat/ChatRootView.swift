@@ -45,6 +45,10 @@ public struct ChatRootView: View {
             }
         }
         .background(SemanticColor.surface)
+        // An opaque bar: the conversation scrolls under it, and its text never shows through the bar's buttons.
+        .toolbarBackground(SemanticColor.surface, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if !regular {
                 ToolbarItem(placement: .topBarLeading) {
