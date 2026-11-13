@@ -172,6 +172,8 @@ struct WatchCard: View {
             L10n.text(K.alerts.live.searchNow), tid: "alerts.live-check", role: .secondary, systemImage: "globe",
             action: onLive
         )
+        // The longest label: past xxxLarge it would wrap letter by letter, so its wrapped form stays at xxxLarge.
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
         .disabled(working || row.isPast)
     }
 
