@@ -1,3 +1,4 @@
+import AuthCore
 import Networking
 import SectionsUI
 import TestSupport
