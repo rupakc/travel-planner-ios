@@ -51,6 +51,8 @@ public struct SettingsRootView: View {
                 FeedbackSheet(env: model.env) { showsFeedback = false }
             }
         }
+        .onAppear { model.refreshConsent() }
+        .onChange(of: model.env.consentAnswerCount) { _, _ in model.refreshConsent() }
         .accessibilityIdentifier("settings.root")
     }
 

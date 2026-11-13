@@ -1,5 +1,6 @@
 import AuthCore
 import DesignSystem
+import Domain
 import Foundation
 import Networking
 import Observation
@@ -10,6 +11,7 @@ import VoyagerEnv
 import VoyagerModel
 
 @testable import FeatureSettings
+@testable import Telemetry
 
 @MainActor
 private final class Recorder {
@@ -154,6 +156,69 @@ struct SettingsModelTests {
         env.device.pushToken = "tok"
         await model.signOut()
         #expect(env.auth.session == nil)
+        #expect(env.device.pushToken == "tok")  // kept, so the unregister can be retried
+    }
+
+    @Test func test_privacyFollowsTheConsentCardAnswer() {
+        var choice: ConsentChoice?
+        let model = SettingsModel(env: AppEnvironment.fake(), consentChoice: { choice }, timeZone: "Europe/Berlin")
+        #expect(!model.telemetryOn)  // EU zone, not answered yet
+        choice = .granted  // answered on the consent card
+        model.refreshConsent()
+        #expect(model.telemetryOn)
+        choice = .denied
+        model.refreshConsent()
+        #expect(!model.telemetryOn)
+    }
+
+    @Test func test_privacyOffEmptiesTheRealTelemetryBuffer() async {
+        let suite = UserDefaults(suiteName: "settings-telemetry-\(UUID().uuidString)")!
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("tel-\(UUID().uuidString)")
+        let telemetry = Telemetry()
+        telemetry.configure(
+            TelemetryBootstrap(
+                appVersion: "1.0.0", locale: { "en" }, endpoint: { nil }, token: { nil },
+                remote: TelemetryRemoteConfig(enabled: true), storeDirectory: directory,
+                timeZone: { TimeZone(identifier: "America/New_York") ?? .gmt }),
+            defaults: suite, background: false)
+        telemetry.track(.themeChange("dark"))
+        telemetry.track(.themeChange("light"))
+        guard let core = telemetry.core else {
+            Issue.record("telemetry not configured")
+            return
+        }
+        #expect(!core.queuedEvents().isEmpty)
+        let model = SettingsModel(
+            env: AppEnvironment.fake(), consentChoice: { .granted }, timeZone: "America/New_York",
+            telemetry: telemetry)
+        model.setTelemetry(false)
+        await core.settle()
+        #expect(core.queuedEvents().isEmpty)
+        #expect(Consent.stored(suite) == .denied)
+        let leftovers = (try? FileManager.default.contentsOfDirectory(atPath: directory.path)) ?? []
+        #expect(!leftovers.contains("tq.json"))
+    }
+
+    @Test func test_signOutLeavesNothingForTheNextUser() async {
+        let (model, env, _) = make()
+        let started = env.startDeferredWork()
+        await started.value
+        env.plan.searchData = ["destination": "Kyoto"]
+        env.plan.toggle(field: "activities", item: ["name": "Fushimi Inari"])
+        let thread = env.chatThreads.create()
+        env.chatThreads.append(["role": "user", "content": "Tokyo in April?"], to: thread.id)
+        await env.flushPersistence()
+        #expect(env.chatThreads.username == "amy")
+
+        await model.signOut()
+        // The shell follows the session: the plan and chats are the signed-out guest's, empty.
+        for _ in 0..<200 where env.chatThreads.username != nil { try? await Task.sleep(for: .milliseconds(10)) }
+        #expect(env.auth.session == nil)
+        #expect(env.chatThreads.username == nil)
+        #expect(env.chatThreads.threads.isEmpty)
+        #expect(env.plan.searchData == nil)
+        #expect(env.plan.selections == Selections.empty)
+        #expect(env.plan.savedPlanID == nil)
     }
 
     @Test func test_alertPollAndPushTokenPersist() {

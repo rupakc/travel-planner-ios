@@ -70,6 +70,7 @@ struct ShellView: View {
             NavigationStack { NearbySheet(env: env) }
         }
         .appShortcuts(router)
+        .onChange(of: consent.answered) { _, _ in env.consentAnswerCount += 1 }
         .onChange(of: env.consentPromptRequested) { _, requested in
             guard requested else { return }
             consent.reopen()

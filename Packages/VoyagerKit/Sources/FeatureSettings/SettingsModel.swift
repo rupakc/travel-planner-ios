@@ -16,20 +16,35 @@ final class SettingsModel {
 
     @ObservationIgnored private let track: (TelemetryEvent) -> Void
     @ObservationIgnored private let setConsent: (Bool) -> Void
+    @ObservationIgnored private let readChoice: () -> ConsentChoice?
+    @ObservationIgnored private let timeZone: String
 
     init(
         env: AppEnvironment,
         consentChoice: (() -> ConsentChoice?)? = nil,
         timeZone: String = TimeZone.current.identifier,
         track: ((TelemetryEvent) -> Void)? = nil,
-        setConsent: ((Bool) -> Void)? = nil
+        setConsent: ((Bool) -> Void)? = nil,
+        telemetry: Telemetry? = nil
     ) {
         self.env = env
-        let telemetry = env.telemetry
+        let telemetry = telemetry ?? env.telemetry
         self.track = track ?? { telemetry.track($0) }
         self.setConsent = setConsent ?? { telemetry.setConsent($0) }
-        let choice = (consentChoice ?? { telemetry.consentChoice })()
-        telemetryOn = choice == .granted || (choice == nil && !Consent.required(timeZone: timeZone))
+        let read = consentChoice ?? { telemetry.consentChoice }
+        readChoice = read
+        self.timeZone = timeZone
+        telemetryOn = Self.isOn(choice: read(), timeZone: timeZone)
+    }
+
+    private static func isOn(choice: ConsentChoice?, timeZone: String) -> Bool {
+        choice == .granted || (choice == nil && !Consent.required(timeZone: timeZone))
+    }
+
+    /// Re-reads the stored choice: the consent card can be answered outside Settings.
+    func refreshConsent() {
+        let next = Self.isOn(choice: readChoice(), timeZone: timeZone)
+        if next != telemetryOn { telemetryOn = next }
     }
 
     // MARK: - Who
@@ -96,13 +111,16 @@ final class SettingsModel {
 
     func open(_ route: Route) { env.router.open(route) }
 
-    /// Unregisters the push token when there is one (a failure never blocks sign-out), then signs out.
+    /// Unregisters the push token when there is one (a failure never blocks sign-out and keeps the token), then signs out.
     func signOut() async {
         guard !signingOut else { return }
         signingOut = true
         if let token = env.device.pushToken, !token.isEmpty {
-            try? await env.repos.devices.unregister(token: token)
-            env.device.pushToken = nil
+            // Keep the token when unregistering fails, so a later sign-out (or launch) can retry.
+            do {
+                try await env.repos.devices.unregister(token: token)
+                env.device.pushToken = nil
+            } catch {}
         }
         await env.auth.signOut()
         signingOut = false
