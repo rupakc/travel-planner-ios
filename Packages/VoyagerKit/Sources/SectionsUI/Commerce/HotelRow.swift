@@ -37,6 +37,10 @@ struct HotelRow: View {
                             Text(verbatim: Fmt.currency(nightly, code: "USD") + L10n.text(K.results.hotels.perNight))
                                 .font(VFont.body(.headline, weight: .semibold))
                                 .foregroundStyle(SemanticColor.text)
+                                // The price stays on one line (it shrinks a little before it would wrap); the name wraps instead.
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.75)
+                                .fixedSize(horizontal: true, vertical: false)
                         }
                         if let total = hotel["total_price_usd"].double, total.isFinite, total > 0 {
                             Text(verbatim: L10n.text(K.results.total, ["amount": Fmt.currency(total, code: "USD")]))

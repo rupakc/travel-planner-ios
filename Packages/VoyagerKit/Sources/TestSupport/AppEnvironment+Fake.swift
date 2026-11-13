@@ -22,6 +22,7 @@ extension AppEnvironment {
     public static func fake(
         user: User? = .sample,
         fakes: FakeRepositories = FakeRepositories(),
+        files: any FileStore = MemoryFileStore(),
         configure: (inout FakeRepositories) -> Void = { _ in }
     ) -> AppEnvironment {
         var fakes = fakes
@@ -34,7 +35,6 @@ extension AppEnvironment {
         let auth = AuthState(api: fakes.auth, store: InMemorySessionStore(user.map { Session.sample(user: $0) }))
         let device = DeviceSettings(defaults: defaults)
         device.onboardingCompleted = true
-        let files = MemoryFileStore()
         return AppEnvironment(
             build: build,
             server: server,

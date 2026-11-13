@@ -41,6 +41,11 @@ public final class ChatThreadStore {
     public private(set) var threads: [ChatThread] = []
     /// Whose threads these are (`nil` = signed out, the web's `guest`).
     public private(set) var username: String?
+    /// True once `username`'s file was read successfully; false before the first `switchUser(_:)` and while a
+    /// switch or a retried read is pending. Observers (the chat screen) resume the latest thread when it flips.
+    public private(set) var isReady = false
+    /// True once a `switchUser(_:)` has begun, i.e. `username` is a real answer and not just the initial `nil`.
+    public private(set) var hasSwitched = false
 
     @ObservationIgnored private let files: any FileStore
     @ObservationIgnored private let now: @Sendable () -> Date
@@ -128,7 +133,9 @@ public final class ChatThreadStore {
         let generation = loadGeneration
         if !loaded, !threads.isEmpty { orphans[Self.path(for: self.username), default: []] += threads }
         loaded = false
+        isReady = false
         self.username = username
+        hasSwitched = true
         threads = []
         if await attemptLoad(generation: generation) == false { scheduleLoadRetry(generation: generation) }
     }
@@ -170,6 +177,7 @@ public final class ChatThreadStore {
         let older = stored.filter { !known.contains($0.id) }.sorted { $0.updatedAt > $1.updatedAt }
         threads = created + older
         loaded = true
+        isReady = true
         if !created.isEmpty { schedulePersist() }
         return true
     }

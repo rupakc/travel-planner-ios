@@ -113,8 +113,8 @@ public struct VerificationBadge: View {
                 .foregroundStyle(Palette.color(model.family, .s700))
                 .padding(.horizontal, Spacing.sm)
                 .frame(minHeight: 44)
-                .background(Palette.color(model.family, .s100), in: Capsule())
-                .overlay { Capsule().strokeBorder(Palette.color(model.family, .s200), lineWidth: 1) }
+                .borderedSurface(
+                    Capsule(), fill: Palette.color(model.family, .s100), border: Palette.color(model.family, .s200))
                 .contentShape(Capsule())
             }
             .buttonStyle(.plain)

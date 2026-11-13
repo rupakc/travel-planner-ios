@@ -15,8 +15,7 @@ private struct VButtonBody: View {
             .padding(.horizontal, Spacing.lg)
             .frame(minHeight: 44)
             .frame(maxWidth: .infinity)
-            .background(background, in: Capsule())
-            .overlay { if let stroke { Capsule().strokeBorder(stroke, lineWidth: 1) } }
+            .borderedSurface(Capsule(), fill: background, border: stroke)
             .opacity(isEnabled ? (configuration.isPressed ? 0.85 : 1) : 0.45)
             .contentShape(Capsule())
     }
