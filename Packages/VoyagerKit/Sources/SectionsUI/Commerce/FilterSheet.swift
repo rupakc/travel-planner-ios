@@ -265,7 +265,13 @@ struct WrapLayout: Layout {
         }
     }
 
-    private func arrange(width: CGFloat, subviews: Subviews) -> (origins: [CGPoint], width: CGFloat, height: CGFloat) {
+    private struct Arrangement {
+        let origins: [CGPoint]
+        let width: CGFloat
+        let height: CGFloat
+    }
+
+    private func arrange(width: CGFloat, subviews: Subviews) -> Arrangement {
         var origins: [CGPoint] = []
         var x: CGFloat = 0
         var y: CGFloat = 0
@@ -283,7 +289,7 @@ struct WrapLayout: Layout {
             rowHeight = max(rowHeight, size.height)
             widest = max(widest, x - spacing)
         }
-        return (origins, widest, y + rowHeight)
+        return Arrangement(origins: origins, width: widest, height: y + rowHeight)
     }
 }
 
