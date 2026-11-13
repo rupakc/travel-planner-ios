@@ -16,7 +16,9 @@ struct FilterDraft: Equatable {
     var minRating: Double?
 
     var price: Double? {
-        let text = maxPrice.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: ",", with: ".")
+        var text = maxPrice.trimmingCharacters(in: .whitespaces)
+        // "1,200.5" has a thousands comma; "12,5" a decimal one.
+        text = text.contains(".") ? text.replacingOccurrences(of: ",", with: "") : text.replacingOccurrences(of: ",", with: ".")
         guard let value = Double(text), value.isFinite, value >= 0 else { return nil }
         return value
     }
