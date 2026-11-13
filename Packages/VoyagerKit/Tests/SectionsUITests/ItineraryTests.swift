@@ -129,6 +129,39 @@ struct ItineraryTests {
         #expect(editor.notes["1-afternoon"].isNull)
     }
 
+    @Test func test_openingEditorAndDoneWritesNothing() throws {
+        let box = ItinBox()
+        let editor = model(box: box)
+        let slot = try #require(editor.scheduledDays[0]["slots"].array?.first)
+        editor.saveEditor(key: "1-morning", slot: slot, activity: "Belém Tower", location: "Belém", costText: "12", note: "")
+        #expect(box.selections.isEmpty)
+        #expect(editor.edits["1-morning"].isNull)
+    }
+
+    @Test func test_saveEditorBatchesOneCommitOfChangedFieldsOnly() throws {
+        let box = ItinBox()
+        let editor = model(box: box)
+        let slot = try #require(editor.scheduledDays[0]["slots"].array?.first)
+        editor.saveEditor(key: "1-morning", slot: slot, activity: "Belém Tower", location: "Belém", costText: "20", note: "  hi  ")
+        #expect(box.selections.count == 1)
+        let saved = try #require(box.selections.last)
+        #expect(saved["itinerary_edits"]["1-morning"]["cost"].double == 20)
+        #expect(saved["itinerary_edits"]["1-morning"]["activity"].isNull)
+        #expect(saved["itinerary_edits"]["1-morning"]["location"].isNull)
+        #expect(saved["itinerary_notes"]["1-morning"].string == "hi")
+    }
+
+    @Test func test_junkCostKeepsOldValueAndNotesAreCapped() throws {
+        let editor = model()
+        let slot = try #require(editor.scheduledDays[0]["slots"].array?.first)
+        editor.saveEditor(key: "1-morning", slot: slot, activity: "Belém Tower", location: "Belém", costText: "20", note: "")
+        editor.saveEditor(key: "1-morning", slot: slot, activity: "Belém Tower", location: "Belém", costText: "abc", note: "")
+        #expect(editor.edits["1-morning"]["cost"].double == 20)
+        editor.saveEditor(key: "1-morning", slot: slot, activity: "x", location: "Belém", costText: "20", note: String(repeating: "n", count: 5000))
+        #expect(editor.notes["1-morning"].string?.count == ItineraryEditorModel.maxNoteLength)
+        #expect(TripMapView.stops(from: editor.arranged, edits: editor.edits).first?.name == "x")
+    }
+
     @Test func test_pickKeepsScheduledTimes() throws {
         let editor = model()
         let slot = try #require(editor.scheduledDays[0]["slots"].array?.first)

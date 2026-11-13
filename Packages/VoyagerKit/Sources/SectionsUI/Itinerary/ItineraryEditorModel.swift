@@ -202,10 +202,59 @@ public final class ItineraryEditorModel {
         commit()
     }
 
+    public static let maxNoteLength = 1000
+
+    /// Saves the editor in one commit, writing only what differs from what is shown now. Empty activity is
+    /// ignored; an unparseable cost keeps the old one; an emptied cost drops the edit.
+    public func saveEditor(key: String, slot: JSONValue, activity: String, location: String, costText: String, note: String) {
+        guard editable else { return }
+        var all = edits.object ?? [:]
+        var entry = all[key]?.object ?? [:]
+        var changed = false
+        let name = activity.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !name.isEmpty, name != activityName(key: key, fallback: slot["activity"].string) {
+            entry["activity"] = .string(name)
+            changed = true
+        }
+        let place = location.trimmingCharacters(in: .whitespacesAndNewlines)
+        let shownPlace = (entry["location"]?.string ?? slot["location"].string ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        if place != shownPlace {
+            entry["location"] = .string(place)
+            changed = true
+        }
+        let costInput = costText.trimmingCharacters(in: .whitespacesAndNewlines)
+        if costInput.isEmpty {
+            if entry["cost"] != nil, entry["cost"] != .null {
+                entry["cost"] = .null
+                changed = true
+            }
+        } else if let value = ItineraryText.parseCost(costInput) {
+            let shown = ItineraryText.cost(entry["cost"] ?? slot["estimated_cost_usd"])
+            if shown != value {
+                entry["cost"] = .number(value)
+                changed = true
+            }
+        }
+        if changed {
+            all[key] = .object(entry)
+            setSelections("itinerary_edits", .object(all))
+        }
+        let text = String(note.trimmingCharacters(in: .whitespacesAndNewlines).prefix(Self.maxNoteLength))
+        var noteMap = notes.object ?? [:]
+        let noteChanged = text != (noteMap[key]?.string ?? "")
+        if noteChanged {
+            noteMap[key] = .string(text)
+            setSelections("itinerary_notes", .object(noteMap))
+        }
+        guard changed || noteChanged else { return }
+        refresh()
+        commit()
+    }
+
     public func setNote(key: String, text: String) {
         guard editable else { return }
         var all = notes.object ?? [:]
-        all[key] = .string(text)
+        all[key] = .string(String(text.trimmingCharacters(in: .whitespacesAndNewlines).prefix(Self.maxNoteLength)))
         setSelections("itinerary_notes", .object(all))
         persist?(selections)
     }

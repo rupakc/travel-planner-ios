@@ -55,7 +55,7 @@ public struct ItinerarySectionView: View {
             if let coverage = ItineraryText.linkCoverage(searchData: ctx.searchData, itinerary: model.arranged) {
                 LinkCoverageBanner(coverage: coverage, title: ctx.searchData?["import_source"]["title"].string)
             }
-            TripMapView(data: model.arranged, ctx: ctx)
+            TripMapView(data: model.arranged, ctx: ctx, edits: model.edits)
             if let total = ItineraryText.cost(model.arranged["total_estimated_cost_usd"]), total > 0 {
                 Text(verbatim: L10n.text(K.itinerary.section.estCost, ["cost": ItineraryText.usd(total)]))
                     .font(VFont.body(.subheadline, weight: .medium))
@@ -189,11 +189,9 @@ public struct ItinerarySectionView: View {
             initialLocation: edit["location"].string ?? slot?["location"].string ?? "",
             initialCost: ItineraryText.cost(edit["cost"].isNull ? (slot?["estimated_cost_usd"] ?? .null) : edit["cost"]),
             initialNote: model.notes[key].string ?? "",
-            onSave: { activity, location, cost, note in
-                model.setEdit(key: key, field: "activity", value: .string(activity))
-                model.setEdit(key: key, field: "location", value: .string(location))
-                model.setEdit(key: key, field: "cost", value: cost.map { .number($0) } ?? .null)
-                model.setNote(key: key, text: note)
+            onSave: { activity, location, costText, note in
+                model.saveEditor(
+                    key: key, slot: slot ?? .null, activity: activity, location: location, costText: costText, note: note)
             })
     }
 }

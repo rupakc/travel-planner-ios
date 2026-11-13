@@ -11,6 +11,7 @@ struct DayView: View {
     let day: JSONValue
     let onMove: (String) -> Void
     let onEdit: (String) -> Void
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     enum Row: Identifiable {
         case slot(JSONValue, Int)
@@ -79,13 +80,16 @@ struct DayView: View {
     }
 
     private var header: some View {
-        HStack(alignment: .firstTextBaseline) {
+        let layout = typeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.xs))
+            : AnyLayout(HStackLayout(alignment: .firstTextBaseline, spacing: Spacing.sm))
+        return layout {
             Text(verbatim: ItineraryText.dayHeading(day))
                 .font(VFont.display(.headline))
                 .foregroundStyle(SemanticColor.text)
                 .accessibilityAddTraits(.isHeader)
                 .fixedSize(horizontal: false, vertical: true)
-            Spacer(minLength: Spacing.sm)
+            if !typeSize.isAccessibilitySize { Spacer(minLength: Spacing.sm) }
             if let cost = ItineraryText.cost(day["daily_estimated_cost_usd"]), cost > 0 {
                 Text(verbatim: L10n.text(K.itinerary.cost.est, ["cost": ItineraryText.usd(cost)]))
                     .font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)

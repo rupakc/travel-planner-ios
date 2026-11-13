@@ -9,7 +9,7 @@ struct SlotEditor: View {
     let initialLocation: String
     let initialCost: Double?
     let initialNote: String
-    let onSave: (_ activity: String, _ location: String, _ cost: Double?, _ note: String) -> Void
+    let onSave: (_ activity: String, _ location: String, _ costText: String, _ note: String) -> Void
 
     @State private var activity = ""
     @State private var location = ""
@@ -38,7 +38,7 @@ struct SlotEditor: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        onSave(activity, location, ItineraryText.parseCost(cost), note)
+                        onSave(activity, location, cost, note)
                         dismiss()
                     } label: { Text(verbatim: L10n.text(K.itinerary.edit.done)) }
                     .accessibilityIdentifier("itinerary.edit.done")

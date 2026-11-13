@@ -68,4 +68,12 @@ final class ItinerarySnapshotTests: XCTestCase {
             of: { TripMapView(data: ItineraryFixture.itinerary, ctx: .inert) },
             named: "collapsed", configs: [.phoneLight, .phoneDark])
     }
+
+    func test_slotRowAX5() {
+        let editor = ItineraryEditorModel(itinerary: ItineraryFixture.itinerary)
+        let slot = editor.scheduledDays[0]["slots"][1]
+        assertSnapshots(
+            of: { SlotRow(model: editor, slot: slot, dayNumber: 1, showsTransit: true, isLast: true, onMove: {}, onEdit: {}) },
+            named: "ax5", configs: [.germanAX5])
+    }
 }

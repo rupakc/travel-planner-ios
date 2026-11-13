@@ -8,8 +8,18 @@ struct ItineraryTimelineRail<Content: View>: View {
     let isLast: Bool
     let accent: Color
     @ViewBuilder let content: () -> Content
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
+        if typeSize.isAccessibilitySize {
+            // The rail would eat the width the card needs; the card shows its own time range.
+            content().frame(maxWidth: .infinity, alignment: .leading)
+        } else {
+            rail
+        }
+    }
+
+    private var rail: some View {
         HStack(alignment: .top, spacing: Spacing.sm) {
             VStack(spacing: 0) {
                 Text(verbatim: time ?? " ")

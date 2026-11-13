@@ -13,13 +13,16 @@ import VoyagerModel
 public struct TripMapView: View {
     let data: JSONValue
     let ctx: SectionContext
+    /// `itinerary_edits`, so renamed activities show their new name.
+    let edits: JSONValue
     @State private var expanded: Bool
     @State private var selected: Int?
     @Environment(\.telemetryRoute) private var route
 
-    public init(data: JSONValue, ctx: SectionContext) {
+    public init(data: JSONValue, ctx: SectionContext, edits: JSONValue = .null) {
         self.data = data
         self.ctx = ctx
+        self.edits = edits
         _expanded = State(initialValue: Self.initiallyExpanded(layout: ctx.layout))
     }
 
@@ -39,7 +42,7 @@ public struct TripMapView: View {
 
     /// Stops in itinerary order. A slot needs a finite `lat` in -90...90 and `lng` in -180...180 (loose AI
     /// JSON: strings, nulls and out-of-range values are skipped, never trapped on).
-    public static func stops(from itinerary: JSONValue) -> [Stop] {
+    public static func stops(from itinerary: JSONValue, edits: JSONValue = .null) -> [Stop] {
         var stops: [Stop] = []
         for (index, day) in (itinerary["days"].array ?? []).enumerated() {
             let dayNumber = day["day_number"].int ?? index + 1
@@ -54,7 +57,8 @@ public struct TripMapView: View {
                         L10n.text(K.itinerary.map.dayLineCity, ["day": String(dayNumber), "city": $0, "time": time])
                     } ?? L10n.text(K.itinerary.map.dayLine, ["day": String(dayNumber), "time": time])
                 stops.append(Stop(
-                    id: stops.count, name: slot["activity"].string ?? slot["location"].string ?? "",
+                    id: stops.count, name: edits[slot["key"].string ?? ""]["activity"].string.flatMap { $0.isEmpty ? nil : $0 }
+                        ?? slot["activity"].string ?? slot["location"].string ?? "",
                     coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lng), day: dayNumber, dayLabel: label,
                     fromLink: slot["from_link"].isTruthy))
             }
@@ -75,7 +79,7 @@ public struct TripMapView: View {
     }
 
     public var body: some View {
-        let stops = Self.stops(from: data)
+        let stops = Self.stops(from: data, edits: edits)
         if !stops.isEmpty {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 Button {
@@ -86,6 +90,8 @@ public struct TripMapView: View {
                         Label { Text(verbatim: L10n.text(K.search.map.aria)) } icon: { Image(systemName: "map") }
                             .font(VFont.body(.subheadline, weight: .medium))
                             .foregroundStyle(SemanticColor.primary)
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
                         Spacer(minLength: Spacing.sm)
                         Image(systemName: expanded ? "chevron.up" : "chevron.down")
                             .foregroundStyle(SemanticColor.textMuted).accessibilityHidden(true)
