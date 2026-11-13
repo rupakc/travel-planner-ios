@@ -72,7 +72,7 @@ def test_no_bootstatus_left_running(tmp_path):
     assert leftover.stdout.strip() == ""
 
 
-def _ui(tmp_path: Path, failing_boot: str):
+def _ui(tmp_path: Path, failing_boot: str, xcodebuild: str = "", xcrun: str = "", env_extra=None, devices=("iphone", "ipad")):
     root = (tmp_path / "repo").resolve()
     (root / "scripts/ci").mkdir(parents=True)
     shutil.copy(REPO / "scripts/ci/test-ui.sh", root / "scripts/ci/test-ui.sh")
@@ -83,12 +83,15 @@ echo "start $1 $(date +%s%N)" >> "{root}/calls"; sleep 1; echo "end $1 $(date +%
 """)
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
-    _exe(bin_dir / "xcodebuild", f'echo "xcodebuild $1 $*" >> "{root}/calls"\n')
-    env = {**os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}"}
+    _exe(bin_dir / "xcodebuild", f'echo "xcodebuild $1 $*" >> "{root}/calls"\n' + xcodebuild)
+    _exe(bin_dir / "xcrun", f'echo "xcrun $2" >> "{root}/calls"\n' + xcrun)
+    summary = tmp_path / "summary.md"
+    env = {**os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}", "GITHUB_STEP_SUMMARY": str(summary), **(env_extra or {})}
     result = subprocess.run(
-        ["bash", str(root / "scripts/ci/test-ui.sh"), "iphone", "ipad"],
+        ["bash", str(root / "scripts/ci/test-ui.sh"), *devices],
         env=env, capture_output=True, text=True, timeout=60,
     )
+    result.summary = summary.read_text() if summary.exists() else ""
     return result, (root / "calls").read_text().splitlines()
 
 
@@ -114,3 +117,57 @@ def test_no_orphaned_poller_sleep_after_a_boot(tmp_path):
     assert result.returncode == 0, result.stdout + result.stderr
     leftover = subprocess.run(["pgrep", "-f", "^sleep 30$"], capture_output=True, text=True)
     assert leftover.stdout.strip() == ""
+
+
+# xcodebuild fake: the first test run (marker file absent) idles, later ones pass.
+_STALL_THEN_PASS = """
+if [[ "$1" == test-without-building ]]; then
+  if [[ ! -e "@M@" ]]; then touch "@M@"; @FIRST@; fi
+  echo "Test Case '-[LaunchTests test_launches]' started."
+fi
+"""
+
+
+def _stall(tmp_path: Path, first: str) -> str:
+    return _STALL_THEN_PASS.replace("@M@", str(tmp_path / "ran")).replace("@FIRST@", first)
+
+
+def test_ui_retries_once_when_the_watchdog_fires_before_any_test_started(tmp_path):
+    result, calls = _ui(tmp_path, "none", xcodebuild=_stall(tmp_path, "exec sleep 60"),
+                        env_extra={"UI_ATTEMPT_TIMEOUT": "2"}, devices=("iphone",))
+    out = result.stdout
+    assert result.returncode == 0, out + result.stderr
+    assert "infrastructure retry: the watchdog fired before any test case started" in out
+    assert "infrastructure retry" in result.summary
+    assert [c for c in calls if c.startswith("xcrun")].count("xcrun shutdown") == 1
+    assert "xcrun erase" in calls
+    assert len([c for c in calls if c.startswith("xcodebuild test-without-building")]) == 2
+    assert len([c for c in calls if c.startswith("start ")]) == 2  # initial boot + reboot
+
+
+def test_ui_does_not_retry_when_a_test_started(tmp_path):
+    first = "echo \"Test Case '-[LaunchTests test_launches]' started.\"; exec sleep 60"
+    result, calls = _ui(tmp_path, "none", xcodebuild=_stall(tmp_path, first),
+                        env_extra={"UI_ATTEMPT_TIMEOUT": "2"}, devices=("iphone",))
+    assert result.returncode == 1
+    assert "infrastructure retry" not in result.stdout
+    assert len([c for c in calls if c.startswith("xcodebuild test-without-building")]) == 1
+    assert "xcrun erase" not in calls
+
+
+def test_ui_does_not_retry_a_failed_test(tmp_path):
+    xb = 'if [[ "$1" == test-without-building ]]; then echo "Test case \'x\' started."; exit 65; fi\n'
+    result, calls = _ui(tmp_path, "none", xcodebuild=xb, devices=("iphone",))
+    assert result.returncode == 1
+    assert "infrastructure retry" not in result.stdout
+    assert len([c for c in calls if c.startswith("xcodebuild test-without-building")]) == 1
+
+
+def test_ui_retries_when_the_warm_up_times_out(tmp_path):
+    # First `simctl launch` is killed by the alarm (142); the second succeeds.
+    xcrun = f'[[ "$2" == launch && ! -e "{tmp_path}/w" ]] && {{ touch "{tmp_path}/w"; kill -ALRM $$; }}\nexit 0\n'
+    result, calls = _ui(tmp_path, "none", xcodebuild=_stall(tmp_path, "true"), xcrun=xcrun, devices=("iphone",))
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "infrastructure retry: the warm-up launch timed out" in result.stdout
+    assert len([c for c in calls if c.startswith("xcodebuild test-without-building")]) == 1
+    assert "xcrun erase" in calls

@@ -37,7 +37,7 @@ run_limited() {
   local limit="$1"; shift
   local flag
   flag="$(mktemp)"; rm -f "$flag"
-  "$@" &
+  if [[ -n "${run_log:-}" ]]; then "$@" > >(tee "$run_log") 2>&1 & else "$@" & fi
   local pid=$!
   ( sleep "$limit"; touch "$flag"
     echo "::error::test-ui: run exceeded ${limit}s; stopping xcodebuild"
@@ -83,28 +83,56 @@ for i in "${!devices[@]}"; do
   fi
   echo "test-ui: $device on ${destinations[$i]}"
   udid="${destinations[$i]##*id=}"
-  # Warm up: on a freshly created iOS 18.6 device the FIRST host-initiated app launch (xcodebuild launching the
-  # UI-test runner) was sometimes never delivered to SpringBoard, so xcodebuild waited silently until the watchdog
-  # (runs 43307335383, 43322096480; no RBSLaunchRequest for the runner in the simulator log). A `simctl launch` of a
-  # system app first makes the path work (run 43317210574: 25 s and 6 s, then both devices ran their tests).
-  t0=$SECONDS
-  wstatus=0
-  perl -e 'alarm 120; exec @ARGV' xcrun simctl launch "$udid" com.apple.Preferences >/dev/null 2>&1 || wstatus=$?
-  echo "test-ui: warm-up launch on $device: status $wstatus after $((SECONDS - t0))s"
-  perl -e 'alarm 30; exec @ARGV' xcrun simctl terminate "$udid" com.apple.Preferences >/dev/null 2>&1 || true
-  # Simulator log for this run (uploaded with the xcresult on failure).
-  xcrun simctl spawn "$udid" log stream --style compact \
-    --predicate 'process IN {"SpringBoard","runningboardd","testmanagerd","CoreSimulatorBridge","VoyagerUITests-Runner","Voyager"} OR subsystem BEGINSWITH "com.apple.FrontBoard"' \
-    > "$ROOT/build/ui-$device-sim.log" 2>&1 &
-  logpid=$!
+  run_log="$ROOT/build/ui-$device-xcodebuild.log"
+  # Infrastructure retry (run 43453975070: iPhone warm-up timed out at 120 s, then xcodebuild idled the full
+  # watchdog without starting a test, while iPad passed). Two tries at most. Retried: the warm-up timing out, or the
+  # watchdog firing before any "Test Case ... started" line. Never retried: a test that started and failed.
   status=0
-  run_limited "$attempt_timeout" xcodebuild test-without-building "${common[@]}" \
-    -destination "${destinations[$i]}" \
-    -resultBundlePath "$result" \
-    -test-timeouts-enabled YES \
-    -default-test-execution-time-allowance 120 \
-    -maximum-test-execution-time-allowance 300 || status=$?
-  kill "$logpid" 2>/dev/null || true
+  for try in 1 2; do
+    : > "$run_log"
+    # Warm up: on a freshly created iOS 18.6 device the FIRST host-initiated app launch (xcodebuild launching the
+    # UI-test runner) was sometimes never delivered to SpringBoard, so xcodebuild waited silently until the watchdog
+    # (runs 43307335383, 43322096480; no RBSLaunchRequest for the runner in the simulator log). A `simctl launch` of a
+    # system app first makes the path work (run 43317210574: 25 s and 6 s, then both devices ran their tests).
+    t0=$SECONDS
+    wstatus=0
+    perl -e 'alarm 120; exec @ARGV' xcrun simctl launch "$udid" com.apple.Preferences >/dev/null 2>&1 || wstatus=$?
+    echo "test-ui: warm-up launch on $device: status $wstatus after $((SECONDS - t0))s (try $try)"
+    perl -e 'alarm 30; exec @ARGV' xcrun simctl terminate "$udid" com.apple.Preferences >/dev/null 2>&1 || true
+    if [[ $wstatus -eq 142 && $try -eq 1 ]]; then
+      reason="the warm-up launch timed out"
+    else
+      # Simulator log for this run (uploaded with the xcresult on failure).
+      xcrun simctl spawn "$udid" log stream --style compact \
+        --predicate 'process IN {"SpringBoard","runningboardd","testmanagerd","CoreSimulatorBridge","VoyagerUITests-Runner","Voyager"} OR subsystem BEGINSWITH "com.apple.FrontBoard"' \
+        > "$ROOT/build/ui-$device-sim.log" 2>&1 &
+      logpid=$!
+      rm -rf "$result"
+      status=0
+      run_limited "$attempt_timeout" xcodebuild test-without-building "${common[@]}" \
+        -destination "${destinations[$i]}" \
+        -resultBundlePath "$result" \
+        -test-timeouts-enabled YES \
+        -default-test-execution-time-allowance 120 \
+        -maximum-test-execution-time-allowance 300 || status=$?
+      kill "$logpid" 2>/dev/null || true
+      reason=""
+      if [[ $status -eq 124 && $try -eq 1 ]] && ! grep -qiE 'Test case .* started' "$run_log"; then
+        reason="the watchdog fired before any test case started"
+      fi
+    fi
+    [[ -n "$reason" ]] || break
+    msg="test-ui: $device infrastructure retry: $reason; shutting down, erasing and rebooting the simulator, then running once more"
+    echo "::warning::$msg"
+    echo "$msg" >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
+    perl -e 'alarm 90; exec @ARGV' xcrun simctl shutdown "$udid" >/dev/null 2>&1 || true
+    perl -e 'alarm 120; exec @ARGV' xcrun simctl erase "$udid" >/dev/null 2>&1 || true
+    if ! "$ROOT/scripts/ci/sim-boot.sh" "$udid"; then
+      echo "::error::test-ui: $device simulator did not boot after the infrastructure retry"
+      status=1
+      break
+    fi
+  done
   if [[ $status -ne 0 ]]; then
     echo "::error::test-ui: $device failed (status $status)"
     failed=1
