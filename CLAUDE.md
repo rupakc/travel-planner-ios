@@ -35,10 +35,19 @@ Everything Xcode-shaped runs on GitHub Actions `macos-15` with Xcode 26.0.1 (`.g
 - Pull request: `tools` (ubuntu: pytest, shellcheck, upstream drift, generator `--check`, golden `--check` when
   there are cases) then one macOS job `build-test`: bootstrap → select Xcode → `swiftlint lint --strict` →
   generate → unit tests on the iPhone simulator → "Test summary" → app build for the simulator.
-- Push to `main`, or `workflow_dispatch` with `full=true`: also `ui-smoke` (iPhone + iPad); `archive` on main only.
+- Push to `main`, `workflow_dispatch` with `full=true`, or a PR that changes `.github/workflows/` or `scripts/ci/`:
+  also `ui-smoke` (one job, iPhone then iPad); `archive` on main only.
+- Pinned simulators (`scripts/ci/sim-destination.sh`, no fallback, fails if missing): iPhone 16 and iPad Pro 13-inch
+  (M4) on iOS 18.6 (`SimRuntime.iOS-18-6`), built with Xcode 26.0.1 / the iOS 26 SDK (deployment target iOS 17). Each
+  job creates its own fresh `voyager-ci-<family>` device; stock devices are never touched. Simulator builds are
+  `ARCHS=arm64`. Snapshots are recorded and compared only on this pin; the script's header says how to bump it
+  (with a full re-record). `sim-boot.sh` boots before any build (bounded attempts; `bootstatus` returning = ready).
 - Filtered run / snapshot recording:
   `gh workflow run ios-ci.yml --ref <branch> -f only_testing=DomainTests` (comma-separated `-only-testing:` values),
   add `-f record_snapshots=true` to record, then `gh run download <id> -n snapshots -D Packages/VoyagerKit/Tests`.
+  A record run writes only missing or changed PNGs (`.failed`) and is green when recorded snapshots are its only
+  failures. A feature PR rebases on `main`, records its new snapshots this way, commits them, and the next PR run
+  compares against them.
 - Prefer the PR run. Batch commits: every push costs macOS minutes (max ~5 concurrent macOS jobs).
 - Zero warnings: the app sets `SWIFT_TREAT_WARNINGS_AS_ERRORS`; `test-unit.sh` fails on any `warning:` from a file
   under `Packages/VoyagerKit/Sources` or `App`.

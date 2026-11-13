@@ -17,6 +17,7 @@ xcodebuild build \
   -clonedSourcePackagesDirPath "$ROOT/build/SourcePackages" \
   -onlyUsePackageVersionsFromResolvedFile \
   -skipMacroValidation \
+  ARCHS=arm64 ONLY_ACTIVE_ARCH=YES \
   CODE_SIGNING_ALLOWED=NO
 
 app="$derived/Build/Products/Debug-iphonesimulator/Voyager.app"

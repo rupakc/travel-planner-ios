@@ -15,56 +15,32 @@ device="${1:?usage: test-unit.sh iphone|ipad [only_testing]}"
 only="${2:-}"
 
 destination="$("$ROOT/scripts/ci/sim-destination.sh" "$device")"
+udid="${destination##*id=}"
 mkdir -p "$ROOT/build"
 
-# Boot the simulator and prove it is responsive before xcodebuild uses it. On macOS runners a simulator whose boot
-# never completes (bootstatus still waiting after 5 minutes) makes the FIRST UIKit-touching test hang for its whole
-# time allowance, and xcodebuild's relaunch then hangs again on the same wedged device. So a boot that does not
-# finish in 150 s is reset (shutdown, erase) and retried, and the last attempt uses a freshly created device.
-udid="${destination##*id=}"
-boot_sim() {
-  perl -e 'alarm 150; exec @ARGV' xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 || return 1
-  # Responsive probe: a booted-but-wedged device does not answer a launchd query.
-  perl -e 'alarm 30; exec @ARGV' xcrun simctl spawn "$udid" launchctl print system >/dev/null 2>&1 || return 1
-}
-booted=0
-for attempt in 1 2 3; do
-  if boot_sim; then booted=1; break; fi
-  echo "test-unit: simulator boot attempt $attempt did not finish; resetting"
-  xcrun simctl shutdown "$udid" >/dev/null 2>&1 || true
-  if [[ $attempt -lt 2 ]]; then
-    xcrun simctl erase "$udid" >/dev/null 2>&1 || true
-  else
-    runtime="$(xcrun simctl list devices -j | U="$udid" python3 -c "
-import json,sys,os
-u=os.environ['U']
-for r,ds in json.load(sys.stdin)['devices'].items():
-    for d in ds:
-        if d['udid']==u: print(r, d['name'])" 2>/dev/null || true)"
-    runtime_id="${runtime%% *}"; dev_name="${runtime#* }"
-    if [[ -n "$runtime_id" ]]; then
-      xcrun simctl delete "$udid" >/dev/null 2>&1 || true
-      new="$(xcrun simctl create "voyager-ci-$attempt" "$dev_name" "$runtime_id" 2>/dev/null || true)"
-      if [[ -n "$new" ]]; then udid="$new"; destination="platform=iOS Simulator,id=$udid"; fi
-    fi
-  fi
-done
-[[ $booted -eq 1 ]] || echo "test-unit: simulator never became responsive; continuing (tests may stall)"
 result="$ROOT/build/unit-$device.xcresult"
 log="$ROOT/build/unit-$device.log"
 rm -rf "$result"
 
+# Boot first, on an idle runner (scripts/ci/sim-boot.sh: bounded attempts, erase + one retry, fails loudly). A boot
+# that overlapped the compile often wedged, and tests on a wedged simulator hang. sim-boot has its own time bound.
+"$ROOT/scripts/ci/sim-boot.sh" "$udid"
+
 args=(
-  test
   -scheme VoyagerKit-Package
   -destination "$destination"
-  -resultBundlePath "$result"
   -derivedDataPath "$ROOT/build/DerivedData-unit"
   -clonedSourcePackagesDirPath "$ROOT/build/SourcePackages"
   -onlyUsePackageVersionsFromResolvedFile
   -skipMacroValidation
-  # The simulator is proven responsive above, so a test stuck for 4 minutes is a real hang (a freeze of 130-200 s
-  # was seen on cold devices); the wall-clock watchdog below is the overall bound.
+  # Simulator builds are arm64 only (the runner is Apple silicon); building x86_64 too doubles the compile.
+  ARCHS=arm64
+  ONLY_ACTIVE_ARCH=YES
+)
+test_args=(
+  -resultBundlePath "$result"
+  # The simulator is booted (bootstatus complete) before the build, so a test stuck for 4 minutes is a real hang;
+  # the wall-clock watchdog below is the overall bound.
   # One test process on one simulator at a time: concurrent clones/destinations contend for CoreSimulator on a 3-core runner.
   -parallel-testing-enabled NO
   -disable-concurrent-destination-testing
@@ -73,7 +49,7 @@ args=(
   -maximum-test-execution-time-allowance 300
 )
 for filter in ${only//,/ }; do
-  args+=("-only-testing:$filter")
+  test_args+=("-only-testing:$filter")
 done
 
 # Hard wall-clock limit for the whole build + test run (UNIT_TIMEOUT seconds, default 1500): a simulator
@@ -85,7 +61,11 @@ fifo="$(mktemp -u)"; mkfifo "$fifo"
 tee "$log" < "$fifo" &
 tee_pid=$!
 set +e
-(cd "$ROOT/Packages/VoyagerKit" && exec xcodebuild "${args[@]}") > "$fifo" 2>&1 &
+(
+  cd "$ROOT/Packages/VoyagerKit"
+  xcodebuild build-for-testing "${args[@]}" || exit
+  exec xcodebuild test-without-building "${args[@]}" "${test_args[@]}"
+) > "$fifo" 2>&1 &
 pid=$!
 ( sleep "$limit"; touch "$flag"
   echo "::error::test-unit: exceeded ${limit}s; stopping xcodebuild (last output is in $log)"
@@ -106,6 +86,20 @@ rm -f "$fifo"
 set -e
 if [[ -e "$flag" ]]; then status=124; rm -f "$flag"; fi
 
+# Record runs (record_snapshots -> SNAPSHOT_RECORD=1): swift-snapshot-testing reports every snapshot it writes as a
+# test failure ("... automatically recorded ..."). Such a run passes when those are its only errors.
+if [[ $status -ne 0 && "${TEST_RUNNER_SNAPSHOT_RECORD:-}" == "1" ]]; then
+  errors="$(grep -E ': error: ' "$log" | sort -u || true)"
+  recorded="$(grep -ciE 'automatically recorded' <<<"$errors" || true)"
+  others="$(grep -viE 'automatically recorded' <<<"$errors" | grep -c . || true)"
+  if [[ $recorded -gt 0 && $others -eq 0 && $status -ne 124 ]]; then
+    echo "::notice::test-unit: record run: $recorded snapshot(s) recorded (artifact \`snapshots\`); no other failures"
+    status=0
+  else
+    echo "test-unit: record run has $others failure(s) besides recorded snapshots"
+  fi
+fi
+
 warnings="$(grep -E ':[0-9]+(:[0-9]+)?: warning: ' "$log" |
   grep -F -e "$ROOT/Packages/VoyagerKit/Sources/" -e "$ROOT/App/" | sort -u || true)"
 if [[ -n "$warnings" ]]; then
@@ -113,4 +107,5 @@ if [[ -n "$warnings" ]]; then
   echo "$warnings"
   [[ $status -eq 0 ]] && status=1
 fi
+
 exit "$status"

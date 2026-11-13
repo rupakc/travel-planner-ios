@@ -8,9 +8,9 @@ import VoyagerModel
 import XCTest
 
 enum SnapshotSetup {
-    /// `TEST_RUNNER_SNAPSHOT_RECORD=1` (CI `record_snapshots`) records; otherwise a missing PNG fails.
+    /// `TEST_RUNNER_SNAPSHOT_RECORD=1` (CI `record_snapshots`) records missing and changed PNGs; otherwise a missing PNG fails.
     static var record: SnapshotTestingConfiguration.Record {
-        ProcessInfo.processInfo.environment["SNAPSHOT_RECORD"] == "1" ? .all : .missing
+        ProcessInfo.processInfo.environment["SNAPSHOT_RECORD"] == "1" ? .failed : .missing
     }
 }
 
