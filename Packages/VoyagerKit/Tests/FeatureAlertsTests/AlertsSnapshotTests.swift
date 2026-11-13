@@ -64,7 +64,7 @@ final class AlertsSnapshotTests: XCTestCase {
 
     func test_liveCheckResult() async {
         let result = LiveCheckResult(
-            kind: .flight, watchID: 1, summary: "Fares from Berlin to Lisbon are around $440 on two sites today.",
+            kind: .flight, watchId: 1, summary: "Fares from Berlin to Lisbon are around $440 on two sites today.",
             quotes: [LiveQuote(label: "Kayak", amount: 440, currency: "USD", sourceIndex: 0)],
             sources: [LiveSource(title: "Kayak", uri: "https://kayak.com/flights")], searchedFor: ["ber lis flight 1-8 dec"])
         let state = LiveCheckState(row: WatchRow(fare(1)), phase: .result(result))

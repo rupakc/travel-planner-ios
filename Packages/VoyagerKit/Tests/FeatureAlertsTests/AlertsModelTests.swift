@@ -132,7 +132,7 @@ struct AlertsModelTests {
     @Test func test_liveCheckIsHeldInMemoryOnly() async {
         let (model, fakes, _) = await loaded()
         let result = LiveCheckResult(
-            kind: .flight, watchID: 1, summary: "Around 440 on two sites",
+            kind: .flight, watchId: 1, summary: "Around 440 on two sites",
             quotes: [LiveQuote(label: "Kayak", amount: 440, currency: "USD", sourceIndex: 0)],
             sources: [LiveSource(title: "Kayak", uri: "https://kayak.com/x")])
         fakes.watches.onLiveCheck.returns(result)
