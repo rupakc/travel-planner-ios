@@ -137,14 +137,12 @@ struct TasteProfileCard: View {
                     VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text(verbatim: Self.title(row.type))
                             .font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)
-                        WrapLayout(spacing: Spacing.xs) {
-                            ForEach(Array(row.entries.enumerated()), id: \.offset) { _, entry in
-                                Text(verbatim: "\(entry.value ?? "") ×\(entry.count ?? 0)")
-                                    .font(VFont.body(.caption))
-                                    .padding(.horizontal, Spacing.sm).padding(.vertical, Spacing.xs)
-                                    .background(SemanticColor.border, in: Capsule())
-                                    .foregroundStyle(SemanticColor.text)
-                            }
+                        ChipGrid(items: row.entries, spacing: Spacing.xs) { entry in
+                            Text(verbatim: "\(entry.value ?? "") ×\(entry.count ?? 0)")
+                                .font(VFont.body(.caption)).lineLimit(2)
+                                .padding(.horizontal, Spacing.sm).padding(.vertical, Spacing.xs)
+                                .background(SemanticColor.border, in: Capsule())
+                                .foregroundStyle(SemanticColor.text)
                         }
                     }
                 }

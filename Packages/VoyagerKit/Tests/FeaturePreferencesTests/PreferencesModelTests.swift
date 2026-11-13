@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import Networking
 import Testing
 import TestSupport
@@ -214,24 +215,12 @@ struct TasteModelTests {
     }
 }
 
-struct WrapGeometryTests {
-    /// Placing in the width the parent was given must wrap exactly the rows that were measured.
-    @Test func test_measuredHeightEqualsPlacedHeight() {
-        for scale in [1.0, 1.3, 1.6, 2.4, 3.1] {
-            let sizes = (0..<10).map { CGSize(width: (40 + Double($0 * 13 % 47)) * scale, height: 44) }
-            for proposal in [90.0, 150, 232, 252, 320, 480, 800] as [CGFloat] {
-                let measured = WrapGeometry.measured(sizes: sizes, proposalWidth: proposal, spacing: 8)
-                let placed = WrapGeometry.arrange(sizes: sizes, width: measured.width, spacing: 8)
-                #expect(placed.size.height == measured.height, "scale \(scale) width \(proposal)")
-                #expect(placed.origins.allSatisfy { $0.y + 44 <= measured.height })
-            }
-        }
-    }
-
-    @Test func test_unspecifiedWidthIsOneRowAndEmptyIsZero() {
-        let sizes = [CGSize(width: 50, height: 44), CGSize(width: 60, height: 44)]
-        #expect(WrapGeometry.measured(sizes: sizes, proposalWidth: nil, spacing: 8) == CGSize(width: 118, height: 44))
-        #expect(WrapGeometry.measured(sizes: [], proposalWidth: 100, spacing: 8).height == 0)
+struct ChipGridTests {
+    @Test func test_rowsSplitEvenlyAndKeepOrder() {
+        let rows = ChipGrid<Int, EmptyView>.rows(Array(1...5), columns: 2)
+        #expect(rows == [[1, 2], [3, 4], [5]])
+        #expect(ChipGrid<Int, EmptyView>.rows([], columns: 2).isEmpty)
+        #expect(ChipGrid<Int, EmptyView>.rows([1, 2], columns: 0) == [[1], [2]])
     }
 }
 

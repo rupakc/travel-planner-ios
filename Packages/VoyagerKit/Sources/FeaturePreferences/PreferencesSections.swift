@@ -49,22 +49,20 @@ struct TagField: View {
                 .accessibilityIdentifier("\(tid).add")
             }
             if !tags.isEmpty {
-                WrapLayout(spacing: Spacing.xs) {
-                    ForEach(tags, id: \.self) { tag in
-                        Button { remove(tag) } label: {
-                            HStack(spacing: Spacing.xs) {
-                                Text(verbatim: tag)
-                                Image(systemName: "xmark").font(.caption2).accessibilityHidden(true)
-                            }
-                            .font(VFont.body(.caption))
-                            .padding(.horizontal, Spacing.sm).padding(.vertical, Spacing.xs)
-                            .background(SemanticColor.border, in: Capsule())
-                            .foregroundStyle(SemanticColor.text)
-                            .frame(minHeight: 44)
+                ChipGrid(items: tags, spacing: Spacing.xs) { tag in
+                    Button { remove(tag) } label: {
+                        HStack(spacing: Spacing.xs) {
+                            Text(verbatim: tag).lineLimit(2).multilineTextAlignment(.leading)
+                            Image(systemName: "xmark").font(.caption2).accessibilityHidden(true)
                         }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("\(tid).tag.\(tag)")
+                        .font(VFont.body(.caption))
+                        .padding(.horizontal, Spacing.sm).padding(.vertical, Spacing.xs)
+                        .background(SemanticColor.border, in: Capsule())
+                        .foregroundStyle(SemanticColor.text)
+                        .frame(minHeight: 44)
                     }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("\(tid).tag.\(tag)")
                 }
             }
         }

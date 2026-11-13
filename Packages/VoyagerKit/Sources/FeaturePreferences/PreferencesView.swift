@@ -179,11 +179,9 @@ public struct PreferencesView: View {
                 .font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)
             Text(verbatim: L10n.text(K.account.prefs.style.interests))
                 .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)
-            WrapLayout(spacing: Spacing.sm) {
-                ForEach(PreferencesModel.interestIDs, id: \.self) { id in
-                    VChip(title: Self.interestTitle(id), tid: "prefs.interest.\(id)", selected: model.interests.contains(id)) {
-                        model.toggleInterest(id)
-                    }
+            ChipGrid(items: PreferencesModel.interestIDs) { id in
+                VChip(title: Self.interestTitle(id), tid: "prefs.interest.\(id)", selected: model.interests.contains(id)) {
+                    model.toggleInterest(id)
                 }
             }
         }
