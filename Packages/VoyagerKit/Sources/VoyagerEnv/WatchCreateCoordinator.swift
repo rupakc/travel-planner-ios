@@ -27,9 +27,8 @@ public final class WatchCreateCoordinator {
         let planId = request.spec["plan_id"].int
         let repo = env.repos.watches
         // A failed match is not fatal: the server matches again on create and answers `already_watching`.
-        if let existing = try? await repo.match(WatchMatchQuery(kind: kind, spec: request.spec, planId: planId)),
-            !existing.isNull, let id = existing["id"].int
-        {
+        let query = WatchMatchQuery(kind: kind, spec: request.spec, planId: planId)
+        if let existing = try? await repo.match(query), let id = existing["id"].int {
             return .alreadyWatching(kind, id)
         }
         do {
