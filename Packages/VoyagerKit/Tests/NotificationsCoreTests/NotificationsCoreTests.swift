@@ -1,51 +1,46 @@
 import Foundation
 import Networking
+import os
 import Testing
 import VoyagerModel
 
 @testable import NotificationsCore
 
-final class FakeCenter: NotificationCenterClient, @unchecked Sendable {
-    private let lock = NSLock()
-    private var pending: [String: LocalNotification] = [:]
-    private var granted: Bool
-    private var requestCount = 0
-    init(granted: Bool = true) { self.granted = granted }
+final class FakeCenter: NotificationCenterClient, Sendable {
+    private struct State { var pending: [String: LocalNotification] = [:]; var requests = 0; var granted = true }
+    private let state = OSAllocatedUnfairLock(initialState: State())
+    init(granted: Bool = true) { state.withLock { $0.granted = granted } }
 
-    var added: [LocalNotification] { lock.lock(); defer { lock.unlock() }; return Array(pending.values) }
-    var requests: Int { lock.lock(); defer { lock.unlock() }; return requestCount }
-    func requestAuthorization() async -> Bool { lock.lock(); requestCount += 1; defer { lock.unlock() }; return granted }
-    func isAuthorized() async -> Bool { lock.lock(); defer { lock.unlock() }; return granted }
-    func add(_ notification: LocalNotification) async { lock.lock(); pending[notification.id] = notification; lock.unlock() }
-    func pendingIdentifiers() async -> [String] { lock.lock(); defer { lock.unlock() }; return Array(pending.keys) }
+    var added: [LocalNotification] { state.withLock { Array($0.pending.values) } }
+    var requests: Int { state.withLock { $0.requests } }
+    func requestAuthorization() async -> Bool { state.withLock { $0.requests += 1; return $0.granted } }
+    func isAuthorized() async -> Bool { state.withLock { $0.granted } }
+    func add(_ notification: LocalNotification) async { state.withLock { $0.pending[notification.id] = notification } }
+    func pendingIdentifiers() async -> [String] { state.withLock { Array($0.pending.keys) } }
     func removePending(identifiers: [String]) async {
-        lock.lock()
-        for id in identifiers { pending[id] = nil }
-        lock.unlock()
+        state.withLock { for id in identifiers { $0.pending[id] = nil } }
     }
 }
 
-final class FakeNotifications: NotificationsRepository, @unchecked Sendable {
-    private let lock = NSLock()
-    private var storedItems: [AppNotification] = []
-    private var storedError: APIError?
-    private var callCount = 0
+final class FakeNotifications: NotificationsRepository, Sendable {
+    private struct State { var items: [AppNotification] = []; var error: APIError?; var calls = 0 }
+    private let state = OSAllocatedUnfairLock(initialState: State())
 
     var items: [AppNotification] {
-        get { lock.lock(); defer { lock.unlock() }; return storedItems }
-        set { lock.lock(); storedItems = newValue; lock.unlock() }
+        get { state.withLock { $0.items } }
+        set { state.withLock { $0.items = newValue } }
     }
     var error: APIError? {
-        get { lock.lock(); defer { lock.unlock() }; return storedError }
-        set { lock.lock(); storedError = newValue; lock.unlock() }
+        get { state.withLock { $0.error } }
+        set { state.withLock { $0.error = newValue } }
     }
-    var calls: Int { lock.lock(); defer { lock.unlock() }; return callCount }
+    var calls: Int { state.withLock { $0.calls } }
 
     func page(unreadOnly: Bool, limit: Int, offset: Int) async throws -> NotificationsPage {
-        lock.lock()
-        callCount += 1
-        let (rows, failure) = (storedItems, storedError)
-        lock.unlock()
+        let (rows, failure) = state.withLock { s -> ([AppNotification], APIError?) in
+            s.calls += 1
+            return (s.items, s.error)
+        }
         if let failure { throw failure }
         return NotificationsPage(items: rows, total: rows.count, unread: rows.count)
     }
