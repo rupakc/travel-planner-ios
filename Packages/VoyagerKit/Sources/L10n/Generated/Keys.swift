@@ -1371,6 +1371,23 @@ public enum K {
         public enum session {
             public static let expired = LKey("mobile:session.expired", placeholders: [], plural: false)
         }
+        public enum settings {
+            public static let about = LKey("mobile:settings.about", placeholders: [], plural: false)
+            public static let account = LKey("mobile:settings.account", placeholders: [], plural: false)
+            public static let alertPoll = LKey("mobile:settings.alertPoll", placeholders: [], plural: false)
+            public static let alertPollHint = LKey("mobile:settings.alertPollHint", placeholders: [], plural: false)
+            public static let features = LKey("mobile:settings.features", placeholders: [], plural: false)
+            public static let featuresHint = LKey("mobile:settings.featuresHint", placeholders: [], plural: false)
+            public static let licences = LKey("mobile:settings.licences", placeholders: [], plural: false)
+            public static let nearbyInvites = LKey("mobile:settings.nearbyInvites", placeholders: [], plural: false)
+            public static let nearbyInvitesHint = LKey("mobile:settings.nearbyInvitesHint", placeholders: [], plural: false)
+            public static let notifications = LKey("mobile:settings.notifications", placeholders: [], plural: false)
+            public static let reminders = LKey("mobile:settings.reminders", placeholders: [], plural: false)
+            public static let remindersHint = LKey("mobile:settings.remindersHint", placeholders: [], plural: false)
+            public static let retakeOnboarding = LKey("mobile:settings.retakeOnboarding", placeholders: [], plural: false)
+            public static let signedInAs = LKey("mobile:settings.signedInAs", placeholders: ["name"], plural: false)
+            public static let version = LKey("mobile:settings.version", placeholders: ["version"], plural: false)
+        }
         public enum share {
             public static let byline = LKey("mobile:share.byline", placeholders: ["name"], plural: false)
             public static let recapTag = LKey("mobile:share.recapTag", placeholders: [], plural: false)

@@ -70,9 +70,15 @@ struct ShellView: View {
             NavigationStack { NearbySheet(env: env) }
         }
         .appShortcuts(router)
-        .task(id: scenePhase == .active) {
-            // Polled every 60 s while active; cancelled (and restarted) on a phase change.
-            if scenePhase == .active { await unread.poll(env.repos.notifications) }
+        .onChange(of: consent.answered) { _, _ in env.consentAnswerCount += 1 }
+        .onChange(of: env.consentPromptRequested) { _, requested in
+            guard requested else { return }
+            consent.reopen()
+            env.consentPromptRequested = false
+        }
+        .task(id: scenePhase == .active && env.device.alertPoll) {
+            // Polled every 60 s while active (and while Settings allows it); cancelled and restarted on a change.
+            if scenePhase == .active, env.device.alertPoll { await unread.poll(env.repos.notifications) }
         }
     }
 }
