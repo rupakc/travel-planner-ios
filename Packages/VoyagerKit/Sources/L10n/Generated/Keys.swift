@@ -1333,6 +1333,12 @@ public enum K {
         }
     }
     public enum mobile {
+        public enum admin {
+            public static let chartEvents = LKey("mobile:admin.chartEvents", placeholders: [], plural: false)
+            public static let chartSessions = LKey("mobile:admin.chartSessions", placeholders: [], plural: false)
+            public static let deactivateConfirm = LKey("mobile:admin.deactivateConfirm", placeholders: ["name"], plural: false)
+            public static let selectUser = LKey("mobile:admin.selectUser", placeholders: [], plural: false)
+        }
         public enum infoPlist {
             public static let location = LKey("mobile:infoPlist.location", placeholders: [], plural: false)
         }
