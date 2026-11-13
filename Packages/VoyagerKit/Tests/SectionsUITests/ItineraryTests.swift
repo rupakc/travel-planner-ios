@@ -130,7 +130,7 @@ struct ItineraryTests {
     }
 
     @Test func test_openingEditorAndDoneWritesNothing() throws {
-        let box = ItinBox()
+        let box = Box()
         let editor = model(box: box)
         let slot = try #require(editor.scheduledDays[0]["slots"].array?.first)
         editor.saveEditor(key: "1-morning", slot: slot, activity: "Belém Tower", location: "Belém", costText: "12", note: "")
@@ -139,7 +139,7 @@ struct ItineraryTests {
     }
 
     @Test func test_saveEditorBatchesOneCommitOfChangedFieldsOnly() throws {
-        let box = ItinBox()
+        let box = Box()
         let editor = model(box: box)
         let slot = try #require(editor.scheduledDays[0]["slots"].array?.first)
         editor.saveEditor(key: "1-morning", slot: slot, activity: "Belém Tower", location: "Belém", costText: "20", note: "  hi  ")
