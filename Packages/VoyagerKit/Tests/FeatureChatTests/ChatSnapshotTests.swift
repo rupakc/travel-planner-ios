@@ -1,4 +1,5 @@
 import SnapshotTesting
+import UIKit
 import SwiftUI
 import TestSupport
 import VoyagerEnv
@@ -9,10 +10,15 @@ import XCTest
 
 @MainActor
 final class ChatSnapshotTests: XCTestCase {
+    /// iPhone 16: 393 x 852 pt, 59 pt top and 34 pt bottom safe area.
+    private static let iPhone16 = ViewImageConfig(
+        safeArea: UIEdgeInsets(top: 59, left: 0, bottom: 34, right: 0), size: CGSize(width: 393, height: 852),
+        traits: ViewImageConfig.iPhone13ProMax(.portrait).traits)
+
     private let configs: [SnapshotConfig] = [
         .phoneLight, .phoneDark,
-        SnapshotConfig(name: "15promax-light", device: SnapshotDevice.iPhone15ProMax.config, dark: false),
-        SnapshotConfig(name: "15promax-dark", device: SnapshotDevice.iPhone15ProMax.config, dark: true),
+        SnapshotConfig(name: "16-light", device: Self.iPhone16, dark: false),
+        SnapshotConfig(name: "16-dark", device: Self.iPhone16, dark: true),
         .padLight,
     ]
 
