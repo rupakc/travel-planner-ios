@@ -17,8 +17,8 @@ final class ChatSnapshotTests: XCTestCase {
 
     private let configs: [SnapshotConfig] = [
         .phoneLight, .phoneDark,
-        SnapshotConfig(name: "16-light", device: Self.iPhone16, dark: false),
-        SnapshotConfig(name: "16-dark", device: Self.iPhone16, dark: true),
+        SnapshotConfig(name: "16-light", device: ChatSnapshotTests.iPhone16, dark: false),
+        SnapshotConfig(name: "16-dark", device: ChatSnapshotTests.iPhone16, dark: true),
         .padLight,
     ]
 
