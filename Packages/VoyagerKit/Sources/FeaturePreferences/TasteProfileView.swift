@@ -129,7 +129,8 @@ struct TasteProfileCard: View {
                 .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
         case .loaded:
             if model.hasSignals {
-                Text(verbatim: "\(L10n.text(K.account.prefs.taste.built, count: model.profile.totalSignals ?? 0)) \(L10n.text(K.account.prefs.taste.personalised))")
+                let built = L10n.text(K.account.prefs.taste.built, count: model.profile.totalSignals ?? 0)
+                Text(verbatim: "\(built) \(L10n.text(K.account.prefs.taste.personalised))")
                     .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
                 ForEach(model.rows) { row in
