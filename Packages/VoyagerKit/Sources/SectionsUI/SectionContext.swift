@@ -14,6 +14,11 @@ public struct SectionContext: Sendable {
     public var watch: (@MainActor @Sendable (WatchRequest) -> Void)?
     /// `(url, section)`: the host opens the provider page in `SFSafariViewController` and emits `link_out`.
     public var openURL: @MainActor @Sendable (URL, String) -> Void
+    /// Re-runs a `/filtered` agent call (`flights`, `hotels`, `activities`) with the sheet's filters; nil hides the
+    /// Filters button (chat, shared plans).
+    public var filtered: (@MainActor @Sendable (FilterableSection, JSONValue) async -> SectionRemote)?
+    /// `POST /api/flights/fare-calendar` for the current search; nil (signed out, chat) hides the strip.
+    public var fareCalendar: (@MainActor @Sendable () async -> SectionRemote)?
     public var showsVerification: Bool
     public var searchData: JSONValue?
     public var layout: LayoutClass
@@ -23,10 +28,14 @@ public struct SectionContext: Sendable {
         toggle: @escaping @MainActor @Sendable (String, JSONValue) -> Void,
         watch: (@MainActor @Sendable (WatchRequest) -> Void)? = nil,
         openURL: @escaping @MainActor @Sendable (URL, String) -> Void,
+        filtered: (@MainActor @Sendable (FilterableSection, JSONValue) async -> SectionRemote)? = nil,
+        fareCalendar: (@MainActor @Sendable () async -> SectionRemote)? = nil,
         showsVerification: Bool = true,
         searchData: JSONValue? = nil,
         layout: LayoutClass = .compact
     ) {
+        self.filtered = filtered
+        self.fareCalendar = fareCalendar
         self.isSelected = isSelected
         self.toggle = toggle
         self.watch = watch

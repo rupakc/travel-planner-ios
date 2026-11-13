@@ -1,7 +1,10 @@
+import DesignSystem
+import L10n
+import SharedUI
 import SwiftUI
 import VoyagerModel
 
-/// Scaffold stub: replaced wholesale by the section task.
+/// SIM and eSIM plans, one selectable plan.
 public struct SimSectionView: View {
     let data: JSONValue
     let ctx: SectionContext
@@ -11,5 +14,14 @@ public struct SimSectionView: View {
         self.ctx = ctx
     }
 
-    public var body: some View { GenericSectionView(data: data, ctx: ctx) }
+    public var body: some View {
+        let plans = data["plans"].array ?? []
+        if plans.isEmpty {
+            CommerceEmpty(text: L10n.text(K.results.sim.none))
+        } else {
+            CommerceRows(count: plans.count, layout: ctx.layout) { index in
+                SimPlanRow(plan: plans[index], ctx: ctx)
+            }
+        }
+    }
 }

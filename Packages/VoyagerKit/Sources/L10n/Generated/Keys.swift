@@ -2600,6 +2600,16 @@ public enum K {
             public static let yourDestination = LKey("sections:clientItinerary.yourDestination", placeholders: [], plural: false)
             public static let yourHotel = LKey("sections:clientItinerary.yourHotel", placeholders: [], plural: false)
         }
+        public enum commerce {
+            public static let minStars = LKey("sections:commerce.minStars", placeholders: [], plural: false)
+            public enum tier {
+                public static let budget = LKey("sections:commerce.tier.budget", placeholders: [], plural: false)
+                public static let luxury = LKey("sections:commerce.tier.luxury", placeholders: [], plural: false)
+                public static let midRange = LKey("sections:commerce.tier.midRange", placeholders: [], plural: false)
+                public static let other = LKey("sections:commerce.tier.other", placeholders: [], plural: false)
+                public static let premium = LKey("sections:commerce.tier.premium", placeholders: [], plural: false)
+            }
+        }
         public enum drawer {
             public static let activities = LKey("sections:drawer.activities", placeholders: ["count"], plural: false)
             public static let archive = LKey("sections:drawer.archive", placeholders: [], plural: false)

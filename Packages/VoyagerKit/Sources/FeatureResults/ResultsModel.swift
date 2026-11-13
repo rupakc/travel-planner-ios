@@ -210,14 +210,47 @@ public final class ResultsModel {
 
     /// What a section needs from this screen: the plan store, the watch coordinator and Safari.
     public func makeContext(layout: LayoutClass) -> SectionContext {
-        SectionContext(
+        var calendar: (@MainActor @Sendable () async -> SectionRemote)?
+        if fareCalendarAvailable {
+            calendar = { [weak self] in await self?.loadFareCalendar() ?? .failed(nil) }
+        }
+        return SectionContext(
             isSelected: { [env] field, item in env.plan.contains(field: field, item: item) },
             toggle: { [weak self] field, item in self?.toggle(field: field, item: item) },
             watch: { [weak self] request in self?.watch(request) },
             openURL: { [weak self] url, section in self?.open(url, section: section) },
+            filtered: { [weak self] section, filters in await self?.runFiltered(section, filters) ?? .failed(nil) },
+            fareCalendar: calendar,
             showsVerification: true,
             searchData: env.plan.searchData ?? state.searchData,
             layout: layout)
+    }
+
+    /// The fare calendar needs a signed-in account and a single-city trip; the server answers `503` without live prices.
+    private var fareCalendarAvailable: Bool {
+        env.auth.phase == .signedIn && (request.destinations?.count ?? 0) <= 1
+    }
+
+    func runFiltered(_ section: FilterableSection, _ filters: JSONValue) async -> SectionRemote {
+        do {
+            return .loaded(try await env.repos.agents.filtered(section, request: request, filters: filters))
+        } catch {
+            return Self.remote(error)
+        }
+    }
+
+    func loadFareCalendar() async -> SectionRemote {
+        do {
+            return .loaded(try await env.repos.agents.fareCalendar(request))
+        } catch {
+            return Self.remote(error)
+        }
+    }
+
+    /// `503` is "not available on this server" (hide the control); anything else shows the server's own text.
+    static func remote(_ error: any Error) -> SectionRemote {
+        if case .server(let status, _)? = error as? APIError, status == 503 { return .unavailable }
+        return .failed((error as? any ErrorPresentable)?.userFacingDetail)
     }
 
     func toggle(field: String, item: JSONValue) {
