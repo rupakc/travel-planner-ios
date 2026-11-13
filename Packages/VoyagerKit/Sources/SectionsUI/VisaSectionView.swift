@@ -63,8 +63,8 @@ public struct VisaSectionView: View {
                         .foregroundStyle(SemanticColor.textMuted)
                 }
             }
-            if let days = requirement["max_stay_days"].double {
-                InfoLine(label: L10n.text(K.results.visa.maxStay), value: L10n.text(K.results.visa.days, count: Int(days)))
+            if let days = Info.clampedInt(requirement["max_stay_days"].double) {
+                InfoLine(label: L10n.text(K.results.visa.maxStay), value: L10n.text(K.results.visa.days, count: days))
             }
             InfoLine(label: L10n.text(K.results.visa.processing), value: Info.text(requirement["processing_time"]))
             if let fee = requirement["fee_usd"].double {

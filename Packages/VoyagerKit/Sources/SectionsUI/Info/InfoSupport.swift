@@ -13,10 +13,18 @@ enum Info {
             let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
             return trimmed.isEmpty ? nil : trimmed
         case .number(let number):
-            return number.rounded() == number ? String(Int(number)) : String(number)
+            guard number.isFinite else { return nil }
+            if let whole = clampedInt(number), Double(whole) == number { return String(whole) }
+            return String(number)
         default:
             return nil
         }
+    }
+
+    /// `value` rounded to an `Int`, clamped to +-1e9; nil for NaN and infinities. LLM numbers like 1e30 never trap.
+    static func clampedInt(_ value: Double?) -> Int? {
+        guard let value, value.isFinite else { return nil }
+        return Int(min(max(value.rounded(), -1e9), 1e9))
     }
 
     /// The non-empty strings of an array.
@@ -60,7 +68,7 @@ struct InfoLine: View {
     var body: some View {
         if let value {
             if let label {
-                Text(verbatim: label + " " + value)
+                Text(verbatim: (label.hasSuffix(":") ? label : label + ":") + " " + value)
                     .font(VFont.body(.footnote))
                     .foregroundStyle(SemanticColor.text)
                     .fixedSize(horizontal: false, vertical: true)
@@ -110,6 +118,7 @@ struct InfoBullets: View {
 struct InfoTag: View {
     let title: String
     var family: Family = .gray
+    var accessibilityText: String?
 
     var body: some View {
         Text(verbatim: title)
@@ -119,6 +128,7 @@ struct InfoTag: View {
             .padding(.vertical, Spacing.xs)
             .background(Palette.color(family, .s100), in: Capsule())
             .fixedSize(horizontal: false, vertical: true)
+            .accessibilityLabel(accessibilityText ?? title)
     }
 }
 

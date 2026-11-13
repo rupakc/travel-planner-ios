@@ -23,7 +23,7 @@ public struct WeatherSectionView: View {
                 if data["source"].string == "llm-estimate" {
                     InfoTag(title: L10n.text(K.results.weather.estimate), family: .amber)
                 }
-                let poor = Int(data["poor_weather_day_count"].double ?? 0)
+                let poor = Info.clampedInt(data["poor_weather_day_count"].double) ?? 0
                 if poor > 0 {
                     Text(verbatim: L10n.text(K.results.weather.poorDays, count: poor))
                         .font(VFont.body(.footnote, weight: .medium))
@@ -50,8 +50,8 @@ public struct WeatherSectionView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 InfoLine(label: nil, value: Info.text(day["description"]))
                 HStack(spacing: Spacing.md) {
-                    if let high = day["temp_high_c"].double, let low = day["temp_low_c"].double {
-                        Text(verbatim: "\(Int(high.rounded()))° / \(Int(low.rounded()))°")
+                    if let high = Info.clampedInt(day["temp_high_c"].double), let low = Info.clampedInt(day["temp_low_c"].double) {
+                        Text(verbatim: "\(high)° / \(low)°")
                     }
                     if let mm = day["precipitation_mm"].double, mm > 0 {
                         Text(verbatim: L10n.text(K.results.weather.precip, ["mm": Fmt.number(mm, fractionDigits: 1)]))

@@ -123,12 +123,12 @@ public struct ForexSectionView: View {
     }
 
     @ViewBuilder private var tipsBlock: some View {
-        let tips = Info.list(data, "money_tips")
+        let tips = (data["money_tips"].array ?? []).filter { $0.object != nil || Info.text($0) != nil }
         if !tips.isEmpty {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 InfoHeading(title: L10n.text(K.results.forex.moneyTips))
                 ForEach(Array(tips.enumerated()), id: \.offset) { _, tip in
-                    InfoLine(label: Info.text(tip["title"]), value: Info.text(tip["body"]))
+                    InfoLine(label: Info.text(tip["title"]), value: Info.text(tip["body"]) ?? Info.text(tip))
                 }
             }
         }

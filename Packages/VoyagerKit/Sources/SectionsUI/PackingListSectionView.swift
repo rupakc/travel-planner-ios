@@ -32,7 +32,7 @@ public struct PackingListSectionView: View {
         if categories.isEmpty {
             InfoEmpty(key: K.sections.packing.unavailable)
         } else {
-            let total = Int(data["total_items"].double ?? 0) + custom.values.reduce(0) { $0 + $1.count }
+            let total = (Info.clampedInt(data["total_items"].double) ?? 0) + custom.values.reduce(0) { $0 + $1.count }
             VStack(alignment: .leading, spacing: Spacing.md) {
                 HStack {
                     Text(

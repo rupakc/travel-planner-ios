@@ -45,7 +45,7 @@ public enum PackingState {
         for key in checked.sorted() { checkedObject[key] = .bool(true) }
         var customObject: [String: JSONValue] = [:]
         for (category, items) in custom where !items.isEmpty { customObject[category] = .array(items.map { .string($0) }) }
-        let base = Int(data["total_items"].double ?? 0)
+        let base = Info.clampedInt(data["total_items"].double) ?? 0
         let extra = custom.values.reduce(0) { $0 + $1.count }
         return .object([
             "categories": data["categories"],

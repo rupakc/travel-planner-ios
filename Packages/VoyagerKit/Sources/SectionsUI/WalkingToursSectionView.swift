@@ -43,7 +43,7 @@ public struct WalkingToursSectionView: View {
                     .foregroundStyle(SemanticColor.text)
                     .fixedSize(horizontal: false, vertical: true)
                 HStack(spacing: Spacing.sm) {
-                    if tour["top_pick"].bool == true { InfoTag(title: "★", family: .amber) }
+                    if tour["top_pick"].bool == true { InfoTag(title: "★", family: .amber, accessibilityText: "top pick") }
                     if let provider = Info.text(tour["provider"]) { InfoTag(title: provider, family: .teal) }
                 }
                 HStack(spacing: Spacing.md) {

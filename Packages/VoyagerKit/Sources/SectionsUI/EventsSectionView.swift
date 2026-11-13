@@ -38,7 +38,7 @@ public struct EventsSectionView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 HStack(spacing: Spacing.sm) {
                     if let category = Info.text(event["category"]) { InfoTag(title: category, family: .violet) }
-                    if event["impact"].string == "highlight" { InfoTag(title: "★", family: .amber) }
+                    if event["impact"].string == "highlight" { InfoTag(title: "★", family: .amber, accessibilityText: "highlight") }
                 }
                 InfoLine(label: nil, value: range)
                 if event["date_certainty"].string == "typical_season" {

@@ -97,3 +97,33 @@ struct InfoTests {
         #expect(WeatherSymbol.name(code: nil) == "cloud.sun")
     }
 }
+
+@MainActor
+struct InfoRobustnessTests {
+    @Test func test_hugeAndNonFiniteNumbersNeverTrap() {
+        #expect(Info.clampedInt(1e30) == 1_000_000_000)
+        #expect(Info.clampedInt(-1e30) == -1_000_000_000)
+        #expect(Info.clampedInt(.nan) == nil)
+        #expect(Info.clampedInt(.infinity) == nil)
+        #expect(Info.clampedInt(nil) == nil)
+        #expect(Info.clampedInt(89.6) == 90)
+        #expect(Info.text(.number(1e30)) != nil)
+        #expect(Info.text(.number(.nan)) == nil)
+        #expect(Info.text(.number(.infinity)) == nil)
+        let packing: JSONValue = ["categories": [], "total_items": .number(1e30)]
+        #expect(PackingState.payload(data: packing, checked: [], custom: [:])["total_items"].int == 1_000_000_000)
+        let confidence: JSONValue = ["total": .number(1e30)]
+        #expect(ConfidenceGrade.grade(of: confidence) == .green)
+        // Bodies built from hostile numbers must not crash.
+        let weather: JSONValue = ["poor_weather_day_count": .number(1e30), "days": [["temp_high_c": .number(1e30), "temp_low_c": .number(.infinity)]]]
+        _ = WeatherSectionView(data: weather, ctx: .inert).body
+        _ = VisaSectionView(data: ["requirement": ["max_stay_days": .number(1e30)]], ctx: .inert).body
+        _ = ConfidenceHeaderView(data: ["total": .number(1e30), "sub_scores": ["safety": ["score": .number(1e30)]]], ctx: .inert).body
+    }
+
+    @Test func test_httpURLsAreRejected() {
+        #expect(Info.httpsURL("http://example.com/a") == nil)
+        #expect(Info.httpsURL("https://example.com/a") != nil)
+        #expect(Info.httpsURL("javascript:alert(1)") == nil)
+    }
+}

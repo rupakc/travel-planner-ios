@@ -33,7 +33,7 @@ public struct ConfidenceHeaderView: View {
             VCard {
                 VStack(alignment: .leading, spacing: Spacing.sm) {
                     HStack(alignment: .firstTextBaseline, spacing: Spacing.md) {
-                        Text(verbatim: String(Int(total.rounded())))
+                        Text(verbatim: String(Info.clampedInt(total) ?? 0))
                             .font(VFont.display(.largeTitle))
                             .foregroundStyle(Palette.color(family, .s700))
                             .padding(.horizontal, Spacing.md)
@@ -66,7 +66,7 @@ public struct ConfidenceHeaderView: View {
                     .foregroundStyle(SemanticColor.text)
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer(minLength: Spacing.sm)
-                Text(verbatim: "\(Int(score.rounded()))/\(Int(max.rounded()))")
+                Text(verbatim: "\(Info.clampedInt(score) ?? 0)/\(Info.clampedInt(max) ?? 0)")
                     .font(VFont.body(.footnote))
                     .foregroundStyle(SemanticColor.textMuted)
             }
