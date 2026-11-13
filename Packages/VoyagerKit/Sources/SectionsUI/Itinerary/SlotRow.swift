@@ -102,8 +102,9 @@ struct SlotRow: View {
                 .font(VFont.body(.caption2, weight: .semibold))
                 .foregroundStyle(Palette.color(.amber, .s700))
                 .padding(.horizontal, Spacing.sm).padding(.vertical, Spacing.xs)
-                .background(Palette.color(.amber, .s100), in: Capsule())
-                .overlay { Capsule().strokeBorder(Palette.color(.amber, .s200), lineWidth: 1) }
+                .fixedSize(horizontal: false, vertical: true)
+                .background(Palette.color(.amber, .s100), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .overlay { RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Palette.color(.amber, .s200), lineWidth: 1) }
             if let quote = slot["link_quote"].string, !quote.isEmpty {
                 Text(verbatim: quote).font(VFont.body(.caption)).italic().foregroundStyle(SemanticColor.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
@@ -148,7 +149,7 @@ struct SlotRow: View {
             Telemetry.shared.track(.uiTap(tid: tid, route: route))
             action()
         } label: {
-            Label { Text(verbatim: title) } icon: { Image(systemName: symbol) }
+            Label { Text(verbatim: title).lineLimit(1).minimumScaleFactor(0.6) } icon: { Image(systemName: symbol) }
                 .font(VFont.body(.footnote, weight: .medium))
                 .foregroundStyle(SemanticColor.primary)
                 .padding(.horizontal, Spacing.sm)
