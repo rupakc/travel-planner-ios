@@ -1,4 +1,10 @@
 {
+  "admin": {
+    "chartEvents": "Daily events, last 30 days",
+    "chartSessions": "Daily sessions, last 30 days",
+    "deactivateConfirm": "Deactivate {{name}}?",
+    "selectUser": "Select a user to see their details"
+  },
   "share": {
     "byline": "Shared by {{name}}",
     "recapTag": "Trip recap",
