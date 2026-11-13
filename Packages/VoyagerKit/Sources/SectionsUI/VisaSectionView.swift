@@ -28,20 +28,13 @@ public struct VisaSectionView: View {
         var result: [String] = []
         if data["requirement"].object != nil { result.append("requirement") }
         let vaccinations = data["vaccinations"]
-        if vaccinations.object != nil,
-            !(Info.texts(vaccinations["required"]).isEmpty && Info.texts(vaccinations["recommended"]).isEmpty
-                && Info.text(vaccinations["covid_status"]) == nil && Info.text(vaccinations["notes"]) == nil)
-        {
-            result.append("vaccinations")
-        }
+        let vaccinationText = Info.texts(vaccinations["required"]) + Info.texts(vaccinations["recommended"])
+            + [Info.text(vaccinations["covid_status"]), Info.text(vaccinations["notes"])].compactMap { $0 }
+        if vaccinations.object != nil && !vaccinationText.isEmpty { result.append("vaccinations") }
         let customs = data["customs"]
         let allowances = (customs["duty_free_allowances"].object ?? [:]).values.compactMap { Info.text($0) }
-        if customs.object != nil,
-            !(allowances.isEmpty && Info.texts(customs["prohibited_items"]).isEmpty
-                && Info.texts(customs["declaration_required"]).isEmpty)
-        {
-            result.append("customs")
-        }
+        let customsText = allowances + Info.texts(customs["prohibited_items"]) + Info.texts(customs["declaration_required"])
+        if customs.object != nil && !customsText.isEmpty { result.append("customs") }
         return result
     }
 
