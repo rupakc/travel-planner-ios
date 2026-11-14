@@ -82,6 +82,25 @@ def test_quick_watch_pending_existing_and_errors():
         httpd.shutdown()
 
 
+def test_alert_prefs_validation_quiet_flag_errors_and_unsubscribe():
+    httpd = _serve()
+    try:
+        for bad in ({"instant": "never"}, {"digest_day": 8}, {"group_window_min": 121}, {"quiet_hours": {"enabled": True, "start": "25:00", "end": "07:00"}}):
+            status, body = _call(httpd, "PUT", "/api/alerts/preferences", bad)
+            assert status == 422 and body["error_code"] == "alert_prefs_invalid", bad
+        status, prefs = _call(httpd, "PUT", "/api/alerts/preferences", {"quiet_hours": {"enabled": False, "start": "22:00", "end": "07:00"}})
+        assert status == 200 and prefs["quiet_hours_active"] is False
+        assert _call(httpd, "GET", "/api/alerts/watches/flight/950/story")[1]["error_code"] == "watch_not_found"
+        assert _call(httpd, "GET", "/api/alerts/watches/boat/1/story")[1]["error_code"] == "kind_invalid"
+        body = {"kind": "hotel", "title": "x", "spec": {"a": 1}, "plan_id": 901, "surface": "trip"}
+        assert _call(httpd, "POST", "/api/alerts/quick-watch", body)[1]["error_code"] == "trip_not_found"
+        _call(httpd, "PUT", "/api/alerts/preferences", {"digest_weekly": True})
+        assert _call(httpd, "GET", "/api/alerts/digest/unsubscribe")[0] == 200
+        assert _call(httpd, "GET", "/api/alerts/preferences")[1]["digest_weekly"] is False
+    finally:
+        httpd.shutdown()
+
+
 def test_share_create_is_idempotent_and_revoke_removes():
     httpd = _serve()
     try:

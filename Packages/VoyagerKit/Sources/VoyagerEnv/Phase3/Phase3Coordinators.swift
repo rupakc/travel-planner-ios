@@ -67,6 +67,11 @@ public final class AlertsV2Service {
     /// Creates a pending watch. A new one (not `existing`) fires `AppEnvironment.watchesChanged()`, so the local
     /// reminders and the alert poll refresh; an existing one changed nothing.
     public func quickWatch(_ request: QuickWatchRequest) async throws -> QuickWatchResult {
+        guard request.isValid else {
+            throw APIError.client(
+                status: 422, detail: nil, code: AlertsV2Failure.specInvalid.rawValue,
+                body: .object(["error_code": .string(AlertsV2Failure.specInvalid.rawValue)]))
+        }
         let result = try await run(.quickWatch, .quickWatch) { try await $0.quickWatch(request) }
         if !result.existing { await env.watchesChanged() }
         return result

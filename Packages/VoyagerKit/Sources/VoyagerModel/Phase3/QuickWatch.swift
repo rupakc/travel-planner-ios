@@ -22,12 +22,15 @@ public struct QuickWatchRequest: Codable, Sendable, Hashable {
         surface: QuickWatchSurface
     ) {
         self.kind = kind
-        self.title = String(title.prefix(120))
+        self.title = String(title.trimmingCharacters(in: .whitespacesAndNewlines).prefix(120))
         self.subtitle = subtitle.map { String($0.prefix(160)) }
         self.spec = spec
         self.planId = planId
         self.surface = surface
     }
+
+    /// The title must be 1 to 120 characters (the server answers `422 spec_invalid` otherwise).
+    public var isValid: Bool { !title.isEmpty }
 
     enum CodingKeys: String, CodingKey {
         case kind, title, subtitle, spec

@@ -272,6 +272,16 @@ private func isoDay(daysAgo: Int) -> String {
         #expect(data.savings?.totalUSD == 43)
     }
 
+    @Test func test_unobservedDropIsRefused() throws {
+        let row = try decode(AppNotification.self, #"{"id": 1, "kind": "fare_drop", "title": "t", "body": "b", "data": {"drop": {"amount": 5, "observed": false}}}"#)
+        #expect(row.dropData == nil)
+    }
+
+    @Test func test_quickWatchTitleNeedsOneCharacter() {
+        #expect(!QuickWatchRequest(kind: .hotel, title: "   ", spec: .null, surface: .results).isValid)
+        #expect(QuickWatchRequest(kind: .hotel, title: " A ", spec: .null, surface: .results).title == "A")
+    }
+
     @Test func test_v1BackendKeepsLegacyScreens() {
         let old = RemoteFeatures(features: ["accounts": .bool(true)])
         #expect(!old.hasAlertsV2 && !old.showsQuickWatch)

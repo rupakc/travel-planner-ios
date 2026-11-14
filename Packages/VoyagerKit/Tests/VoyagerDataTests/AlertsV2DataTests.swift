@@ -40,11 +40,22 @@ struct AlertsV2DataTests {
         #expect(AlertsV2Failure.from(client("something_new"), call: .story) == nil)
         #expect(AlertsV2Failure.from(.notFound(nil), call: .suggestions) == .tripNotFound)
         #expect(AlertsV2Failure.from(.notFound(nil), call: .story) == .watchNotFound)
-        #expect(AlertsV2Failure.from(.server(status: 503, detail: nil), call: .quickWatch) == .livePricesOff)
-        #expect(AlertsV2Failure.from(.server(status: 503, detail: nil), call: .advice) == .aiLimit)
-        #expect(AlertsV2Failure.from(.server(status: 502, detail: nil), call: .advice) == .adviceFailed)
+        #expect(AlertsV2Failure.from(.server(status: 503, detail: nil, code: "live_prices_off"), call: .quickWatch) == .livePricesOff)
+        #expect(AlertsV2Failure.from(.server(status: 503, detail: nil, code: "ai_limit"), call: .advice) == .aiLimit)
+        #expect(AlertsV2Failure.from(.server(status: 503, detail: nil, code: "ai_billing"), call: .advice) == .aiBilling)
+        #expect(AlertsV2Failure.from(.server(status: 502, detail: nil, code: "advice_failed"), call: .advice) == .adviceFailed)
+        #expect(AlertsV2Failure.from(.notFound("Trip not found"), call: .quickWatch) == .tripNotFound)
+        #expect(AlertsV2Failure.from(.notFound("Not Found"), call: .quickWatch) == nil)
         #expect(AlertsV2Failure.from(.rateLimited(message: "slow down", retryAfter: 5), call: .advice) == nil)
         #expect(AlertsV2Failure.from(.network, call: .summary) == nil)
+    }
+
+    @Test func test_codeLess5xxAndUnknownCodesStayGeneric() {
+        for call in [AlertsV2Call.advice, .quickWatch, .story, .suggestions] {
+            #expect(AlertsV2Failure.from(.server(status: 503, detail: nil), call: call) == nil)
+            #expect(AlertsV2Failure.from(.server(status: 502, detail: "Bad gateway"), call: call) == nil)
+            #expect(AlertsV2Failure.from(.server(status: 500, detail: nil, code: "brand_new"), call: call) == nil)
+        }
     }
 
     @Test func test_bareNotFoundIsAMissingRoute() {

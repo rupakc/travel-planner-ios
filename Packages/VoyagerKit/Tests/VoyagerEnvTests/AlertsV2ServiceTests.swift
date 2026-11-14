@@ -2,6 +2,7 @@ import Foundation
 import Networking
 import Testing
 import TestSupport
+import VoyagerData
 import VoyagerEnv
 import VoyagerModel
 
@@ -63,6 +64,21 @@ import VoyagerModel
         fakes.alertsV2.onQuickWatch.fails(APIError.client(status: 409, detail: "limit", code: "watch_limit", body: .null))
         _ = try? await env.alertsV2.quickWatch(request)
         #expect(calls == 0)
+    }
+
+    @Test func test_blankTitleIsSpecInvalidWithoutACall() async {
+        let fakes = FakeRepositories()
+        let env = AppEnvironment.fake(fakes: fakes, clientConfig: config())
+        let blank = QuickWatchRequest(kind: .hotel, title: " ", spec: .null, surface: .results)
+        do {
+            _ = try await env.alertsV2.quickWatch(blank)
+            Issue.record("expected spec_invalid")
+        } catch let error as APIError {
+            #expect(AlertsV2Failure.from(error, call: .quickWatch) == .specInvalid)
+        } catch {
+            Issue.record("unexpected \(error)")
+        }
+        #expect(fakes.alertsV2.onQuickWatch.callCount == 0)
     }
 
     @Test func test_missingRouteTurnsTheFeatureOffForTheSession() async {

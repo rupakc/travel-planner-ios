@@ -8,7 +8,7 @@ public struct DropData: Sendable, Hashable {
     public var pct: Double?
     public var currency: String?
     public var targetHit: Bool
-    /// Always true on the server (an estimate never drops); kept to refuse an unobserved one.
+    /// Always true on the server (an estimate never drops); `AppNotification.dropData` refuses an unobserved one.
     public var observed: Bool
 
     public init(
@@ -159,7 +159,10 @@ extension AppNotification {
     public var isPriceDigest: Bool { kind == Self.priceDigestKind }
 
     /// `data.drop`, when this row carries one with an amount.
-    public var dropData: DropData? { DropData(json: data["drop"]) }
+    public var dropData: DropData? {
+        guard let drop = DropData(json: data["drop"]), drop.observed else { return nil }
+        return drop
+    }
 
     /// `data.game` (nil when absent or null: the game is off, or nothing was awarded and shown).
     public var gameDelta: GameDelta? { GameDelta(json: data["game"]) }

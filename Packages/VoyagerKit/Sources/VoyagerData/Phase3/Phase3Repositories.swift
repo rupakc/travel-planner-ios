@@ -81,7 +81,7 @@ public enum AlertsV2Failure: String, Error, Sendable, Hashable, CaseIterable {
 
     /// The translated code of `error` for `call`, or nil when it is not one of ours (429, network, an unknown code).
     /// The error envelope is `{"detail", "error_code"}`; `ErrorMapping` drops the body of 404 and 5xx answers, so those
-    /// are read from the call and the status.
+    /// are read from the call and the status. A 5xx is mapped on its code only.
     public static func from(_ error: APIError, call: AlertsV2Call) -> AlertsV2Failure? {
         switch error {
         case .client(_, _, let code, let body):
@@ -90,18 +90,14 @@ public enum AlertsV2Failure: String, Error, Sendable, Hashable, CaseIterable {
         case .notFound:
             switch call {
             case .suggestions: return .tripNotFound
+            case .quickWatch: return isRouteMissing(error) ? nil : .tripNotFound
             case .story, .advice: return .watchNotFound
             default: return nil
             }
-        case .server(let status, _, let code):
-            if let code, let failure = AlertsV2Failure(rawValue: code) { return failure }
-            // A 5xx without a readable code: read it from the call and status.
-            switch (call, status) {
-            case (.advice, 502): return .adviceFailed
-            case (.advice, 503): return .aiLimit
-            case (.quickWatch, 503): return .livePricesOff
-            default: return nil
-            }
+        case .server(_, _, let code):
+            // Only a readable code counts: a code-less 502/503 (proxy, restarting container) or an unknown code stays a
+            // generic server error with its detail.
+            return code.flatMap(AlertsV2Failure.init(rawValue:))
         default:
             return nil
         }
