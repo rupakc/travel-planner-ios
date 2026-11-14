@@ -10,6 +10,13 @@ import XCTest
 
 @testable import FeaturePlan
 
+private final class HeightBox: @unchecked Sendable { var value: CGFloat = 0 }
+
+private struct HeightKey: PreferenceKey {
+    static let defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = max(value, nextValue()) }
+}
+
 @MainActor
 final class PlanSnapshotTests: XCTestCase {
     private static let screenConfigs: [SnapshotConfig] =
@@ -30,15 +37,27 @@ final class PlanSnapshotTests: XCTestCase {
             let width = config.device.size?.width ?? 320
             let insets = config.device.safeArea
             LanguageController.withLanguage(config.language) {
-                let host = UIHostingController(
-                    rootView: view().padding(padding).frame(width: width).background(SemanticColor.surface)
-                        .environment(\.dynamicTypeSize, (DynamicTypeSize(config.size) ?? .large)))
+                // Laid out in a real, very tall window so lazy and adaptive containers resolve like on a device; the
+                // content reports its own height through a preference.
+                let box = HeightBox()
+                let content = view().padding(padding).frame(width: width)
+                    .background(GeometryReader { Color.clear.preference(key: HeightKey.self, value: $0.size.height) })
+                    .onPreferenceChange(HeightKey.self) { box.value = $0 }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .environment(\.dynamicTypeSize, DynamicTypeSize(config.size) ?? .large)
+                let host = UIHostingController(rootView: content)
                 host.traitOverrides.userInterfaceStyle = config.dark ? .dark : .light
                 host.traitOverrides.preferredContentSizeCategory = config.size
-                // A hosting controller outside a window ignores the trait for sizing: set the SwiftUI size explicitly.
                 host.traitOverrides.horizontalSizeClass = width >= 600 ? .regular : .compact
-                let height = host.sizeThatFits(in: CGSize(width: width, height: .greatestFiniteMagnitude)).height
-                fitted.canvas = CGSize(width: width, height: ceil(height + insets.top + insets.bottom))
+                let window = UIWindow(frame: CGRect(x: 0, y: 0, width: width, height: 40000))
+                window.rootViewController = host
+                window.makeKeyAndVisible()
+                host.view.layoutIfNeeded()
+                RunLoop.current.run(until: Date().addingTimeInterval(0.5))
+                host.view.layoutIfNeeded()
+                XCTAssertGreaterThan(box.value, 100, "the content did not report a height")
+                fitted.canvas = CGSize(width: width, height: ceil(box.value + insets.top + insets.bottom))
+                window.isHidden = true
             }
             return fitted
         }
