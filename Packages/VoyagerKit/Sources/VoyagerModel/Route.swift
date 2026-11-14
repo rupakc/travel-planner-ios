@@ -29,6 +29,22 @@ public enum Route: Hashable, Sendable {
     case onboarding(fromSettings: Bool)
     case share(token: String)
     case importLink(URL?)
+    // Phase 3-6 (plan Task 0b). Destinations land with their phase; until then a pushed route shows a placeholder.
+    case shareSheet(ShareTarget)
+    case myShares
+    /// A share token to open in the viewer (same destination as `.share(token:)`, from My shares or a paste).
+    case openShare(token: String)
+    case notificationSettings
+    case alertPrefs
+    case priceStory(kind: WatchKind, id: Int)
+    case tripToday(planID: Int)
+    case profile(handle: String)
+    case profileEditor
+    case ideaDetail(id: String)
+    case ideas
+    case play
+    case quiz(sessionID: String)
+    case h2h(id: String)
 }
 
 @MainActor
@@ -69,6 +85,7 @@ public enum TelemetryRouteName {
         case .onboarding: "/onboarding"
         case .share: "/share/:token"
         case .importLink: "/import"
+        default: phase3to6Template(for: route) ?? "/unknown"
         }
     }
 }

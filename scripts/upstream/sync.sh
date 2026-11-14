@@ -7,6 +7,7 @@
 #   frontend/src/i18n/locales        -> Upstream/locales/<lang>/<ns>.json
 #   frontend/design/tokens.json      -> Upstream/tokens.json
 #   backend/app/telemetry/registry.py -> Upstream/registry.py
+#   backend/tests/fixtures/alerts    -> Upstream/fixtures/alerts (golden cases)
 # then exports Upstream/telemetry_registry.json (+ the TelemetryTests copy), writes
 # Upstream/SOURCE and updates upstream.lock. Deterministic: the CI `tools` job re-runs
 # it at the pinned SHA and fails if anything under Upstream/ changes.
@@ -34,12 +35,13 @@ git -C "$WORK" remote add origin "https://github.com/${WEB_REPO}.git"
 git -C "$WORK" sparse-checkout set --no-cone \
   '/frontend/src/i18n/locales/' \
   '/frontend/design/tokens.json' \
-  '/backend/app/telemetry/registry.py'
+  '/backend/app/telemetry/registry.py' \
+  '/backend/tests/fixtures/alerts/'
 git -C "$WORK" fetch -q --depth 1 --filter=blob:none origin "$SHA"
 git -C "$WORK" -c advice.detachedHead=false checkout -q FETCH_HEAD
 
 SRC="$WORK"
-for path in frontend/src/i18n/locales frontend/design/tokens.json backend/app/telemetry/registry.py; do
+for path in frontend/src/i18n/locales frontend/design/tokens.json backend/app/telemetry/registry.py backend/tests/fixtures/alerts; do
   [[ -e "$SRC/$path" ]] || { echo "sync.sh: $path missing at $SHA" >&2; exit 1; }
 done
 COMMIT_DATE="$(git -C "$WORK" show -s --format=%cI FETCH_HEAD)"
@@ -54,6 +56,8 @@ mkdir -p "$UP/locales"
   done
 cp "$SRC/frontend/design/tokens.json" "$UP/tokens.json"
 cp "$SRC/backend/app/telemetry/registry.py" "$UP/registry.py"
+mkdir -p "$UP/fixtures/alerts"
+cp "$SRC"/backend/tests/fixtures/alerts/*.json "$UP/fixtures/alerts/"
 
 python3 "$ROOT/tools/export_registry.py" "$UP/registry.py" "$UP/telemetry_registry.json"
 TEST_COPY="$ROOT/Packages/VoyagerKit/Tests/TelemetryTests/Resources/telemetry_registry.json"

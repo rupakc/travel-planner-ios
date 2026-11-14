@@ -67,8 +67,8 @@
     "planning": {
       "title": "Comment planifiez-vous ?",
       "options": {
-        "ahead_deals": "Réserver longtemps à l'avance et chasser les bons plans",
-        "loose": "Planifier sans trop de contraintes",
+        "ahead_deals": "Réserver tôt, chasser les bons plans",
+        "loose": "Planifier à la carte",
         "spontaneous": "Spontané, à la dernière minute"
       }
     },
@@ -114,7 +114,7 @@
       "description": "Plages, bien-être et journées tranquilles."
     },
     "ACCESSIBLE": {
-      "name": "Voyageur aux besoins d'accessibilité",
+      "name": "Voyage accessible",
       "description": "Des programmes qui tiennent compte de vos besoins d'accessibilité."
     }
   },
@@ -127,5 +127,36 @@
     "stepOf_many": "Étape {{step}} sur {{count}}",
     "stepOf_one": "Étape {{step}} sur {{count}}",
     "stepOf_other": "Étape {{step}} sur {{count}}"
+  },
+  "web": {
+    "skipAll": "Passer",
+    "getStarted": "Commencer",
+    "continue": "Continuer",
+    "resume": "Bon retour ! Nous avons gardé votre progression : reprenez là où vous vous étiez arrêté.",
+    "chooseOne": "Choisissez une option",
+    "chooseMany": "Choisissez tout ce qui s’applique",
+    "questionOf": "Question {{n}} sur {{count}}",
+    "resultHeading": "Votre profil de voyageur",
+    "resultAlso": "Un peu aussi",
+    "resultSkipped": "Vous avez passé toutes les questions, nous avons donc commencé avec un large éventail. Vous pouvez refaire le quiz à tout moment.",
+    "changeAnswers": "Ce n’est pas vous ? Modifier les réponses",
+    "homeAirport": "Aéroport de départ",
+    "homeAirportPlaceholder": "Ville ou code d’aéroport",
+    "homeAirportHint": "Enregistré sur cet appareil pour lancer vos recherches depuis chez vous.",
+    "passport": "Passeport",
+    "passportPlaceholder": "Votre nationalité, p. ex. indienne",
+    "passportHint": "Sert à vérifier les règles de visa. Enregistré dans vos préférences.",
+    "allowNotifications": "Autoriser les notifications",
+    "notNow": "Plus tard",
+    "notificationsOn": "Les notifications sont activées.",
+    "notificationsBlocked": "Votre navigateur bloque les notifications",
+    "notificationsBlockedBody": "Pour recevoir des alertes plus tard, autorisez les notifications de ce site dans les réglages de votre navigateur.",
+    "firstTrip": "Planifier mon premier voyage",
+    "explore": "Simplement explorer",
+    "saving": "Sauvegarde…",
+    "syncFailed": "Impossible d’enregistrer vos préférences dans votre compte",
+    "syncFailedBody": "Vos réponses restent sur cet appareil. Vos centres d’intérêt, votre budget, votre groupe de voyage et votre passeport n’ont pas atteint votre compte.",
+    "retry": "Réessayer",
+    "continueWithoutSync": "Continuer sans synchroniser"
   }
 }

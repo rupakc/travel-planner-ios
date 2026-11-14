@@ -79,4 +79,29 @@ import VoyagerModel
         router.pop(.you)
         #expect(router.path(.you) == [.preferences])
     }
+
+    @Test func test_phase3to6RoutesLandOnTheirTabs() {
+        let router = AppRouter()
+        router.open(.myShares)
+        #expect(router.selectedTab == .you && router.path(.you) == [.myShares])
+        router.open(.notificationSettings)
+        router.open(.alertPrefs)
+        #expect(router.path(.you) == [.myShares, .notificationSettings, .alertPrefs])
+        router.open(.priceStory(kind: .flight, id: 4))
+        #expect(router.selectedTab == .alerts && router.path(.alerts) == [.priceStory(kind: .flight, id: 4)])
+        router.open(.tripToday(planID: 9))
+        #expect(router.selectedTab == .trips && router.path(.trips) == [.tripToday(planID: 9)])
+        router.open(.ideas)
+        #expect(router.selectedTab == .explore && router.exploreMode == .discover && router.path(.explore).isEmpty)
+        router.open(.ideaDetail(id: "i1"))
+        #expect(router.path(.explore) == [.ideaDetail(id: "i1")])
+    }
+
+    @Test func test_shareSheetAndOpenShare() {
+        let router = AppRouter()
+        router.open(.shareSheet(.savings))
+        #expect(router.shareTarget == .savings)
+        router.open(.openShare(token: "tok"))
+        #expect(router.sharedToken == "tok")
+    }
 }

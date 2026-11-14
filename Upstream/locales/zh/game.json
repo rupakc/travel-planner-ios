@@ -1,0 +1,201 @@
+{
+  "chip": {
+    "level": "Lv {{level}}",
+    "label": "{{level}} 级，{{xp}} XP。查看你的进度。"
+  },
+  "section": {
+    "title": "你的进度",
+    "level": "{{level}} 级",
+    "xp": "{{xp}} XP",
+    "progressLabel": "距下一级的进度",
+    "toNext": "距 {{next}} 级还差 {{remaining}} XP",
+    "maxLevel": "已达最高等级",
+    "badges": "徽章",
+    "earned": "已获得",
+    "badgeProgress": "{{progress}}/{{target}}",
+    "recent": "最近奖励",
+    "recentEmpty": "暂无。完成一个步骤即可获得第一份 XP。",
+    "points": "+{{points}} XP"
+  },
+  "toast": {
+    "xp": "+{{points}} XP — {{rule}}",
+    "level": "升到 {{to}} 级！",
+    "badge": "获得徽章"
+  },
+  "levels": {
+    "1": "漫游者",
+    "2": "游客",
+    "3": "探索者",
+    "4": "旅行家",
+    "5": "领航员",
+    "6": "开路者",
+    "7": "先行者",
+    "8": "环球旅人",
+    "9": "冒险家",
+    "10": "传奇"
+  },
+  "badges": {
+    "verified": {
+      "name": "已验证",
+      "desc": "确认你的电子邮箱。"
+    },
+    "first_steps": {
+      "name": "第一步",
+      "desc": "完成欢迎导览。"
+    },
+    "traveller": {
+      "name": "旅行者",
+      "desc": "告诉我们你是哪种旅行者。"
+    },
+    "first_trip": {
+      "name": "首次旅行",
+      "desc": "保存你的第一次旅行。"
+    },
+    "trip_ready": {
+      "name": "行程就绪",
+      "desc": "把一次旅行完全准备好。"
+    },
+    "ready_regular": {
+      "name": "常备达人",
+      "desc": "把 5 次旅行完全准备好。"
+    },
+    "smart_planner": {
+      "name": "聪明规划师",
+      "desc": "将某个计划的压力测试得分提高 3 次。"
+    },
+    "on_the_road": {
+      "name": "在路上",
+      "desc": "在一次旅行的 3 天里打卡。"
+    },
+    "road_warrior": {
+      "name": "旅途战士",
+      "desc": "在一次旅行的 14 天里打卡。"
+    },
+    "local_explorer": {
+      "name": "本地探索者",
+      "desc": "将 10 个地点标记为已到访。"
+    },
+    "local_legend": {
+      "name": "本地传奇",
+      "desc": "将 50 个地点标记为已到访。"
+    },
+    "countries_3": {
+      "name": "护照印章",
+      "desc": "到访 3 个国家。"
+    },
+    "countries_10": {
+      "name": "资深旅行者",
+      "desc": "到访 10 个国家。"
+    },
+    "countries_30": {
+      "name": "环球漫游者",
+      "desc": "到访 30 个国家。"
+    },
+    "continents_3": {
+      "name": "跨洲旅人",
+      "desc": "到访 3 个大洲。"
+    },
+    "continents_6": {
+      "name": "六大洲",
+      "desc": "到访 6 个大洲。"
+    },
+    "storyteller": {
+      "name": "故事讲述者",
+      "desc": "完成一次旅行回顾。"
+    },
+    "memory_keeper": {
+      "name": "回忆守护者",
+      "desc": "完成 5 次旅行回顾。"
+    },
+    "deal_hunter": {
+      "name": "优惠猎人",
+      "desc": "抓住你的第一次降价。"
+    },
+    "deal_hunter_silver": {
+      "name": "优惠追踪者",
+      "desc": "抓住 5 次降价。"
+    },
+    "deal_hunter_gold": {
+      "name": "优惠大师",
+      "desc": "抓住 20 次降价。"
+    },
+    "bullseye": {
+      "name": "正中靶心",
+      "desc": "达到你设定的目标价格。"
+    },
+    "saver_50": {
+      "name": "已抓住 $50",
+      "desc": "在降价中抓住 $50。"
+    },
+    "saver_200": {
+      "name": "已抓住 $200",
+      "desc": "在降价中抓住 $200。"
+    },
+    "saver_1000": {
+      "name": "已抓住 $1,000",
+      "desc": "在降价中抓住 $1,000。"
+    },
+    "quiz_regular": {
+      "name": "答题常客",
+      "desc": "累计7天参与每日答题。"
+    },
+    "quiz_devoted": {
+      "name": "答题达人",
+      "desc": "累计30天参与每日答题。"
+    },
+    "quiz_ace": {
+      "name": "答题高手",
+      "desc": "在一次答题中拿到满分。"
+    },
+    "quiz_master": {
+      "name": "答题大师",
+      "desc": "获得10次答题满分。"
+    },
+    "inspirer": {
+      "name": "灵感提供者",
+      "desc": "有旅行者收藏了你的旅行创意。"
+    },
+    "muse": {
+      "name": "缪斯",
+      "desc": "你的旅行创意被收藏10次。"
+    },
+    "helpful_voice": {
+      "name": "热心发声",
+      "desc": "你的3条评论被标为有帮助。"
+    },
+    "h2h_rival": {
+      "name": "对手",
+      "desc": "完成一场对战答题。"
+    },
+    "h2h_veteran": {
+      "name": "对战老将",
+      "desc": "完成25场对战答题。"
+    },
+    "challenge_explorer": {
+      "name": "挑战探索者",
+      "desc": "完成一次每周挑战。"
+    },
+    "challenge_regular": {
+      "name": "挑战常客",
+      "desc": "完成8次每周挑战。"
+    }
+  },
+  "rules": {
+    "email_verified": "邮箱已确认",
+    "onboarding_complete": "欢迎导览已完成",
+    "traveller_type": "已选择旅行者类型",
+    "plan_saved": "旅行已保存",
+    "trip_ready": "行程就绪",
+    "smart_planner": "计划已强化",
+    "trip_checkin": "旅行打卡",
+    "place_visited": "地点已到访",
+    "country_visited": "新国家",
+    "continent_visited": "新大洲",
+    "recap_complete": "旅行回顾已完成",
+    "deal_drop": "抓住一次降价",
+    "deal_target": "达到目标价格",
+    "deal_saved_50": "已抓住 $50",
+    "deal_saved_200": "已抓住 $200",
+    "deal_saved_1000": "已抓住 $1,000"
+  }
+}
