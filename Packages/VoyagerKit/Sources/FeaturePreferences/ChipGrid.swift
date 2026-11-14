@@ -10,7 +10,7 @@ struct ChipGrid<Item, Content: View>: View {
     @ViewBuilder let content: (Item) -> Content
 
     /// The items split into rows of `columns`.
-    static func rows(_ items: [Item], columns: Int) -> [[Item]] {
+    nonisolated static func rows(_ items: [Item], columns: Int) -> [[Item]] {
         let size = max(columns, 1)
         return stride(from: 0, to: items.count, by: size).map { Array(items[$0..<min($0 + size, items.count)]) }
     }
