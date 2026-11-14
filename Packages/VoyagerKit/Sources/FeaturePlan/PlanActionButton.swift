@@ -35,13 +35,13 @@ struct PlanActionLabel: View {
             Text(verbatim: title).multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
         }
         .font(VFont.body(.headline, weight: .semibold))
-        .foregroundStyle(foreground)
+        .foregroundStyle(isEnabled ? foreground : SemanticColor.disabledText)
         .padding(.horizontal, Spacing.lg)
         .padding(.vertical, Spacing.sm)
         .frame(maxWidth: .infinity, minHeight: 44)
         .borderedSurface(
-            RoundedRectangle(cornerRadius: Radius.largeCard), fill: fill, border: style == .outline ? SemanticColor.border : nil)
-        .opacity(isEnabled ? 1 : 0.45)
+            RoundedRectangle(cornerRadius: Radius.largeCard), fill: isEnabled ? fill : SemanticColor.disabledFill,
+            border: isEnabled && style == .outline ? SemanticColor.border : nil)
         .contentShape(RoundedRectangle(cornerRadius: Radius.largeCard))
     }
 }
