@@ -158,11 +158,11 @@ public struct ShareSheetView: View {
 
     private var createButton: some View {
         HStack(spacing: Spacing.md) {
-            VButton(model.primaryTitle, tid: "share.create", role: .primary) {
+            // Nothing to update yet: the same button in the quiet style, still fully readable (never faded).
+            VButton(model.primaryTitle, tid: "share.create", role: model.canCreate ? .primary : .secondary) {
                 Task { await model.create() }
             }
             .disabled(!model.canCreate)
-            .opacity(model.canCreate ? 1 : 0.55)
             if model.isWorking { ProgressView().accessibilityHidden(true) }
         }
     }
