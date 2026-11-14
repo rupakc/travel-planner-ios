@@ -224,7 +224,7 @@ struct NearbyModelTests {
     @Test(.timeLimit(.minutes(1)))
     func test_neverPersisted() async throws {
         let roots = [URL.applicationSupportDirectory, URL.documentsDirectory]
-        let before = roots.map(listing)
+        let before = roots.map { listing($0) }
         let fakes = FakeRepositories()
         fakes.nearby.onNearby.returns(v2)
         let (model, _, _) = make(location: FakeLocation(), fakes: fakes)
@@ -234,6 +234,6 @@ struct NearbyModelTests {
         try? await Task.sleep(for: .milliseconds(1300))  // past the plan store's write debounce
 
         #expect(model.result?.count == 1)
-        #expect(roots.map(listing) == before)
+        #expect(roots.map { listing($0) } == before)
     }
 }
