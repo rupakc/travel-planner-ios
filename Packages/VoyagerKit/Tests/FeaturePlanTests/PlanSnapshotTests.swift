@@ -1,6 +1,9 @@
+import DesignSystem
+import L10n
 import SnapshotTesting
 import SwiftUI
 import TestSupport
+import UIKit
 import VoyagerEnv
 import VoyagerModel
 import XCTest
@@ -15,7 +18,29 @@ final class PlanSnapshotTests: XCTestCase {
             .padLight, .padDark,
             SnapshotConfig(name: "se-de-xxxl", device: SnapshotDevice.iPhoneSE.config, dark: false, language: .de, size: .extraExtraExtraLarge),
             SnapshotConfig(name: "se-ax3", device: SnapshotDevice.iPhoneSE.config, dark: false, size: .accessibilityExtraLarge),
+            SnapshotConfig(
+                name: "se-de-ax3", device: SnapshotDevice.iPhoneSE.config, dark: false, language: .de, size: .accessibilityExtraLarge),
         ]
+
+    /// The same configs on a canvas of the device's real width and the content's own height (plus the safe areas), so
+    /// the whole scroll content shows. Width is never stretched; only the height follows the content.
+    private func fullHeight(_ configs: [SnapshotConfig], padding: CGFloat = 0, view: () -> some View) -> [SnapshotConfig] {
+        configs.map { config in
+            var fitted = config
+            let width = config.device.size?.width ?? 320
+            let insets = config.device.safeArea
+            LanguageController.withLanguage(config.language) {
+                let host = UIHostingController(
+                    rootView: view().padding(padding).frame(width: width).background(SemanticColor.surface))
+                host.traitOverrides.userInterfaceStyle = config.dark ? .dark : .light
+                host.traitOverrides.preferredContentSizeCategory = config.size
+                host.traitOverrides.horizontalSizeClass = width >= 600 ? .regular : .compact
+                let height = host.sizeThatFits(in: CGSize(width: width, height: .greatestFiniteMagnitude)).height
+                fitted.canvas = CGSize(width: width, height: ceil(height + insets.top + insets.bottom))
+            }
+            return fitted
+        }
+    }
 
     private func content(signedIn: Bool = true, filled: Bool = true) -> (MyPlanContent, AppEnvironment) {
         let env = PlanFixtures.env(signedIn: signedIn, filled: filled)
@@ -25,16 +50,16 @@ final class PlanSnapshotTests: XCTestCase {
 
     func test_myPlan() async {
         let (view, env) = content()
-        await assertSnapshots(
-            of: { NavigationStack { view } }, named: "plan", configs: Self.screenConfigs, layout: .screen)
+        await FontRegistry.ready()
+        let configs = fullHeight(Self.screenConfigs) { view.scrollContent }
+        await assertSnapshots(of: { view }, named: "plan", configs: configs, layout: .screen)
         _ = env
     }
 
     func test_myPlanSignedOutEmpty() async {
         let (view, env) = content(signedIn: false, filled: false)
         await assertSnapshots(
-            of: { NavigationStack { view } }, named: "empty",
-            configs: [.phoneLight, .phoneDark, .padLight], layout: .screen)
+            of: { view }, named: "empty", configs: [.phoneLight, .phoneDark, .padLight], layout: .screen)
         _ = env
     }
 
@@ -42,13 +67,15 @@ final class PlanSnapshotTests: XCTestCase {
         let parts = MyPlanModel.costParts(PlanFixtures.selections, searchData: PlanFixtures.searchData)
         let total = parts.reduce(0) { $0 + $1.amount }
         let budget = MyPlanModel.budgetNote(total: total, budget: 3000)
-        await assertSnapshots(
-            of: { CostBreakdownView(parts: parts, total: total, budget: budget, showsTransportNote: true) },
-            named: "cost",
-            configs: [
+        let card = { CostBreakdownView(parts: parts, total: total, budget: budget, showsTransportNote: true) }
+        await FontRegistry.ready()
+        let configs = fullHeight(
+            [
                 .phoneLight, .phoneDark, .padLight,
-                SnapshotConfig(name: "se-de-ax3", device: SnapshotDevice.iPhoneSE.config, dark: false, language: .de, size: .accessibilityExtraLarge),
-            ], layout: .component)
+                SnapshotConfig(
+                    name: "se-de-ax3", device: SnapshotDevice.iPhoneSE.config, dark: false, language: .de, size: .accessibilityExtraLarge),
+            ], padding: 16, view: card)
+        await assertSnapshots(of: card, named: "cost", configs: configs, layout: .component)
     }
 
     func test_costOverBudget() async {

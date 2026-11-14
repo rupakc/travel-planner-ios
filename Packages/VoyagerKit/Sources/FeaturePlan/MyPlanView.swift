@@ -31,34 +31,37 @@ struct MyPlanContent: View {
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: Spacing.lg) {
-                header
-                actions
-                if !model.isSignedIn { signInNote }
-                if model.isEmpty {
-                    EmptyState(icon: "checklist", title: L10n.text(K.plan.modal.empty))
-                } else {
-                    if !model.costParts.isEmpty {
-                        CostBreakdownView(
-                            parts: model.costParts, total: model.total, budget: model.budget,
-                            showsTransportNote: model.hasUnpricedTransport)
-                    }
-                    ForEach(model.groups) { group in
-                        GroupCard(group: group) { model.remove($0) }
-                    }
-                    itinerary
-                }
+        ScrollView { scrollContent }
+            .background(SemanticColor.surface)
+            .toast(Binding(get: { model.toast }, set: { model.toast = $0 }))
+            .sheet(isPresented: Binding(get: { model.showingSave }, set: { model.showingSave = $0 })) {
+                SaveSheet(model: model)
             }
-            .padding(Spacing.lg)
-            .readableWidth()
+            .accessibilityIdentifier("plan.screen")
+    }
+
+    /// Everything inside the scroll view; snapshot tests measure it to render the whole screen at its content height.
+    var scrollContent: some View {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
+            header
+            actions
+            if !model.isSignedIn { signInNote }
+            if model.isEmpty {
+                EmptyState(icon: "checklist", title: L10n.text(K.plan.modal.empty))
+            } else {
+                if !model.costParts.isEmpty {
+                    CostBreakdownView(
+                        parts: model.costParts, total: model.total, budget: model.budget,
+                        showsTransportNote: model.hasUnpricedTransport)
+                }
+                ForEach(model.groups) { group in
+                    GroupCard(group: group) { model.remove($0) }
+                }
+                itinerary
+            }
         }
-        .background(SemanticColor.surface)
-        .toast(Binding(get: { model.toast }, set: { model.toast = $0 }))
-        .sheet(isPresented: Binding(get: { model.showingSave }, set: { model.showingSave = $0 })) {
-            SaveSheet(model: model)
-        }
-        .accessibilityIdentifier("plan.screen")
+        .padding(Spacing.lg)
+        .readableWidth()
     }
 
     private var header: some View {
@@ -77,10 +80,10 @@ struct MyPlanContent: View {
 
     private var actions: some View {
         VStack(spacing: Spacing.sm) {
-            PlanActionButton(title: L10n.text(K.plan.modal.save), systemImage: "square.and.arrow.down", tid: "plan.save") {
+            PlanActionButton(title: model.saveLabel, systemImage: "square.and.arrow.down", tid: "plan.save") {
                 model.showingSave = true
             }
-            .disabled(!model.isSignedIn || model.isSaving)
+            .disabled(!model.canSave)
             ViewThatFits(in: .horizontal) {
                 HStack(spacing: Spacing.sm) {
                     ShareLinkButton(model: model).frame(maxWidth: .infinity)

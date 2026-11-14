@@ -115,6 +115,24 @@ final class MyPlanModelTests: XCTestCase {
         XCTAssertEqual(model.env.recordedRoutes, [.tab(.trips)])
     }
 
+    func test_signedOutDisablesSaveAndShareButNotExport() {
+        let (out, _, _) = make(signedIn: false)
+        XCTAssertFalse(out.canSave)
+        XCTAssertFalse(out.canShare)
+        let (signedIn, _, _) = make()
+        XCTAssertTrue(signedIn.canSave)
+        XCTAssertTrue(signedIn.canShare)
+    }
+
+    func test_saveLabelIsSaveUntilThePlanExists() async {
+        let (model, env, fakes) = make()
+        XCTAssertEqual(model.saveLabel, "Save")
+        fakes.plans.onCreate.returns(SavedPlan(id: 11, name: "Tokyo plan", searchData: PlanFixtures.searchData, selections: PlanFixtures.selections))
+        env.plan.selections = Selections.toggle(env.plan.selections, field: "tips", item: ["title": "Carry cash"])
+        _ = await model.save(name: nil)
+        XCTAssertEqual(model.saveLabel, "Save Changes")
+    }
+
     // MARK: Share
 
     func test_shareURLUsesPublicBase() throws {

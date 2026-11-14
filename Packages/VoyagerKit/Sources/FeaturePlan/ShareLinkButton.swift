@@ -11,7 +11,7 @@ struct ShareLinkButton: View {
         PlanActionButton(title: L10n.text(K.plan.modal.share), systemImage: "square.and.arrow.up", tid: "plan.share", style: .tonal) {
             Task { await model.share() }
         }
-        .disabled(model.isSharing || model.isSaving)
+        .disabled(!model.canShare)
         #if canImport(UIKit)
         .sheet(isPresented: Binding(get: { model.shareURL != nil }, set: { if !$0 { model.shareURL = nil } })) {
             if let url = model.shareURL { ActivitySheet(items: [url]).presentationDetents([.medium, .large]) }

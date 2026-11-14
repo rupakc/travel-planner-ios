@@ -30,7 +30,7 @@ struct SaveSheet: View {
                     .submitLabel(.done)
                     .onSubmit { Task { await save() } }
                     .accessibilityIdentifier("plan.save.name")
-                PlanActionButton(title: L10n.text(K.plan.modal.save), systemImage: "square.and.arrow.down", tid: "plan.save.confirm") {
+                PlanActionButton(title: model.saveLabel, systemImage: "square.and.arrow.down", tid: "plan.save.confirm") {
                     Task { await save() }
                 }
                 .disabled(model.isSaving)
@@ -38,7 +38,7 @@ struct SaveSheet: View {
             }
             .padding(Spacing.lg)
             .background(SemanticColor.surface)
-            .navigationTitle(L10n.text(K.plan.modal.save))
+            .navigationTitle(model.saveLabel)
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif

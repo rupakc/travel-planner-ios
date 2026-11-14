@@ -57339,43 +57339,43 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save, share and export this plan."
+            "value" : "Sign in to save and share this plan."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save, share and export this plan."
+            "value" : "Sign in to save and share this plan."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save, share and export this plan."
+            "value" : "Sign in to save and share this plan."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save, share and export this plan."
+            "value" : "Sign in to save and share this plan."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save, share and export this plan."
+            "value" : "Sign in to save and share this plan."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save, share and export this plan."
+            "value" : "Sign in to save and share this plan."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save, share and export this plan."
+            "value" : "Sign in to save and share this plan."
           }
         }
       }

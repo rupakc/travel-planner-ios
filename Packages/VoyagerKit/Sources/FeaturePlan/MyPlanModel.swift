@@ -82,6 +82,13 @@ final class MyPlanModel {
 
     var displayName: String { defaultName }
 
+    /// Save and Share need an account; Export works signed out.
+    var canSave: Bool { isSignedIn && !isSaving }
+    var canShare: Bool { isSignedIn && !isSharing && !isSaving }
+
+    /// "Save" for a plan that was never saved, the web's "Save Changes" once it exists.
+    var saveLabel: String { isSaved ? L10n.text(K.plan.modal.save) : L10n.text(K.alerts.ui.save) }
+
     // MARK: - Content
 
     /// The itinerary on screen: the live one from Results or Chat, else the snapshot saved with the plan.
@@ -282,6 +289,7 @@ final class MyPlanModel {
     }
 
     /// Saves first when there is nothing saved (or unsaved changes), so the link shows what is on screen.
+    /// T29 keeps the legacy `POST /plans/{id}/share`; Share 2.0 (`POST /shares`, revoke, My shares) is Phase 4 (4.x).
     func share() async {
         guard isSignedIn, !isSharing, !isSaving else { return }
         if !isSaved || env.plan.isDirty {
