@@ -36,9 +36,11 @@ let pausedStory = PriceStory(
     advice: StoryAdvice(code: .checksPaused, params: ["days": 6]), checkedAt: iso(fixedNow.addingTimeInterval(-86_400 * 6)),
     checkedDaysAgo: 6, livePrices: false)
 
+let storyConfig = ClientConfig(features: ["alerts_api": .number(2), "price_alerts_v2": .bool(true), "live_prices": .bool(true)])
+
 @MainActor
 func storyModel(_ kind: WatchKind = .flight, id: Int = 1, track: @escaping @MainActor (TelemetryEvent) -> Void = { _ in })
     -> PriceStoryModel
 {
-    PriceStoryModel(env: AppEnvironment.fake(), kind: kind, watchID: id, track: track, now: { fixedNow })
+    PriceStoryModel(env: AppEnvironment.fake(clientConfig: storyConfig), kind: kind, watchID: id, track: track, now: { fixedNow })
 }

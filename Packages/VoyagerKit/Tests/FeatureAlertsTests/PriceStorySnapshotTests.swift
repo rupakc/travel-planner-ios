@@ -14,6 +14,9 @@ final class PriceStorySnapshotTests: XCTestCase {
         SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 420)),
     ]
 
+    private let tall = SnapshotConfig(
+        name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 560))
+
     /// The story as it sits in a watch card: inside a `VCard`, on the screen surface.
     private func card(
         _ story: PriceStory, kind: WatchKind = .flight, tip: AdviceTipState = .idle, selected: PricePoint? = nil
@@ -32,7 +35,7 @@ final class PriceStorySnapshotTests: XCTestCase {
     func test_goodWithTip() async {
         await assertSnapshots(
             of: { self.card(goodFlightStory, tip: .tip(AdviceTip(tip: "Fares on this route usually dip about three weeks out, so waiting a little may pay off."))) },
-            named: "StoryTip", configs: [phone[0]], layout: .component)
+            named: "StoryTip", configs: [tall], layout: .component)
     }
 
     func test_highDark() async {
@@ -48,7 +51,7 @@ final class PriceStorySnapshotTests: XCTestCase {
     func test_tipError() async {
         await assertSnapshots(
             of: { self.card(goodFlightStory, tip: .failed("The AI limit is reached for this month.")) },
-            named: "StoryTipError", configs: [phone[0]], layout: .component)
+            named: "StoryTipError", configs: [tall], layout: .component)
     }
 
     func test_checksPausedGerman() async {
@@ -67,7 +70,7 @@ final class PriceStorySnapshotTests: XCTestCase {
             configs: [
                 SnapshotConfig(
                     name: "se-ax5", device: .iPhoneSe(.portrait), dark: false, size: .accessibilityExtraExtraExtraLarge,
-                    canvas: CGSize(width: 320, height: 1700))
+                    canvas: CGSize(width: 320, height: 780))
             ], layout: .component)
     }
 
@@ -75,7 +78,7 @@ final class PriceStorySnapshotTests: XCTestCase {
         await assertSnapshots(
             of: { self.card(goodFlightStory) }, named: "StoryRegular",
             configs: [
-                SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 620))
+                SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 460))
             ], layout: .component)
     }
 }
