@@ -67,15 +67,17 @@ final class PlanSnapshotTests: XCTestCase {
         let parts = MyPlanModel.costParts(PlanFixtures.selections, searchData: PlanFixtures.searchData)
         let total = parts.reduce(0) { $0 + $1.amount }
         let budget = MyPlanModel.budgetNote(total: total, budget: 3000)
-        let card = { CostBreakdownView(parts: parts, total: total, budget: budget, showsTransportNote: true) }
         await FontRegistry.ready()
         let configs = fullHeight(
             [
                 .phoneLight, .phoneDark, .padLight,
                 SnapshotConfig(
                     name: "se-de-ax3", device: SnapshotDevice.iPhoneSE.config, dark: false, language: .de, size: .accessibilityExtraLarge),
-            ], padding: 16, view: card)
-        await assertSnapshots(of: card, named: "cost", configs: configs, layout: .component)
+            ], padding: 16
+        ) { CostBreakdownView(parts: parts, total: total, budget: budget, showsTransportNote: true) }
+        await assertSnapshots(
+            of: { CostBreakdownView(parts: parts, total: total, budget: budget, showsTransportNote: true) },
+            named: "cost", configs: configs, layout: .component)
     }
 
     func test_costOverBudget() async {
