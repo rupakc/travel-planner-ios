@@ -36,6 +36,7 @@ import VoyagerModel
         .featureUsed(feature: "compare", page: "search"), .themeChange("dark"), .languageChange(.de),
         .consentGranted, .perf(metric: .coldStart, value: 312.5, route: "/"),
         .apiError(source: "search", status: 500),
+        .alertStoryView(kind: "flight", verdict: "good"), .alertAdvice(kind: "flight", outcome: "ok"),
     ]
 
     @Test func test_everyCaseIsInRegistry() throws {
@@ -54,7 +55,7 @@ import VoyagerModel
     @Test func test_samplesCoverEveryEnumCase() {
         let names = Set(Self.samples.map(\.wire.name))
         #expect(names.count == Self.samples.count)
-        #expect(names.count == 24)
+        #expect(names.count == 26)
     }
 
     @Test func test_internalSessionStartIsInRegistry() throws {
@@ -72,5 +73,8 @@ import VoyagerModel
         #expect(Set(PerfMetric.allCases.map(\.rawValue)).isSubset(of: try members("perf", "metric")))
         #expect(Set(AppLanguage.allCases.map(\.rawValue)) == (try members("language_change", "lang")))
         #expect(Set(TelemetryEvent.themes) == (try members("theme_change", "theme")))
+        #expect(Set(TelemetryEvent.alertKinds) == (try members("alert_story_view", "kind")))
+        #expect(Set(TelemetryEvent.storyVerdicts) == (try members("alert_story_view", "verdict")))
+        #expect(Set(TelemetryEvent.adviceOutcomes) == (try members("alert_advice", "outcome")))
     }
 }

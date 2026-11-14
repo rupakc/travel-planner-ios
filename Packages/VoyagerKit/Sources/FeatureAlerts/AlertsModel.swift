@@ -72,6 +72,8 @@ public final class AlertsModel {
     public private(set) var unread = 0
     public private(set) var notifications404 = false
 
+    /// The price stories of the watch cards (Alerts 2.0), one model per watch.
+    @ObservationIgnored let stories: PriceStoryStore
     @ObservationIgnored private let env: AppEnvironment
     @ObservationIgnored private let focusKind: WatchKind?
     @ObservationIgnored private let focusWatch: Int?
@@ -87,8 +89,11 @@ public final class AlertsModel {
         focusKind = kind
         focusWatch = watchID
         filter = AlertsFilter(kind)
-        self.track = track ?? { [telemetry = env.telemetry] event in telemetry.track(event) }
-        self.now = now ?? { Date() }
+        let resolvedTrack = track ?? { [telemetry = env.telemetry] event in telemetry.track(event) }
+        let resolvedNow = now ?? { Date() }
+        self.track = resolvedTrack
+        self.now = resolvedNow
+        stories = PriceStoryStore(env: env, track: resolvedTrack, now: resolvedNow)
     }
 
     // MARK: - Reading
