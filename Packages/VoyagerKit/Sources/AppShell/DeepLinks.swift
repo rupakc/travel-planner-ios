@@ -40,23 +40,43 @@ public enum DeepLinks {
             guard rest.count == 1, validToken(rest[0]) else { return nil }
             return .share(token: rest[0])
         case "alerts":
-            guard rest.isEmpty else { return nil }
-            var kind: WatchKind?
-            if let raw = query["kind"] {
-                guard let parsed = WatchKind(rawValue: raw) else { return nil }
-                kind = parsed
-            }
-            var watchID: Int?
-            if let raw = query["watch"] {
-                guard let parsed = Int(raw), parsed > 0 else { return nil }
-                watchID = parsed
-            }
-            return .alerts(kind: kind, watchID: watchID)
+            return alertsRoute(rest, query: query)
         case "trips":
-            // /trips/{id} is the trip detail, /trips/{id}/today its Today view.
-            guard let id = positiveInt(rest.first), rest.count <= 2 else { return nil }
-            if rest.count == 1 { return .planDetail(id: id) }
-            return rest[1] == "today" ? .tripToday(planID: id) : nil
+            return tripsRoute(rest)
+        case "feed", "u", "play":
+            return socialRoute(head, rest)
+        case "import":
+            return importRoute(rest, query: query, custom: custom)
+        default:
+            return nil
+        }
+    }
+
+    private static func alertsRoute(_ rest: [String], query: [String: String]) -> Route? {
+        guard rest.isEmpty else { return nil }
+        var kind: WatchKind?
+        if let raw = query["kind"] {
+            guard let parsed = WatchKind(rawValue: raw) else { return nil }
+            kind = parsed
+        }
+        var watchID: Int?
+        if let raw = query["watch"] {
+            guard let parsed = Int(raw), parsed > 0 else { return nil }
+            watchID = parsed
+        }
+        return .alerts(kind: kind, watchID: watchID)
+    }
+
+    /// `/trips/{id}` is the trip detail, `/trips/{id}/today` its Today view.
+    private static func tripsRoute(_ rest: [String]) -> Route? {
+        guard let id = positiveInt(rest.first), rest.count <= 2 else { return nil }
+        if rest.count == 1 { return .planDetail(id: id) }
+        return rest[1] == "today" ? .tripToday(planID: id) : nil
+    }
+
+    /// `/feed`, `/feed/{id}`, `/u/{handle}`, `/play`, `/play/h2h/{id}`.
+    private static func socialRoute(_ head: String, _ rest: [String]) -> Route? {
+        switch head {
         case "feed":
             if rest.isEmpty { return .ideas }
             guard rest.count == 1, validToken(rest[0]) else { return nil }
@@ -64,21 +84,21 @@ public enum DeepLinks {
         case "u":
             guard rest.count == 1, validHandle(rest[0]) else { return nil }
             return .profile(handle: rest[0])
-        case "play":
+        default:
             if rest.isEmpty { return .play }
             guard rest.count == 2, rest[0] == "h2h", validToken(rest[1]) else { return nil }
             return .h2h(id: rest[1])
-        case "import":
-            // Only the app's own scheme imports; a web link must not start an import.
-            guard custom, rest.isEmpty else { return nil }
-            guard let raw = query["url"] else { return .importLink(nil) }
-            guard let target = URL(string: raw), let scheme = target.scheme?.lowercased(),
-                scheme == "http" || scheme == "https", target.host != nil
-            else { return nil }
-            return .importLink(target)
-        default:
-            return nil
         }
+    }
+
+    private static func importRoute(_ rest: [String], query: [String: String], custom: Bool) -> Route? {
+        // Only the app's own scheme imports; a web link must not start an import.
+        guard custom, rest.isEmpty else { return nil }
+        guard let raw = query["url"] else { return .importLink(nil) }
+        guard let target = URL(string: raw), let scheme = target.scheme?.lowercased(),
+            scheme == "http" || scheme == "https", target.host != nil
+        else { return nil }
+        return .importLink(target)
     }
 
     /// A server notification `link` (a web path such as `/trips/7/today`), mapped through the same allow-list.
