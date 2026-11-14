@@ -1,0 +1,114 @@
+{
+  "title": "Share",
+  "titleKind": {
+    "plan": "Share this plan",
+    "recap": "Share your trip recap",
+    "savings": "Share your catches",
+    "quiz": "Share your quiz result",
+    "status": "Share your trip status"
+  },
+  "intro": "Choose what the link shows. Your email, nationality and visa details are never shared.",
+  "reveals": "Always shown: the title, destination, number of days and the items in your plan.",
+  "optionsLegend": "Also show",
+  "dates": "Dates",
+  "datesHidden": "Hide dates",
+  "datesMonth": "Month and year only",
+  "datesExact": "Exact dates",
+  "datesNote": "Link previews never show more than the month and year.",
+  "showOrigin": "Where I'm travelling from",
+  "showName": "My name",
+  "create": "Create link",
+  "update": "Update link",
+  "working": "Working…",
+  "preview": "Preview of the share card",
+  "urlLabel": "Share link",
+  "actions": {
+    "native": "Share…",
+    "copy": "Copy link",
+    "download": "Download card",
+    "downloadStory": "Download story card",
+    "x": "X",
+    "facebook": "Facebook",
+    "whatsapp": "WhatsApp",
+    "linkedin": "LinkedIn"
+  },
+  "actionsLabel": "Share to",
+  "status": {
+    "native": "Shared",
+    "copy": "Link copied",
+    "copyFailed": "Could not copy. The link is selected, press Ctrl+C or long-press to copy.",
+    "download": "Card downloaded",
+    "created": "Link ready",
+    "updated": "Link updated",
+    "revoked": "Link removed. It no longer works.",
+    "opened": "Opened"
+  },
+  "errors": {
+    "create": "Could not create the link. Try again.",
+    "download": "Could not download the card.",
+    "share": "Could not share.",
+    "revoke": "Could not remove the link.",
+    "unavailable": "Sharing links is not available right now.",
+    "noActiveTrip": "No active trip to share right now."
+  },
+  "revoke": "Stop sharing",
+  "revokeConfirm": "Stop sharing? Anyone with the link will lose access.",
+  "revokeYes": "Yes, stop sharing",
+  "revokeNo": "Keep",
+  "close": "Close",
+  "text": {
+    "plan": "My trip plan on Voyager",
+    "recap": "My trip recap on Voyager",
+    "savings": "Price drops I caught with Voyager",
+    "quiz": "My quiz result on Voyager",
+    "status": "My trip status on Voyager"
+  },
+  "page": {
+    "byline": "Shared by {{name}}",
+    "cta": "Plan your own trip",
+    "recapTag": "Trip recap",
+    "savingsTag": "Price drops caught",
+    "unavailable": "This link is not available.",
+    "stat": {
+      "activities": "Activities",
+      "hotels": "Hotels",
+      "places": "Places",
+      "places_visited": "Places visited",
+      "countries": "Countries",
+      "drops_caught": "Drops caught",
+      "targets_hit": "Targets hit",
+      "correct": "Correct"
+    },
+    "quizTag": "Quiz score",
+    "statusTag": "Trip status"
+  },
+  "mine": {
+    "title": "Your shared links",
+    "intro": "Links you created. Stopping one makes it stop working.",
+    "empty": "You have not shared anything yet.",
+    "loading": "Loading…",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "copyFailed": "Could not copy the link.",
+    "open": "Open",
+    "revoke": "Stop sharing",
+    "confirm": "Stop sharing? Anyone with the link will lose access.",
+    "yes": "Yes, stop sharing",
+    "no": "Keep",
+    "revoked": "Link removed.",
+    "error": "Could not remove the link.",
+    "untitled": "Untitled",
+    "kind": {
+      "plan": "Plan",
+      "recap": "Recap",
+      "savings": "Catches"
+    },
+    "created": "Shared {{date}}",
+    "legacyTitle": "Older links",
+    "legacyIntro": "Plan links you shared before. Stopping one makes it stop working."
+  },
+  "entry": {
+    "link": "Share link"
+  },
+  "quizCta": "Share result"
+}

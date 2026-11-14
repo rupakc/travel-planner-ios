@@ -24,7 +24,11 @@ Plan: `docs/superpowers/plans/2026-11-11-ios-app.md`. Bundle id `io.github.rupak
   - Shared fixtures: `Tests/Fixtures/sse/*.sse` (from Android), `Tests/Fixtures/golden/<name>/<case>.json`.
 - `Upstream/`: vendored web files at `upstream.lock` (`locales/<lang>/<ns>.json`, `tokens.json`, `registry.py`,
   exported `telemetry_registry.json`, `SOURCE`). Never edit by hand.
-- `tools/`: Python 3.12 stdlib generators + `tools/tests` (pytest); `tools/golden/gen_golden.mjs`.
+- `tools/`: Python 3.12 stdlib generators + `tools/tests` (pytest); `tools/golden/gen_golden.mjs`;
+  `tools/stub_backend/` (`server.py` dispatcher + `phase3|4|6.py`, credential-free stub API for UI smoke tests).
+- Phase 3-6 seams (plan `2026-11-13-ios-phase3-6-adoption.md`): `RemoteFeatures` (the `/config` flags, absent = off),
+  `QuietHours` (Domain, golden `Upstream/fixtures/alerts/`), `GameVisibility`, the `Route` cases for each phase, and one
+  stub file per phase in `VoyagerModel|VoyagerData|VoyagerEnv|TestSupport/PhaseN/` that the phase's core task replaces.
 - `scripts/ci/`: what CI runs; `scripts/upstream/sync.sh`; `scripts/fonts/fetch.sh`.
 - `docs/reference/`: API contract and web UI inventory (`docs/API-Reference.md` in travel-planner wins on conflict).
 

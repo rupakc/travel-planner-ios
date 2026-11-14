@@ -22,6 +22,8 @@ def _enum(*values: str) -> str:
     return "enum:" + "|".join(values)
 
 
+_KIND = _enum("flight", "hotel", "activity", "trip")
+_SHARE_KIND = _enum("plan", "recap", "savings", "quiz", "status")
 _AUTH_METHOD = _enum("password", "apple", "google", "facebook", "github")
 _AUTH_MODE = _enum("signin", "signup", "link")
 
@@ -101,6 +103,200 @@ EVENTS: dict[str, dict[str, str]] = {
     "badge_earned": {"badge": "id"},
     "level_up": {"level": "int"},
     "game_view": {"surface": _enum("account", "nav", "celebration")},
+    # Phase 2: journey
+    "trip_view": {
+        "surface": _enum(
+            "hub", "overview", "prep", "today", "money", "journal", "recap", "offline"
+        ),
+        "phase": _enum(
+            "dreaming", "planning", "ready", "on_the_road", "memories", "none"
+        ),
+    },
+    "trip_action": {
+        "action": _enum(
+            "create",
+            "rename",
+            "dates",
+            "phase_override",
+            "phase_clear",
+            "delete",
+            "open_planner",
+            "plan_it",
+            "share_status",
+        )
+    },
+    "prep_toggle": {
+        "item": _enum(
+            "visa",
+            "passport",
+            "bookings",
+            "insurance",
+            "documents",
+            "stress_test",
+            "sim",
+            "money",
+            "packing",
+            "emergency_card",
+            "checkin",
+            "offline_pack",
+        ),
+        "done": "bool",
+    },
+    "prep_complete": {"items": "int"},
+    "today_action": {
+        "action": _enum(
+            "checkin", "next_up", "directions", "visited", "status_share", "nearby"
+        )
+    },
+    "offline_pack": {
+        "action": _enum("save", "refresh", "open", "remove"),
+        "result": _enum("ok", "error", "unsupported", "quota"),
+        "kb": "int",
+    },
+    "outbox_flush": {
+        "sent": "int",
+        "failed": "int",
+        "dropped": "int",
+        "rejected": "int",
+    },
+    "expense_action": {
+        "action": _enum("add", "edit", "delete"),
+        "category": _enum(
+            "flights",
+            "lodging",
+            "food",
+            "transport",
+            "activities",
+            "shopping",
+            "fees",
+            "other",
+        ),
+        "queued": "bool",
+    },
+    "journal_action": {"action": _enum("add", "edit", "delete"), "queued": "bool"},
+    "place_action": {
+        "action": _enum("visited", "unvisited", "rate", "unrate"),
+        "kind": _enum(
+            "activity", "place", "food", "hotel", "event", "tour", "nearby", "other"
+        ),
+        "stars": "int",
+    },
+    "recap_action": {"action": _enum("view", "complete", "share", "where_next")},
+    "completeness_view": {"surface": _enum("drawer", "trip"), "percent": "int"},
+    "onboarding_result": {
+        "type": _enum(
+            "budget_backpacker",
+            "family",
+            "luxury",
+            "adventure",
+            "culture_foodie",
+            "business",
+            "relaxation",
+            "accessible",
+        ),
+        "secondary": "int",
+    },
+    "journey_shell": {"enabled": "bool", "source": _enum("config", "override", "off")},
+    "alert_story_view": {
+        "kind": _KIND,
+        "verdict": _enum("great", "good", "typical", "high", "none"),
+    },
+    "alert_target_set": {"kind": _KIND, "from_story": "bool"},
+    "alert_advice": {"kind": _KIND, "outcome": _enum("ok", "cached", "error")},
+    "alert_drop_seen": {
+        "kind": _KIND,
+        "target_hit": "bool",
+        "via": _enum("in_app", "push", "email"),
+    },
+    "alert_quick_watch": {
+        "kind": _KIND,
+        "action": _enum("add", "undo", "exists", "blocked"),
+        "surface": _enum("results", "chat", "trip", "suggest"),
+    },
+    "alert_suggest": {
+        "action": _enum("shown", "accepted", "dismissed"),
+        "count": "int",
+    },
+    "alert_savings_share": {"target": _enum("native", "download", "copy")},
+    "alert_prefs_change": {
+        "field": _enum("digest", "quiet_hours", "instant", "cap", "group")
+    },
+    "alert_digest_open": {"via": _enum("in_app", "email_link")},
+    "notif_settings_view": {},
+    "notif_category_toggle": {
+        "category": _enum(
+            "price_drops",
+            "trip_reminders",
+            "morning_brief",
+            "weather",
+            "nearby",
+            "social",
+            "quiz",
+        ),  # fmt: skip
+        "on": "bool",
+    },
+    "notif_quiet_hours_change": {"enabled": "bool"},
+    "notif_cap_change": {"cap": "int"},
+    "notif_open": {
+        "category": _enum(
+            "price_drops",
+            "trip_reminders",
+            "morning_brief",
+            "weather",
+            "nearby",
+            "social",
+            "quiz",
+        ),  # fmt: skip
+        "source": _enum("push", "inapp"),
+    },
+    "nearby_notif_post": {"kind": _enum("personalized", "generic")},
+    "share_open": {"kind": _SHARE_KIND},
+    "share_create": {"kind": _SHARE_KIND, "dates": _enum("hidden", "month", "exact")},
+    "share_action": {
+        "kind": _SHARE_KIND,
+        "target": _enum(
+            "native", "copy", "download", "x", "facebook", "whatsapp", "linkedin"
+        ),
+    },
+    "share_revoke": {"kind": _SHARE_KIND},
+    "share_view": {"kind": _SHARE_KIND},
+    # Phase 5: admin moderation
+    "admin_mod_action": {
+        "action": _enum("approve", "remove", "restrict", "lift", "view_queue")
+    },
+    # Phase 5: Play
+    "play_state_view": {},
+    "play_quiz_start": {
+        "mode": _enum("daily", "pack", "challenge", "h2h"),
+        "pack": _enum("flags", "capitals", "landmarks", "cuisine", "none"),
+    },
+    "play_quiz_answer": {"correct": "bool", "elapsed_s": "int"},
+    "play_quiz_done": {
+        "mode": _enum("daily", "pack", "challenge", "h2h"),
+        "correct": "int",
+    },
+    "play_h2h_create": {},
+    "play_h2h_open": {},
+    "play_h2h_result": {"winner": _enum("you", "them", "draw")},
+    "play_board_view": {"scope": _enum("global", "friends")},
+    "play_challenge_view": {},
+    # Phase 5 social (props are enums only: no handles, ids or text)
+    "social_profile_view": {},
+    "social_profile_save": {"visibility": _enum("private", "followers", "public")},
+    "social_feed_view": {"scope": _enum("for_you", "following", "new")},
+    "social_idea_publish": {"kind": _enum("plan", "recap")},
+    "social_idea_open": {},
+    "social_idea_like": {"on": "bool"},
+    "social_idea_save": {},
+    "social_comment": {},
+    "social_follow": {"state": _enum("following", "pending", "none")},
+    "social_report": {
+        "target": _enum("idea", "comment", "profile"),
+        "reason": _enum(
+            "spam", "abuse", "sexual", "violence", "misinformation", "other"
+        ),
+    },
+    "social_block": {"on": "bool"},
 }
 
 

@@ -1,0 +1,201 @@
+{
+  "chip": {
+    "level": "Nv {{level}}",
+    "label": "Nivel {{level}}, {{xp}} XP. Abre tu progreso."
+  },
+  "section": {
+    "title": "Tu progreso",
+    "level": "Nivel {{level}}",
+    "xp": "{{xp}} XP",
+    "progressLabel": "Progreso hacia el siguiente nivel",
+    "toNext": "{{remaining}} XP para el nivel {{next}}",
+    "maxLevel": "Has alcanzado el nivel máximo",
+    "badges": "Insignias",
+    "earned": "Conseguida",
+    "badgeProgress": "{{progress}}/{{target}}",
+    "recent": "Premios recientes",
+    "recentEmpty": "Todavía nada. Completa un paso para ganar tus primeros XP.",
+    "points": "+{{points}} XP"
+  },
+  "toast": {
+    "xp": "+{{points}} XP — {{rule}}",
+    "level": "¡Nivel {{to}}!",
+    "badge": "Insignia conseguida"
+  },
+  "levels": {
+    "1": "Caminante",
+    "2": "Turista",
+    "3": "Explorador",
+    "4": "Voyager",
+    "5": "Navegante",
+    "6": "Buscador de rutas",
+    "7": "Pionero",
+    "8": "Trotamundos",
+    "9": "Aventurero",
+    "10": "Leyenda"
+  },
+  "badges": {
+    "verified": {
+      "name": "Verificado",
+      "desc": "Confirma tu correo electrónico."
+    },
+    "first_steps": {
+      "name": "Primeros pasos",
+      "desc": "Termina el recorrido de bienvenida."
+    },
+    "traveller": {
+      "name": "Viajero",
+      "desc": "Cuéntanos qué tipo de viajero eres."
+    },
+    "first_trip": {
+      "name": "Primer viaje",
+      "desc": "Guarda tu primer viaje."
+    },
+    "trip_ready": {
+      "name": "Viaje listo",
+      "desc": "Deja un viaje totalmente preparado."
+    },
+    "ready_regular": {
+      "name": "Siempre listo",
+      "desc": "Deja 5 viajes totalmente preparados."
+    },
+    "smart_planner": {
+      "name": "Planificador astuto",
+      "desc": "Mejora 3 veces la puntuación de la prueba de estrés de un plan."
+    },
+    "on_the_road": {
+      "name": "En ruta",
+      "desc": "Haz check-in en 3 días de un viaje."
+    },
+    "road_warrior": {
+      "name": "Guerrero del camino",
+      "desc": "Haz check-in en 14 días de un viaje."
+    },
+    "local_explorer": {
+      "name": "Explorador local",
+      "desc": "Marca 10 lugares como visitados."
+    },
+    "local_legend": {
+      "name": "Leyenda local",
+      "desc": "Marca 50 lugares como visitados."
+    },
+    "countries_3": {
+      "name": "Sellos de pasaporte",
+      "desc": "Visita 3 países."
+    },
+    "countries_10": {
+      "name": "Viajero curtido",
+      "desc": "Visita 10 países."
+    },
+    "countries_30": {
+      "name": "Nómada del mundo",
+      "desc": "Visita 30 países."
+    },
+    "continents_3": {
+      "name": "Saltacontinentes",
+      "desc": "Visita 3 continentes."
+    },
+    "continents_6": {
+      "name": "Seis continentes",
+      "desc": "Visita 6 continentes."
+    },
+    "storyteller": {
+      "name": "Contador de historias",
+      "desc": "Completa el resumen de un viaje."
+    },
+    "memory_keeper": {
+      "name": "Guardián de recuerdos",
+      "desc": "Completa 5 resúmenes de viaje."
+    },
+    "deal_hunter": {
+      "name": "Cazaofertas",
+      "desc": "Caza tu primera bajada de precio."
+    },
+    "deal_hunter_silver": {
+      "name": "Rastreador de ofertas",
+      "desc": "Caza 5 bajadas de precio."
+    },
+    "deal_hunter_gold": {
+      "name": "Maestro de ofertas",
+      "desc": "Caza 20 bajadas de precio."
+    },
+    "bullseye": {
+      "name": "Diana",
+      "desc": "Alcanza un precio objetivo que fijaste."
+    },
+    "saver_50": {
+      "name": "$50 captados",
+      "desc": "Caza $50 en bajadas de precio."
+    },
+    "saver_200": {
+      "name": "$200 captados",
+      "desc": "Caza $200 en bajadas de precio."
+    },
+    "saver_1000": {
+      "name": "$1,000 captados",
+      "desc": "Caza $1,000 en bajadas de precio."
+    },
+    "quiz_regular": {
+      "name": "Asiduo del quiz",
+      "desc": "Juega el quiz diario durante 7 días."
+    },
+    "quiz_devoted": {
+      "name": "Devoto del quiz",
+      "desc": "Juega el quiz diario durante 30 días."
+    },
+    "quiz_ace": {
+      "name": "As del quiz",
+      "desc": "Consigue una puntuación perfecta en un quiz."
+    },
+    "quiz_master": {
+      "name": "Maestro del quiz",
+      "desc": "Consigue 10 puntuaciones perfectas en quizzes."
+    },
+    "inspirer": {
+      "name": "Inspirador",
+      "desc": "Un viajero guarda tu idea de viaje."
+    },
+    "muse": {
+      "name": "Musa",
+      "desc": "Tus ideas de viaje se guardan 10 veces."
+    },
+    "helpful_voice": {
+      "name": "Voz útil",
+      "desc": "3 de tus comentarios se marcan como útiles."
+    },
+    "h2h_rival": {
+      "name": "Rival",
+      "desc": "Termina un quiz cara a cara."
+    },
+    "h2h_veteran": {
+      "name": "Veterano cara a cara",
+      "desc": "Termina 25 quizzes cara a cara."
+    },
+    "challenge_explorer": {
+      "name": "Explorador de retos",
+      "desc": "Completa un reto semanal."
+    },
+    "challenge_regular": {
+      "name": "Habitual de retos",
+      "desc": "Completa 8 retos semanales."
+    }
+  },
+  "rules": {
+    "email_verified": "Correo confirmado",
+    "onboarding_complete": "Recorrido de bienvenida terminado",
+    "traveller_type": "Tipo de viajero elegido",
+    "plan_saved": "Viaje guardado",
+    "trip_ready": "Viaje listo",
+    "smart_planner": "Plan reforzado",
+    "trip_checkin": "Check-in del viaje",
+    "place_visited": "Lugar visitado",
+    "country_visited": "País nuevo",
+    "continent_visited": "Continente nuevo",
+    "recap_complete": "Resumen del viaje completado",
+    "deal_drop": "Bajada de precio captada",
+    "deal_target": "Precio objetivo alcanzado",
+    "deal_saved_50": "$50 captados",
+    "deal_saved_200": "$200 captados",
+    "deal_saved_1000": "$1,000 captados"
+  }
+}

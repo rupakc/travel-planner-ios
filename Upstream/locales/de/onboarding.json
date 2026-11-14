@@ -26,7 +26,7 @@
       "title": "Mit wem reist du meistens?",
       "options": {
         "solo": "Allein",
-        "partner": "Mit Partner oder Partnerin",
+        "partner": "Als Paar",
         "family_kids": "Familie mit Kindern",
         "friends": "Freundesgruppe",
         "work": "Geschäftlich"
@@ -114,7 +114,7 @@
       "description": "Strände, Wellness und entspannte Tage."
     },
     "ACCESSIBLE": {
-      "name": "Reisender mit Barrierefreiheitsbedarf",
+      "name": "Barrierefrei reisen",
       "description": "Pläne, die deine Anforderungen an Barrierefreiheit berücksichtigen."
     }
   },
@@ -122,9 +122,40 @@
     "back": "Zurück",
     "skip": "Überspringen",
     "next": "Weiter",
-    "seeType": "Meinen Typ ansehen",
+    "seeType": "Typ ansehen",
     "finish": "Fertig",
     "stepOf_one": "Schritt {{step}} von {{count}}",
     "stepOf_other": "Schritt {{step}} von {{count}}"
+  },
+  "web": {
+    "skipAll": "Überspringen",
+    "getStarted": "Los geht’s",
+    "continue": "Weiter",
+    "resume": "Willkommen zurück! Wir haben uns gemerkt, wo du warst, also kannst du direkt weitermachen.",
+    "chooseOne": "Eine Option wählen",
+    "chooseMany": "Alles Zutreffende auswählen",
+    "questionOf": "Frage {{n}} von {{count}}",
+    "resultHeading": "Dein Reisetyp",
+    "resultAlso": "Auch ein bisschen",
+    "resultSkipped": "Du hast alle Fragen übersprungen, daher starten wir mit einer breiten Mischung. Du kannst das Quiz jederzeit wiederholen.",
+    "changeAnswers": "Nicht du? Antworten ändern",
+    "homeAirport": "Heimatflughafen",
+    "homeAirportPlaceholder": "Stadt oder Flughafencode",
+    "homeAirportHint": "Wird auf diesem Gerät gespeichert, damit deine Suchen von zu Hause starten.",
+    "passport": "Reisepass",
+    "passportPlaceholder": "Deine Staatsangehörigkeit, z. B. indisch",
+    "passportHint": "Damit prüfen wir die Visaregeln. Wird in deinen Einstellungen gespeichert.",
+    "allowNotifications": "Benachrichtigungen erlauben",
+    "notNow": "Jetzt nicht",
+    "notificationsOn": "Benachrichtigungen sind an.",
+    "notificationsBlocked": "Dein Browser blockiert Benachrichtigungen",
+    "notificationsBlockedBody": "Um später Hinweise zu bekommen, erlaube Benachrichtigungen für diese Website in deinen Browser-Einstellungen.",
+    "firstTrip": "Meine erste Reise planen",
+    "explore": "Einfach stöbern",
+    "saving": "Speichern…",
+    "syncFailed": "Einstellungen konnten nicht in deinem Konto gespeichert werden",
+    "syncFailedBody": "Deine Antworten bleiben auf diesem Gerät. Deine Interessen, dein Budget, deine Reisegruppe und dein Reisepass wurden nicht in dein Konto übertragen.",
+    "retry": "Nochmal",
+    "continueWithoutSync": "Ohne Synchronisierung fortfahren"
   }
 }

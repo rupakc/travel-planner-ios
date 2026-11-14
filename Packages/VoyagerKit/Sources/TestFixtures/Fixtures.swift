@@ -20,6 +20,23 @@ public enum Fixtures {
         root.appendingPathComponent(name)
     }
 
+    /// The vendored web files under the repo's `Upstream/` (golden cases such as `fixtures/alerts/*.json`).
+    public static func upstream(_ name: String) -> URL {
+        URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent() // TestFixtures
+            .deletingLastPathComponent() // Sources
+            .deletingLastPathComponent() // VoyagerKit
+            .deletingLastPathComponent() // Packages
+            .deletingLastPathComponent() // repo root
+            .appendingPathComponent("Upstream/\(name)")
+    }
+
+    public static func upstreamData(_ name: String) throws -> Data {
+        let url = upstream(name)
+        guard FileManager.default.fileExists(atPath: url.path) else { throw NotFound(path: url.path) }
+        return try Data(contentsOf: url)
+    }
+
     public static func data(_ name: String) throws -> Data {
         let url = url(name)
         guard FileManager.default.fileExists(atPath: url.path) else { throw NotFound(path: url.path) }
