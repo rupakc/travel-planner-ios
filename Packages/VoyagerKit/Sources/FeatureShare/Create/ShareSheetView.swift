@@ -76,7 +76,8 @@ public struct ShareSheetView: View {
                 .fixedSize(horizontal: false, vertical: true)
             optionsCard
         }
-        createButton
+        // With a link made and no choice changed there is nothing to update, so no (faded) button.
+        if model.canCreate || model.isWorking { createButton }
         if model.showsOptions {
             Text(verbatim: L10n.text(K.share.sameLinkNote))
                 .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
@@ -158,8 +159,7 @@ public struct ShareSheetView: View {
 
     private var createButton: some View {
         HStack(spacing: Spacing.md) {
-            // Nothing to update yet: the same button in the quiet style, still fully readable (never faded).
-            VButton(model.primaryTitle, tid: "share.create", role: model.canCreate ? .primary : .secondary) {
+            VButton(model.primaryTitle, tid: "share.create", role: .primary) {
                 Task { await model.create() }
             }
             .disabled(!model.canCreate)
