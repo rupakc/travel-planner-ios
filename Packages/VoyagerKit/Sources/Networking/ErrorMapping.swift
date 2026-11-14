@@ -18,7 +18,7 @@ public enum ErrorMapping {
             let retry = header("Retry-After", in: headers).flatMap { Int($0.trimmingCharacters(in: .whitespaces)) }
             return .rateLimited(message: detail ?? "", retryAfter: retry.flatMap { $0 >= 0 ? $0 : nil })
         case 500...:
-            return .server(status: status, detail: detail)
+            return .server(status: status, detail: detail, code: code ?? json["error_code"].string)
         default:
             return .client(status: status, detail: detail, code: code, body: json)
         }

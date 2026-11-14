@@ -97,6 +97,7 @@ public struct NotificationsInboxView: View {
                     if let age = model.ageText(item) {
                         Text(verbatim: age).font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)
                     }
+                    InboxRowSlot(item: item)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }

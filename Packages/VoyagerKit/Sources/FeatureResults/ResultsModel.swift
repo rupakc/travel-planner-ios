@@ -249,7 +249,7 @@ public final class ResultsModel {
 
     /// `503` is "not available on this server" (hide the control); anything else shows the server's own text.
     static func remote(_ error: any Error) -> SectionRemote {
-        if case .server(let status, _)? = error as? APIError, status == 503 { return .unavailable }
+        if case .server(let status, _, _)? = error as? APIError, status == 503 { return .unavailable }
         return .failed((error as? any ErrorPresentable)?.userFacingDetail)
     }
 

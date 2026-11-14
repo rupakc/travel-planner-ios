@@ -355,3 +355,11 @@ Save flow: `POST /api/plans {name, search_data: <the TravelSearchRequest used, i
 - Exact 413 body; share-page web URL path; `verification.checks[].status` enum; extra itinerary slot keys added server-side (`start_time`, `end_time`, `from_link`, `link_extras`, `link_coverage`).
 - `email_enabled` JSON type on watches (sqlite int vs bool) - check at runtime.
 - Nothing was executed; field lists for AI sections come from agent prompts and may vary at runtime (LLM JSON, three-strategy parser). Use tolerant decoding (`ignoreUnknownKeys`, nullable fields, `coerceInputValues`; some numeric fields can arrive as strings or "varies" - e.g. `_amount()` in price sources handles "AI prices may be strings").
+
+## Phase 3: price alerts 2.0 (`Alerts-API.md`, frozen upstream)
+- Implemented by `AlertsV2Repository` (`VoyagerModel/Phase3`, `VoyagerData/Phase3`) behind `AlertsV2Service` (`VoyagerEnv/Phase3`): `GET /api/alerts/summary`, `GET /api/alerts/watches/{kind}/{id}/story`, `POST .../advice` (flights only), `POST /api/alerts/quick-watch`, `GET /api/alerts/suggestions?plan_id=`, `GET|PUT /api/alerts/preferences`.
+- Gates: stories, savings, advice and prefs need `features.alerts_api >= 2`; quick watch and suggestions also need `live_prices` and (`price_alerts_v2` or `alerts_api >= 2`). A flag-off route is never called; a bare `404 Not Found` from a flagged route turns that feature off for the session.
+- Every number is the server's (verdict, advice code and params, savings, milestones); the app never recomputes them. Decoding is lenient (Int/Double/String numbers, unknown keys, advice codes and reasons ignored, a bad list element dropped).
+- Watches gain `pending_first_check` (and `last_price: null`); notifications expose `data.drop`, `data.game`, `data.digest`, `data.group_count` through `AppNotification` accessors.
+- A new quick watch (not `existing`) calls `AppEnvironment.watchesChanged()` like every other watch create.
+- Error codes are translated by `AlertsV2Failure.from(_:call:)`; `ErrorMapping` drops 404 and 5xx bodies, so those are read from the call and status (a 503 on advice is `ai_limit`; `ai_billing` shares its copy).

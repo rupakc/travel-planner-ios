@@ -25,6 +25,7 @@ struct WatchCard: View {
                 header
                 priceBlock
                 details
+                WatchCardSlot(kind: row.kind, watchID: row.watchID)
                 actions
             }
         }

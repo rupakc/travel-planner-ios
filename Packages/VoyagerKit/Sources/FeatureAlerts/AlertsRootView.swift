@@ -40,6 +40,7 @@ public struct AlertsRootView: View {
                         .foregroundStyle(SemanticColor.textMuted)
                         .fixedSize(horizontal: false, vertical: true)
                         .dynamicTypeSize(...DynamicTypeSize.accessibility2)
+                    AlertsHeaderSlot()
                     content
                 }
                 .frame(maxWidth: AdaptiveLayout.readableMaxWidth, alignment: .leading)

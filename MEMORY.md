@@ -39,3 +39,7 @@
   test timeouts don't cover that. `test-ui.sh` pre-boots the simulator, runs `test-without-building` under a
   hard per-attempt limit and retries once on an erased simulator; the ui-smoke job has `timeout-minutes: 25`.
 - A unit run (build + 44 tests + app build) takes about 9 min on `build-test`; iPad ui-smoke about 4.5 min.
+
+## Phase 3 rulings
+- Ruling: `AlertsV2Service.quickWatch` is a watch create path and fires `watchesChanged()` itself (not the view); `existing: true` and failures do not. Why: TripReminderScheduler.refresh and the poll must follow every create. Cost if wrong: a stale poll until the next launch.
+- Ruling: an advice 503 maps to `ai_limit` (the 5xx body is dropped by `ErrorMapping`); `ai_billing` shows the same copy. Cost: none visible.

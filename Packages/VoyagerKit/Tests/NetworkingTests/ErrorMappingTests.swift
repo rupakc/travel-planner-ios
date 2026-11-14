@@ -45,6 +45,31 @@ struct ErrorMappingTests {
         #expect(map(429, "{}") == .rateLimited(message: "", retryAfter: nil))
     }
 
+    @Test func test_5xxKeepsTheErrorCodeAndDetail() {
+        let cases: [(Int, String, ServiceCode)] = [
+            (503, "ai_limit", .aiLimit), (503, "ai_billing", .aiBilling), (503, "live_prices_off", .livePricesOff),
+            (503, "grounding_unavailable", .groundingUnavailable), (502, "live_check_failed", .liveCheckFailed),
+        ]
+        for (status, code, expected) in cases {
+            let error = map(status, #"{"detail":"Some text","error_code":"\#(code)"}"#)
+            #expect(error == .server(status: status, detail: "Some text", code: code), "\(code)")
+            #expect(error.serviceCode == expected && error.userFacingDetail == "Some text")
+        }
+    }
+
+    @Test func test_5xxReadsTheCodeFromAnObjectDetail() {
+        let error = map(503, #"{"detail":{"code":"ai_billing","message":"Billing is off"}}"#)
+        #expect(error == .server(status: 503, detail: "Billing is off", code: "ai_billing"))
+        #expect(error.serviceCode == .aiBilling)
+    }
+
+    @Test func test_unknownOrMissingCodeStaysGeneric() {
+        let unknown = map(503, #"{"detail":"x","error_code":"brand_new"}"#)
+        #expect(unknown.serverCode == "brand_new" && unknown.serviceCode == nil)
+        let bare = ErrorMapping.map(status: 500, body: nil, headers: [:])
+        #expect(bare == .server(status: 500, detail: nil) && bare.serviceCode == nil)
+    }
+
     @Test func test_htmlErrorBodyNeverLeaks() {
         let error = ErrorMapping.map(status: 500, body: Data("<html><body>Oops</body></html>".utf8), headers: [:])
         #expect(error == .server(status: 500, detail: nil))
