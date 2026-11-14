@@ -95,7 +95,6 @@ struct MyPlanContent: View {
                 }
             }
             .disabled(model.isEmpty)
-            .opacity(model.isEmpty ? 0.5 : 1)
         }
     }
 

@@ -291,7 +291,9 @@ final class MyPlanModel {
     /// Saves first when there is nothing saved (or unsaved changes), so the link shows what is on screen.
     /// T29 keeps the legacy `POST /plans/{id}/share`; Share 2.0 (`POST /shares`, revoke, My shares) is Phase 4 (4.x).
     func share() async {
-        guard isSignedIn, !isSharing, !isSaving else { return }
+        // Signed out: send them to sign in rather than doing nothing (the button is disabled, but never fail silently).
+        guard isSignedIn else { signIn(); return }
+        guard !isSharing, !isSaving else { return }
         if !isSaved || env.plan.isDirty {
             guard await save(name: nil) else { return }
         }

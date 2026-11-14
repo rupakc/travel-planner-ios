@@ -111,8 +111,9 @@ final class MyPlanModelTests: XCTestCase {
         XCTAssertEqual(fakes.plans.onCreate.callCount, 0)
         XCTAssertEqual(fakes.plans.onShare.callCount, 0)
         XCTAssertNil(model.shareURL)
+        XCTAssertEqual(model.env.recordedRoutes, [.tab(.trips)], "share() while signed out sends the user to sign in")
         model.signIn()
-        XCTAssertEqual(model.env.recordedRoutes, [.tab(.trips)])
+        XCTAssertEqual(model.env.recordedRoutes, [.tab(.trips), .tab(.trips)])
     }
 
     func test_signedOutDisablesSaveAndShareButNotExport() {
