@@ -137,6 +137,9 @@ public enum K {
                 public static let visas = LKey("account:prefs.documents.visas", placeholders: [], plural: false)
                 public static let visasPlaceholder = LKey("account:prefs.documents.visasPlaceholder", placeholders: [], plural: false)
             }
+            public enum email {
+                public static let conflict = LKey("account:prefs.email.conflict", placeholders: [], plural: false)
+            }
             public static let errorWithDetail = LKey("account:prefs.errorWithDetail", placeholders: ["detail"], plural: false)
             public enum identity {
                 public static let nationality = LKey("account:prefs.identity.nationality", placeholders: [], plural: false)
@@ -158,6 +161,7 @@ public enum K {
                 public static let shopping = LKey("account:prefs.interest.shopping", placeholders: [], plural: false)
                 public static let wellness = LKey("account:prefs.interest.wellness", placeholders: [], plural: false)
             }
+            public static let loadFailed = LKey("account:prefs.loadFailed", placeholders: [], plural: false)
             public static let save = LKey("account:prefs.save", placeholders: [], plural: false)
             public static let saveFailed = LKey("account:prefs.saveFailed", placeholders: [], plural: false)
             public static let saved = LKey("account:prefs.saved", placeholders: [], plural: false)
@@ -183,8 +187,10 @@ public enum K {
                 public static let confirmReset = LKey("account:prefs.taste.confirmReset", placeholders: [], plural: false)
                 public static let empty = LKey("account:prefs.taste.empty", placeholders: [], plural: false)
                 public static let heading = LKey("account:prefs.taste.heading", placeholders: [], plural: false)
+                public static let loadFailed = LKey("account:prefs.taste.loadFailed", placeholders: [], plural: false)
                 public static let personalised = LKey("account:prefs.taste.personalised", placeholders: [], plural: false)
                 public static let reset = LKey("account:prefs.taste.reset", placeholders: [], plural: false)
+                public static let resetFailed = LKey("account:prefs.taste.resetFailed", placeholders: [], plural: false)
                 public static let title = LKey("account:prefs.taste.title", placeholders: [], plural: false)
             }
             public static let title = LKey("account:prefs.title", placeholders: [], plural: false)
