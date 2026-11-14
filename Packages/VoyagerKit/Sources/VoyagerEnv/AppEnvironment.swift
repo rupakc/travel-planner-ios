@@ -39,6 +39,7 @@ public final class AppEnvironment {
     @ObservationIgnored private let configureTelemetry: @Sendable (TelemetryBootstrap) -> Void
     @ObservationIgnored private var deferredTask: Task<Void, Never>?
     @ObservationIgnored private var watchCoordinator: WatchCreateCoordinator?
+    @ObservationIgnored private var alertsV2Service: AlertsV2Service?
     /// The user whose chat threads are shown (`.none` = not loaded yet; `.some(nil)` = signed out).
     @ObservationIgnored private var chatUser: String??
 
@@ -57,6 +58,14 @@ public final class AppEnvironment {
         let coordinator = WatchCreateCoordinator(env: self)
         watchCoordinator = coordinator
         return coordinator
+    }
+
+    /// The Phase 3 (price alerts 2.0) routes behind their feature flags.
+    public var alertsV2: AlertsV2Service {
+        if let alertsV2Service { return alertsV2Service }
+        let service = AlertsV2Service(env: self)
+        alertsV2Service = service
+        return service
     }
 
     /// `configureTelemetry` defaults to `telemetry.configure`; tests pass a recorder.

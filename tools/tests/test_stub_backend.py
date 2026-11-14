@@ -63,6 +63,25 @@ def test_alert_prefs_round_trip_and_invalid():
         httpd.shutdown()
 
 
+def test_quick_watch_pending_existing_and_errors():
+    httpd = _serve()
+    try:
+        body = {"kind": "hotel", "title": "Lumen Hotel", "spec": {"name": "Lumen"}, "surface": "results"}
+        status, first = _call(httpd, "POST", "/api/alerts/quick-watch", body)
+        assert status == 201 and first["existing"] is False
+        assert first["watch"]["pending_first_check"] is True and first["watch"]["last_price"] is None
+        status, again = _call(httpd, "POST", "/api/alerts/quick-watch", body)
+        assert status == 200 and again["existing"] is True and again["watch"]["id"] == first["watch"]["id"]
+        assert _call(httpd, "POST", "/api/alerts/quick-watch", {"kind": "boat", "title": "x", "spec": {}})[0] == 422
+        status, tip = _call(httpd, "POST", "/api/alerts/watches/flight/7/advice")
+        assert status == 200 and tip["source"] == "ai"
+        assert _call(httpd, "POST", "/api/alerts/watches/hotel/7/advice")[1]["error_code"] == "advice_unsupported"
+        _, summary = _call(httpd, "GET", "/api/alerts/summary")
+        assert summary["drops_caught"] == 1 and summary["next_milestone"] == 50
+    finally:
+        httpd.shutdown()
+
+
 def test_share_create_is_idempotent_and_revoke_removes():
     httpd = _serve()
     try:

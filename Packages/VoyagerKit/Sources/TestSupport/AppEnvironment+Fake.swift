@@ -23,6 +23,7 @@ extension AppEnvironment {
         user: User? = .sample,
         fakes: FakeRepositories = FakeRepositories(),
         files: any FileStore = MemoryFileStore(),
+        clientConfig: ClientConfig? = nil,
         configure: (inout FakeRepositories) -> Void = { _ in }
     ) -> AppEnvironment {
         var fakes = fakes
@@ -48,6 +49,7 @@ extension AppEnvironment {
             language: LanguageController(defaults: defaults, preferred: ["en"]),
             telemetry: Telemetry(),
             router: RecordingRouter(),
+            clientConfig: clientConfig,
             telemetrySetup: TelemetrySetup(
                 storeDirectory: FileManager.default.temporaryDirectory.appendingPathComponent("telemetry-\(UUID().uuidString)"),
                 transport: RecordingTelemetryTransport()),

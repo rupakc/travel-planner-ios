@@ -22,6 +22,8 @@ public struct Repositories: Sendable {
     public var feedback: any FeedbackRepository
     public var admin: any AdminRepository
     public var health: any HealthRepository
+    /// Price alerts 2.0 (Phase 3): called only when `RemoteFeatures` says the routes exist.
+    public var alertsV2: any AlertsV2Repository
 
     public init(
         plans: any PlansRepository,
@@ -40,7 +42,8 @@ public struct Repositories: Sendable {
         devices: any DevicesRepository,
         feedback: any FeedbackRepository,
         admin: any AdminRepository,
-        health: any HealthRepository
+        health: any HealthRepository,
+        alertsV2: any AlertsV2Repository
     ) {
         self.plans = plans
         self.preferences = preferences
@@ -59,6 +62,7 @@ public struct Repositories: Sendable {
         self.feedback = feedback
         self.admin = admin
         self.health = health
+        self.alertsV2 = alertsV2
     }
 
     /// The live repositories over one `APIClient` and one `SSEClient`. `locale` is read per request.
@@ -82,6 +86,7 @@ public struct Repositories: Sendable {
             devices: LiveDevicesRepository(api: api, locale: locale),
             feedback: LiveFeedbackRepository(api: api, locale: locale),
             admin: LiveAdminRepository(api: api, locale: locale),
-            health: LiveHealthRepository(api: api, locale: locale))
+            health: LiveHealthRepository(api: api, locale: locale),
+            alertsV2: LiveAlertsV2Repository(api: api, locale: locale))
     }
 }

@@ -120,6 +120,8 @@ public struct PriceWatch: Codable, Sendable, Hashable {
     public var updatedAt: String?
     public var history: [PriceWatchHistoryPoint]?
     public var alreadyWatching: Bool?
+    /// Alerts 2.0: a quick-watch that has not had its first check yet (`lastPrice` is nil).
+    public var pendingFirstCheck: Bool?
     public var checkStatus: String?
     public var notification: JSONValue?
 
@@ -156,7 +158,8 @@ public struct PriceWatch: Codable, Sendable, Hashable {
         history: [PriceWatchHistoryPoint]? = nil,
         alreadyWatching: Bool? = nil,
         checkStatus: String? = nil,
-        notification: JSONValue? = nil
+        notification: JSONValue? = nil,
+        pendingFirstCheck: Bool? = nil
     ) {
         self.id = id
         self.kind = kind
@@ -191,6 +194,7 @@ public struct PriceWatch: Codable, Sendable, Hashable {
         self.alreadyWatching = alreadyWatching
         self.checkStatus = checkStatus
         self.notification = notification
+        self.pendingFirstCheck = pendingFirstCheck
     }
 
     enum CodingKeys: String, CodingKey {
@@ -227,6 +231,7 @@ public struct PriceWatch: Codable, Sendable, Hashable {
         case alreadyWatching = "already_watching"
         case checkStatus = "check_status"
         case notification
+        case pendingFirstCheck = "pending_first_check"
     }
 
     public init(from decoder: any Decoder) throws {
@@ -264,6 +269,7 @@ public struct PriceWatch: Codable, Sendable, Hashable {
         alreadyWatching = box.lBool(.alreadyWatching)
         checkStatus = box.lString(.checkStatus)
         notification = box.lAny(JSONValue.self, .notification)
+        pendingFirstCheck = box.lBool(.pendingFirstCheck)
     }
 }
 
