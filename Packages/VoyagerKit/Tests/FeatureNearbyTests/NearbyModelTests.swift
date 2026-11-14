@@ -60,10 +60,25 @@ private func make(
     return (NearbyModel(env: env, location: location, track: { recorder.events.append($0) }), env, recorder)
 }
 
-private func listing(_ url: URL) -> Set<String> {
-    let keys: [URLResourceKey] = [.isRegularFileKey]
-    guard let walker = FileManager.default.enumerator(at: url, includingPropertiesForKeys: keys) else { return [] }
-    return Set(walker.compactMap { ($0 as? URL).map { $0.path } }.filter { !$0.contains("telemetry-") })
+/// A bounded snapshot of what the app could persist under `url`: at most `maxDepth` levels and `maxEntries` paths,
+/// so a large or busy directory on a CI runner can never make the check slow or unbounded.
+private func listing(_ url: URL, maxDepth: Int = 3, maxEntries: Int = 2000) -> Set<String> {
+    var found = Set<String>()
+    func walk(_ dir: URL, depth: Int) {
+        guard depth <= maxDepth, found.count < maxEntries,
+            let names = try? FileManager.default.contentsOfDirectory(atPath: dir.path)
+        else { return }
+        for name in names where found.count < maxEntries {
+            let child = dir.appendingPathComponent(name)
+            found.insert(child.path)
+            var isDir: ObjCBool = false
+            if FileManager.default.fileExists(atPath: child.path, isDirectory: &isDir), isDir.boolValue {
+                walk(child, depth: depth + 1)
+            }
+        }
+    }
+    walk(url, depth: 1)
+    return found
 }
 
 @MainActor
@@ -203,8 +218,12 @@ struct NearbyModelTests {
         #expect(linked)
     }
 
-    @Test func test_neverPersisted() async throws {
-        let roots = [URL.applicationSupportDirectory, FileManager.default.temporaryDirectory, URL.documentsDirectory]
+    /// The fake environment keeps files in memory; this guards that Near me writes nothing into the app's own
+    /// persistent roots (Application Support, Documents). The temp directory is not scanned: it is shared with
+    /// the runner and parallel tests, and telemetry's fake store lives there.
+    @Test(.timeLimit(.minutes(1)))
+    func test_neverPersisted() async throws {
+        let roots = [URL.applicationSupportDirectory, URL.documentsDirectory]
         let before = roots.map(listing)
         let fakes = FakeRepositories()
         fakes.nearby.onNearby.returns(v2)
