@@ -42,6 +42,15 @@ public final class AppEnvironment {
     /// The user whose chat threads are shown (`.none` = not loaded yet; `.some(nil)` = signed out).
     @ObservationIgnored private var chatUser: String??
 
+    /// The one seam every watch create / change / delete goes through (`WatchCreateCoordinator`, the Alerts tab). The app
+    /// shell sets it to refresh local reminders and poll for alerts; unset (tests, previews) it does nothing.
+    @ObservationIgnored public var onWatchesChanged: (@MainActor () async -> Void)?
+
+    /// Call after a watch was created, changed or deleted on the server.
+    public func watchesChanged() async {
+        await onWatchesChanged?()
+    }
+
     /// Serves "Watch price" taps from Results and Chat (created on first use: it refers back to the environment).
     public var watches: WatchCreateCoordinator {
         if let watchCoordinator { return watchCoordinator }
