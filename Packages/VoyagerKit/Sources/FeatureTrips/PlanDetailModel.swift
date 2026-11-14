@@ -95,7 +95,8 @@ final class PlanDetailModel {
     var hasUnsavedEdits: Bool { draft != nil && draft != plan?.selections }
 
     func setDraft(_ new: JSONValue) {
-        draft = new == plan?.selections ? nil : new
+        // JSONValue is ExpressibleByNilLiteral: a bare `nil` in a ternary would become `.null`, not "no draft".
+        if new == plan?.selections { draft = Optional<JSONValue>.none } else { draft = new }
     }
 
     /// Writes the edited selections to the plan (`PUT /plans/{id}`). Offline or on a failure the draft stays.
