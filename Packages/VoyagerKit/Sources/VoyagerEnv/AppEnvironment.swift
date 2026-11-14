@@ -40,6 +40,7 @@ public final class AppEnvironment {
     @ObservationIgnored private var deferredTask: Task<Void, Never>?
     @ObservationIgnored private var watchCoordinator: WatchCreateCoordinator?
     @ObservationIgnored private var alertsV2Service: AlertsV2Service?
+    @ObservationIgnored private var sharesService: SharesService?
     /// The user whose chat threads are shown (`.none` = not loaded yet; `.some(nil)` = signed out).
     @ObservationIgnored private var chatUser: String??
 
@@ -65,6 +66,17 @@ public final class AppEnvironment {
         if let alertsV2Service { return alertsV2Service }
         let service = AlertsV2Service(env: self)
         alertsV2Service = service
+        return service
+    }
+
+    /// Where downloaded share cards live (temporary storage). Tests point it at their own directory before first use.
+    @ObservationIgnored public var shareCardStore: ShareCardStore = .standard
+
+    /// The Phase 4 (share links 2.0) routes behind `features.sharing`, and the temporary card store.
+    public var shares: SharesService {
+        if let sharesService { return sharesService }
+        let service = SharesService(env: self, cards: shareCardStore)
+        sharesService = service
         return service
     }
 
@@ -226,13 +238,15 @@ public final class AppEnvironment {
 
     /// Follows the signed-in user: their plan and chat threads replace the previous user's.
     @discardableResult
-    private func observeAuth() -> Task<Void, Never>? {
+    func observeAuth() -> Task<Void, Never>? {
         let username = withObservationTracking {
             auth.session?.user.username
         } onChange: { [weak self] in
             Task { @MainActor [weak self] in self?.observeAuth() }
         }
         guard chatUser != .some(username) else { return nil }
+        // Launch and every sign-out or user switch: cached share cards are the previous user's.
+        shares.cards.purge()
         chatUser = .some(username)
         let threads = chatThreads
         let plan = plan
