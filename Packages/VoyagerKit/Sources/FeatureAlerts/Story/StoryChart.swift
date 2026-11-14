@@ -102,6 +102,7 @@ struct StoryChart: View {
     var selected: PricePoint?
     var onScrub: (Date?) -> Void = { _ in }
     @State private var scrubDate: Date?
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private var selectedDate: Date? {
         selected.flatMap { point in data.points.first { $0.point == point }?.date }
@@ -135,6 +136,7 @@ struct StoryChart: View {
             }
         }
         .chartYScale(domain: data.yDomain)
+        .chartXScale(range: .plotDimension(padding: 14))
         .chartXSelection(value: $scrubDate)
         .chartXAxis {
             AxisMarks(values: .automatic(desiredCount: 2)) { value in
@@ -157,7 +159,9 @@ struct StoryChart: View {
                 }
             }
         }
-        .frame(height: 150)
+        // Axis labels stay readable but never outgrow the plot at accessibility sizes.
+        .dynamicTypeSize(...DynamicTypeSize.xLarge)
+        .frame(height: dynamicTypeSize.isAccessibilitySize ? 190 : 150)
         .onChange(of: scrubDate) { _, date in onScrub(date) }
         .accessibilityChartDescriptor(StoryChartDescriptor(data: data))
         .accessibilityHint(L10n.text(K.priceStory.chart.help))
