@@ -1950,6 +1950,10 @@ public enum K {
             public static let notificationsTitle = LKey("mobile:permissions.notificationsTitle", placeholders: [], plural: false)
             public static let openSettings = LKey("mobile:permissions.openSettings", placeholders: [], plural: false)
         }
+        public enum plan {
+            public static let export = LKey("mobile:plan.export", placeholders: [], plural: false)
+            public static let signInToSave = LKey("mobile:plan.signInToSave", placeholders: [], plural: false)
+        }
         public enum reminders {
             public static let dayBody = LKey("mobile:reminders.dayBody", placeholders: [], plural: false)
             public static let dayTitle = LKey("mobile:reminders.dayTitle", placeholders: ["day", "destination"], plural: false)

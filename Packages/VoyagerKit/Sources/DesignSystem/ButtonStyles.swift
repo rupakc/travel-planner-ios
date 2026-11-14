@@ -11,12 +11,12 @@ private struct VButtonBody: View {
     var body: some View {
         configuration.label
             .font(VFont.body(.headline, weight: .semibold))
-            .foregroundStyle(foreground)
+            .foregroundStyle(isEnabled ? foreground : SemanticColor.disabledText)
             .padding(.horizontal, Spacing.lg)
             .frame(minHeight: 44)
             .frame(maxWidth: .infinity)
-            .borderedSurface(Capsule(), fill: background, border: stroke)
-            .opacity(isEnabled ? (configuration.isPressed ? 0.85 : 1) : 0.45)
+            .borderedSurface(Capsule(), fill: isEnabled ? background : SemanticColor.disabledFill, border: isEnabled ? stroke : nil)
+            .opacity(isEnabled ? (configuration.isPressed ? 0.85 : 1) : 1)
             .contentShape(Capsule())
     }
 }

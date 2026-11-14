@@ -14,5 +14,8 @@ public enum SemanticColor {
     public static let primary = Palette.color(.primary, .s600)
     /// Text and icons on `primary`.
     public static let onPrimary = Palette.white
+    /// Disabled controls: a muted fill with a readable (>= 4.5:1) label in both schemes.
+    public static let disabledFill = Palette.color(.gray, .s100)
+    public static let disabledText = Palette.color(.gray, .s600)
     public static let destructive = Palette.color(.red, .s600)
 }
