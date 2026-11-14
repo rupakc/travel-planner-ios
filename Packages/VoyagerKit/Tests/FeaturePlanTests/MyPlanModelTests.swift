@@ -79,7 +79,9 @@ final class MyPlanModelTests: XCTestCase {
         let first = await model.save(name: "  ")
         XCTAssertTrue(first)
         XCTAssertEqual(fakes.plans.onCreate.callCount, 1)
-        XCTAssertEqual(fakes.plans.onCreate.lastCall?.name, PlanName.generate(destination: "Tokyo", interests: ["food"], departureDate: "2026-12-05"))
+        // The generated name is random (adjective, noun): check its shape, not a value.
+        let created = fakes.plans.onCreate.lastCall?.name ?? ""
+        XCTAssertTrue(created.hasPrefix("The ") && created.contains(" Tokyo "), created)
         XCTAssertEqual(env.plan.savedPlanID, 11)
         XCTAssertFalse(env.plan.isDirty)
 

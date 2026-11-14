@@ -54,10 +54,6 @@ struct MyPlanContent: View {
             .readableWidth()
         }
         .background(SemanticColor.surface)
-        .navigationTitle(model.displayName)
-        #if os(iOS)
-        .navigationBarTitleDisplayMode(.inline)
-        #endif
         .toast(Binding(get: { model.toast }, set: { model.toast = $0 }))
         .sheet(isPresented: Binding(get: { model.showingSave }, set: { model.showingSave = $0 })) {
             SaveSheet(model: model)
@@ -81,7 +77,7 @@ struct MyPlanContent: View {
 
     private var actions: some View {
         VStack(spacing: Spacing.sm) {
-            VButton(L10n.text(K.plan.modal.save), tid: "plan.save", systemImage: "square.and.arrow.down") {
+            PlanActionButton(title: L10n.text(K.plan.modal.save), systemImage: "square.and.arrow.down", tid: "plan.save") {
                 model.showingSave = true
             }
             .disabled(!model.isSignedIn || model.isSaving)
@@ -181,7 +177,7 @@ private struct GroupCard: View {
     }
 
     private func priceText(_ price: Double) -> some View {
-        Text(verbatim: Fmt.currency(price, code: "USD"))
+        Text(verbatim: CostBreakdownView.usdUpTo2(price))
             .font(VFont.body(.subheadline, weight: .medium))
             .foregroundStyle(SemanticColor.textMuted)
             .fixedSize()

@@ -53,14 +53,14 @@ struct PlanPrintView {
                 HStack {
                     Text(verbatim: CostBreakdownView.label(for: part)).font(VFont.body(.subheadline))
                     Spacer(minLength: Spacing.sm)
-                    Text(verbatim: Fmt.currency(part.amount, code: "USD")).font(VFont.body(.subheadline))
+                    Text(verbatim: CostBreakdownView.usd0(part.amount)).font(VFont.body(.subheadline))
                 }
                 .foregroundStyle(SemanticColor.text)
             }
             HStack {
                 Text(verbatim: L10n.text(K.plan.cost.total)).font(VFont.body(.subheadline, weight: .semibold))
                 Spacer(minLength: Spacing.sm)
-                Text(verbatim: Fmt.currency(document.total, code: "USD")).font(VFont.body(.subheadline, weight: .semibold))
+                Text(verbatim: CostBreakdownView.usd0(document.total)).font(VFont.body(.subheadline, weight: .semibold))
             }
             .foregroundStyle(SemanticColor.text)
         }
@@ -81,7 +81,7 @@ struct PlanPrintView {
                     }
                     Spacer(minLength: Spacing.sm)
                     if let price = row.price {
-                        Text(verbatim: Fmt.currency(price, code: "USD"))
+                        Text(verbatim: CostBreakdownView.usdUpTo2(price))
                             .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
                     }
                 }

@@ -8,7 +8,7 @@ struct ShareLinkButton: View {
     let model: MyPlanModel
 
     var body: some View {
-        VButton(L10n.text(K.plan.modal.share), tid: "plan.share", role: .tonal, systemImage: "square.and.arrow.up") {
+        PlanActionButton(title: L10n.text(K.plan.modal.share), systemImage: "square.and.arrow.up", tid: "plan.share", style: .tonal) {
             Task { await model.share() }
         }
         .disabled(model.isSharing || model.isSaving)

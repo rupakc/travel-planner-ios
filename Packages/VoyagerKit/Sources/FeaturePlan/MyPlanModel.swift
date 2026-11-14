@@ -199,7 +199,7 @@ final class MyPlanModel {
             subtitle = carrier.isEmpty || route.isEmpty ? nil : route.joined(separator: " → ")
         case "hotel":
             if let price = item["price_per_night_usd"].double, price > 0 {
-                subtitle = L10n.text(K.plan.modal.hotel.perNight, ["price": Fmt.currency(price, code: "USD")])
+                subtitle = L10n.text(K.plan.modal.hotel.perNight, ["price": CostBreakdownView.usdUpTo2(price)])
             }
         case "itinerary_slots":
             title = title ?? item["activity"].string

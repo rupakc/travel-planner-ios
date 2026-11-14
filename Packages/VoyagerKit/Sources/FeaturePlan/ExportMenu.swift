@@ -26,17 +26,7 @@ struct ExportMenu: View {
             }
             .accessibilityIdentifier("plan.export.print")
         } label: {
-            HStack(spacing: Spacing.sm) {
-                Image(systemName: "arrow.down.doc").accessibilityHidden(true)
-                Text(verbatim: L10n.text(K.mobile.plan.export))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-            }
-            .font(VFont.body(.body, weight: .semibold))
-            .foregroundStyle(SemanticColor.text)
-            .padding(.horizontal, Spacing.lg)
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .borderedSurface(RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
+            PlanActionLabel(title: L10n.text(K.mobile.plan.export), systemImage: "arrow.down.doc", style: .outline)
         }
         .accessibilityIdentifier("plan.export")
         #if canImport(UIKit)

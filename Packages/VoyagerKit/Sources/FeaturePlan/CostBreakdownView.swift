@@ -25,6 +25,16 @@ struct CostBreakdownView: View {
         SectionAccent.color(for: key == "hotel" ? "hotels" : key)
     }
 
+    /// Whole dollars, like the web's breakdown.
+    static func usd0(_ amount: Double) -> String {
+        amount.formatted(.currency(code: "USD").precision(.fractionLength(0)).locale(LanguageController.current.intlLocale))
+    }
+
+    /// Item prices: no cents unless there are some.
+    static func usdUpTo2(_ amount: Double) -> String {
+        amount.formatted(.currency(code: "USD").precision(.fractionLength(0...2)).locale(LanguageController.current.intlLocale))
+    }
+
     static func percent(_ share: Double) -> String {
         share > 0 && share < 0.005 ? "<1%" : Fmt.number(share * 100, fractionDigits: 0) + "%"
     }
@@ -73,17 +83,23 @@ struct CostBreakdownView: View {
 
     private func row(_ part: CostPart, emphasised: Bool) -> some View {
         let share = total > 0 ? part.amount / total : 0
+        let title = Text(verbatim: Self.label(for: part))
+            .font(VFont.body(.subheadline, weight: emphasised ? .semibold : .regular))
+            .foregroundStyle(SemanticColor.text)
+        let amount = Text(verbatim: Self.usd0(part.amount))
+            .font(VFont.body(.subheadline, weight: .medium))
+            .foregroundStyle(SemanticColor.text)
         return HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) {
             Circle().fill(Self.color(for: part.key)).frame(width: 8, height: 8).accessibilityHidden(true)
-            Text(verbatim: Self.label(for: part))
-                .font(VFont.body(.subheadline, weight: emphasised ? .semibold : .regular))
-                .foregroundStyle(SemanticColor.text)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(verbatim: Fmt.currency(part.amount, code: "USD"))
-                .font(VFont.body(.subheadline, weight: .medium))
-                .foregroundStyle(SemanticColor.text)
-                .fixedSize()
-            if !typeSize.isAccessibilitySize {
+            if typeSize.isAccessibilitySize {
+                // Label above the amount: a long word never breaks letter by letter.
+                VStack(alignment: .leading, spacing: 2) {
+                    title
+                    amount + Text(verbatim: "  " + Self.percent(share)).font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)
+                }
+            } else {
+                title.frame(maxWidth: .infinity, alignment: .leading)
+                amount.fixedSize()
                 Text(verbatim: Self.percent(share))
                     .font(VFont.body(.caption))
                     .foregroundStyle(SemanticColor.textMuted)
@@ -94,15 +110,19 @@ struct CostBreakdownView: View {
     }
 
     private var totalRow: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(verbatim: L10n.text(K.plan.cost.total))
-                .font(VFont.body(.subheadline, weight: .semibold))
-                .foregroundStyle(SemanticColor.text)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(verbatim: Fmt.currency(total, code: "USD"))
-                .font(VFont.display(.title3))
-                .foregroundStyle(SemanticColor.text)
-                .fixedSize()
+        let label = Text(verbatim: L10n.text(K.plan.cost.total))
+            .font(VFont.body(.subheadline, weight: .semibold))
+            .foregroundStyle(SemanticColor.text)
+        let value = Text(verbatim: Self.usd0(total)).font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
+        return Group {
+            if typeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: 2) { label; value }
+            } else {
+                HStack(alignment: .firstTextBaseline) {
+                    label.frame(maxWidth: .infinity, alignment: .leading)
+                    value.fixedSize()
+                }
+            }
         }
         .accessibilityElement(children: .combine)
     }
