@@ -31,9 +31,11 @@ final class PlanSnapshotTests: XCTestCase {
             let insets = config.device.safeArea
             LanguageController.withLanguage(config.language) {
                 let host = UIHostingController(
-                    rootView: view().padding(padding).frame(width: width).background(SemanticColor.surface))
+                    rootView: view().padding(padding).frame(width: width).background(SemanticColor.surface)
+                        .environment(\.dynamicTypeSize, (DynamicTypeSize(config.size) ?? .large)))
                 host.traitOverrides.userInterfaceStyle = config.dark ? .dark : .light
                 host.traitOverrides.preferredContentSizeCategory = config.size
+                // A hosting controller outside a window ignores the trait for sizing: set the SwiftUI size explicitly.
                 host.traitOverrides.horizontalSizeClass = width >= 600 ? .regular : .compact
                 let height = host.sizeThatFits(in: CGSize(width: width, height: .greatestFiniteMagnitude)).height
                 fitted.canvas = CGSize(width: width, height: ceil(height + insets.top + insets.bottom))
