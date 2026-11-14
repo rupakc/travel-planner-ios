@@ -88,6 +88,7 @@ public struct AlertsRootView: View {
             Button(L10n.text(K.alerts.ui.keep), role: .cancel) { deleting = nil }
         }
         .toast($model.toast)
+        .environment(\.priceStories, model.stories)
         .accessibilityIdentifier("alerts.root")
     }
 
