@@ -114,8 +114,10 @@ final class ChatModel {
         let text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty, !isStreaming else { return }
         dropForeignConversation()
-        // Typed text belongs to the user the store shows now, even before their threads finished loading.
-        if owner == nil, env.chatThreads.hasSwitched { owner = Owner(name: env.chatThreads.username) }
+        // Typed text belongs to the user the store shows now, even before their threads finished loading. Before
+        // the first `switchUser` nobody is signed in as far as the app knows, so it is a guest conversation: it
+        // is dropped, not adopted, when a signed-in user loads next.
+        if owner == nil { owner = Owner(name: env.chatThreads.hasSwitched ? env.chatThreads.username : nil) }
         started = true
         input = ""
         messages.append(ChatMessageState(role: .user, content: text))

@@ -253,6 +253,69 @@ final class ChatModelTests: XCTestCase {
         XCTAssertEqual(model.messages.first?.content, "typed first")
     }
 
+    func test_guestConversationTypedBeforeTheFirstSwitchIsNotAdoptedByASignedInUser() async {
+        let fakes = FakeRepositories()
+        fakes.chat.onStream.replays(events("chat_qa"), thenFails: nil)
+        let env = AppEnvironment.fake(fakes: fakes)
+        let model = ChatModel(env: env, track: { _ in })
+
+        model.send("typed as a guest")
+        await settle(model)
+        await env.chatThreads.switchUser("bob")
+        model.syncWithStore()
+        XCTAssertTrue(model.messages.isEmpty)
+
+        model.send("bob here")
+        await settle(model)
+        await env.chatThreads.flushPersistence()
+        let texts = env.chatThreads.threads.flatMap(\.messages).compactMap { $0["content"].string }
+        XCTAssertFalse(texts.contains("typed as a guest"))
+        XCTAssertTrue(texts.contains("bob here"))
+    }
+
+    func test_guestConversationTypedBeforeTheFirstSwitchStaysForTheGuest() async {
+        let fakes = FakeRepositories()
+        fakes.chat.onStream.replays(events("chat_qa"), thenFails: nil)
+        let env = AppEnvironment.fake(fakes: fakes)
+        let model = ChatModel(env: env, track: { _ in })
+
+        model.send("typed as a guest")
+        await settle(model)
+        let id = model.threadID
+        await env.chatThreads.switchUser(nil)
+        model.syncWithStore()
+        XCTAssertEqual(model.threadID, id)
+        XCTAssertEqual(model.messages.first?.content, "typed as a guest")
+    }
+
+    func test_replyFinishingAfterAUserSwitchIsNotWrittenToTheNewUser() async {
+        let gate = StreamGate()
+        let fakes = FakeRepositories()
+        let replay = events("chat_qa")
+        fakes.chat.onStream.handler = { _ in
+            AsyncThrowingStream { continuation in
+                Task {
+                    while !gate.isOpen { try? await Task.sleep(for: .milliseconds(5)) }
+                    for event in replay { continuation.yield(event) }
+                    continuation.finish()
+                }
+            }
+        }
+        let env = AppEnvironment.fake(fakes: fakes)
+        let model = ChatModel(env: env, track: { _ in })
+
+        await env.chatThreads.switchUser("amy")
+        model.syncWithStore()
+        model.send("amy's question")
+        await env.chatThreads.switchUser("bob")
+        gate.open()
+        await settle(model)
+        await env.chatThreads.flushPersistence()
+        let texts = env.chatThreads.threads.flatMap(\.messages).compactMap { $0["content"].string }
+        XCTAssertFalse(texts.contains("amy's question"))
+        XCTAssertTrue(env.chatThreads.threads.isEmpty)
+    }
+
     func test_switchingUserDropsThePreviousUsersConversation() async {
         let fakes = FakeRepositories()
         fakes.chat.onStream.replays(events("chat_qa"), thenFails: nil)
@@ -270,14 +333,27 @@ final class ChatModelTests: XCTestCase {
         model.syncWithStore()
         XCTAssertTrue(model.messages.isEmpty)
         XCTAssertNotEqual(model.threadID, amysThread)
+        // Writing after the switch must not put Amy's text into Bob's store either.
+        model.send("bob's own question")
+        await settle(model)
         await env.chatThreads.flushPersistence()
-        XCTAssertTrue(env.chatThreads.threads.isEmpty, "Bob's store must not receive Amy's conversation")
+        let bobTexts = env.chatThreads.threads.flatMap(\.messages).compactMap { $0["content"].string }
+        XCTAssertFalse(bobTexts.contains("amy's secret"), "Bob's store must not receive Amy's conversation")
+        XCTAssertTrue(bobTexts.contains("bob's own question"))
 
         await env.chatThreads.switchUser("amy")
         model.syncWithStore()
         XCTAssertEqual(model.threadID, amysThread)
         XCTAssertEqual(model.messages.first?.content, "amy's secret")
     }
+}
+
+/// Holds a stream's events back until `open()`.
+private final class StreamGate: @unchecked Sendable {
+    private let lock = NSLock()
+    private var opened = false
+    var isOpen: Bool { lock.withLock { opened } }
+    func open() { lock.withLock { opened = true } }
 }
 
 /// Holds every read until `open()`.
