@@ -61,7 +61,14 @@ struct PlanActionButton: View {
         } label: {
             PlanActionLabel(title: title, systemImage: systemImage, style: style)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(UndimmedButtonStyle())
         .accessibilityIdentifier(tid)
+    }
+}
+
+/// Like `.plain` but without the system's extra dimming of a disabled button (the label draws its own disabled look).
+private struct UndimmedButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label.opacity(configuration.isPressed ? 0.85 : 1)
     }
 }
