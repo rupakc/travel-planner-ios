@@ -137,11 +137,11 @@ struct StoryChart: View {
         .chartYScale(domain: data.yDomain)
         .chartXSelection(value: $scrubDate)
         .chartXAxis {
-            AxisMarks(values: .automatic(desiredCount: 3)) { value in
+            AxisMarks(values: .automatic(desiredCount: 2)) { value in
                 AxisGridLine().foregroundStyle(SemanticColor.border)
                 AxisValueLabel {
                     if let date = value.as(Date.self) {
-                        Text(verbatim: Fmt.date(date)).font(VFont.body(.caption2)).foregroundStyle(SemanticColor.textMuted)
+                        Text(verbatim: Fmt.shortDate(date)).font(VFont.body(.caption2)).foregroundStyle(SemanticColor.textMuted)
                     }
                 }
             }
@@ -151,7 +151,7 @@ struct StoryChart: View {
                 AxisGridLine().foregroundStyle(SemanticColor.border)
                 AxisValueLabel {
                     if let number = value.as(Double.self) {
-                        Text(verbatim: Fmt.currency(number, code: data.currency))
+                        Text(verbatim: Fmt.number(number, fractionDigits: 0))
                             .font(VFont.body(.caption2)).foregroundStyle(SemanticColor.textMuted)
                     }
                 }

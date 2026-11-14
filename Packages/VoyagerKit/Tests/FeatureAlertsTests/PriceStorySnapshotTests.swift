@@ -10,8 +10,8 @@ import XCTest
 @MainActor
 final class PriceStorySnapshotTests: XCTestCase {
     private let phone: [SnapshotConfig] = [
-        SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 620)),
-        SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 620)),
+        SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 420)),
+        SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 420)),
     ]
 
     /// The story as it sits in a watch card: inside a `VCard`, on the screen surface.
@@ -57,7 +57,7 @@ final class PriceStorySnapshotTests: XCTestCase {
             configs: [
                 SnapshotConfig(
                     name: "se-de", device: .iPhoneSe(.portrait), dark: false, language: .de,
-                    canvas: CGSize(width: 320, height: 720))
+                    canvas: CGSize(width: 320, height: 440))
             ], layout: .component)
     }
 

@@ -29,6 +29,12 @@ public enum Fmt {
         return date.formatted(Date.FormatStyle(date: style, time: time ? .shortened : .omitted).locale(locale))
     }
 
+    /// Month and day without the year ("Nov 4", "4. Nov."), for chart axes.
+    public static func shortDate(_ date: Date) -> String {
+        let locale = LanguageController.current.intlLocale
+        return date.formatted(Date.FormatStyle().month(.abbreviated).day().locale(locale))
+    }
+
     /// `interval` is the signed offset from now in seconds (negative = in the past), like Foundation's
     /// `RelativeDateTimeFormatter`. Under 60 s either way gives the language's word for "now".
     public static func relative(_ interval: TimeInterval) -> String {
