@@ -27,6 +27,7 @@ public enum Fixtures {
             .deletingLastPathComponent() // Sources
             .deletingLastPathComponent() // VoyagerKit
             .deletingLastPathComponent() // Packages
+            .deletingLastPathComponent() // repo root
             .appendingPathComponent("Upstream/\(name)")
     }
 

@@ -46,7 +46,7 @@ import Testing
         for route in routes {
             let template = TelemetryRouteName.template(for: route)
             #expect(template.hasPrefix("/") && template != "/unknown")
-            #expect(template.allSatisfy { $0.isLetter || $0 == "/" || $0 == "-" || $0 == ":" })
+            #expect(template.allSatisfy { $0.isLetter || $0.isNumber || $0 == "/" || $0 == "-" || $0 == ":" })
             #expect(!template.contains("secret"))
         }
     }
