@@ -110,11 +110,9 @@ struct StoryChart: View {
 
     var body: some View {
         Chart {
-            if let typical = data.typical, let first = data.points.first, let last = data.points.last {
-                RectangleMark(
-                    xStart: .value("from", first.date), xEnd: .value("to", last.date),
-                    yStart: .value("low", typical.low), yEnd: .value("high", typical.high)
-                )
+            if let typical = data.typical {
+                // No x range: the band runs the full width of the plot.
+                RectangleMark(yStart: .value("low", typical.low), yEnd: .value("high", typical.high))
                 .foregroundStyle(SemanticColor.primary.opacity(0.14))
             }
             if let target = data.target {

@@ -70,7 +70,7 @@ final class PriceStorySnapshotTests: XCTestCase {
             configs: [
                 SnapshotConfig(
                     name: "se-ax5", device: .iPhoneSe(.portrait), dark: false, size: .accessibilityExtraExtraExtraLarge,
-                    canvas: CGSize(width: 320, height: 780))
+                    canvas: CGSize(width: 320, height: 940))
             ], layout: .component)
     }
 
