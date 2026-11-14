@@ -24,7 +24,8 @@ struct SaveSheet: View {
                     .foregroundStyle(SemanticColor.text)
                     .padding(.horizontal, Spacing.md)
                     .frame(minHeight: 44)
-                    .borderedSurface(RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
+                    .borderedSurface(
+                        RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
                     .focused($focused)
                     .submitLabel(.done)
                     .onSubmit { Task { await save() } }
