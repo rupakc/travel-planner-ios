@@ -20,12 +20,16 @@ struct SaveSheet: View {
             VStack(alignment: .leading, spacing: Spacing.lg) {
                 TextField(L10n.text(K.plan.modal.namePlaceholder), text: $name)
                     .font(VFont.body(.body))
-                    .textFieldStyle(.roundedBorder)
+                    .textFieldStyle(.plain)
+                    .foregroundStyle(SemanticColor.text)
+                    .padding(.horizontal, Spacing.md)
+                    .frame(minHeight: 44)
+                    .borderedSurface(RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
                     .focused($focused)
                     .submitLabel(.done)
                     .onSubmit { Task { await save() } }
                     .accessibilityIdentifier("plan.save.name")
-                VButton(L10n.text(K.plan.modal.save), tid: "plan.save.confirm", systemImage: "square.and.arrow.down") {
+                PlanActionButton(title: L10n.text(K.plan.modal.save), systemImage: "square.and.arrow.down", tid: "plan.save.confirm") {
                     Task { await save() }
                 }
                 .disabled(model.isSaving)
@@ -40,6 +44,7 @@ struct SaveSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(L10n.text(K.plan.modal.close)) { dismiss() }
+                        .tint(SemanticColor.primary)
                         .accessibilityIdentifier("plan.save.close")
                 }
             }

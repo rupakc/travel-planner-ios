@@ -150,7 +150,9 @@ final class PlanDetailModelTests: XCTestCase {
         let (model, _, _) = await makeEditable()
         model.setDraft(.object((model.selections.object ?? [:]).merging(["itinerary_notes": ["1-morning": "x"]]) { _, new in new }))
         XCTAssertTrue(model.hasUnsavedEdits)
-        model.setDraft(model.plan?.selections ?? .null)
+        guard let loaded = model.plan?.selections else { return XCTFail("the plan did not load") }
+        model.setDraft(loaded)
+        XCTAssertNil(model.draft, "draft \(String(describing: model.draft)) vs loaded \(loaded)")
         XCTAssertFalse(model.hasUnsavedEdits)
     }
 }
