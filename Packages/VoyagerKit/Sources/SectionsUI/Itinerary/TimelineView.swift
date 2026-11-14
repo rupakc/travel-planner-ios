@@ -25,6 +25,8 @@ struct ItineraryTimelineRail<Content: View>: View {
                 Text(verbatim: time ?? " ")
                     .font(VFont.body(.caption2, weight: .semibold))
                     .monospacedDigit()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
                     .foregroundStyle(SemanticColor.textMuted)
                     .frame(width: 44)
                     .accessibilityHidden(true)

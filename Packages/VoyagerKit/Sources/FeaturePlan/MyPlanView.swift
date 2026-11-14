@@ -131,14 +131,33 @@ private struct GroupCard: View {
     var body: some View {
         VCard {
             VStack(alignment: .leading, spacing: Spacing.sm) {
-                HStack(spacing: Spacing.sm) {
+                // At accessibility sizes the icon sits above the title so a long word (German "Sehenswürdigkeiten") gets the
+                // full width; the title shrinks before it would break inside a word.
+                let heading = HStack(spacing: Spacing.sm) {
                     Image(systemName: group.icon)
                         .foregroundStyle(SectionAccent.color(for: group.accent))
                         .accessibilityHidden(true)
                     Text(verbatim: group.title)
                         .font(VFont.display(.headline))
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.5)
                         .foregroundStyle(SemanticColor.text)
                         .accessibilityAddTraits(.isHeader)
+                }
+                if typeSize.isAccessibilitySize {
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
+                        Image(systemName: group.icon)
+                            .foregroundStyle(SectionAccent.color(for: group.accent))
+                            .accessibilityHidden(true)
+                        Text(verbatim: group.title)
+                            .font(VFont.display(.headline))
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.5)
+                            .foregroundStyle(SemanticColor.text)
+                            .accessibilityAddTraits(.isHeader)
+                    }
+                } else {
+                    heading
                 }
                 ForEach(group.entries) { entry in
                     row(entry)
