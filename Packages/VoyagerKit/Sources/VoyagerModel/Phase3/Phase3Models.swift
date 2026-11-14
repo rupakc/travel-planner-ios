@@ -202,7 +202,7 @@ public struct StoryAdvice: Codable, Sendable, Hashable {
     /// `near_target`: latest minus target.
     public var gap: Double? { params["gap"] }
     /// `few_checks`: the number of points.
-    public var n: Int? { params["n"].map { Int($0) } }
+    public var checkCount: Int? { params["n"].map { Int($0) } }
 
     public init(from decoder: any Decoder) throws {
         let json = try JSONValue(from: decoder)
