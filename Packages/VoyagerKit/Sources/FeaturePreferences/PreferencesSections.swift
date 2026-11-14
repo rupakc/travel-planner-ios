@@ -35,9 +35,8 @@ struct TagField: View {
             Text(verbatim: label).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)
             HStack(spacing: Spacing.sm) {
                 TextField(placeholder, text: $draft)
-                    .textFieldStyle(.roundedBorder)
+                    .prefsField()
                     .textInputAutocapitalization(.words)
-                    .frame(minHeight: 44)
                     .onSubmit(commit)
                     .accessibilityIdentifier("\(tid).input")
                 Button(action: commit) {

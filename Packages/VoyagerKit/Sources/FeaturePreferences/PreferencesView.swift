@@ -117,7 +117,7 @@ public struct PreferencesView: View {
                 Text(verbatim: L10n.text(K.account.prefs.identity.nationality))
                     .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)
                 TextField(L10n.text(K.account.prefs.identity.nationalityPlaceholder), text: $model.nationality)
-                    .textFieldStyle(.roundedBorder).frame(minHeight: 44)
+                    .prefsField()
                     .accessibilityIdentifier("prefs.nationality")
                     .task(id: model.nationality) {
                         try? await Task.sleep(for: .milliseconds(250))
@@ -137,7 +137,7 @@ public struct PreferencesView: View {
                 Text(verbatim: L10n.text(K.account.prefs.identity.residence))
                     .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)
                 TextField(L10n.text(K.account.prefs.identity.residencePlaceholder), text: $model.residence)
-                    .textFieldStyle(.roundedBorder).frame(minHeight: 44)
+                    .prefsField()
                     .accessibilityIdentifier("prefs.residence")
                 Text(verbatim: L10n.text(K.account.prefs.identity.residenceHint))
                     .font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)

@@ -85,7 +85,7 @@ struct EmailField: View {
             }
             .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)
             TextField("name@example.com", text: $model.text)
-                .textFieldStyle(.roundedBorder)
+                .prefsField()
                 .keyboardType(.emailAddress)
                 .textContentType(.emailAddress)
                 .textInputAutocapitalization(.never)
