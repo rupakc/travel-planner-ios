@@ -45,6 +45,19 @@ public final class ServerEnvironment: Sendable {
         state.withLock { $0.override ?? $0.adopted } ?? buildBaseURL
     }
 
+    /// Whether a URL the server handed out (a share card) may be downloaded: the backend's own origin, or an https URL on
+    /// a trusted host. Anything else is never fetched (SSRF and tracking-pixel safe).
+    public func trustsAsset(_ url: URL) -> Bool {
+        guard let scheme = url.scheme?.lowercased(), let host = url.host?.lowercased(), !host.isEmpty else { return false }
+        if let base = baseURL, base.host?.lowercased() == host, base.scheme?.lowercased() == scheme,
+            (base.port ?? Self.defaultPort(scheme)) == (url.port ?? Self.defaultPort(scheme)) {
+            return true
+        }
+        return Self.isTrusted(url, hosts: trustedHosts)
+    }
+
+    private static func defaultPort(_ scheme: String) -> Int { scheme == "https" ? 443 : 80 }
+
     /// Debug only. `nil` clears the override.
     public func setOverride(_ url: URL?) throws {
         guard allowsOverride else { throw ServerEnvironmentError.overrideNotAllowed }

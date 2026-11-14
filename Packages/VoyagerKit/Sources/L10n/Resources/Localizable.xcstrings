@@ -160923,6 +160923,53 @@
         }
       }
     },
+    "share:sameLinkNote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+          }
+        }
+      }
+    },
     "share:showName" : {
       "extractionState" : "manual",
       "localizations" : {
