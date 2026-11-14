@@ -7,7 +7,6 @@ import FeatureResults
 import FeatureSettings
 import FeatureTrips
 import L10n
-import NotificationsCore
 import SharedUI
 import SwiftUI
 import Telemetry
@@ -68,9 +67,7 @@ struct TabRoot: View {
         case .explore:
             ExploreContainer(env: env, router: router, showsPicker: showsModePicker)
         case .alerts:
-            AlertsRootView(
-                env: env, kind: router.alertsFocus?.kind, watchID: router.alertsFocus?.watchID,
-                onWatchesChanged: { await watchesChanged(env) })
+            AlertsRootView(env: env, kind: router.alertsFocus?.kind, watchID: router.alertsFocus?.watchID)
                 .id(router.alertsFocus)
                 .telemetryRoute("/alerts").telemetryScreen("/alerts")
         case .you:
@@ -107,16 +104,8 @@ struct RouteDestination: View {
                 router.pop(.you)
             }
         case .alerts(let kind, let watchID):
-            AlertsRootView(env: env, kind: kind, watchID: watchID, onWatchesChanged: { await watchesChanged(env) })
+            AlertsRootView(env: env, kind: kind, watchID: watchID)
         default: EmptyState(icon: "questionmark.circle", title: TelemetryRouteName.template(for: route))
         }
     }
-}
-
-/// After a watch is deleted: the local trip reminders are re-read and the server alerts polled once, so the phone
-/// does not keep (or miss) notifications for what the user just stopped watching.
-@MainActor
-private func watchesChanged(_ env: AppEnvironment) async {
-    await TripReminderScheduler.refresh(env: env)
-    await BackgroundTasks.pollAlerts(env: env)
 }

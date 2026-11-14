@@ -12,12 +12,8 @@ public struct AlertsRootView: View {
     @State private var deleting: WatchRow?
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    /// `onWatchesChanged` runs after a watch is deleted (the app refreshes local reminders and polls for alerts).
-    @MainActor public init(
-        env: AppEnvironment, kind: WatchKind?, watchID: Int?, onWatchesChanged: (@MainActor () async -> Void)? = nil
-    ) {
-        _model = State(
-            initialValue: AlertsModel(env: env, kind: kind, watchID: watchID, onWatchesChanged: onWatchesChanged))
+    @MainActor public init(env: AppEnvironment, kind: WatchKind?, watchID: Int?) {
+        _model = State(initialValue: AlertsModel(env: env, kind: kind, watchID: watchID))
     }
 
     @MainActor init(model: AlertsModel) {

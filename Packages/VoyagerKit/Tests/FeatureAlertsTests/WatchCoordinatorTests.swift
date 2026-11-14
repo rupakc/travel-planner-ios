@@ -37,6 +37,30 @@ struct WatchCoordinatorTests {
         #expect(sent?.numTravelers == 2 && sent?.alertMode == "any_drop")
     }
 
+    @Test func test_createFiresTheWatchesChangedHookOnce() async {
+        let fakes = FakeRepositories()
+        fakes.watches.onMatch.returns(nil)
+        fakes.watches.onCreateFare.returns(FareWatch(id: 12, alreadyWatching: false))
+        let env = AppEnvironment.fake(fakes: fakes)
+        var calls = 0
+        env.onWatchesChanged = { calls += 1 }
+        _ = await env.watches.handle(.fare(fareSpec))
+        #expect(calls == 1)
+    }
+
+    @Test func test_failedOrExistingCreateDoesNotFireTheHook() async {
+        let fakes = FakeRepositories()
+        fakes.watches.onMatch.returns(nil)
+        fakes.watches.onCreateFare.fails(APIError.network)
+        let env = AppEnvironment.fake(fakes: fakes)
+        var calls = 0
+        env.onWatchesChanged = { calls += 1 }
+        _ = await env.watches.handle(.fare(fareSpec))
+        fakes.watches.onCreatePrice.returns(PriceWatch(id: 5, kind: .hotel, alreadyWatching: true))
+        _ = await env.watches.handle(.hotel(hotelSpec))
+        #expect(calls == 0)
+    }
+
     @Test func test_noMatchCreatesPriceWatchUnderItsKind() async {
         let fakes = FakeRepositories()
         fakes.watches.onMatch.returns(nil)

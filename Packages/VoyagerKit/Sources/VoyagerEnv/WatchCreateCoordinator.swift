@@ -34,6 +34,7 @@ public final class WatchCreateCoordinator {
         do {
             let created = try await create(request, planId: planId)
             env.telemetry.track(.alertEvent(action: "watch_create", kind: kind.rawValue))
+            if !created.existing { await env.watchesChanged() }
             return created.existing ? .alreadyWatching(kind, created.id) : .created(kind, created.id)
         } catch let error as APIError {
             if let copy = Self.noLivePriceCopy(error, kind: kind) { return .noLivePrice(copy) }

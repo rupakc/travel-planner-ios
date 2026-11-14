@@ -34,6 +34,11 @@ public struct RootView: View {
             .environment(\.locale, env.language.locale)
             .router(router)
             .onAppear {
+                // Every watch create / change / delete goes through this one hook.
+                env.onWatchesChanged = { [env] in
+                    await TripReminderScheduler.refresh(env: env)
+                    await BackgroundTasks.pollAlerts(env: env)
+                }
                 ColdStart.markFirstFrame()
                 Task(priority: .utility) { env.startDeferredWork() }
                 Task(priority: .utility) { await TripReminderScheduler.refresh(env: env) }

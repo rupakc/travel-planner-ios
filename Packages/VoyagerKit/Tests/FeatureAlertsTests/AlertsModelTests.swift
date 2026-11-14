@@ -109,11 +109,26 @@ struct AlertsModelTests {
             $0.watches.onPriceWatches.returns([])
         }
         var calls = 0
-        let model = AlertsModel(
-            env: env, track: { _ in }, now: { fixedNow }, onWatchesChanged: { calls += 1 })
+        env.onWatchesChanged = { calls += 1 }
+        let model = AlertsModel(env: env, track: { _ in }, now: { fixedNow })
         await model.load()
         await model.delete(model.rows[0])
         #expect(calls == 1)
+    }
+
+    @Test func test_editAndPauseNotifyTheApp() async {
+        let (env, fakes) = makeEnv {
+            $0.watches.onFareWatches.returns([fare(1)])
+            $0.watches.onPriceWatches.returns([])
+        }
+        fakes.watches.onPatch.returns(.fare(fare(1, status: "paused")))
+        var calls = 0
+        env.onWatchesChanged = { calls += 1 }
+        let model = AlertsModel(env: env, track: { _ in }, now: { fixedNow })
+        await model.load()
+        await model.togglePause(model.rows[0])
+        await model.save(model.rows[0], WatchEdit(alertMode: "any_drop", target: nil, flexible: false, emailEnabled: false))
+        #expect(calls == 2)
     }
 
     @Test func test_failedDeleteDoesNotNotifyTheApp() async {
@@ -123,8 +138,8 @@ struct AlertsModelTests {
         }
         fakes.watches.onDelete.fails(APIError.network)
         var calls = 0
-        let model = AlertsModel(
-            env: env, track: { _ in }, now: { fixedNow }, onWatchesChanged: { calls += 1 })
+        env.onWatchesChanged = { calls += 1 }
+        let model = AlertsModel(env: env, track: { _ in }, now: { fixedNow })
         await model.load()
         await model.delete(model.rows[0])
         #expect(calls == 0)
