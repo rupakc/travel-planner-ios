@@ -93,7 +93,9 @@ public enum AlertsV2Failure: String, Error, Sendable, Hashable, CaseIterable {
             case .story, .advice: return .watchNotFound
             default: return nil
             }
-        case .server(let status, _):
+        case .server(let status, _, let code):
+            if let code, let failure = AlertsV2Failure(rawValue: code) { return failure }
+            // A 5xx without a readable code: read it from the call and status.
             switch (call, status) {
             case (.advice, 502): return .adviceFailed
             case (.advice, 503): return .aiLimit

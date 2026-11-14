@@ -228,7 +228,7 @@ public final class NearbyModel {
             if let detail = api.userFacingDetail?.trimmingCharacters(in: .whitespacesAndNewlines), !detail.isEmpty {
                 return detail
             }
-            if case .server(let status, _) = api, status == 503 { return L10n.text(K.misc.nearby.api.grounding_unavailable) }
+            if case .server(let status, _, _) = api, status == 503 { return L10n.text(K.misc.nearby.api.grounding_unavailable) }
             if case .network = api { return L10n.text(K.misc.nearby.api.network) }
         }
         return L10n.text(K.misc.nearby.apiErrorTitle)

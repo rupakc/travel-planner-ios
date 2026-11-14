@@ -364,7 +364,7 @@ public final class ImportModel {
                     code: "too_large", message: detail ?? L10n.text(K.search.import.err.tooLarge), actions: [.images])
             }
             return ImportErrorView(code: "unknown", message: unknown, actions: [.retry])
-        case .server(let status, let detail):
+        case .server(let status, let detail, _):
             if status == 503, let detail, !detail.isEmpty {
                 return ImportErrorView(code: "unavailable", message: detail, actions: [.retry])
             }
