@@ -40,7 +40,7 @@ final class PlanSnapshotTests: XCTestCase {
                 // Laid out in a real, very tall window so lazy and adaptive containers resolve like on a device; the
                 // content reports its own height through a preference.
                 let box = HeightBox()
-                let content = view().padding(padding).frame(width: width)
+                let content = view().padding(padding).frame(width: width).fixedSize(horizontal: false, vertical: true)
                     .background(GeometryReader { Color.clear.preference(key: HeightKey.self, value: $0.size.height) })
                     .onPreferenceChange(HeightKey.self) { box.value = $0 }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
