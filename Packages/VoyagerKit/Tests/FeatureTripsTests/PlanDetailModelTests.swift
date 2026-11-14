@@ -150,7 +150,7 @@ final class PlanDetailModelTests: XCTestCase {
         let (model, _, _) = await makeEditable()
         model.setDraft(.object((model.selections.object ?? [:]).merging(["itinerary_notes": ["1-morning": "x"]]) { _, new in new }))
         XCTAssertTrue(model.hasUnsavedEdits)
-        model.setDraft(Self.plan.selections)
+        model.setDraft(model.plan?.selections ?? .null)
         XCTAssertFalse(model.hasUnsavedEdits)
     }
 }
