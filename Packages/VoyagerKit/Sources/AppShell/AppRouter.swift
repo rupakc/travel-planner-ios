@@ -25,6 +25,8 @@ public final class AppRouter: AppRouting {
     public var nearbyPresented = false
     /// A share link to show (works signed out).
     public var sharedToken: String?
+    /// The item a share sheet should open for (set by `Route.shareSheet`; `FeatureShare` presents and clears it).
+    public var shareTarget: ShareTarget?
 
     public init() {}
 
@@ -63,8 +65,21 @@ public final class AppRouter: AppRouting {
             paths[.you] = []
         case .preferences, .tasteProfile, .admin, .changePassword, .onboarding:
             push(route, on: .you)
-        case .share(let token):
+        case .share(let token), .openShare(let token):
             sharedToken = token
+        case .shareSheet(let target):
+            shareTarget = target
+        case .myShares, .notificationSettings, .alertPrefs, .profile, .profileEditor, .play, .quiz, .h2h:
+            push(route, on: .you)
+        case .priceStory:
+            push(route, on: .alerts)
+        case .tripToday:
+            push(route, on: .trips)
+        case .ideaDetail, .ideas:
+            // Ideas are a segment of the Discover tab; the segment itself arrives with Phase 5.
+            exploreMode = .discover
+            selectedTab = .explore
+            paths[.explore] = route == .ideas ? [] : [route]
         case .importLink(let url):
             importURL = url
             exploreMode = .link

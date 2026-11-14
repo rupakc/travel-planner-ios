@@ -93,6 +93,11 @@ public struct SettingsRootView: View {
             SettingsLinkRow(title: L10n.text(K.mobile.settings.retakeOnboarding), icon: "list.clipboard", tid: "settings.onboarding") {
                 model.open(.onboarding(fromSettings: true))
             }
+            if model.showsMySharesRow {
+                SettingsLinkRow(title: L10n.text(K.share.mine.title), icon: "link", tid: "settings.myShares") {
+                    model.open(.myShares)
+                }
+            }
             if model.showsAdminRow {
                 SettingsLinkRow(title: L10n.text(K.common.nav.admin), icon: "shield", tid: "settings.admin") {
                     model.open(.admin)

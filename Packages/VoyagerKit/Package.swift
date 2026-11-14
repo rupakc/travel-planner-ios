@@ -28,12 +28,12 @@ let featureNames = [
     "FeatureAuth", "FeatureOnboarding", "FeatureTrips", "FeatureSearch", "FeatureDiscover",
     "FeatureCompare", "FeatureImport", "FeatureResults", "FeaturePlan", "FeatureShare",
     "FeatureChat", "FeatureAlerts", "FeatureNearby", "FeatureSettings", "FeaturePreferences",
-    "FeatureAdmin", "FeatureAccount",
+    "FeatureAdmin", "FeatureAccount", "FeatureSocial", "FeaturePlay",
 ]
 
 /// Features that render result sections (and so depend on SectionsUI).
 let sectionFeatures: Set<String> = [
-    "FeatureResults", "FeatureChat", "FeaturePlan", "FeatureShare", "FeatureTrips",
+    "FeatureResults", "FeatureChat", "FeaturePlan", "FeatureShare", "FeatureTrips", "FeatureSocial", "FeaturePlay",
 ]
 
 let snapshotTesting: Target.Dependency = .product(name: "SnapshotTesting", package: "swift-snapshot-testing")

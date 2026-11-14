@@ -34,3 +34,20 @@ import Testing
         #expect(Set([Route.myPlan, Route.myPlan]).count == 1)
     }
 }
+
+@Suite struct RoutePhase3to6Tests {
+    @Test func test_phase3to6TemplatesAreFixedStrings() {
+        let routes: [Route] = [
+            .shareSheet(.plan(id: 7)), .shareSheet(.quiz(sessionID: "s-secret")), .myShares, .openShare(token: "tok-secret"),
+            .notificationSettings, .alertPrefs, .priceStory(kind: .flight, id: 9), .tripToday(planID: 12),
+            .profile(handle: "amy_secret"), .profileEditor, .ideaDetail(id: "i-secret"), .ideas, .play,
+            .quiz(sessionID: "s-secret"), .h2h(id: "m-secret"),
+        ]
+        for route in routes {
+            let template = TelemetryRouteName.template(for: route)
+            #expect(template.hasPrefix("/") && template != "/unknown")
+            #expect(template.allSatisfy { $0.isLetter || $0 == "/" || $0 == "-" || $0 == ":" })
+            #expect(!template.contains("secret"))
+        }
+    }
+}

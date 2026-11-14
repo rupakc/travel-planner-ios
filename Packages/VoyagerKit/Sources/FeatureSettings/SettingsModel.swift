@@ -53,6 +53,12 @@ final class SettingsModel {
     var isAdmin: Bool { env.auth.session?.user.isAdmin == true }
     /// The Admin row is for admins only.
     var showsAdminRow: Bool { isAdmin }
+    /// The Phase 3-6 flags of `/config`; all off until it loaded (and on an older backend).
+    var features: RemoteFeatures { RemoteFeatures(config: env.clientConfig) }
+    /// The rows of the Phase 3-6 screens appear only when the backend says their routes exist.
+    var showsNotificationSettingsRow: Bool { features.hasNotificationSettings }
+    var showsAlertPrefsRow: Bool { features.hasAlertsV2 }
+    var showsMySharesRow: Bool { features.hasSharingV2 }
     var showsServerSection: Bool { env.build.isDebug }
 
     // MARK: - Appearance and language

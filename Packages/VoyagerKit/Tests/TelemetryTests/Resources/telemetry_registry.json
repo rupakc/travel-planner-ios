@@ -3,9 +3,47 @@
     "account_action": {
       "action": "enum:avatar_upload|avatar_remove|name_change|settings_change|export|delete|link|unlink|signout_all|email_verify_request|change_password"
     },
+    "admin_mod_action": {
+      "action": "enum:approve|remove|restrict|lift|view_queue"
+    },
+    "alert_advice": {
+      "kind": "enum:flight|hotel|activity|trip",
+      "outcome": "enum:ok|cached|error"
+    },
+    "alert_digest_open": {
+      "via": "enum:in_app|email_link"
+    },
+    "alert_drop_seen": {
+      "kind": "enum:flight|hotel|activity|trip",
+      "target_hit": "bool",
+      "via": "enum:in_app|push|email"
+    },
     "alert_event": {
       "action": "id",
       "kind": "id"
+    },
+    "alert_prefs_change": {
+      "field": "enum:digest|quiet_hours|instant|cap|group"
+    },
+    "alert_quick_watch": {
+      "action": "enum:add|undo|exists|blocked",
+      "kind": "enum:flight|hotel|activity|trip",
+      "surface": "enum:results|chat|trip|suggest"
+    },
+    "alert_savings_share": {
+      "target": "enum:native|download|copy"
+    },
+    "alert_story_view": {
+      "kind": "enum:flight|hotel|activity|trip",
+      "verdict": "enum:great|good|typical|high|none"
+    },
+    "alert_suggest": {
+      "action": "enum:shown|accepted|dismissed",
+      "count": "int"
+    },
+    "alert_target_set": {
+      "from_story": "bool",
+      "kind": "enum:flight|hotel|activity|trip"
     },
     "app_background": {},
     "app_open": {},
@@ -22,6 +60,10 @@
     "badge_earned": {
       "badge": "id"
     },
+    "completeness_view": {
+      "percent": "int",
+      "surface": "enum:drawer|trip"
+    },
     "consent": {
       "choice": "enum:granted|denied"
     },
@@ -32,6 +74,11 @@
       "kind": "enum:js|promise|api",
       "source": "id",
       "status": "int"
+    },
+    "expense_action": {
+      "action": "enum:add|edit|delete",
+      "category": "enum:flights|lodging|food|transport|activities|shopping|fees|other",
+      "queued": "bool"
     },
     "feature_used": {
       "feature": "id",
@@ -44,6 +91,14 @@
     "game_view": {
       "surface": "enum:account|nav|celebration"
     },
+    "journal_action": {
+      "action": "enum:add|edit|delete",
+      "queued": "bool"
+    },
+    "journey_shell": {
+      "enabled": "bool",
+      "source": "enum:config|override|off"
+    },
     "language_change": {
       "lang": "enum:en|es|de|fr|hi|zh|bn"
     },
@@ -54,9 +109,42 @@
       "domain": "id",
       "section": "id"
     },
+    "nearby_notif_post": {
+      "kind": "enum:personalized|generic"
+    },
+    "notif_cap_change": {
+      "cap": "int"
+    },
+    "notif_category_toggle": {
+      "category": "enum:price_drops|trip_reminders|morning_brief|weather|nearby|social|quiz",
+      "on": "bool"
+    },
+    "notif_open": {
+      "category": "enum:price_drops|trip_reminders|morning_brief|weather|nearby|social|quiz",
+      "source": "enum:push|inapp"
+    },
+    "notif_quiet_hours_change": {
+      "enabled": "bool"
+    },
+    "notif_settings_view": {},
+    "offline_pack": {
+      "action": "enum:save|refresh|open|remove",
+      "kb": "int",
+      "result": "enum:ok|error|unsupported|quota"
+    },
+    "onboarding_result": {
+      "secondary": "int",
+      "type": "enum:budget_backpacker|family|luxury|adventure|culture_foodie|business|relaxation|accessible"
+    },
     "onboarding_step": {
       "action": "enum:view|next|skip|done",
       "step": "int"
+    },
+    "outbox_flush": {
+      "dropped": "int",
+      "failed": "int",
+      "rejected": "int",
+      "sent": "int"
     },
     "password_reset": {
       "result": "enum:ok|error|expired|invalid|used",
@@ -67,12 +155,49 @@
       "route": "id",
       "value": "float"
     },
+    "place_action": {
+      "action": "enum:visited|unvisited|rate|unrate",
+      "kind": "enum:activity|place|food|hotel|event|tour|nearby|other",
+      "stars": "int"
+    },
     "plan_select": {
       "section": "id"
+    },
+    "play_board_view": {
+      "scope": "enum:global|friends"
+    },
+    "play_challenge_view": {},
+    "play_h2h_create": {},
+    "play_h2h_open": {},
+    "play_h2h_result": {
+      "winner": "enum:you|them|draw"
+    },
+    "play_quiz_answer": {
+      "correct": "bool",
+      "elapsed_s": "int"
+    },
+    "play_quiz_done": {
+      "correct": "int",
+      "mode": "enum:daily|pack|challenge|h2h"
+    },
+    "play_quiz_start": {
+      "mode": "enum:daily|pack|challenge|h2h",
+      "pack": "enum:flags|capitals|landmarks|cuisine|none"
+    },
+    "play_state_view": {},
+    "prep_complete": {
+      "items": "int"
+    },
+    "prep_toggle": {
+      "done": "bool",
+      "item": "enum:visa|passport|bookings|insurance|documents|stress_test|sim|money|packing|emergency_card|checkin|offline_pack"
     },
     "quota_block": {
       "bucket": "enum:search|chat|compare|discover|light_ai|import",
       "reason": "enum:daily_quota|unverified"
+    },
+    "recap_action": {
+      "action": "enum:view|complete|share|where_next"
     },
     "screen_time": {
       "ms": "int",
@@ -108,11 +233,64 @@
       "object": "id",
       "target": "id"
     },
+    "share_action": {
+      "kind": "enum:plan|recap|savings|quiz|status",
+      "target": "enum:native|copy|download|x|facebook|whatsapp|linkedin"
+    },
+    "share_create": {
+      "dates": "enum:hidden|month|exact",
+      "kind": "enum:plan|recap|savings|quiz|status"
+    },
+    "share_open": {
+      "kind": "enum:plan|recap|savings|quiz|status"
+    },
+    "share_revoke": {
+      "kind": "enum:plan|recap|savings|quiz|status"
+    },
+    "share_view": {
+      "kind": "enum:plan|recap|savings|quiz|status"
+    },
     "signup_step": {
       "step": "enum:form|check_email|username|done"
     },
+    "social_block": {
+      "on": "bool"
+    },
+    "social_comment": {},
+    "social_feed_view": {
+      "scope": "enum:for_you|following|new"
+    },
+    "social_follow": {
+      "state": "enum:following|pending|none"
+    },
+    "social_idea_like": {
+      "on": "bool"
+    },
+    "social_idea_open": {},
+    "social_idea_publish": {
+      "kind": "enum:plan|recap"
+    },
+    "social_idea_save": {},
+    "social_profile_save": {
+      "visibility": "enum:private|followers|public"
+    },
+    "social_profile_view": {},
+    "social_report": {
+      "reason": "enum:spam|abuse|sexual|violence|misinformation|other",
+      "target": "enum:idea|comment|profile"
+    },
     "theme_change": {
       "theme": "enum:system|light|dark"
+    },
+    "today_action": {
+      "action": "enum:checkin|next_up|directions|visited|status_share|nearby"
+    },
+    "trip_action": {
+      "action": "enum:create|rename|dates|phase_override|phase_clear|delete|open_planner|plan_it|share_status"
+    },
+    "trip_view": {
+      "phase": "enum:dreaming|planning|ready|on_the_road|memories|none",
+      "surface": "enum:hub|overview|prep|today|money|journal|recap|offline"
     },
     "ui_change": {
       "route": "id",

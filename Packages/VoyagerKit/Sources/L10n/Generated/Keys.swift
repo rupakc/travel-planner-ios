@@ -190,6 +190,32 @@ public enum K {
             public static let title = LKey("account:prefs.title", placeholders: [], plural: false)
         }
     }
+    public enum accountData {
+        public enum delete {
+            public static let button = LKey("accountData:delete.button", placeholders: [], plural: false)
+            public static let cancel = LKey("accountData:delete.cancel", placeholders: [], plural: false)
+            public static let confirm = LKey("accountData:delete.confirm", placeholders: [], plural: false)
+            public static let deletedNotice = LKey("accountData:delete.deletedNotice", placeholders: [], plural: false)
+            public static let intro = LKey("accountData:delete.intro", placeholders: [], plural: false)
+            public static let item1 = LKey("accountData:delete.item1", placeholders: [], plural: false)
+            public static let item2 = LKey("accountData:delete.item2", placeholders: [], plural: false)
+            public static let item3 = LKey("accountData:delete.item3", placeholders: [], plural: false)
+            public static let item4 = LKey("accountData:delete.item4", placeholders: [], plural: false)
+            public static let password = LKey("accountData:delete.password", placeholders: [], plural: false)
+            public static let title = LKey("accountData:delete.title", placeholders: [], plural: false)
+            public static let username = LKey("accountData:delete.username", placeholders: ["username"], plural: false)
+            public static let warn = LKey("accountData:delete.warn", placeholders: [], plural: false)
+            public static let working = LKey("accountData:delete.working", placeholders: [], plural: false)
+        }
+        public enum export {
+            public static let button = LKey("accountData:export.button", placeholders: [], plural: false)
+            public static let error = LKey("accountData:export.error", placeholders: [], plural: false)
+            public static let hint = LKey("accountData:export.hint", placeholders: [], plural: false)
+            public static let working = LKey("accountData:export.working", placeholders: [], plural: false)
+        }
+        public static let intro = LKey("accountData:intro", placeholders: [], plural: false)
+        public static let title = LKey("accountData:title", placeholders: [], plural: false)
+    }
     public enum accountSettings {
         public static let currency = LKey("accountSettings:currency", placeholders: [], plural: false)
         public enum hideCommunity {
@@ -225,6 +251,65 @@ public enum K {
             public static let `public` = LKey("accountSettings:visibility.public", placeholders: [], plural: false)
         }
     }
+    public enum adminInvites {
+        public static let colActions = LKey("adminInvites:colActions", placeholders: [], plural: false)
+        public static let colCode = LKey("adminInvites:colCode", placeholders: [], plural: false)
+        public static let colExpires = LKey("adminInvites:colExpires", placeholders: [], plural: false)
+        public static let colNote = LKey("adminInvites:colNote", placeholders: [], plural: false)
+        public static let colStatus = LKey("adminInvites:colStatus", placeholders: [], plural: false)
+        public static let colUses = LKey("adminInvites:colUses", placeholders: [], plural: false)
+        public static let copied = LKey("adminInvites:copied", placeholders: [], plural: false)
+        public static let copy = LKey("adminInvites:copy", placeholders: [], plural: false)
+        public static let create = LKey("adminInvites:create", placeholders: [], plural: false)
+        public static let creating = LKey("adminInvites:creating", placeholders: [], plural: false)
+        public static let dismiss = LKey("adminInvites:dismiss", placeholders: [], plural: false)
+        public static let empty = LKey("adminInvites:empty", placeholders: [], plural: false)
+        public static let expiryDays = LKey("adminInvites:expiryDays", placeholders: [], plural: false)
+        public static let loading = LKey("adminInvites:loading", placeholders: [], plural: false)
+        public static let maxUses = LKey("adminInvites:maxUses", placeholders: [], plural: false)
+        public static let newInvite = LKey("adminInvites:newInvite", placeholders: [], plural: false)
+        public static let note = LKey("adminInvites:note", placeholders: [], plural: false)
+        public static let revoke = LKey("adminInvites:revoke", placeholders: [], plural: false)
+        public static let shownOnce = LKey("adminInvites:shownOnce", placeholders: [], plural: false)
+        public enum status {
+            public static let active = LKey("adminInvites:status.active", placeholders: [], plural: false)
+            public static let expired = LKey("adminInvites:status.expired", placeholders: [], plural: false)
+            public static let revoked = LKey("adminInvites:status.revoked", placeholders: [], plural: false)
+            public static let used = LKey("adminInvites:status.used", placeholders: [], plural: false)
+        }
+        public static let tab = LKey("adminInvites:tab", placeholders: [], plural: false)
+        public static let usesOf = LKey("adminInvites:usesOf", placeholders: ["max", "used"], plural: false)
+    }
+    public enum adminSocial {
+        public static let approve = LKey("adminSocial:approve", placeholders: [], plural: false)
+        public static let by = LKey("adminSocial:by", placeholders: ["handle"], plural: false)
+        public static let empty = LKey("adminSocial:empty", placeholders: [], plural: false)
+        public static let lift = LKey("adminSocial:lift", placeholders: [], plural: false)
+        public static let lifted = LKey("adminSocial:lifted", placeholders: [], plural: false)
+        public static let loading = LKey("adminSocial:loading", placeholders: [], plural: false)
+        public static let more = LKey("adminSocial:more", placeholders: [], plural: false)
+        public enum reason {
+            public static let abuse = LKey("adminSocial:reason.abuse", placeholders: [], plural: false)
+            public static let other = LKey("adminSocial:reason.other", placeholders: [], plural: false)
+            public static let spam = LKey("adminSocial:reason.spam", placeholders: [], plural: false)
+            public static let unsafe = LKey("adminSocial:reason.unsafe", placeholders: [], plural: false)
+        }
+        public static let remove = LKey("adminSocial:remove", placeholders: [], plural: false)
+        public static let restrict = LKey("adminSocial:restrict", placeholders: [], plural: false)
+        public static let restrictDays = LKey("adminSocial:restrictDays", placeholders: [], plural: false)
+        public static let restricted = LKey("adminSocial:restricted", placeholders: ["days"], plural: false)
+        public enum status {
+            public static let held = LKey("adminSocial:status.held", placeholders: [], plural: false)
+            public static let hidden = LKey("adminSocial:status.hidden", placeholders: [], plural: false)
+            public static let reported = LKey("adminSocial:status.reported", placeholders: [], plural: false)
+        }
+        public static let tab = LKey("adminSocial:tab", placeholders: [], plural: false)
+        public enum target {
+            public static let comment = LKey("adminSocial:target.comment", placeholders: [], plural: false)
+            public static let idea = LKey("adminSocial:target.idea", placeholders: [], plural: false)
+            public static let profile = LKey("adminSocial:target.profile", placeholders: [], plural: false)
+        }
+    }
     public enum adminTelemetry {
         public static let chartSummary = LKey("adminTelemetry:chartSummary", placeholders: ["from", "max", "peak", "to"], plural: false)
         public static let chartTitle = LKey("adminTelemetry:chartTitle", placeholders: [], plural: false)
@@ -242,6 +327,60 @@ public enum K {
         public static let userDays7 = LKey("adminTelemetry:userDays7", placeholders: [], plural: false)
         public static let users7d = LKey("adminTelemetry:users7d", placeholders: [], plural: false)
         public static let usersToday = LKey("adminTelemetry:usersToday", placeholders: [], plural: false)
+    }
+    public enum alertPrefs {
+        public enum caps {
+            public static let hint = LKey("alertPrefs:caps.hint", placeholders: [], plural: false)
+            public static let label = LKey("alertPrefs:caps.label", placeholders: [], plural: false)
+            public static let less = LKey("alertPrefs:caps.less", placeholders: ["kind"], plural: false)
+            public static let more = LKey("alertPrefs:caps.more", placeholders: ["kind"], plural: false)
+        }
+        public enum day {
+            public static let _1 = LKey("alertPrefs:day.1", placeholders: [], plural: false)
+            public static let _2 = LKey("alertPrefs:day.2", placeholders: [], plural: false)
+            public static let _3 = LKey("alertPrefs:day.3", placeholders: [], plural: false)
+            public static let _4 = LKey("alertPrefs:day.4", placeholders: [], plural: false)
+            public static let _5 = LKey("alertPrefs:day.5", placeholders: [], plural: false)
+            public static let _6 = LKey("alertPrefs:day.6", placeholders: [], plural: false)
+            public static let _7 = LKey("alertPrefs:day.7", placeholders: [], plural: false)
+        }
+        public enum digest {
+            public static let day = LKey("alertPrefs:digest.day", placeholders: [], plural: false)
+            public static let label = LKey("alertPrefs:digest.label", placeholders: [], plural: false)
+            public static let push = LKey("alertPrefs:digest.push", placeholders: [], plural: false)
+        }
+        public enum error {
+            public static let invalid = LKey("alertPrefs:error.invalid", placeholders: [], plural: false)
+            public static let load = LKey("alertPrefs:error.load", placeholders: [], plural: false)
+            public static let save = LKey("alertPrefs:error.save", placeholders: [], plural: false)
+            public static let timezone = LKey("alertPrefs:error.timezone", placeholders: [], plural: false)
+        }
+        public enum group {
+            public static let hint = LKey("alertPrefs:group.hint", placeholders: [], plural: false)
+            public static let label = LKey("alertPrefs:group.label", placeholders: [], plural: false)
+            public static let minutes = LKey("alertPrefs:group.minutes", placeholders: [], plural: true)
+            public static let off = LKey("alertPrefs:group.off", placeholders: [], plural: false)
+        }
+        public enum instant {
+            public static let hint = LKey("alertPrefs:instant.hint", placeholders: [], plural: false)
+            public static let label = LKey("alertPrefs:instant.label", placeholders: [], plural: false)
+        }
+        public static let intro = LKey("alertPrefs:intro", placeholders: [], plural: false)
+        public enum kind {
+            public static let activity = LKey("alertPrefs:kind.activity", placeholders: [], plural: false)
+            public static let flight = LKey("alertPrefs:kind.flight", placeholders: [], plural: false)
+            public static let hotel = LKey("alertPrefs:kind.hotel", placeholders: [], plural: false)
+            public static let trip = LKey("alertPrefs:kind.trip", placeholders: [], plural: false)
+        }
+        public enum quiet {
+            public static let end = LKey("alertPrefs:quiet.end", placeholders: [], plural: false)
+            public static let inactive = LKey("alertPrefs:quiet.inactive", placeholders: [], plural: false)
+            public static let label = LKey("alertPrefs:quiet.label", placeholders: [], plural: false)
+            public static let start = LKey("alertPrefs:quiet.start", placeholders: [], plural: false)
+            public static let timezone = LKey("alertPrefs:quiet.timezone", placeholders: ["tz"], plural: false)
+            public static let use_timezone = LKey("alertPrefs:quiet.use_timezone", placeholders: ["tz"], plural: false)
+        }
+        public static let title = LKey("alertPrefs:title", placeholders: [], plural: false)
     }
     public enum alerts {
         public enum act {
@@ -272,6 +411,8 @@ public enum K {
             public static let announce = LKey("alerts:bell.announce", placeholders: [], plural: true)
             public static let emptyBody = LKey("alerts:bell.emptyBody", placeholders: [], plural: false)
             public static let emptyTitle = LKey("alerts:bell.emptyTitle", placeholders: [], plural: false)
+            public static let groupLatest = LKey("alerts:bell.groupLatest", placeholders: ["title"], plural: false)
+            public static let groupTitle = LKey("alerts:bell.groupTitle", placeholders: ["count"], plural: false)
             public static let loadFailed = LKey("alerts:bell.loadFailed", placeholders: [], plural: false)
             public static let loading = LKey("alerts:bell.loading", placeholders: [], plural: false)
             public static let markAll = LKey("alerts:bell.markAll", placeholders: [], plural: false)
@@ -280,6 +421,7 @@ public enum K {
             public static let seeAll = LKey("alerts:bell.seeAll", placeholders: [], plural: false)
             public static let title = LKey("alerts:bell.title", placeholders: [], plural: false)
             public static let unreadBadge = LKey("alerts:bell.unreadBadge", placeholders: [], plural: false)
+            public static let weatherCredit = LKey("alerts:bell.weatherCredit", placeholders: [], plural: false)
         }
         public enum body {
             public static let lookupLater = LKey("alerts:body.lookupLater", placeholders: [], plural: false)
@@ -460,6 +602,12 @@ public enum K {
             public static let saveFailed = LKey("alerts:email.saveFailed", placeholders: [], plural: false)
             public static let saved = LKey("alerts:email.saved", placeholders: [], plural: false)
         }
+        public enum extras {
+            public static let checked = LKey("alerts:extras.checked", placeholders: ["when"], plural: false)
+            public static let pending = LKey("alerts:extras.pending", placeholders: [], plural: false)
+            public static let storyClose = LKey("alerts:extras.storyClose", placeholders: [], plural: false)
+            public static let storyOpen = LKey("alerts:extras.storyOpen", placeholders: [], plural: false)
+        }
         public enum fare {
             public static let error = LKey("alerts:fare.error", placeholders: [], plural: false)
             public static let hint = LKey("alerts:fare.hint", placeholders: [], plural: false)
@@ -510,6 +658,8 @@ public enum K {
         }
         public enum kinds {
             public static let checkTrip = LKey("alerts:kinds.checkTrip", placeholders: [], plural: false)
+            public static let openToday = LKey("alerts:kinds.openToday", placeholders: [], plural: false)
+            public static let openTrip = LKey("alerts:kinds.openTrip", placeholders: [], plural: false)
             public static let retry = LKey("alerts:kinds.retry", placeholders: [], plural: false)
             public static let seeActivity = LKey("alerts:kinds.seeActivity", placeholders: [], plural: false)
             public static let seeDates = LKey("alerts:kinds.seeDates", placeholders: [], plural: false)
@@ -687,6 +837,33 @@ public enum K {
             public static let person = LKey("alerts:unit.person", placeholders: [], plural: false)
             public static let unit = LKey("alerts:unit.unit", placeholders: [], plural: false)
         }
+    }
+    public enum alertsHub {
+        public enum deal {
+            public static let allDone = LKey("alertsHub:deal.allDone", placeholders: [], plural: false)
+            public static let next = LKey("alertsHub:deal.next", placeholders: ["name"], plural: false)
+            public static let progress = LKey("alertsHub:deal.progress", placeholders: ["progress", "target"], plural: false)
+            public static let title = LKey("alertsHub:deal.title", placeholders: [], plural: false)
+        }
+        public enum digest {
+            public static let body = LKey("alertsHub:digest.body", placeholders: [], plural: false)
+            public static let dismiss = LKey("alertsHub:digest.dismiss", placeholders: [], plural: false)
+            public static let title = LKey("alertsHub:digest.title", placeholders: [], plural: false)
+        }
+        public enum paused {
+            public static let body = LKey("alertsHub:paused.body", placeholders: [], plural: false)
+            public static let title = LKey("alertsHub:paused.title", placeholders: [], plural: false)
+        }
+        public enum prefs {
+            public static let button = LKey("alertsHub:prefs.button", placeholders: [], plural: false)
+        }
+        public enum sort {
+            public static let label = LKey("alertsHub:sort.label", placeholders: [], plural: false)
+            public static let moving = LKey("alertsHub:sort.moving", placeholders: [], plural: false)
+            public static let newest = LKey("alertsHub:sort.newest", placeholders: [], plural: false)
+            public static let soon = LKey("alertsHub:sort.soon", placeholders: [], plural: false)
+        }
+        public static let title = LKey("alertsHub:title", placeholders: [], plural: false)
     }
     public enum auth {
         public static let comingSoon = LKey("auth:comingSoon", placeholders: ["provider"], plural: false)
@@ -893,6 +1070,34 @@ public enum K {
             }
         }
     }
+    public enum coach {
+        public enum steps {
+            public enum alerts {
+                public static let body = LKey("coach:steps.alerts.body", placeholders: [], plural: false)
+                public static let title = LKey("coach:steps.alerts.title", placeholders: [], plural: false)
+            }
+            public enum create {
+                public static let body = LKey("coach:steps.create.body", placeholders: [], plural: false)
+                public static let title = LKey("coach:steps.create.title", placeholders: [], plural: false)
+            }
+            public enum explore {
+                public static let body = LKey("coach:steps.explore.body", placeholders: [], plural: false)
+                public static let title = LKey("coach:steps.explore.title", placeholders: [], plural: false)
+            }
+            public enum play {
+                public static let body = LKey("coach:steps.play.body", placeholders: [], plural: false)
+                public static let title = LKey("coach:steps.play.title", placeholders: [], plural: false)
+            }
+            public enum trips {
+                public static let body = LKey("coach:steps.trips.body", placeholders: [], plural: false)
+                public static let title = LKey("coach:steps.trips.title", placeholders: [], plural: false)
+            }
+            public enum you {
+                public static let body = LKey("coach:steps.you.body", placeholders: [], plural: false)
+                public static let title = LKey("coach:steps.you.title", placeholders: [], plural: false)
+            }
+        }
+    }
     public enum common {
         public enum `enum` {
             public enum coverage {
@@ -928,6 +1133,7 @@ public enum K {
             public static let alerts = LKey("common:nav.alerts", placeholders: [], plural: false)
             public static let alertsUnread = LKey("common:nav.alertsUnread", placeholders: [], plural: true)
             public static let chat = LKey("common:nav.chat", placeholders: [], plural: false)
+            public static let feed = LKey("common:nav.feed", placeholders: [], plural: false)
             public static let home = LKey("common:nav.home", placeholders: [], plural: false)
             public static let menu = LKey("common:nav.menu", placeholders: [], plural: false)
             public static let nearby = LKey("common:nav.nearby", placeholders: [], plural: false)
@@ -944,53 +1150,355 @@ public enum K {
             public static let system = LKey("common:theme.system", placeholders: [], plural: false)
         }
     }
+    public enum completeness {
+        public enum parts {
+            public static let days = LKey("completeness:parts.days", placeholders: [], plural: false)
+            public static let flights = LKey("completeness:parts.flights", placeholders: [], plural: false)
+            public static let packing = LKey("completeness:parts.packing", placeholders: [], plural: false)
+            public static let stay = LKey("completeness:parts.stay", placeholders: [], plural: false)
+            public static let visa = LKey("completeness:parts.visa", placeholders: [], plural: false)
+        }
+        public static let percent = LKey("completeness:percent", placeholders: ["value"], plural: false)
+        public static let title = LKey("completeness:title", placeholders: [], plural: false)
+    }
+    public enum dropMoment {
+        public static let badge = LKey("dropMoment:badge", placeholders: ["name"], plural: false)
+        public static let book = LKey("dropMoment:book", placeholders: [], plural: false)
+        public static let caught = LKey("dropMoment:caught", placeholders: ["amount", "percent"], plural: false)
+        public static let close = LKey("dropMoment:close", placeholders: [], plural: false)
+        public static let note = LKey("dropMoment:note", placeholders: [], plural: false)
+        public static let nowPrice = LKey("dropMoment:nowPrice", placeholders: [], plural: false)
+        public static let share = LKey("dropMoment:share", placeholders: [], plural: false)
+        public static let story = LKey("dropMoment:story", placeholders: [], plural: false)
+        public static let title = LKey("dropMoment:title", placeholders: [], plural: false)
+        public static let titleTarget = LKey("dropMoment:titleTarget", placeholders: [], plural: false)
+        public static let xp = LKey("dropMoment:xp", placeholders: ["xp"], plural: false)
+    }
     public enum errors {
         public static let account_inactive = LKey("errors:account_inactive", placeholders: [], plural: false)
         public static let account_pending = LKey("errors:account_pending", placeholders: [], plural: false)
         public static let ai_daily_quota = LKey("errors:ai_daily_quota", placeholders: [], plural: false)
         public static let already_verified = LKey("errors:already_verified", placeholders: [], plural: false)
+        public static let amount_invalid = LKey("errors:amount_invalid", placeholders: [], plural: false)
         public static let avatar_too_large = LKey("errors:avatar_too_large", placeholders: [], plural: false)
         public static let avatar_type = LKey("errors:avatar_type", placeholders: [], plural: false)
         public static let avatar_unreadable = LKey("errors:avatar_unreadable", placeholders: [], plural: false)
         public static let bad_request = LKey("errors:bad_request", placeholders: [], plural: false)
         public static let cancelled = LKey("errors:cancelled", placeholders: [], plural: false)
+        public static let category_invalid = LKey("errors:category_invalid", placeholders: [], plural: false)
+        public static let checkin_day_invalid = LKey("errors:checkin_day_invalid", placeholders: [], plural: false)
+        public static let checkin_out_of_trip = LKey("errors:checkin_out_of_trip", placeholders: [], plural: false)
         public static let code_invalid = LKey("errors:code_invalid", placeholders: [], plural: false)
         public static let confirmation_mismatch = LKey("errors:confirmation_mismatch", placeholders: [], plural: false)
+        public static let currency_invalid = LKey("errors:currency_invalid", placeholders: [], plural: false)
         public static let display_name_invalid = LKey("errors:display_name_invalid", placeholders: [], plural: false)
         public static let email_changed = LKey("errors:email_changed", placeholders: [], plural: false)
         public static let email_in_use_unverified = LKey("errors:email_in_use_unverified", placeholders: [], plural: false)
         public static let email_invalid = LKey("errors:email_invalid", placeholders: [], plural: false)
         public static let email_unavailable = LKey("errors:email_unavailable", placeholders: [], plural: false)
         public static let email_unverified = LKey("errors:email_unverified", placeholders: [], plural: false)
+        public static let entry_not_found = LKey("errors:entry_not_found", placeholders: [], plural: false)
+        public static let expense_limit = LKey("errors:expense_limit", placeholders: [], plural: false)
+        public static let expense_not_found = LKey("errors:expense_not_found", placeholders: [], plural: false)
         public static let generic = LKey("errors:generic", placeholders: [], plural: false)
         public static let id_token_invalid = LKey("errors:id_token_invalid", placeholders: [], plural: false)
         public static let identity_in_use = LKey("errors:identity_in_use", placeholders: [], plural: false)
         public static let identity_not_found = LKey("errors:identity_not_found", placeholders: [], plural: false)
         public static let invite_invalid = LKey("errors:invite_invalid", placeholders: [], plural: false)
         public static let invite_required = LKey("errors:invite_required", placeholders: [], plural: false)
+        public static let journal_empty = LKey("errors:journal_empty", placeholders: [], plural: false)
+        public static let journal_limit = LKey("errors:journal_limit", placeholders: [], plural: false)
+        public static let journal_too_long = LKey("errors:journal_too_long", placeholders: [], plural: false)
         public static let last_admin = LKey("errors:last_admin", placeholders: [], plural: false)
         public static let last_sign_in_method = LKey("errors:last_sign_in_method", placeholders: [], plural: false)
+        public static let mood_invalid = LKey("errors:mood_invalid", placeholders: [], plural: false)
+        public static let network = LKey("errors:network", placeholders: [], plural: false)
         public static let no_email = LKey("errors:no_email", placeholders: [], plural: false)
+        public static let note_too_long = LKey("errors:note_too_long", placeholders: [], plural: false)
         public static let password_common = LKey("errors:password_common", placeholders: [], plural: false)
         public static let password_incorrect = LKey("errors:password_incorrect", placeholders: [], plural: false)
         public static let password_matches_identity = LKey("errors:password_matches_identity", placeholders: [], plural: false)
         public static let password_too_long = LKey("errors:password_too_long", placeholders: [], plural: false)
         public static let password_too_short = LKey("errors:password_too_short", placeholders: [], plural: false)
+        public static let place_key_invalid = LKey("errors:place_key_invalid", placeholders: [], plural: false)
+        public static let place_not_found = LKey("errors:place_not_found", placeholders: [], plural: false)
+        public static let places_limit = LKey("errors:places_limit", placeholders: [], plural: false)
+        public static let prep_item_auto = LKey("errors:prep_item_auto", placeholders: [], plural: false)
+        public static let prep_item_na = LKey("errors:prep_item_na", placeholders: [], plural: false)
+        public static let prep_item_unknown = LKey("errors:prep_item_unknown", placeholders: [], plural: false)
         public static let provider_error = LKey("errors:provider_error", placeholders: [], plural: false)
         public static let provider_unavailable = LKey("errors:provider_unavailable", placeholders: [], plural: false)
         public static let provider_unknown = LKey("errors:provider_unknown", placeholders: [], plural: false)
         public static let rate_limited = LKey("errors:rate_limited", placeholders: [], plural: false)
+        public static let recap_not_ready = LKey("errors:recap_not_ready", placeholders: [], plural: false)
         public static let refresh_invalid = LKey("errors:refresh_invalid", placeholders: [], plural: false)
         public static let refresh_stale = LKey("errors:refresh_stale", placeholders: [], plural: false)
         public static let session_revoked = LKey("errors:session_revoked", placeholders: [], plural: false)
         public static let signup_token_invalid = LKey("errors:signup_token_invalid", placeholders: [], plural: false)
+        public static let snapshot_invalid = LKey("errors:snapshot_invalid", placeholders: [], plural: false)
+        public static let snapshot_too_large = LKey("errors:snapshot_too_large", placeholders: [], plural: false)
+        public static let stars_invalid = LKey("errors:stars_invalid", placeholders: [], plural: false)
         public static let state_invalid = LKey("errors:state_invalid", placeholders: [], plural: false)
         public static let token_expired = LKey("errors:token_expired", placeholders: [], plural: false)
         public static let token_invalid = LKey("errors:token_invalid", placeholders: [], plural: false)
         public static let token_used = LKey("errors:token_used", placeholders: [], plural: false)
+        public static let trip_dates_invalid = LKey("errors:trip_dates_invalid", placeholders: [], plural: false)
+        public static let trip_not_found = LKey("errors:trip_not_found", placeholders: [], plural: false)
+        public static let trip_phase_invalid = LKey("errors:trip_phase_invalid", placeholders: [], plural: false)
+        public static let trip_title_invalid = LKey("errors:trip_title_invalid", placeholders: [], plural: false)
         public static let username_invalid = LKey("errors:username_invalid", placeholders: [], plural: false)
         public static let username_reserved = LKey("errors:username_reserved", placeholders: [], plural: false)
         public static let username_taken = LKey("errors:username_taken", placeholders: [], plural: false)
+    }
+    public enum expenses {
+        public static let add = LKey("expenses:add", placeholders: [], plural: false)
+        public static let amount = LKey("expenses:amount", placeholders: [], plural: false)
+        public static let budget = LKey("expenses:budget", placeholders: ["budget", "usd"], plural: false)
+        public static let cancel = LKey("expenses:cancel", placeholders: [], plural: false)
+        public enum cat {
+            public static let activities = LKey("expenses:cat.activities", placeholders: [], plural: false)
+            public static let fees = LKey("expenses:cat.fees", placeholders: [], plural: false)
+            public static let flights = LKey("expenses:cat.flights", placeholders: [], plural: false)
+            public static let food = LKey("expenses:cat.food", placeholders: [], plural: false)
+            public static let lodging = LKey("expenses:cat.lodging", placeholders: [], plural: false)
+            public static let other = LKey("expenses:cat.other", placeholders: [], plural: false)
+            public static let shopping = LKey("expenses:cat.shopping", placeholders: [], plural: false)
+            public static let transport = LKey("expenses:cat.transport", placeholders: [], plural: false)
+        }
+        public static let category = LKey("expenses:category", placeholders: [], plural: false)
+        public static let currency = LKey("expenses:currency", placeholders: [], plural: false)
+        public static let day = LKey("expenses:day", placeholders: [], plural: false)
+        public static let delete = LKey("expenses:delete", placeholders: [], plural: false)
+        public static let edit = LKey("expenses:edit", placeholders: [], plural: false)
+        public static let empty = LKey("expenses:empty", placeholders: [], plural: false)
+        public static let invalidAmount = LKey("expenses:invalidAmount", placeholders: [], plural: false)
+        public static let invalidCurrency = LKey("expenses:invalidCurrency", placeholders: [], plural: false)
+        public static let loadFailed = LKey("expenses:loadFailed", placeholders: [], plural: false)
+        public static let needsConnection = LKey("expenses:needsConnection", placeholders: [], plural: false)
+        public static let note = LKey("expenses:note", placeholders: [], plural: false)
+        public static let rateNote = LKey("expenses:rateNote", placeholders: ["date"], plural: false)
+        public static let retry = LKey("expenses:retry", placeholders: [], plural: false)
+        public static let save = LKey("expenses:save", placeholders: [], plural: false)
+        public static let saveFailed = LKey("expenses:saveFailed", placeholders: [], plural: false)
+        public static let spentOn = LKey("expenses:spentOn", placeholders: [], plural: false)
+        public static let title = LKey("expenses:title", placeholders: [], plural: false)
+        public static let total = LKey("expenses:total", placeholders: [], plural: false)
+        public static let totals = LKey("expenses:totals", placeholders: [], plural: false)
+        public static let unconverted = LKey("expenses:unconverted", placeholders: ["list"], plural: false)
+        public static let waiting = LKey("expenses:waiting", placeholders: [], plural: false)
+    }
+    public enum explore {
+        public enum modes {
+            public static let chat = LKey("explore:modes.chat", placeholders: [], plural: false)
+            public static let compare = LKey("explore:modes.compare", placeholders: [], plural: false)
+            public static let discover = LKey("explore:modes.discover", placeholders: [], plural: false)
+            public static let `import` = LKey("explore:modes.import", placeholders: [], plural: false)
+            public static let known = LKey("explore:modes.known", placeholders: [], plural: false)
+            public static let nearby = LKey("explore:modes.nearby", placeholders: [], plural: false)
+        }
+        public static let subtitle = LKey("explore:subtitle", placeholders: [], plural: false)
+        public static let title = LKey("explore:title", placeholders: [], plural: false)
+    }
+    public enum game {
+        public enum badges {
+            public enum bullseye {
+                public static let desc = LKey("game:badges.bullseye.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.bullseye.name", placeholders: [], plural: false)
+            }
+            public enum challenge_explorer {
+                public static let desc = LKey("game:badges.challenge_explorer.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.challenge_explorer.name", placeholders: [], plural: false)
+            }
+            public enum challenge_regular {
+                public static let desc = LKey("game:badges.challenge_regular.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.challenge_regular.name", placeholders: [], plural: false)
+            }
+            public enum continents_3 {
+                public static let desc = LKey("game:badges.continents_3.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.continents_3.name", placeholders: [], plural: false)
+            }
+            public enum continents_6 {
+                public static let desc = LKey("game:badges.continents_6.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.continents_6.name", placeholders: [], plural: false)
+            }
+            public enum countries_10 {
+                public static let desc = LKey("game:badges.countries_10.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.countries_10.name", placeholders: [], plural: false)
+            }
+            public enum countries_3 {
+                public static let desc = LKey("game:badges.countries_3.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.countries_3.name", placeholders: [], plural: false)
+            }
+            public enum countries_30 {
+                public static let desc = LKey("game:badges.countries_30.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.countries_30.name", placeholders: [], plural: false)
+            }
+            public enum deal_hunter {
+                public static let desc = LKey("game:badges.deal_hunter.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.deal_hunter.name", placeholders: [], plural: false)
+            }
+            public enum deal_hunter_gold {
+                public static let desc = LKey("game:badges.deal_hunter_gold.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.deal_hunter_gold.name", placeholders: [], plural: false)
+            }
+            public enum deal_hunter_silver {
+                public static let desc = LKey("game:badges.deal_hunter_silver.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.deal_hunter_silver.name", placeholders: [], plural: false)
+            }
+            public enum first_steps {
+                public static let desc = LKey("game:badges.first_steps.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.first_steps.name", placeholders: [], plural: false)
+            }
+            public enum first_trip {
+                public static let desc = LKey("game:badges.first_trip.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.first_trip.name", placeholders: [], plural: false)
+            }
+            public enum h2h_rival {
+                public static let desc = LKey("game:badges.h2h_rival.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.h2h_rival.name", placeholders: [], plural: false)
+            }
+            public enum h2h_veteran {
+                public static let desc = LKey("game:badges.h2h_veteran.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.h2h_veteran.name", placeholders: [], plural: false)
+            }
+            public enum helpful_voice {
+                public static let desc = LKey("game:badges.helpful_voice.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.helpful_voice.name", placeholders: [], plural: false)
+            }
+            public enum inspirer {
+                public static let desc = LKey("game:badges.inspirer.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.inspirer.name", placeholders: [], plural: false)
+            }
+            public enum local_explorer {
+                public static let desc = LKey("game:badges.local_explorer.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.local_explorer.name", placeholders: [], plural: false)
+            }
+            public enum local_legend {
+                public static let desc = LKey("game:badges.local_legend.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.local_legend.name", placeholders: [], plural: false)
+            }
+            public enum memory_keeper {
+                public static let desc = LKey("game:badges.memory_keeper.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.memory_keeper.name", placeholders: [], plural: false)
+            }
+            public enum muse {
+                public static let desc = LKey("game:badges.muse.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.muse.name", placeholders: [], plural: false)
+            }
+            public enum on_the_road {
+                public static let desc = LKey("game:badges.on_the_road.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.on_the_road.name", placeholders: [], plural: false)
+            }
+            public enum quiz_ace {
+                public static let desc = LKey("game:badges.quiz_ace.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.quiz_ace.name", placeholders: [], plural: false)
+            }
+            public enum quiz_devoted {
+                public static let desc = LKey("game:badges.quiz_devoted.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.quiz_devoted.name", placeholders: [], plural: false)
+            }
+            public enum quiz_master {
+                public static let desc = LKey("game:badges.quiz_master.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.quiz_master.name", placeholders: [], plural: false)
+            }
+            public enum quiz_regular {
+                public static let desc = LKey("game:badges.quiz_regular.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.quiz_regular.name", placeholders: [], plural: false)
+            }
+            public enum ready_regular {
+                public static let desc = LKey("game:badges.ready_regular.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.ready_regular.name", placeholders: [], plural: false)
+            }
+            public enum road_warrior {
+                public static let desc = LKey("game:badges.road_warrior.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.road_warrior.name", placeholders: [], plural: false)
+            }
+            public enum saver_1000 {
+                public static let desc = LKey("game:badges.saver_1000.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.saver_1000.name", placeholders: [], plural: false)
+            }
+            public enum saver_200 {
+                public static let desc = LKey("game:badges.saver_200.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.saver_200.name", placeholders: [], plural: false)
+            }
+            public enum saver_50 {
+                public static let desc = LKey("game:badges.saver_50.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.saver_50.name", placeholders: [], plural: false)
+            }
+            public enum smart_planner {
+                public static let desc = LKey("game:badges.smart_planner.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.smart_planner.name", placeholders: [], plural: false)
+            }
+            public enum storyteller {
+                public static let desc = LKey("game:badges.storyteller.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.storyteller.name", placeholders: [], plural: false)
+            }
+            public enum traveller {
+                public static let desc = LKey("game:badges.traveller.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.traveller.name", placeholders: [], plural: false)
+            }
+            public enum trip_ready {
+                public static let desc = LKey("game:badges.trip_ready.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.trip_ready.name", placeholders: [], plural: false)
+            }
+            public enum verified {
+                public static let desc = LKey("game:badges.verified.desc", placeholders: [], plural: false)
+                public static let name = LKey("game:badges.verified.name", placeholders: [], plural: false)
+            }
+        }
+        public enum chip {
+            public static let label = LKey("game:chip.label", placeholders: ["level", "xp"], plural: false)
+            public static let level = LKey("game:chip.level", placeholders: ["level"], plural: false)
+        }
+        public enum levels {
+            public static let _1 = LKey("game:levels.1", placeholders: [], plural: false)
+            public static let _10 = LKey("game:levels.10", placeholders: [], plural: false)
+            public static let _2 = LKey("game:levels.2", placeholders: [], plural: false)
+            public static let _3 = LKey("game:levels.3", placeholders: [], plural: false)
+            public static let _4 = LKey("game:levels.4", placeholders: [], plural: false)
+            public static let _5 = LKey("game:levels.5", placeholders: [], plural: false)
+            public static let _6 = LKey("game:levels.6", placeholders: [], plural: false)
+            public static let _7 = LKey("game:levels.7", placeholders: [], plural: false)
+            public static let _8 = LKey("game:levels.8", placeholders: [], plural: false)
+            public static let _9 = LKey("game:levels.9", placeholders: [], plural: false)
+        }
+        public enum rules {
+            public static let continent_visited = LKey("game:rules.continent_visited", placeholders: [], plural: false)
+            public static let country_visited = LKey("game:rules.country_visited", placeholders: [], plural: false)
+            public static let deal_drop = LKey("game:rules.deal_drop", placeholders: [], plural: false)
+            public static let deal_saved_1000 = LKey("game:rules.deal_saved_1000", placeholders: [], plural: false)
+            public static let deal_saved_200 = LKey("game:rules.deal_saved_200", placeholders: [], plural: false)
+            public static let deal_saved_50 = LKey("game:rules.deal_saved_50", placeholders: [], plural: false)
+            public static let deal_target = LKey("game:rules.deal_target", placeholders: [], plural: false)
+            public static let email_verified = LKey("game:rules.email_verified", placeholders: [], plural: false)
+            public static let onboarding_complete = LKey("game:rules.onboarding_complete", placeholders: [], plural: false)
+            public static let place_visited = LKey("game:rules.place_visited", placeholders: [], plural: false)
+            public static let plan_saved = LKey("game:rules.plan_saved", placeholders: [], plural: false)
+            public static let recap_complete = LKey("game:rules.recap_complete", placeholders: [], plural: false)
+            public static let smart_planner = LKey("game:rules.smart_planner", placeholders: [], plural: false)
+            public static let traveller_type = LKey("game:rules.traveller_type", placeholders: [], plural: false)
+            public static let trip_checkin = LKey("game:rules.trip_checkin", placeholders: [], plural: false)
+            public static let trip_ready = LKey("game:rules.trip_ready", placeholders: [], plural: false)
+        }
+        public enum section {
+            public static let badgeProgress = LKey("game:section.badgeProgress", placeholders: ["progress", "target"], plural: false)
+            public static let badges = LKey("game:section.badges", placeholders: [], plural: false)
+            public static let earned = LKey("game:section.earned", placeholders: [], plural: false)
+            public static let level = LKey("game:section.level", placeholders: ["level"], plural: false)
+            public static let maxLevel = LKey("game:section.maxLevel", placeholders: [], plural: false)
+            public static let points = LKey("game:section.points", placeholders: ["points"], plural: false)
+            public static let progressLabel = LKey("game:section.progressLabel", placeholders: [], plural: false)
+            public static let recent = LKey("game:section.recent", placeholders: [], plural: false)
+            public static let recentEmpty = LKey("game:section.recentEmpty", placeholders: [], plural: false)
+            public static let title = LKey("game:section.title", placeholders: [], plural: false)
+            public static let toNext = LKey("game:section.toNext", placeholders: ["next", "remaining"], plural: false)
+            public static let xp = LKey("game:section.xp", placeholders: ["xp"], plural: false)
+        }
+        public enum toast {
+            public static let badge = LKey("game:toast.badge", placeholders: [], plural: false)
+            public static let level = LKey("game:toast.level", placeholders: ["to"], plural: false)
+            public static let xp = LKey("game:toast.xp", placeholders: ["points", "rule"], plural: false)
+        }
     }
     public enum itinerary {
         public enum action {
@@ -1102,6 +1610,77 @@ public enum K {
             public static let transit = LKey("itinerary:transit.transit", placeholders: ["minutes"], plural: false)
             public static let walk = LKey("itinerary:transit.walk", placeholders: ["minutes"], plural: false)
             public static let walkKm = LKey("itinerary:transit.walkKm", placeholders: ["km", "minutes"], plural: false)
+        }
+    }
+    public enum journal {
+        public static let delete = LKey("journal:delete", placeholders: [], plural: false)
+        public static let empty = LKey("journal:empty", placeholders: [], plural: false)
+        public static let error = LKey("journal:error", placeholders: [], plural: false)
+        public enum form {
+            public static let add = LKey("journal:form.add", placeholders: [], plural: false)
+            public static let counter = LKey("journal:form.counter", placeholders: ["max", "n"], plural: false)
+            public static let day = LKey("journal:form.day", placeholders: [], plural: false)
+            public static let label = LKey("journal:form.label", placeholders: [], plural: false)
+            public static let noDay = LKey("journal:form.noDay", placeholders: [], plural: false)
+            public static let placeholder = LKey("journal:form.placeholder", placeholders: [], plural: false)
+            public static let tooLong = LKey("journal:form.tooLong", placeholders: ["max", "n"], plural: false)
+        }
+        public enum mood {
+            public static let good = LKey("journal:mood.good", placeholders: [], plural: false)
+            public static let great = LKey("journal:mood.great", placeholders: [], plural: false)
+            public static let group = LKey("journal:mood.group", placeholders: [], plural: false)
+            public static let ok = LKey("journal:mood.ok", placeholders: [], plural: false)
+            public static let tough = LKey("journal:mood.tough", placeholders: [], plural: false)
+        }
+        public static let noDay = LKey("journal:noDay", placeholders: [], plural: false)
+        public static let pending = LKey("journal:pending", placeholders: [], plural: false)
+        public enum places {
+            public static let empty = LKey("journal:places.empty", placeholders: [], plural: false)
+            public static let title = LKey("journal:places.title", placeholders: [], plural: false)
+            public static let visited = LKey("journal:places.visited", placeholders: [], plural: false)
+        }
+        public enum stars {
+            public static let group = LKey("journal:stars.group", placeholders: [], plural: false)
+            public static let label = LKey("journal:stars.label", placeholders: ["n"], plural: false)
+        }
+        public static let title = LKey("journal:title", placeholders: [], plural: false)
+    }
+    public enum journey {
+        public static let countdown = LKey("journey:countdown", placeholders: [], plural: true)
+        public static let dayIn = LKey("journey:dayIn", placeholders: ["city", "day"], plural: false)
+        public static let dayOf = LKey("journey:dayOf", placeholders: ["count", "day"], plural: false)
+        public enum load {
+            public static let failed = LKey("journey:load.failed", placeholders: [], plural: false)
+            public static let loading = LKey("journey:load.loading", placeholders: [], plural: false)
+            public static let retry = LKey("journey:load.retry", placeholders: [], plural: false)
+        }
+        public static let offlineCopy = LKey("journey:offlineCopy", placeholders: [], plural: false)
+        public enum phases {
+            public static let dreaming = LKey("journey:phases.dreaming", placeholders: [], plural: false)
+            public static let memories = LKey("journey:phases.memories", placeholders: [], plural: false)
+            public static let on_the_road = LKey("journey:phases.on_the_road", placeholders: [], plural: false)
+            public static let planning = LKey("journey:phases.planning", placeholders: [], plural: false)
+            public static let ready = LKey("journey:phases.ready", placeholders: [], plural: false)
+        }
+        public enum saved {
+            public static let openTrip = LKey("journey:saved.openTrip", placeholders: [], plural: false)
+            public static let savedToTrips = LKey("journey:saved.savedToTrips", placeholders: [], plural: false)
+        }
+        public enum tabs {
+            public static let alerts = LKey("journey:tabs.alerts", placeholders: [], plural: false)
+            public static let explore = LKey("journey:tabs.explore", placeholders: [], plural: false)
+            public static let play = LKey("journey:tabs.play", placeholders: [], plural: false)
+            public static let trips = LKey("journey:tabs.trips", placeholders: [], plural: false)
+            public static let you = LKey("journey:tabs.you", placeholders: [], plural: false)
+        }
+        public enum tripTabs {
+            public static let journal = LKey("journey:tripTabs.journal", placeholders: [], plural: false)
+            public static let money = LKey("journey:tripTabs.money", placeholders: [], plural: false)
+            public static let offline = LKey("journey:tripTabs.offline", placeholders: [], plural: false)
+            public static let overview = LKey("journey:tripTabs.overview", placeholders: [], plural: false)
+            public static let prep = LKey("journey:tripTabs.prep", placeholders: [], plural: false)
+            public static let recap = LKey("journey:tripTabs.recap", placeholders: [], plural: false)
+            public static let today = LKey("journey:tripTabs.today", placeholders: [], plural: false)
         }
     }
     public enum misc {
@@ -1345,6 +1924,14 @@ public enum K {
         public enum maps {
             public static let `open` = LKey("mobile:maps.open", placeholders: [], plural: false)
         }
+        public enum nearYou {
+            public static let fallbackBody = LKey("mobile:nearYou.fallbackBody", placeholders: [], plural: false)
+            public static let fallbackTitle = LKey("mobile:nearYou.fallbackTitle", placeholders: [], plural: false)
+        }
+        public enum notifSettings {
+            public static let permissionDenied = LKey("mobile:notifSettings.permissionDenied", placeholders: [], plural: false)
+            public static let pushUnavailable = LKey("mobile:notifSettings.pushUnavailable", placeholders: [], plural: false)
+        }
         public enum offline {
             public static let banner = LKey("mobile:offline.banner", placeholders: [], plural: false)
         }
@@ -1364,8 +1951,15 @@ public enum K {
             public static let lastDayTitle = LKey("mobile:reminders.lastDayTitle", placeholders: ["destination"], plural: false)
             public static let t1Body = LKey("mobile:reminders.t1Body", placeholders: [], plural: false)
             public static let t1Title = LKey("mobile:reminders.t1Title", placeholders: ["destination"], plural: false)
+            public static let t30Body = LKey("mobile:reminders.t30Body", placeholders: [], plural: false)
+            public static let t30Title = LKey("mobile:reminders.t30Title", placeholders: ["destination"], plural: false)
             public static let t7Body = LKey("mobile:reminders.t7Body", placeholders: [], plural: false)
             public static let t7Title = LKey("mobile:reminders.t7Title", placeholders: ["destination"], plural: false)
+        }
+        public enum rules {
+            public static let accept = LKey("mobile:rules.accept", placeholders: [], plural: false)
+            public static let body = LKey("mobile:rules.body", placeholders: [], plural: false)
+            public static let title = LKey("mobile:rules.title", placeholders: [], plural: false)
         }
         public enum server {
             public static let hint = LKey("mobile:server.hint", placeholders: [], plural: false)
@@ -1396,6 +1990,11 @@ public enum K {
         }
         public enum share {
             public static let byline = LKey("mobile:share.byline", placeholders: ["name"], plural: false)
+            public static let image = LKey("mobile:share.image", placeholders: [], plural: false)
+            public static let openInBrowser = LKey("mobile:share.openInBrowser", placeholders: [], plural: false)
+            public static let openLinkInvalid = LKey("mobile:share.openLinkInvalid", placeholders: [], plural: false)
+            public static let openLinkLabel = LKey("mobile:share.openLinkLabel", placeholders: [], plural: false)
+            public static let openLinkPlaceholder = LKey("mobile:share.openLinkPlaceholder", placeholders: [], plural: false)
             public static let recapTag = LKey("mobile:share.recapTag", placeholders: [], plural: false)
             public static let remix = LKey("mobile:share.remix", placeholders: [], plural: false)
             public static let savingsTag = LKey("mobile:share.savingsTag", placeholders: [], plural: false)
@@ -1407,6 +2006,12 @@ public enum K {
             public static let newSearch = LKey("mobile:shortcuts.newSearch", placeholders: [], plural: false)
             public static let settings = LKey("mobile:shortcuts.settings", placeholders: [], plural: false)
             public static let tab = LKey("mobile:shortcuts.tab", placeholders: [], plural: false)
+        }
+        public enum story {
+            public static let scrubHint = LKey("mobile:story.scrubHint", placeholders: [], plural: false)
+        }
+        public enum support {
+            public static let contact = LKey("mobile:support.contact", placeholders: [], plural: false)
         }
         public enum tabs {
             public static let alerts = LKey("mobile:tabs.alerts", placeholders: [], plural: false)
@@ -1435,6 +2040,159 @@ public enum K {
             public static let signInBody = LKey("mobile:trips.signInBody", placeholders: [], plural: false)
             public static let signInTitle = LKey("mobile:trips.signInTitle", placeholders: [], plural: false)
         }
+        public enum unsupported {
+            public static let update = LKey("mobile:unsupported.update", placeholders: [], plural: false)
+        }
+    }
+    public enum nearbyTrip {
+        public static let failed = LKey("nearbyTrip:failed", placeholders: [], plural: false)
+        public static let here = LKey("nearbyTrip:here", placeholders: [], plural: false)
+        public static let hereAria = LKey("nearbyTrip:hereAria", placeholders: ["name"], plural: false)
+        public static let queued = LKey("nearbyTrip:queued", placeholders: [], plural: false)
+        public static let visited = LKey("nearbyTrip:visited", placeholders: [], plural: false)
+    }
+    public enum notifications {
+        public enum cap {
+            public static let hint = LKey("notifications:cap.hint", placeholders: [], plural: false)
+            public static let label = LKey("notifications:cap.label", placeholders: [], plural: false)
+            public static let less = LKey("notifications:cap.less", placeholders: [], plural: false)
+            public static let more = LKey("notifications:cap.more", placeholders: [], plural: false)
+            public static let value = LKey("notifications:cap.value", placeholders: ["count"], plural: false)
+        }
+        public enum categories {
+            public enum morning_brief {
+                public static let hint = LKey("notifications:categories.morning_brief.hint", placeholders: [], plural: false)
+                public static let label = LKey("notifications:categories.morning_brief.label", placeholders: [], plural: false)
+            }
+            public enum nearby {
+                public static let hint = LKey("notifications:categories.nearby.hint", placeholders: [], plural: false)
+                public static let label = LKey("notifications:categories.nearby.label", placeholders: [], plural: false)
+            }
+            public enum price_drops {
+                public static let hint = LKey("notifications:categories.price_drops.hint", placeholders: [], plural: false)
+                public static let label = LKey("notifications:categories.price_drops.label", placeholders: [], plural: false)
+            }
+            public enum quiz {
+                public static let hint = LKey("notifications:categories.quiz.hint", placeholders: [], plural: false)
+                public static let label = LKey("notifications:categories.quiz.label", placeholders: [], plural: false)
+            }
+            public enum social {
+                public static let hint = LKey("notifications:categories.social.hint", placeholders: [], plural: false)
+                public static let label = LKey("notifications:categories.social.label", placeholders: [], plural: false)
+            }
+            public enum trip_reminders {
+                public static let hint = LKey("notifications:categories.trip_reminders.hint", placeholders: [], plural: false)
+                public static let label = LKey("notifications:categories.trip_reminders.label", placeholders: [], plural: false)
+            }
+            public enum weather {
+                public static let hint = LKey("notifications:categories.weather.hint", placeholders: [], plural: false)
+                public static let label = LKey("notifications:categories.weather.label", placeholders: [], plural: false)
+            }
+        }
+        public enum error {
+            public static let load = LKey("notifications:error.load", placeholders: [], plural: false)
+            public static let save = LKey("notifications:error.save", placeholders: [], plural: false)
+        }
+        public static let intro = LKey("notifications:intro", placeholders: [], plural: false)
+        public static let loading = LKey("notifications:loading", placeholders: [], plural: false)
+        public static let noDevices = LKey("notifications:noDevices", placeholders: [], plural: false)
+        public enum quiet {
+            public static let end = LKey("notifications:quiet.end", placeholders: [], plural: false)
+            public static let hint = LKey("notifications:quiet.hint", placeholders: [], plural: false)
+            public static let label = LKey("notifications:quiet.label", placeholders: [], plural: false)
+            public static let noTimezone = LKey("notifications:quiet.noTimezone", placeholders: [], plural: false)
+            public static let start = LKey("notifications:quiet.start", placeholders: [], plural: false)
+            public static let timezone = LKey("notifications:quiet.timezone", placeholders: ["tz"], plural: false)
+        }
+        public static let title = LKey("notifications:title", placeholders: [], plural: false)
+    }
+    public enum oauth {
+        public static let emailInUseUnverified = LKey("oauth:emailInUseUnverified", placeholders: [], plural: false)
+        public static let linked = LKey("oauth:linked", placeholders: [], plural: false)
+        public static let startAgain = LKey("oauth:startAgain", placeholders: [], plural: false)
+        public enum username {
+            public static let displayName = LKey("oauth:username.displayName", placeholders: [], plural: false)
+            public static let intro = LKey("oauth:username.intro", placeholders: [], plural: false)
+            public static let invite = LKey("oauth:username.invite", placeholders: [], plural: false)
+            public static let signedAs = LKey("oauth:username.signedAs", placeholders: ["email"], plural: false)
+            public static let submit = LKey("oauth:username.submit", placeholders: [], plural: false)
+            public static let submitting = LKey("oauth:username.submitting", placeholders: [], plural: false)
+            public static let title = LKey("oauth:username.title", placeholders: [], plural: false)
+            public static let username = LKey("oauth:username.username", placeholders: [], plural: false)
+        }
+        public static let working = LKey("oauth:working", placeholders: [], plural: false)
+    }
+    public enum offline {
+        public enum banner {
+            public static let offline = LKey("offline:banner.offline", placeholders: [], plural: false)
+            public static let pending = LKey("offline:banner.pending", placeholders: [], plural: true)
+        }
+        public enum rejected {
+            public static let dismiss = LKey("offline:rejected.dismiss", placeholders: [], plural: false)
+            public static let expense_limit = LKey("offline:rejected.expense_limit", placeholders: [], plural: false)
+            public static let generic = LKey("offline:rejected.generic", placeholders: [], plural: false)
+            public static let journal_limit = LKey("offline:rejected.journal_limit", placeholders: [], plural: false)
+            public static let places_limit = LKey("offline:rejected.places_limit", placeholders: [], plural: false)
+        }
+    }
+    public enum offlinePack {
+        public enum address {
+            public static let fallback = LKey("offlinePack:address.fallback", placeholders: [], plural: false)
+            public static let title = LKey("offlinePack:address.title", placeholders: [], plural: false)
+        }
+        public enum currency {
+            public static let amountLabel = LKey("offlinePack:currency.amountLabel", placeholders: ["currency"], plural: false)
+            public static let noRate = LKey("offlinePack:currency.noRate", placeholders: ["local"], plural: false)
+            public static let rateFrom = LKey("offlinePack:currency.rateFrom", placeholders: ["date", "source"], plural: false)
+            public enum sources {
+                public static let snapshot = LKey("offlinePack:currency.sources.snapshot", placeholders: [], plural: false)
+            }
+            public static let swap = LKey("offlinePack:currency.swap", placeholders: [], plural: false)
+            public static let title = LKey("offlinePack:currency.title", placeholders: [], plural: false)
+        }
+        public enum emergency {
+            public static let checked = LKey("offlinePack:emergency.checked", placeholders: ["date"], plural: false)
+            public static let embassy = LKey("offlinePack:emergency.embassy", placeholders: [], plural: false)
+            public static let hospital = LKey("offlinePack:emergency.hospital", placeholders: [], plural: false)
+            public enum kinds {
+                public static let ambulance = LKey("offlinePack:emergency.kinds.ambulance", placeholders: [], plural: false)
+                public static let fire = LKey("offlinePack:emergency.kinds.fire", placeholders: [], plural: false)
+                public static let general = LKey("offlinePack:emergency.kinds.general", placeholders: [], plural: false)
+                public static let police = LKey("offlinePack:emergency.kinds.police", placeholders: [], plural: false)
+                public static let tourist_police = LKey("offlinePack:emergency.kinds.tourist_police", placeholders: [], plural: false)
+            }
+            public static let reference = LKey("offlinePack:emergency.reference", placeholders: [], plural: false)
+            public static let title = LKey("offlinePack:emergency.title", placeholders: [], plural: false)
+        }
+        public enum error {
+            public static let error = LKey("offlinePack:error.error", placeholders: [], plural: false)
+            public static let quota = LKey("offlinePack:error.quota", placeholders: [], plural: false)
+        }
+        public static let intro = LKey("offlinePack:intro", placeholders: [], plural: false)
+        public static let offlineNote = LKey("offlinePack:offlineNote", placeholders: [], plural: false)
+        public enum phrases {
+            public static let close = LKey("offlinePack:phrases.close", placeholders: [], plural: false)
+            public enum ids {
+                public static let call_police = LKey("offlinePack:phrases.ids.call_police", placeholders: [], plural: false)
+                public static let dont_understand = LKey("offlinePack:phrases.ids.dont_understand", placeholders: [], plural: false)
+                public static let help = LKey("offlinePack:phrases.ids.help", placeholders: [], plural: false)
+                public static let how_much = LKey("offlinePack:phrases.ids.how_much", placeholders: [], plural: false)
+                public static let need_doctor = LKey("offlinePack:phrases.ids.need_doctor", placeholders: [], plural: false)
+                public static let take_me_to = LKey("offlinePack:phrases.ids.take_me_to", placeholders: [], plural: false)
+                public static let thank_you = LKey("offlinePack:phrases.ids.thank_you", placeholders: [], plural: false)
+                public static let where_toilet = LKey("offlinePack:phrases.ids.where_toilet", placeholders: [], plural: false)
+            }
+            public static let show = LKey("offlinePack:phrases.show", placeholders: [], plural: false)
+            public static let title = LKey("offlinePack:phrases.title", placeholders: ["language"], plural: false)
+        }
+        public static let refresh = LKey("offlinePack:refresh", placeholders: [], plural: false)
+        public static let remove = LKey("offlinePack:remove", placeholders: [], plural: false)
+        public static let save = LKey("offlinePack:save", placeholders: [], plural: false)
+        public static let saved = LKey("offlinePack:saved", placeholders: ["when"], plural: false)
+        public static let saving = LKey("offlinePack:saving", placeholders: [], plural: false)
+        public static let size = LKey("offlinePack:size", placeholders: ["kb"], plural: false)
+        public static let tabOnly = LKey("offlinePack:tabOnly", placeholders: [], plural: false)
+        public static let title = LKey("offlinePack:title", placeholders: [], plural: false)
     }
     public enum onboarding {
         public enum nav {
@@ -1574,6 +2332,37 @@ public enum K {
             public static let saveFailed = LKey("onboarding:ui.saveFailed", placeholders: [], plural: false)
             public static let saving = LKey("onboarding:ui.saving", placeholders: [], plural: false)
             public static let yourType = LKey("onboarding:ui.yourType", placeholders: [], plural: false)
+        }
+        public enum web {
+            public static let allowNotifications = LKey("onboarding:web.allowNotifications", placeholders: [], plural: false)
+            public static let changeAnswers = LKey("onboarding:web.changeAnswers", placeholders: [], plural: false)
+            public static let chooseMany = LKey("onboarding:web.chooseMany", placeholders: [], plural: false)
+            public static let chooseOne = LKey("onboarding:web.chooseOne", placeholders: [], plural: false)
+            public static let `continue` = LKey("onboarding:web.continue", placeholders: [], plural: false)
+            public static let continueWithoutSync = LKey("onboarding:web.continueWithoutSync", placeholders: [], plural: false)
+            public static let explore = LKey("onboarding:web.explore", placeholders: [], plural: false)
+            public static let firstTrip = LKey("onboarding:web.firstTrip", placeholders: [], plural: false)
+            public static let getStarted = LKey("onboarding:web.getStarted", placeholders: [], plural: false)
+            public static let homeAirport = LKey("onboarding:web.homeAirport", placeholders: [], plural: false)
+            public static let homeAirportHint = LKey("onboarding:web.homeAirportHint", placeholders: [], plural: false)
+            public static let homeAirportPlaceholder = LKey("onboarding:web.homeAirportPlaceholder", placeholders: [], plural: false)
+            public static let notNow = LKey("onboarding:web.notNow", placeholders: [], plural: false)
+            public static let notificationsBlocked = LKey("onboarding:web.notificationsBlocked", placeholders: [], plural: false)
+            public static let notificationsBlockedBody = LKey("onboarding:web.notificationsBlockedBody", placeholders: [], plural: false)
+            public static let notificationsOn = LKey("onboarding:web.notificationsOn", placeholders: [], plural: false)
+            public static let passport = LKey("onboarding:web.passport", placeholders: [], plural: false)
+            public static let passportHint = LKey("onboarding:web.passportHint", placeholders: [], plural: false)
+            public static let passportPlaceholder = LKey("onboarding:web.passportPlaceholder", placeholders: [], plural: false)
+            public static let questionOf = LKey("onboarding:web.questionOf", placeholders: ["count", "n"], plural: false)
+            public static let resultAlso = LKey("onboarding:web.resultAlso", placeholders: [], plural: false)
+            public static let resultHeading = LKey("onboarding:web.resultHeading", placeholders: [], plural: false)
+            public static let resultSkipped = LKey("onboarding:web.resultSkipped", placeholders: [], plural: false)
+            public static let resume = LKey("onboarding:web.resume", placeholders: [], plural: false)
+            public static let retry = LKey("onboarding:web.retry", placeholders: [], plural: false)
+            public static let saving = LKey("onboarding:web.saving", placeholders: [], plural: false)
+            public static let skipAll = LKey("onboarding:web.skipAll", placeholders: [], plural: false)
+            public static let syncFailed = LKey("onboarding:web.syncFailed", placeholders: [], plural: false)
+            public static let syncFailedBody = LKey("onboarding:web.syncFailedBody", placeholders: [], plural: false)
         }
     }
     public enum plan {
@@ -1771,6 +2560,282 @@ public enum K {
             public static let minutes = LKey("plan:util.minutes", placeholders: ["n"], plural: false)
         }
     }
+    public enum play {
+        public enum board {
+            public static let empty = LKey("play:board.empty", placeholders: [], plural: false)
+            public static let failed = LKey("play:board.failed", placeholders: [], plural: false)
+            public static let handle = LKey("play:board.handle", placeholders: [], plural: false)
+            public static let join = LKey("play:board.join", placeholders: [], plural: false)
+            public static let mine = LKey("play:board.mine", placeholders: ["rank"], plural: true)
+            public static let optinNote = LKey("play:board.optinNote", placeholders: [], plural: false)
+            public static let points = LKey("play:board.points", placeholders: [], plural: true)
+            public static let scope = LKey("play:board.scope", placeholders: [], plural: false)
+            public static let scope_friends = LKey("play:board.scope_friends", placeholders: [], plural: false)
+            public static let scope_global = LKey("play:board.scope_global", placeholders: [], plural: false)
+            public static let title = LKey("play:board.title", placeholders: [], plural: false)
+            public static let unranked = LKey("play:board.unranked", placeholders: [], plural: false)
+            public static let week_current = LKey("play:board.week_current", placeholders: [], plural: false)
+            public static let week_previous = LKey("play:board.week_previous", placeholders: [], plural: false)
+            public static let you = LKey("play:board.you", placeholders: [], plural: false)
+        }
+        public enum challenge {
+            public static let destination = LKey("play:challenge.destination", placeholders: ["country"], plural: false)
+            public static let done = LKey("play:challenge.done", placeholders: [], plural: false)
+            public static let featured = LKey("play:challenge.featured", placeholders: [], plural: false)
+            public static let start = LKey("play:challenge.start", placeholders: [], plural: false)
+            public static let title = LKey("play:challenge.title", placeholders: [], plural: false)
+        }
+        public enum daily {
+            public static let done = LKey("play:daily.done", placeholders: [], plural: true)
+            public static let hint = LKey("play:daily.hint", placeholders: [], plural: false)
+            public static let start = LKey("play:daily.start", placeholders: [], plural: false)
+            public static let streak = LKey("play:daily.streak", placeholders: [], plural: true)
+            public static let title = LKey("play:daily.title", placeholders: [], plural: false)
+        }
+        public enum h2h {
+            public static let accept = LKey("play:h2h.accept", placeholders: [], plural: false)
+            public static let back = LKey("play:h2h.back", placeholders: [], plural: false)
+            public static let create = LKey("play:h2h.create", placeholders: [], plural: false)
+            public static let decline = LKey("play:h2h.decline", placeholders: [], plural: false)
+            public static let empty = LKey("play:h2h.empty", placeholders: [], plural: false)
+            public static let handle = LKey("play:h2h.handle", placeholders: [], plural: false)
+            public static let hint = LKey("play:h2h.hint", placeholders: [], plural: false)
+            public static let missing = LKey("play:h2h.missing", placeholders: [], plural: false)
+            public static let `open` = LKey("play:h2h.open", placeholders: [], plural: false)
+            public static let pack = LKey("play:h2h.pack", placeholders: [], plural: false)
+            public static let score = LKey("play:h2h.score", placeholders: ["them", "you"], plural: false)
+            public static let state_declined = LKey("play:h2h.state_declined", placeholders: [], plural: false)
+            public static let state_done = LKey("play:h2h.state_done", placeholders: [], plural: false)
+            public static let state_expired = LKey("play:h2h.state_expired", placeholders: [], plural: false)
+            public static let state_waiting_them = LKey("play:h2h.state_waiting_them", placeholders: [], plural: false)
+            public static let state_waiting_you = LKey("play:h2h.state_waiting_you", placeholders: [], plural: false)
+            public static let title = LKey("play:h2h.title", placeholders: [], plural: false)
+            public static let vs = LKey("play:h2h.vs", placeholders: ["handle"], plural: false)
+            public static let winner_draw = LKey("play:h2h.winner_draw", placeholders: [], plural: false)
+            public static let winner_them = LKey("play:h2h.winner_them", placeholders: [], plural: false)
+            public static let winner_you = LKey("play:h2h.winner_you", placeholders: [], plural: false)
+        }
+        public static let loading = LKey("play:loading", placeholders: [], plural: false)
+        public enum pack {
+            public static let capitals = LKey("play:pack.capitals", placeholders: [], plural: false)
+            public static let cuisine = LKey("play:pack.cuisine", placeholders: [], plural: false)
+            public static let flags = LKey("play:pack.flags", placeholders: [], plural: false)
+            public static let landmarks = LKey("play:pack.landmarks", placeholders: [], plural: false)
+        }
+        public enum packs {
+            public static let title = LKey("play:packs.title", placeholders: [], plural: false)
+        }
+        public enum quiz {
+            public static let correct = LKey("play:quiz.correct", placeholders: [], plural: false)
+            public static let correctPoints = LKey("play:quiz.correctPoints", placeholders: [], plural: true)
+            public static let finish = LKey("play:quiz.finish", placeholders: [], plural: false)
+            public static let flagAlt = LKey("play:quiz.flagAlt", placeholders: [], plural: false)
+            public static let next = LKey("play:quiz.next", placeholders: [], plural: false)
+            public static let progress = LKey("play:quiz.progress", placeholders: ["current", "total"], plural: false)
+            public enum prompt {
+                public static let capital_of = LKey("play:quiz.prompt.capital_of", placeholders: ["country"], plural: false)
+                public static let country_of_capital = LKey("play:quiz.prompt.country_of_capital", placeholders: ["capital"], plural: false)
+                public static let dish_country = LKey("play:quiz.prompt.dish_country", placeholders: ["dish"], plural: false)
+                public static let flag = LKey("play:quiz.prompt.flag", placeholders: [], plural: false)
+                public static let landmark_country = LKey("play:quiz.prompt.landmark_country", placeholders: ["landmark"], plural: false)
+            }
+            public static let timer = LKey("play:quiz.timer", placeholders: [], plural: true)
+            public static let wrong = LKey("play:quiz.wrong", placeholders: [], plural: false)
+            public static let wrongNote = LKey("play:quiz.wrongNote", placeholders: [], plural: false)
+        }
+        public enum result {
+            public static let back = LKey("play:result.back", placeholders: [], plural: false)
+            public static let correct = LKey("play:result.correct", placeholders: ["correct", "total"], plural: false)
+            public static let streak = LKey("play:result.streak", placeholders: [], plural: true)
+            public static let title = LKey("play:result.title", placeholders: [], plural: false)
+            public static let xp = LKey("play:result.xp", placeholders: [], plural: true)
+        }
+    }
+    public enum playYou {
+        public enum continents {
+            public static let AF = LKey("playYou:continents.AF", placeholders: [], plural: false)
+            public static let AN = LKey("playYou:continents.AN", placeholders: [], plural: false)
+            public static let AS = LKey("playYou:continents.AS", placeholders: [], plural: false)
+            public static let EU = LKey("playYou:continents.EU", placeholders: [], plural: false)
+            public static let NA = LKey("playYou:continents.NA", placeholders: [], plural: false)
+            public static let OC = LKey("playYou:continents.OC", placeholders: [], plural: false)
+            public static let SA = LKey("playYou:continents.SA", placeholders: [], plural: false)
+            public static let title = LKey("playYou:continents.title", placeholders: [], plural: true)
+        }
+        public enum countries {
+            public static let count = LKey("playYou:countries.count", placeholders: [], plural: true)
+            public static let countOfGoal = LKey("playYou:countries.countOfGoal", placeholders: ["goal"], plural: true)
+            public static let empty = LKey("playYou:countries.empty", placeholders: [], plural: false)
+            public static let mapHint = LKey("playYou:countries.mapHint", placeholders: [], plural: false)
+            public static let mapLabel = LKey("playYou:countries.mapLabel", placeholders: ["count"], plural: false)
+            public static let mapLoading = LKey("playYou:countries.mapLoading", placeholders: [], plural: false)
+            public static let title = LKey("playYou:countries.title", placeholders: [], plural: false)
+        }
+        public enum goal {
+            public static let error = LKey("playYou:goal.error", placeholders: [], plural: false)
+            public static let hint = LKey("playYou:goal.hint", placeholders: ["max", "min"], plural: false)
+            public static let invalid = LKey("playYou:goal.invalid", placeholders: ["max", "min"], plural: false)
+            public static let label = LKey("playYou:goal.label", placeholders: [], plural: false)
+            public static let save = LKey("playYou:goal.save", placeholders: [], plural: false)
+            public static let saved = LKey("playYou:goal.saved", placeholders: [], plural: false)
+            public static let title = LKey("playYou:goal.title", placeholders: [], plural: false)
+        }
+        public enum hidden {
+            public static let link = LKey("playYou:hidden.link", placeholders: [], plural: false)
+            public static let note = LKey("playYou:hidden.note", placeholders: [], plural: false)
+        }
+        public enum page {
+            public static let title = LKey("playYou:page.title", placeholders: [], plural: false)
+        }
+        public enum streak {
+            public static let current = LKey("playYou:streak.current", placeholders: [], plural: true)
+            public static let longest = LKey("playYou:streak.longest", placeholders: [], plural: true)
+            public static let title = LKey("playYou:streak.title", placeholders: [], plural: false)
+        }
+        public enum you {
+            public static let alerts = LKey("playYou:you.alerts", placeholders: [], plural: false)
+            public static let more = LKey("playYou:you.more", placeholders: [], plural: false)
+            public static let preferences = LKey("playYou:you.preferences", placeholders: [], plural: false)
+            public static let tour = LKey("playYou:you.tour", placeholders: [], plural: false)
+        }
+    }
+    public enum prep {
+        public static let auto = LKey("prep:auto", placeholders: [], plural: false)
+        public static let autoNote = LKey("prep:autoNote", placeholders: [], plural: false)
+        public static let due = LKey("prep:due", placeholders: ["date"], plural: false)
+        public static let error = LKey("prep:error", placeholders: [], plural: false)
+        public enum facts {
+            public static let bookings = LKey("prep:facts.bookings", placeholders: ["flight", "hotel"], plural: false)
+            public static let money = LKey("prep:facts.money", placeholders: ["code"], plural: false)
+            public static let no = LKey("prep:facts.no", placeholders: [], plural: false)
+            public static let notSaved = LKey("prep:facts.notSaved", placeholders: [], plural: false)
+            public static let official = LKey("prep:facts.official", placeholders: [], plural: false)
+            public static let packing = LKey("prep:facts.packing", placeholders: ["n"], plural: false)
+            public static let processing = LKey("prep:facts.processing", placeholders: ["text"], plural: false)
+            public static let saved = LKey("prep:facts.saved", placeholders: ["date"], plural: false)
+            public static let score = LKey("prep:facts.score", placeholders: ["n"], plural: false)
+            public static let sim = LKey("prep:facts.sim", placeholders: ["name"], plural: false)
+            public static let stay = LKey("prep:facts.stay", placeholders: ["n"], plural: false)
+            public static let visa = LKey("prep:facts.visa", placeholders: ["date", "visaType"], plural: false)
+            public static let yes = LKey("prep:facts.yes", placeholders: [], plural: false)
+        }
+        public static let go = LKey("prep:go", placeholders: [], plural: false)
+        public enum items {
+            public enum bookings {
+                public static let body = LKey("prep:items.bookings.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.bookings.title", placeholders: [], plural: false)
+            }
+            public enum checkin {
+                public static let body = LKey("prep:items.checkin.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.checkin.title", placeholders: [], plural: false)
+            }
+            public enum documents {
+                public static let body = LKey("prep:items.documents.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.documents.title", placeholders: [], plural: false)
+            }
+            public enum emergency_card {
+                public static let body = LKey("prep:items.emergency_card.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.emergency_card.title", placeholders: [], plural: false)
+            }
+            public enum insurance {
+                public static let body = LKey("prep:items.insurance.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.insurance.title", placeholders: [], plural: false)
+            }
+            public enum money {
+                public static let body = LKey("prep:items.money.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.money.title", placeholders: [], plural: false)
+            }
+            public enum offline_pack {
+                public static let body = LKey("prep:items.offline_pack.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.offline_pack.title", placeholders: [], plural: false)
+            }
+            public enum packing {
+                public static let body = LKey("prep:items.packing.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.packing.title", placeholders: [], plural: false)
+            }
+            public enum passport {
+                public static let body = LKey("prep:items.passport.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.passport.title", placeholders: [], plural: false)
+            }
+            public enum sim {
+                public static let body = LKey("prep:items.sim.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.sim.title", placeholders: [], plural: false)
+            }
+            public enum stress_test {
+                public static let body = LKey("prep:items.stress_test.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.stress_test.title", placeholders: [], plural: false)
+            }
+            public enum visa {
+                public static let body = LKey("prep:items.visa.body", placeholders: [], plural: false)
+                public static let title = LKey("prep:items.visa.title", placeholders: [], plural: false)
+            }
+        }
+        public static let loading = LKey("prep:loading", placeholders: [], plural: false)
+        public static let notNeeded = LKey("prep:notNeeded", placeholders: [], plural: false)
+        public static let overdue = LKey("prep:overdue", placeholders: [], plural: false)
+        public static let progress = LKey("prep:progress", placeholders: ["done", "total"], plural: false)
+        public static let ready = LKey("prep:ready", placeholders: ["percent"], plural: false)
+        public static let retry = LKey("prep:retry", placeholders: [], plural: false)
+        public static let title = LKey("prep:title", placeholders: [], plural: false)
+        public static let toggleFailed = LKey("prep:toggleFailed", placeholders: [], plural: false)
+    }
+    public enum priceStory {
+        public enum advice {
+            public static let above_typical = LKey("priceStory:advice.above_typical", placeholders: [], plural: false)
+            public static let at_lowest = LKey("priceStory:advice.at_lowest", placeholders: [], plural: false)
+            public static let below_target = LKey("priceStory:advice.below_target", placeholders: ["by"], plural: false)
+            public static let below_typical = LKey("priceStory:advice.below_typical", placeholders: [], plural: false)
+            public static let checks_paused = LKey("priceStory:advice.checks_paused", placeholders: [], plural: true)
+            public static let few_checks = LKey("priceStory:advice.few_checks", placeholders: [], plural: true)
+            public static let generic = LKey("priceStory:advice.generic", placeholders: [], plural: false)
+            public static let near_target = LKey("priceStory:advice.near_target", placeholders: ["gap"], plural: false)
+            public static let pending = LKey("priceStory:advice.pending", placeholders: [], plural: false)
+            public static let steady = LKey("priceStory:advice.steady", placeholders: [], plural: true)
+            public static let within_typical = LKey("priceStory:advice.within_typical", placeholders: [], plural: false)
+        }
+        public enum chart {
+            public static let baseline = LKey("priceStory:chart.baseline", placeholders: ["price"], plural: false)
+            public static let few = LKey("priceStory:chart.few", placeholders: [], plural: true)
+            public static let help = LKey("priceStory:chart.help", placeholders: [], plural: false)
+            public static let label = LKey("priceStory:chart.label", placeholders: ["from", "n", "to"], plural: false)
+            public static let lowest = LKey("priceStory:chart.lowest", placeholders: ["price"], plural: false)
+            public static let none = LKey("priceStory:chart.none", placeholders: [], plural: false)
+            public static let point = LKey("priceStory:chart.point", placeholders: ["date", "price"], plural: false)
+            public static let target = LKey("priceStory:chart.target", placeholders: ["price"], plural: false)
+            public static let typical = LKey("priceStory:chart.typical", placeholders: [], plural: false)
+        }
+        public static let checkedAgo = LKey("priceStory:checkedAgo", placeholders: [], plural: true)
+        public static let checkedToday = LKey("priceStory:checkedToday", placeholders: [], plural: false)
+        public enum error {
+            public static let load = LKey("priceStory:error.load", placeholders: [], plural: false)
+        }
+        public static let estimate = LKey("priceStory:estimate", placeholders: ["price"], plural: false)
+        public static let latest = LKey("priceStory:latest", placeholders: [], plural: false)
+        public static let loading = LKey("priceStory:loading", placeholders: [], plural: false)
+        public enum slider {
+            public static let error = LKey("priceStory:slider.error", placeholders: [], plural: false)
+            public static let label = LKey("priceStory:slider.label", placeholders: [], plural: false)
+            public static let none = LKey("priceStory:slider.none", placeholders: ["total"], plural: false)
+            public static let preview = LKey("priceStory:slider.preview", placeholders: ["total"], plural: true)
+            public static let saved = LKey("priceStory:slider.saved", placeholders: [], plural: false)
+        }
+        public enum tip {
+            public static let ai = LKey("priceStory:tip.ai", placeholders: [], plural: false)
+            public static let button = LKey("priceStory:tip.button", placeholders: [], plural: false)
+            public static let error = LKey("priceStory:tip.error", placeholders: [], plural: false)
+            public static let limit = LKey("priceStory:tip.limit", placeholders: [], plural: false)
+            public static let loading = LKey("priceStory:tip.loading", placeholders: [], plural: false)
+            public static let title = LKey("priceStory:tip.title", placeholders: [], plural: false)
+        }
+        public static let title = LKey("priceStory:title", placeholders: [], plural: false)
+        public enum verdict {
+            public static let good = LKey("priceStory:verdict.good", placeholders: [], plural: false)
+            public static let great = LKey("priceStory:verdict.great", placeholders: [], plural: false)
+            public static let high = LKey("priceStory:verdict.high", placeholders: [], plural: false)
+            public static let typical = LKey("priceStory:verdict.typical", placeholders: [], plural: false)
+        }
+        public static let verdictLabel = LKey("priceStory:verdictLabel", placeholders: ["level"], plural: false)
+    }
     public enum privacy {
         public static let choices = LKey("privacy:choices", placeholders: [], plural: false)
         public static let policy = LKey("privacy:policy", placeholders: [], plural: false)
@@ -1800,6 +2865,7 @@ public enum K {
         }
         public enum email {
             public static let label = LKey("profile:email.label", placeholders: [], plural: false)
+            public static let none = LKey("profile:email.none", placeholders: [], plural: false)
             public static let unverified = LKey("profile:email.unverified", placeholders: [], plural: false)
             public static let verified = LKey("profile:email.verified", placeholders: [], plural: false)
         }
@@ -1823,6 +2889,108 @@ public enum K {
         public static let title = LKey("profile:title", placeholders: [], plural: false)
         public enum username {
             public static let label = LKey("profile:username.label", placeholders: [], plural: false)
+        }
+    }
+    public enum quickWatch {
+        public enum aria {
+            public static let already = LKey("quickWatch:aria.already", placeholders: ["title"], plural: false)
+            public static let watch = LKey("quickWatch:aria.watch", placeholders: ["title"], plural: false)
+        }
+        public enum error {
+            public static let generic = LKey("quickWatch:error.generic", placeholders: [], plural: false)
+            public static let live_prices_off = LKey("quickWatch:error.live_prices_off", placeholders: [], plural: false)
+            public static let spec_invalid = LKey("quickWatch:error.spec_invalid", placeholders: [], plural: false)
+            public static let watch_limit = LKey("quickWatch:error.watch_limit", placeholders: [], plural: false)
+        }
+        public enum label {
+            public static let already = LKey("quickWatch:label.already", placeholders: [], plural: false)
+            public static let watch = LKey("quickWatch:label.watch", placeholders: [], plural: false)
+            public static let watching = LKey("quickWatch:label.watching", placeholders: [], plural: false)
+        }
+        public enum prices {
+            public static let empty = LKey("quickWatch:prices.empty", placeholders: [], plural: false)
+            public static let hub = LKey("quickWatch:prices.hub", placeholders: [], plural: false)
+            public static let loadFailed = LKey("quickWatch:prices.loadFailed", placeholders: [], plural: false)
+            public static let pending = LKey("quickWatch:prices.pending", placeholders: [], plural: false)
+            public static let title = LKey("quickWatch:prices.title", placeholders: [], plural: false)
+            public static let watchTrip = LKey("quickWatch:prices.watchTrip", placeholders: [], plural: false)
+        }
+        public enum toast {
+            public static let dismiss = LKey("quickWatch:toast.dismiss", placeholders: [], plural: false)
+            public static let message = LKey("quickWatch:toast.message", placeholders: [], plural: false)
+            public static let undo = LKey("quickWatch:toast.undo", placeholders: [], plural: false)
+            public static let undoFailed = LKey("quickWatch:toast.undoFailed", placeholders: [], plural: false)
+        }
+    }
+    public enum quota {
+        public enum banner {
+            public static let dismiss = LKey("quota:banner.dismiss", placeholders: [], plural: false)
+            public static let send = LKey("quota:banner.send", placeholders: [], plural: false)
+            public static let sent = LKey("quota:banner.sent", placeholders: [], plural: false)
+            public static let text = LKey("quota:banner.text", placeholders: [], plural: false)
+        }
+        public enum buckets {
+            public static let chat = LKey("quota:buckets.chat", placeholders: [], plural: false)
+            public static let compare = LKey("quota:buckets.compare", placeholders: [], plural: false)
+            public static let discover = LKey("quota:buckets.discover", placeholders: [], plural: false)
+            public static let `import` = LKey("quota:buckets.import", placeholders: [], plural: false)
+            public static let light_ai = LKey("quota:buckets.light_ai", placeholders: [], plural: false)
+            public static let search = LKey("quota:buckets.search", placeholders: [], plural: false)
+        }
+        public static let intro = LKey("quota:intro", placeholders: [], plural: false)
+        public static let resetsAt = LKey("quota:resetsAt", placeholders: ["time"], plural: false)
+        public static let title = LKey("quota:title", placeholders: [], plural: false)
+        public static let unlimited = LKey("quota:unlimited", placeholders: [], plural: false)
+        public static let usedOf = LKey("quota:usedOf", placeholders: ["limit", "used"], plural: false)
+    }
+    public enum recap {
+        public static let completed = LKey("recap:completed", placeholders: [], plural: false)
+        public static let failed = LKey("recap:failed", placeholders: [], plural: false)
+        public static let finish = LKey("recap:finish", placeholders: [], plural: false)
+        public static let finishFailed = LKey("recap:finishFailed", placeholders: [], plural: false)
+        public static let loading = LKey("recap:loading", placeholders: [], plural: false)
+        public enum map {
+            public static let planned = LKey("recap:map.planned", placeholders: [], plural: false)
+            public static let route = LKey("recap:map.route", placeholders: [], plural: false)
+        }
+        public static let notReady = LKey("recap:notReady", placeholders: ["date"], plural: false)
+        public static let retry = LKey("recap:retry", placeholders: [], plural: false)
+        public enum reveal {
+            public static let close = LKey("recap:reveal.close", placeholders: [], plural: false)
+            public static let title = LKey("recap:reveal.title", placeholders: [], plural: true)
+        }
+        public enum share {
+            public static let copied = LKey("recap:share.copied", placeholders: [], plural: false)
+            public static let cta = LKey("recap:share.cta", placeholders: [], plural: false)
+            public static let days = LKey("recap:share.days", placeholders: ["city"], plural: true)
+            public static let failed = LKey("recap:share.failed", placeholders: [], plural: false)
+            public static let places = LKey("recap:share.places", placeholders: [], plural: true)
+        }
+        public enum spend {
+            public static let budget = LKey("recap:spend.budget", placeholders: [], plural: false)
+            public static let estimateNote = LKey("recap:spend.estimateNote", placeholders: [], plural: false)
+            public static let planned = LKey("recap:spend.planned", placeholders: [], plural: false)
+            public static let spent = LKey("recap:spend.spent", placeholders: [], plural: false)
+            public static let title = LKey("recap:spend.title", placeholders: [], plural: false)
+            public static let unconverted = LKey("recap:spend.unconverted", placeholders: ["currencies"], plural: false)
+        }
+        public enum stats {
+            public static let countries = LKey("recap:stats.countries", placeholders: [], plural: false)
+            public static let days = LKey("recap:stats.days", placeholders: [], plural: false)
+            public static let distance = LKey("recap:stats.distance", placeholders: [], plural: false)
+            public static let journal = LKey("recap:stats.journal", placeholders: [], plural: false)
+            public static let km = LKey("recap:stats.km", placeholders: ["km"], plural: false)
+            public static let places = LKey("recap:stats.places", placeholders: [], plural: false)
+            public static let stars = LKey("recap:stats.stars", placeholders: [], plural: false)
+        }
+        public enum whereNext {
+            public static let cta = LKey("recap:whereNext.cta", placeholders: [], plural: false)
+            public static let failed = LKey("recap:whereNext.failed", placeholders: [], plural: false)
+            public static let loading = LKey("recap:whereNext.loading", placeholders: [], plural: false)
+            public static let needOrigin = LKey("recap:whereNext.needOrigin", placeholders: [], plural: false)
+            public static let none = LKey("recap:whereNext.none", placeholders: [], plural: false)
+            public static let retry = LKey("recap:whereNext.retry", placeholders: [], plural: false)
+            public static let title = LKey("recap:whereNext.title", placeholders: [], plural: false)
         }
     }
     public enum recovery {
@@ -2237,6 +3405,40 @@ public enum K {
             public static let poorDays = LKey("results:weather.poorDays", placeholders: [], plural: true)
             public static let precip = LKey("results:weather.precip", placeholders: ["mm"], plural: false)
         }
+    }
+    public enum savings {
+        public static let allDone = LKey("savings:allDone", placeholders: [], plural: false)
+        public static let amountLine = LKey("savings:amountLine", placeholders: ["amount"], plural: false)
+        public static let best = LKey("savings:best", placeholders: ["amount", "title"], plural: false)
+        public static let bestNoTitle = LKey("savings:bestNoTitle", placeholders: ["amount"], plural: false)
+        public enum card {
+            public static let footer = LKey("savings:card.footer", placeholders: [], plural: false)
+            public static let headline = LKey("savings:card.headline", placeholders: ["amount"], plural: false)
+            public static let headlineOther = LKey("savings:card.headlineOther", placeholders: [], plural: false)
+        }
+        public static let caveat = LKey("savings:caveat", placeholders: [], plural: false)
+        public static let close = LKey("savings:close", placeholders: [], plural: false)
+        public static let download = LKey("savings:download", placeholders: [], plural: false)
+        public static let drops = LKey("savings:drops", placeholders: [], plural: true)
+        public static let empty = LKey("savings:empty", placeholders: [], plural: false)
+        public static let emptyHint = LKey("savings:emptyHint", placeholders: [], plural: false)
+        public static let milestoneAhead = LKey("savings:milestoneAhead", placeholders: ["amount"], plural: false)
+        public static let milestoneReached = LKey("savings:milestoneReached", placeholders: ["amount"], plural: false)
+        public static let milestones = LKey("savings:milestones", placeholders: [], plural: false)
+        public static let otherCurrencies = LKey("savings:otherCurrencies", placeholders: [], plural: false)
+        public static let preview = LKey("savings:preview", placeholders: [], plural: false)
+        public static let progress = LKey("savings:progress", placeholders: ["amount", "pct"], plural: false)
+        public static let share = LKey("savings:share", placeholders: [], plural: false)
+        public static let shareTitle = LKey("savings:shareTitle", placeholders: [], plural: false)
+        public enum status {
+            public static let copy = LKey("savings:status.copy", placeholders: [], plural: false)
+            public static let download = LKey("savings:status.download", placeholders: [], plural: false)
+            public static let error = LKey("savings:status.error", placeholders: [], plural: false)
+            public static let native = LKey("savings:status.native", placeholders: [], plural: false)
+        }
+        public static let targets = LKey("savings:targets", placeholders: [], plural: true)
+        public static let title = LKey("savings:title", placeholders: [], plural: false)
+        public static let working = LKey("savings:working", placeholders: [], plural: false)
     }
     public enum search {
         public enum airport {
@@ -2831,6 +4033,168 @@ public enum K {
             public static let unavailable = LKey("sections:stress.unavailable", placeholders: [], plural: false)
         }
     }
+    public enum security {
+        public enum email {
+            public static let sent = LKey("security:email.sent", placeholders: ["email"], plural: false)
+            public static let title = LKey("security:email.title", placeholders: [], plural: false)
+            public static let unverified = LKey("security:email.unverified", placeholders: ["email"], plural: false)
+            public static let verify = LKey("security:email.verify", placeholders: [], plural: false)
+        }
+        public enum password {
+            public static let change = LKey("security:password.change", placeholders: [], plural: false)
+            public static let changeTitle = LKey("security:password.changeTitle", placeholders: [], plural: false)
+            public static let changed = LKey("security:password.changed", placeholders: [], plural: false)
+            public static let current = LKey("security:password.current", placeholders: [], plural: false)
+            public static let new = LKey("security:password.new", placeholders: [], plural: false)
+            public static let set = LKey("security:password.set", placeholders: [], plural: false)
+            public static let setButton = LKey("security:password.setButton", placeholders: [], plural: false)
+            public static let setTitle = LKey("security:password.setTitle", placeholders: [], plural: false)
+        }
+        public enum providers {
+            public static let comingSoon = LKey("security:providers.comingSoon", placeholders: ["provider"], plural: false)
+            public static let connect = LKey("security:providers.connect", placeholders: [], plural: false)
+            public static let connected = LKey("security:providers.connected", placeholders: [], plural: false)
+            public static let connectedAs = LKey("security:providers.connectedAs", placeholders: ["email"], plural: false)
+            public static let disconnect = LKey("security:providers.disconnect", placeholders: [], plural: false)
+            public static let notConnected = LKey("security:providers.notConnected", placeholders: [], plural: false)
+            public static let setPasswordFirst = LKey("security:providers.setPasswordFirst", placeholders: [], plural: false)
+            public static let soon = LKey("security:providers.soon", placeholders: [], plural: false)
+            public static let title = LKey("security:providers.title", placeholders: [], plural: false)
+        }
+        public enum sessions {
+            public static let body = LKey("security:sessions.body", placeholders: [], plural: false)
+            public static let cancel = LKey("security:sessions.cancel", placeholders: [], plural: false)
+            public static let client_android = LKey("security:sessions.client_android", placeholders: [], plural: false)
+            public static let client_ios = LKey("security:sessions.client_ios", placeholders: [], plural: false)
+            public static let client_web = LKey("security:sessions.client_web", placeholders: [], plural: false)
+            public static let confirm = LKey("security:sessions.confirm", placeholders: [], plural: false)
+            public static let confirmYes = LKey("security:sessions.confirmYes", placeholders: [], plural: false)
+            public static let devicesTitle = LKey("security:sessions.devicesTitle", placeholders: [], plural: false)
+            public static let lastUsed = LKey("security:sessions.lastUsed", placeholders: ["when"], plural: false)
+            public static let revokeFailed = LKey("security:sessions.revokeFailed", placeholders: [], plural: false)
+            public static let signOutAll = LKey("security:sessions.signOutAll", placeholders: [], plural: false)
+            public static let signOutDevice = LKey("security:sessions.signOutDevice", placeholders: [], plural: false)
+            public static let signOutDeviceLabel = LKey("security:sessions.signOutDeviceLabel", placeholders: ["device"], plural: false)
+            public static let thisDevice = LKey("security:sessions.thisDevice", placeholders: [], plural: false)
+            public static let title = LKey("security:sessions.title", placeholders: [], plural: false)
+            public static let unnamed = LKey("security:sessions.unnamed", placeholders: [], plural: false)
+        }
+        public static let title = LKey("security:title", placeholders: [], plural: false)
+    }
+    public enum share {
+        public enum actions {
+            public static let copy = LKey("share:actions.copy", placeholders: [], plural: false)
+            public static let download = LKey("share:actions.download", placeholders: [], plural: false)
+            public static let downloadStory = LKey("share:actions.downloadStory", placeholders: [], plural: false)
+            public static let facebook = LKey("share:actions.facebook", placeholders: [], plural: false)
+            public static let linkedin = LKey("share:actions.linkedin", placeholders: [], plural: false)
+            public static let native = LKey("share:actions.native", placeholders: [], plural: false)
+            public static let whatsapp = LKey("share:actions.whatsapp", placeholders: [], plural: false)
+            public static let x = LKey("share:actions.x", placeholders: [], plural: false)
+        }
+        public static let actionsLabel = LKey("share:actionsLabel", placeholders: [], plural: false)
+        public static let close = LKey("share:close", placeholders: [], plural: false)
+        public static let create = LKey("share:create", placeholders: [], plural: false)
+        public static let dates = LKey("share:dates", placeholders: [], plural: false)
+        public static let datesExact = LKey("share:datesExact", placeholders: [], plural: false)
+        public static let datesHidden = LKey("share:datesHidden", placeholders: [], plural: false)
+        public static let datesMonth = LKey("share:datesMonth", placeholders: [], plural: false)
+        public static let datesNote = LKey("share:datesNote", placeholders: [], plural: false)
+        public enum entry {
+            public static let link = LKey("share:entry.link", placeholders: [], plural: false)
+        }
+        public enum errors {
+            public static let create = LKey("share:errors.create", placeholders: [], plural: false)
+            public static let download = LKey("share:errors.download", placeholders: [], plural: false)
+            public static let noActiveTrip = LKey("share:errors.noActiveTrip", placeholders: [], plural: false)
+            public static let revoke = LKey("share:errors.revoke", placeholders: [], plural: false)
+            public static let share = LKey("share:errors.share", placeholders: [], plural: false)
+            public static let unavailable = LKey("share:errors.unavailable", placeholders: [], plural: false)
+        }
+        public static let intro = LKey("share:intro", placeholders: [], plural: false)
+        public enum mine {
+            public static let confirm = LKey("share:mine.confirm", placeholders: [], plural: false)
+            public static let copied = LKey("share:mine.copied", placeholders: [], plural: false)
+            public static let copy = LKey("share:mine.copy", placeholders: [], plural: false)
+            public static let copyFailed = LKey("share:mine.copyFailed", placeholders: [], plural: false)
+            public static let created = LKey("share:mine.created", placeholders: ["date"], plural: false)
+            public static let empty = LKey("share:mine.empty", placeholders: [], plural: false)
+            public static let error = LKey("share:mine.error", placeholders: [], plural: false)
+            public static let intro = LKey("share:mine.intro", placeholders: [], plural: false)
+            public enum kind {
+                public static let plan = LKey("share:mine.kind.plan", placeholders: [], plural: false)
+                public static let recap = LKey("share:mine.kind.recap", placeholders: [], plural: false)
+                public static let savings = LKey("share:mine.kind.savings", placeholders: [], plural: false)
+            }
+            public static let legacyIntro = LKey("share:mine.legacyIntro", placeholders: [], plural: false)
+            public static let legacyTitle = LKey("share:mine.legacyTitle", placeholders: [], plural: false)
+            public static let loading = LKey("share:mine.loading", placeholders: [], plural: false)
+            public static let no = LKey("share:mine.no", placeholders: [], plural: false)
+            public static let `open` = LKey("share:mine.open", placeholders: [], plural: false)
+            public static let revoke = LKey("share:mine.revoke", placeholders: [], plural: false)
+            public static let revoked = LKey("share:mine.revoked", placeholders: [], plural: false)
+            public static let title = LKey("share:mine.title", placeholders: [], plural: false)
+            public static let untitled = LKey("share:mine.untitled", placeholders: [], plural: false)
+            public static let yes = LKey("share:mine.yes", placeholders: [], plural: false)
+        }
+        public static let optionsLegend = LKey("share:optionsLegend", placeholders: [], plural: false)
+        public enum page {
+            public static let byline = LKey("share:page.byline", placeholders: ["name"], plural: false)
+            public static let cta = LKey("share:page.cta", placeholders: [], plural: false)
+            public static let quizTag = LKey("share:page.quizTag", placeholders: [], plural: false)
+            public static let recapTag = LKey("share:page.recapTag", placeholders: [], plural: false)
+            public static let savingsTag = LKey("share:page.savingsTag", placeholders: [], plural: false)
+            public enum stat {
+                public static let activities = LKey("share:page.stat.activities", placeholders: [], plural: false)
+                public static let correct = LKey("share:page.stat.correct", placeholders: [], plural: false)
+                public static let countries = LKey("share:page.stat.countries", placeholders: [], plural: false)
+                public static let drops_caught = LKey("share:page.stat.drops_caught", placeholders: [], plural: false)
+                public static let hotels = LKey("share:page.stat.hotels", placeholders: [], plural: false)
+                public static let places = LKey("share:page.stat.places", placeholders: [], plural: false)
+                public static let places_visited = LKey("share:page.stat.places_visited", placeholders: [], plural: false)
+                public static let targets_hit = LKey("share:page.stat.targets_hit", placeholders: [], plural: false)
+            }
+            public static let statusTag = LKey("share:page.statusTag", placeholders: [], plural: false)
+            public static let unavailable = LKey("share:page.unavailable", placeholders: [], plural: false)
+        }
+        public static let preview = LKey("share:preview", placeholders: [], plural: false)
+        public static let quizCta = LKey("share:quizCta", placeholders: [], plural: false)
+        public static let reveals = LKey("share:reveals", placeholders: [], plural: false)
+        public static let revoke = LKey("share:revoke", placeholders: [], plural: false)
+        public static let revokeConfirm = LKey("share:revokeConfirm", placeholders: [], plural: false)
+        public static let revokeNo = LKey("share:revokeNo", placeholders: [], plural: false)
+        public static let revokeYes = LKey("share:revokeYes", placeholders: [], plural: false)
+        public static let showName = LKey("share:showName", placeholders: [], plural: false)
+        public static let showOrigin = LKey("share:showOrigin", placeholders: [], plural: false)
+        public enum status {
+            public static let copy = LKey("share:status.copy", placeholders: [], plural: false)
+            public static let copyFailed = LKey("share:status.copyFailed", placeholders: [], plural: false)
+            public static let created = LKey("share:status.created", placeholders: [], plural: false)
+            public static let download = LKey("share:status.download", placeholders: [], plural: false)
+            public static let native = LKey("share:status.native", placeholders: [], plural: false)
+            public static let opened = LKey("share:status.opened", placeholders: [], plural: false)
+            public static let revoked = LKey("share:status.revoked", placeholders: [], plural: false)
+            public static let updated = LKey("share:status.updated", placeholders: [], plural: false)
+        }
+        public enum text {
+            public static let plan = LKey("share:text.plan", placeholders: [], plural: false)
+            public static let quiz = LKey("share:text.quiz", placeholders: [], plural: false)
+            public static let recap = LKey("share:text.recap", placeholders: [], plural: false)
+            public static let savings = LKey("share:text.savings", placeholders: [], plural: false)
+            public static let status = LKey("share:text.status", placeholders: [], plural: false)
+        }
+        public static let title = LKey("share:title", placeholders: [], plural: false)
+        public enum titleKind {
+            public static let plan = LKey("share:titleKind.plan", placeholders: [], plural: false)
+            public static let quiz = LKey("share:titleKind.quiz", placeholders: [], plural: false)
+            public static let recap = LKey("share:titleKind.recap", placeholders: [], plural: false)
+            public static let savings = LKey("share:titleKind.savings", placeholders: [], plural: false)
+            public static let status = LKey("share:titleKind.status", placeholders: [], plural: false)
+        }
+        public static let update = LKey("share:update", placeholders: [], plural: false)
+        public static let urlLabel = LKey("share:urlLabel", placeholders: [], plural: false)
+        public static let working = LKey("share:working", placeholders: [], plural: false)
+    }
     public enum signup {
         public enum displayName {
             public static let label = LKey("signup:displayName.label", placeholders: [], plural: false)
@@ -2893,6 +4257,349 @@ public enum K {
             public static let placeholder = LKey("signup:username.placeholder", placeholders: [], plural: false)
         }
     }
+    public enum social {
+        public enum actions {
+            public static let cancel = LKey("social:actions.cancel", placeholders: [], plural: false)
+            public static let close = LKey("social:actions.close", placeholders: [], plural: false)
+        }
+        public enum block {
+            public static let block = LKey("social:block.block", placeholders: [], plural: false)
+            public static let confirm = LKey("social:block.confirm", placeholders: ["handle"], plural: false)
+            public static let unblock = LKey("social:block.unblock", placeholders: [], plural: false)
+            public static let yes = LKey("social:block.yes", placeholders: [], plural: false)
+        }
+        public enum comments {
+            public static let counter = LKey("social:comments.counter", placeholders: ["max", "n"], plural: false)
+            public static let delete = LKey("social:comments.delete", placeholders: [], plural: false)
+            public static let empty = LKey("social:comments.empty", placeholders: [], plural: false)
+            public static let held = LKey("social:comments.held", placeholders: [], plural: false)
+            public static let helpful = LKey("social:comments.helpful", placeholders: [], plural: false)
+            public static let label = LKey("social:comments.label", placeholders: [], plural: false)
+            public static let markHelpful = LKey("social:comments.markHelpful", placeholders: [], plural: false)
+            public static let more = LKey("social:comments.more", placeholders: [], plural: false)
+            public static let post = LKey("social:comments.post", placeholders: [], plural: false)
+            public static let title = LKey("social:comments.title", placeholders: [], plural: false)
+            public static let unmarkHelpful = LKey("social:comments.unmarkHelpful", placeholders: [], plural: false)
+        }
+        public enum editor {
+            public static let accept = LKey("social:editor.accept", placeholders: [], plural: false)
+            public static let bio = LKey("social:editor.bio", placeholders: [], plural: false)
+            public static let blocked = LKey("social:editor.blocked", placeholders: [], plural: false)
+            public static let counter = LKey("social:editor.counter", placeholders: ["max", "n"], plural: false)
+            public static let createTitle = LKey("social:editor.createTitle", placeholders: [], plural: false)
+            public static let decline = LKey("social:editor.decline", placeholders: [], plural: false)
+            public enum flag {
+                public static let leaderboard_opt_in = LKey("social:editor.flag.leaderboard_opt_in", placeholders: [], plural: false)
+                public static let show_avatar = LKey("social:editor.flag.show_avatar", placeholders: [], plural: false)
+                public static let show_badges = LKey("social:editor.flag.show_badges", placeholders: [], plural: false)
+                public static let show_countries = LKey("social:editor.flag.show_countries", placeholders: [], plural: false)
+                public static let show_home_country = LKey("social:editor.flag.show_home_country", placeholders: [], plural: false)
+                public static let show_level = LKey("social:editor.flag.show_level", placeholders: [], plural: false)
+            }
+            public static let handle = LKey("social:editor.handle", placeholders: [], plural: false)
+            public static let handleChecking = LKey("social:editor.handleChecking", placeholders: [], plural: false)
+            public static let handleHelp = LKey("social:editor.handleHelp", placeholders: [], plural: false)
+            public static let handleOk = LKey("social:editor.handleOk", placeholders: [], plural: false)
+            public enum handleReason {
+                public static let invalid = LKey("social:editor.handleReason.invalid", placeholders: [], plural: false)
+                public static let reserved = LKey("social:editor.handleReason.reserved", placeholders: [], plural: false)
+                public static let taken = LKey("social:editor.handleReason.taken", placeholders: [], plural: false)
+            }
+            public static let homeCountry = LKey("social:editor.homeCountry", placeholders: [], plural: false)
+            public static let intro = LKey("social:editor.intro", placeholders: [], plural: false)
+            public static let none = LKey("social:editor.none", placeholders: [], plural: false)
+            public static let requests = LKey("social:editor.requests", placeholders: [], plural: false)
+            public static let save = LKey("social:editor.save", placeholders: [], plural: false)
+            public static let saved = LKey("social:editor.saved", placeholders: [], plural: false)
+            public static let saving = LKey("social:editor.saving", placeholders: [], plural: false)
+            public static let showLegend = LKey("social:editor.showLegend", placeholders: [], plural: false)
+            public static let showNote = LKey("social:editor.showNote", placeholders: [], plural: false)
+            public static let title = LKey("social:editor.title", placeholders: [], plural: false)
+            public static let visibility = LKey("social:editor.visibility", placeholders: [], plural: false)
+            public enum visibilityNote {
+                public static let followers = LKey("social:editor.visibilityNote.followers", placeholders: [], plural: false)
+                public static let `private` = LKey("social:editor.visibilityNote.private", placeholders: [], plural: false)
+                public static let `public` = LKey("social:editor.visibilityNote.public", placeholders: [], plural: false)
+            }
+            public enum visibilityOption {
+                public static let followers = LKey("social:editor.visibilityOption.followers", placeholders: [], plural: false)
+                public static let `private` = LKey("social:editor.visibilityOption.private", placeholders: [], plural: false)
+                public static let `public` = LKey("social:editor.visibilityOption.public", placeholders: [], plural: false)
+            }
+        }
+        public enum errors {
+            public static let cannot_block_self = LKey("social:errors.cannot_block_self", placeholders: [], plural: false)
+            public static let cannot_follow_self = LKey("social:errors.cannot_follow_self", placeholders: [], plural: false)
+            public static let comment_not_found = LKey("social:errors.comment_not_found", placeholders: [], plural: false)
+            public static let content_rejected = LKey("social:errors.content_rejected", placeholders: [], plural: false)
+            public static let country_invalid = LKey("social:errors.country_invalid", placeholders: [], plural: false)
+            public static let email_unverified = LKey("social:errors.email_unverified", placeholders: [], plural: false)
+            public static let handle_invalid = LKey("social:errors.handle_invalid", placeholders: [], plural: false)
+            public static let handle_rate_limited = LKey("social:errors.handle_rate_limited", placeholders: [], plural: false)
+            public static let handle_reserved = LKey("social:errors.handle_reserved", placeholders: [], plural: false)
+            public static let handle_taken = LKey("social:errors.handle_taken", placeholders: [], plural: false)
+            public static let idea_not_found = LKey("social:errors.idea_not_found", placeholders: [], plural: false)
+            public static let idea_unavailable = LKey("social:errors.idea_unavailable", placeholders: [], plural: false)
+            public static let limit_reached = LKey("social:errors.limit_reached", placeholders: [], plural: false)
+            public static let not_found = LKey("social:errors.not_found", placeholders: [], plural: false)
+            public static let profile_not_found = LKey("social:errors.profile_not_found", placeholders: [], plural: false)
+            public static let profile_required = LKey("social:errors.profile_required", placeholders: [], plural: false)
+            public static let restricted = LKey("social:errors.restricted", placeholders: [], plural: false)
+        }
+        public enum feed {
+            public static let back = LKey("social:feed.back", placeholders: [], plural: false)
+            public static let createProfile = LKey("social:feed.createProfile", placeholders: [], plural: false)
+            public static let empty = LKey("social:feed.empty", placeholders: [], plural: false)
+            public static let emptyFollowing = LKey("social:feed.emptyFollowing", placeholders: [], plural: false)
+            public static let error = LKey("social:feed.error", placeholders: [], plural: false)
+            public static let ideaGone = LKey("social:feed.ideaGone", placeholders: [], plural: false)
+            public static let loadMore = LKey("social:feed.loadMore", placeholders: [], plural: false)
+            public static let loading = LKey("social:feed.loading", placeholders: [], plural: false)
+            public static let myProfile = LKey("social:feed.myProfile", placeholders: [], plural: false)
+            public static let profilePrompt = LKey("social:feed.profilePrompt", placeholders: [], plural: false)
+            public static let retry = LKey("social:feed.retry", placeholders: [], plural: false)
+            public enum scope {
+                public static let following = LKey("social:feed.scope.following", placeholders: [], plural: false)
+                public static let for_you = LKey("social:feed.scope.for_you", placeholders: [], plural: false)
+                public static let new = LKey("social:feed.scope.new", placeholders: [], plural: false)
+            }
+            public static let scopes = LKey("social:feed.scopes", placeholders: [], plural: false)
+            public static let title = LKey("social:feed.title", placeholders: [], plural: false)
+        }
+        public enum idea {
+            public static let by = LKey("social:idea.by", placeholders: [], plural: false)
+            public static let comments = LKey("social:idea.comments", placeholders: [], plural: false)
+            public static let delete = LKey("social:idea.delete", placeholders: [], plural: false)
+            public static let deleteConfirm = LKey("social:idea.deleteConfirm", placeholders: [], plural: false)
+            public static let held = LKey("social:idea.held", placeholders: [], plural: false)
+            public static let hideComments = LKey("social:idea.hideComments", placeholders: [], plural: false)
+            public static let itemsHeading = LKey("social:idea.itemsHeading", placeholders: [], plural: false)
+            public enum kind {
+                public static let plan = LKey("social:idea.kind.plan", placeholders: [], plural: false)
+                public static let recap = LKey("social:idea.kind.recap", placeholders: [], plural: false)
+            }
+            public static let like = LKey("social:idea.like", placeholders: [], plural: false)
+            public static let moreItems = LKey("social:idea.moreItems", placeholders: ["n"], plural: false)
+            public static let report = LKey("social:idea.report", placeholders: [], plural: false)
+            public static let save = LKey("social:idea.save", placeholders: [], plural: false)
+            public static let savedAgain = LKey("social:idea.savedAgain", placeholders: [], plural: false)
+            public static let savedNote = LKey("social:idea.savedNote", placeholders: [], plural: false)
+            public enum stats {
+                public static let activities = LKey("social:idea.stats.activities", placeholders: [], plural: false)
+                public static let hotels = LKey("social:idea.stats.hotels", placeholders: [], plural: false)
+                public static let places = LKey("social:idea.stats.places", placeholders: [], plural: false)
+            }
+            public static let tripDays = LKey("social:idea.tripDays", placeholders: ["days"], plural: false)
+            public static let unlike = LKey("social:idea.unlike", placeholders: [], plural: false)
+        }
+        public enum profile {
+            public static let badges = LKey("social:profile.badges", placeholders: [], plural: false)
+            public static let edit = LKey("social:profile.edit", placeholders: [], plural: false)
+            public static let follow = LKey("social:profile.follow", placeholders: [], plural: false)
+            public static let followers = LKey("social:profile.followers", placeholders: [], plural: false)
+            public static let following = LKey("social:profile.following", placeholders: [], plural: false)
+            public static let followingLabel = LKey("social:profile.followingLabel", placeholders: [], plural: false)
+            public static let followsYou = LKey("social:profile.followsYou", placeholders: [], plural: false)
+            public static let from = LKey("social:profile.from", placeholders: ["country"], plural: false)
+            public static let ideas = LKey("social:profile.ideas", placeholders: [], plural: false)
+            public static let level = LKey("social:profile.level", placeholders: ["level"], plural: false)
+            public static let noIdeas = LKey("social:profile.noIdeas", placeholders: [], plural: false)
+            public static let notFound = LKey("social:profile.notFound", placeholders: [], plural: false)
+            public static let of = LKey("social:profile.of", placeholders: ["handle"], plural: false)
+            public static let requested = LKey("social:profile.requested", placeholders: [], plural: false)
+            public static let visited = LKey("social:profile.visited", placeholders: [], plural: false)
+        }
+        public enum report {
+            public static let intro = LKey("social:report.intro", placeholders: [], plural: false)
+            public static let noteLabel = LKey("social:report.noteLabel", placeholders: [], plural: false)
+            public enum reason {
+                public static let abuse = LKey("social:report.reason.abuse", placeholders: [], plural: false)
+                public static let misinformation = LKey("social:report.reason.misinformation", placeholders: [], plural: false)
+                public static let other = LKey("social:report.reason.other", placeholders: [], plural: false)
+                public static let sexual = LKey("social:report.reason.sexual", placeholders: [], plural: false)
+                public static let spam = LKey("social:report.reason.spam", placeholders: [], plural: false)
+                public static let violence = LKey("social:report.reason.violence", placeholders: [], plural: false)
+            }
+            public static let reasonLabel = LKey("social:report.reasonLabel", placeholders: [], plural: false)
+            public static let sent = LKey("social:report.sent", placeholders: [], plural: false)
+            public static let submit = LKey("social:report.submit", placeholders: [], plural: false)
+            public static let title = LKey("social:report.title", placeholders: [], plural: false)
+        }
+    }
+    public enum socialShare {
+        public static let cancel = LKey("socialShare:cancel", placeholders: [], plural: false)
+        public static let captionLabel = LKey("socialShare:captionLabel", placeholders: [], plural: false)
+        public static let close = LKey("socialShare:close", placeholders: [], plural: false)
+        public static let counter = LKey("socialShare:counter", placeholders: ["max", "n"], plural: false)
+        public static let createProfile = LKey("socialShare:createProfile", placeholders: [], plural: false)
+        public static let cta = LKey("socialShare:cta", placeholders: [], plural: false)
+        public static let done = LKey("socialShare:done", placeholders: [], plural: false)
+        public static let editProfile = LKey("socialShare:editProfile", placeholders: [], plural: false)
+        public enum errors {
+            public static let content_rejected = LKey("socialShare:errors.content_rejected", placeholders: [], plural: false)
+            public static let email_unverified = LKey("socialShare:errors.email_unverified", placeholders: [], plural: false)
+            public static let idea_unavailable = LKey("socialShare:errors.idea_unavailable", placeholders: [], plural: false)
+            public static let limit_reached = LKey("socialShare:errors.limit_reached", placeholders: [], plural: false)
+            public static let plan_not_found = LKey("socialShare:errors.plan_not_found", placeholders: [], plural: false)
+            public static let profile_required = LKey("socialShare:errors.profile_required", placeholders: [], plural: false)
+            public static let restricted = LKey("socialShare:errors.restricted", placeholders: [], plural: false)
+            public static let title_invalid = LKey("socialShare:errors.title_invalid", placeholders: [], plural: false)
+        }
+        public static let held = LKey("socialShare:held", placeholders: [], plural: false)
+        public static let intro = LKey("socialShare:intro", placeholders: [], plural: false)
+        public static let loading = LKey("socialShare:loading", placeholders: [], plural: false)
+        public static let needProfile = LKey("socialShare:needProfile", placeholders: [], plural: false)
+        public static let plainNote = LKey("socialShare:plainNote", placeholders: [], plural: false)
+        public static let profilePrivate = LKey("socialShare:profilePrivate", placeholders: [], plural: false)
+        public static let publishing = LKey("socialShare:publishing", placeholders: [], plural: false)
+        public static let submit = LKey("socialShare:submit", placeholders: [], plural: false)
+        public static let title = LKey("socialShare:title", placeholders: [], plural: false)
+        public static let titleLabel = LKey("socialShare:titleLabel", placeholders: [], plural: false)
+        public static let titleRecap = LKey("socialShare:titleRecap", placeholders: [], plural: false)
+        public static let viewFeed = LKey("socialShare:viewFeed", placeholders: [], plural: false)
+    }
+    public enum today {
+        public static let checkIn = LKey("today:checkIn", placeholders: [], plural: false)
+        public static let checkedIn = LKey("today:checkedIn", placeholders: [], plural: false)
+        public static let checkinFailed = LKey("today:checkinFailed", placeholders: [], plural: false)
+        public static let copied = LKey("today:copied", placeholders: [], plural: false)
+        public static let dayIn = LKey("today:dayIn", placeholders: ["city", "day"], plural: false)
+        public static let directions = LKey("today:directions", placeholders: [], plural: false)
+        public static let nearMe = LKey("today:nearMe", placeholders: [], plural: false)
+        public static let newCountry = LKey("today:newCountry", placeholders: ["code"], plural: false)
+        public static let nextUp = LKey("today:nextUp", placeholders: [], plural: false)
+        public static let noPlan = LKey("today:noPlan", placeholders: [], plural: false)
+        public static let nothingNext = LKey("today:nothingNext", placeholders: [], plural: false)
+        public static let queued = LKey("today:queued", placeholders: [], plural: false)
+        public static let shareStatus = LKey("today:shareStatus", placeholders: [], plural: false)
+        public static let stamp = LKey("today:stamp", placeholders: ["code"], plural: false)
+        public static let stampTitle = LKey("today:stampTitle", placeholders: [], plural: false)
+        public static let startsOn = LKey("today:startsOn", placeholders: ["date"], plural: false)
+        public static let streak = LKey("today:streak", placeholders: [], plural: true)
+        public static let visitFailed = LKey("today:visitFailed", placeholders: [], plural: false)
+        public static let visited = LKey("today:visited", placeholders: [], plural: false)
+        public static let wentHere = LKey("today:wentHere", placeholders: [], plural: false)
+    }
+    public enum trip {
+        public static let allTrips = LKey("trip:allTrips", placeholders: [], plural: false)
+        public enum dates {
+            public static let cancel = LKey("trip:dates.cancel", placeholders: [], plural: false)
+            public static let clear = LKey("trip:dates.clear", placeholders: [], plural: false)
+            public static let end = LKey("trip:dates.end", placeholders: [], plural: false)
+            public static let endHint = LKey("trip:dates.endHint", placeholders: [], plural: false)
+            public static let save = LKey("trip:dates.save", placeholders: [], plural: false)
+            public static let start = LKey("trip:dates.start", placeholders: [], plural: false)
+            public static let title = LKey("trip:dates.title", placeholders: [], plural: false)
+        }
+        public enum error {
+            public static let failed = LKey("trip:error.failed", placeholders: [], plural: false)
+            public static let retry = LKey("trip:error.retry", placeholders: [], plural: false)
+        }
+        public enum header {
+            public static let addDates = LKey("trip:header.addDates", placeholders: [], plural: false)
+            public static let cancel = LKey("trip:header.cancel", placeholders: [], plural: false)
+            public static let confirmDelete = LKey("trip:header.confirmDelete", placeholders: ["title"], plural: false)
+            public static let delete = LKey("trip:header.delete", placeholders: [], plural: false)
+            public static let editDates = LKey("trip:header.editDates", placeholders: [], plural: false)
+            public static let manual = LKey("trip:header.manual", placeholders: [], plural: false)
+            public static let noDates = LKey("trip:header.noDates", placeholders: [], plural: false)
+            public static let phaseLabel = LKey("trip:header.phaseLabel", placeholders: ["phase"], plural: false)
+            public static let rename = LKey("trip:header.rename", placeholders: [], plural: false)
+            public static let save = LKey("trip:header.save", placeholders: [], plural: false)
+            public static let titleLabel = LKey("trip:header.titleLabel", placeholders: [], plural: false)
+        }
+        public static let loading = LKey("trip:loading", placeholders: [], plural: false)
+        public enum offline {
+            public static let empty = LKey("trip:offline.empty", placeholders: [], plural: false)
+            public static let note = LKey("trip:offline.note", placeholders: ["date"], plural: false)
+            public static let noteUndated = LKey("trip:offline.noteUndated", placeholders: [], plural: false)
+            public static let retry = LKey("trip:offline.retry", placeholders: [], plural: false)
+        }
+        public enum overview {
+            public static let loadFailed = LKey("trip:overview.loadFailed", placeholders: [], plural: false)
+            public static let openPlanner = LKey("trip:overview.openPlanner", placeholders: [], plural: false)
+            public static let openPlannerHint = LKey("trip:overview.openPlannerHint", placeholders: [], plural: false)
+            public static let planIt = LKey("trip:overview.planIt", placeholders: [], plural: false)
+            public static let planItHint = LKey("trip:overview.planItHint", placeholders: ["destination"], plural: false)
+            public static let planItHintNoPlace = LKey("trip:overview.planItHintNoPlace", placeholders: [], plural: false)
+            public static let retry = LKey("trip:overview.retry", placeholders: [], plural: false)
+        }
+        public enum phaseMenu {
+            public static let follow = LKey("trip:phaseMenu.follow", placeholders: [], plural: false)
+            public static let followHint = LKey("trip:phaseMenu.followHint", placeholders: [], plural: false)
+            public static let title = LKey("trip:phaseMenu.title", placeholders: [], plural: false)
+        }
+        public static let planLoading = LKey("trip:planLoading", placeholders: [], plural: false)
+        public static let tabsLabel = LKey("trip:tabsLabel", placeholders: [], plural: false)
+    }
+    public enum trips {
+        public enum bucket {
+            public static let label = LKey("trips:bucket.label", placeholders: ["count", "goal"], plural: false)
+            public static let title = LKey("trips:bucket.title", placeholders: [], plural: false)
+        }
+        public enum card {
+            public static let noDates = LKey("trips:card.noDates", placeholders: [], plural: false)
+        }
+        public enum create {
+            public static let cancel = LKey("trips:create.cancel", placeholders: [], plural: false)
+            public static let destination = LKey("trips:create.destination", placeholders: [], plural: false)
+            public static let failed = LKey("trips:create.failed", placeholders: [], plural: false)
+            public static let heading = LKey("trips:create.heading", placeholders: [], plural: false)
+            public static let `open` = LKey("trips:create.open", placeholders: [], plural: false)
+            public static let save = LKey("trips:create.save", placeholders: [], plural: false)
+            public static let title = LKey("trips:create.title", placeholders: [], plural: false)
+            public static let titleInvalid = LKey("trips:create.titleInvalid", placeholders: [], plural: false)
+        }
+        public enum empty {
+            public static let idea = LKey("trips:empty.idea", placeholders: [], plural: false)
+            public static let plan = LKey("trips:empty.plan", placeholders: [], plural: false)
+            public static let text = LKey("trips:empty.text", placeholders: [], plural: false)
+        }
+        public enum load {
+            public static let failed = LKey("trips:load.failed", placeholders: [], plural: false)
+            public static let loading = LKey("trips:load.loading", placeholders: [], plural: false)
+            public static let retry = LKey("trips:load.retry", placeholders: [], plural: false)
+        }
+        public enum next {
+            public static let allSet = LKey("trips:next.allSet", placeholders: [], plural: false)
+            public static let dreaming = LKey("trips:next.dreaming", placeholders: [], plural: false)
+            public static let heading = LKey("trips:next.heading", placeholders: [], plural: false)
+            public static let memories = LKey("trips:next.memories", placeholders: [], plural: false)
+            public static let onTheRoad = LKey("trips:next.onTheRoad", placeholders: ["city", "day"], plural: false)
+            public static let `open` = LKey("trips:next.open", placeholders: [], plural: false)
+            public static let openPrep = LKey("trips:next.openPrep", placeholders: [], plural: false)
+            public static let openRecap = LKey("trips:next.openRecap", placeholders: [], plural: false)
+            public static let openToday = LKey("trips:next.openToday", placeholders: [], plural: false)
+            public static let pickDates = LKey("trips:next.pickDates", placeholders: [], plural: false)
+            public static let planIt = LKey("trips:next.planIt", placeholders: [], plural: false)
+            public static let planning = LKey("trips:next.planning", placeholders: ["percent"], plural: false)
+            public static let ready = LKey("trips:next.ready", placeholders: ["date", "item"], plural: false)
+            public static let readyFallback = LKey("trips:next.readyFallback", placeholders: [], plural: false)
+            public static let readyNoDate = LKey("trips:next.readyNoDate", placeholders: ["item"], plural: false)
+        }
+        public enum phases {
+            public static let dreaming = LKey("trips:phases.dreaming", placeholders: [], plural: false)
+            public static let memories = LKey("trips:phases.memories", placeholders: [], plural: false)
+            public static let on_the_road = LKey("trips:phases.on_the_road", placeholders: [], plural: false)
+            public static let planning = LKey("trips:phases.planning", placeholders: [], plural: false)
+            public static let ready = LKey("trips:phases.ready", placeholders: [], plural: false)
+        }
+        public enum prepItems {
+            public static let bookings = LKey("trips:prepItems.bookings", placeholders: [], plural: false)
+            public static let checkin = LKey("trips:prepItems.checkin", placeholders: [], plural: false)
+            public static let documents = LKey("trips:prepItems.documents", placeholders: [], plural: false)
+            public static let emergency_card = LKey("trips:prepItems.emergency_card", placeholders: [], plural: false)
+            public static let insurance = LKey("trips:prepItems.insurance", placeholders: [], plural: false)
+            public static let money = LKey("trips:prepItems.money", placeholders: [], plural: false)
+            public static let offline_pack = LKey("trips:prepItems.offline_pack", placeholders: [], plural: false)
+            public static let packing = LKey("trips:prepItems.packing", placeholders: [], plural: false)
+            public static let passport = LKey("trips:prepItems.passport", placeholders: [], plural: false)
+            public static let sim = LKey("trips:prepItems.sim", placeholders: [], plural: false)
+            public static let stress_test = LKey("trips:prepItems.stress_test", placeholders: [], plural: false)
+            public static let visa = LKey("trips:prepItems.visa", placeholders: [], plural: false)
+        }
+        public static let title = LKey("trips:title", placeholders: [], plural: false)
+    }
     public enum verify {
         public enum check {
             public static let backToLogin = LKey("verify:check.backToLogin", placeholders: [], plural: false)
@@ -2921,5 +4628,30 @@ public enum K {
             public static let used = LKey("verify:verify.used", placeholders: [], plural: false)
             public static let working = LKey("verify:verify.working", placeholders: [], plural: false)
         }
+    }
+    public enum watchSuggest {
+        public static let close = LKey("watchSuggest:close", placeholders: [], plural: false)
+        public static let done = LKey("watchSuggest:done", placeholders: [], plural: false)
+        public enum error {
+            public static let generic = LKey("watchSuggest:error.generic", placeholders: [], plural: false)
+            public static let live_prices_off = LKey("watchSuggest:error.live_prices_off", placeholders: [], plural: false)
+            public static let spec_invalid = LKey("watchSuggest:error.spec_invalid", placeholders: [], plural: false)
+            public static let watch_limit = LKey("watchSuggest:error.watch_limit", placeholders: [], plural: false)
+        }
+        public static let notNow = LKey("watchSuggest:notNow", placeholders: [], plural: false)
+        public enum reason {
+            public static let departure_soon = LKey("watchSuggest:reason.departure_soon", placeholders: [], plural: false)
+            public static let selected_in_plan = LKey("watchSuggest:reason.selected_in_plan", placeholders: [], plural: false)
+            public static let trip_total = LKey("watchSuggest:reason.trip_total", placeholders: [], plural: false)
+        }
+        public static let retry = LKey("watchSuggest:retry", placeholders: [], plural: false)
+        public enum status {
+            public static let already = LKey("watchSuggest:status.already", placeholders: [], plural: false)
+            public static let done = LKey("watchSuggest:status.done", placeholders: [], plural: false)
+            public static let running = LKey("watchSuggest:status.running", placeholders: [], plural: false)
+        }
+        public static let subtitle = LKey("watchSuggest:subtitle", placeholders: [], plural: false)
+        public static let title = LKey("watchSuggest:title", placeholders: [], plural: false)
+        public static let watchN = LKey("watchSuggest:watchN", placeholders: [], plural: true)
     }
 }
