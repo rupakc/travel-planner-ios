@@ -213,7 +213,7 @@ struct PriceStoryTests {
         #expect(events.advice == ["flight:ok", "flight:cached"])
     }
 
-    @Test func test_adviceErrorMapping() {
+    @Test func test_adviceErrorMapping() async {
         let limit = "The AI limit is reached for this month."
         let general = "Could not get a tip right now."
         func server(_ status: Int, _ code: String?) -> APIError { .server(status: status, detail: "backend text", code: code) }
@@ -228,7 +228,14 @@ struct PriceStoryTests {
                 == general)
         #expect(PriceStoryModel.adviceMessage(APIError.notFound("watch_not_found")) == general)
         #expect(PriceStoryModel.adviceMessage(APIError.network) == general)
-        #expect(PriceStoryModel.adviceMessage(AlertsV2Service.Unavailable()) == general)
+        // A backend without the route: the service refuses the call itself.
+        let (oldEnv, _) = envWith(alertsAPI: 0)
+        do {
+            _ = try await oldEnv.alertsV2.advice(kind: .flight, id: 1)
+            Issue.record("expected Unavailable")
+        } catch {
+            #expect(PriceStoryModel.adviceMessage(error) == general)
+        }
         #expect(
             PriceStoryModel.adviceMessage(APIError.rateLimited(message: "Too many requests, wait 30 s.", retryAfter: 30))
                 == "Too many requests, wait 30 s.")
