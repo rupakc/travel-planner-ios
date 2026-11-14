@@ -11,8 +11,11 @@ def reset(state):
     state["share_seq"] = 0
 
 
+TITLES = {"savings": "Price alerts"}
+
+
 def _share(state, kind, plan_id, options):
-    key = (kind, plan_id if kind != "savings" else None)
+    key = (kind, plan_id if kind in ("plan", "recap", "status") else None)
     for share in state["shares"].values():
         if (share["kind"], share["plan_id"]) == key:
             share["options"] = options  # a second POST replaces the options of the same link
@@ -20,7 +23,7 @@ def _share(state, kind, plan_id, options):
     state["share_seq"] += 1
     token = f"stubtoken{state['share_seq']:04d}"
     share = {
-        "token": token, "kind": kind, "plan_id": key[1], "options": options,
+        "token": token, "kind": kind, "plan_id": key[1], "options": options, "title": TITLES.get(kind, f"Trip {key[1]}"),
         "url": f"https://stub.invalid/share/{token}", "created_at": "2026-11-10T09:00:00Z",
         "card_url": {
             "link": f"https://stub.invalid/api/share/{token}/card.png?size=link",
@@ -28,7 +31,7 @@ def _share(state, kind, plan_id, options):
         },
     }
     state["shares"][token] = share
-    return 201, share
+    return 200, share  # the contract answers 200 for a new link too
 
 
 def handle(method, path, query, body, state):
@@ -36,6 +39,10 @@ def handle(method, path, query, body, state):
         body = body or {}
         if body.get("kind") not in KINDS:
             return 422, {"detail": "invalid kind", "error_code": "invalid_kind"}
+        if body["kind"] in ("plan", "recap") and not isinstance(body.get("plan_id"), int):
+            return 404, {"detail": "Plan not found.", "error_code": "plan_not_found"}
+        if body["kind"] == "quiz" and not body.get("session_id"):
+            return 404, {"detail": "Quiz session not found.", "error_code": "session_not_found"}
         options = {"dates": "hidden", "show_origin": False, "show_name": False}
         options.update(body.get("options") or {})
         return _share(state, body["kind"], body.get("plan_id"), options)
@@ -44,12 +51,12 @@ def handle(method, path, query, body, state):
     parts = path.strip("/").split("/")
     if len(parts) == 3 and parts[:2] == ["api", "shares"] and method == "DELETE":
         if state["shares"].pop(parts[2], None) is None:
-            return 404, {"detail": "not found", "error_code": "share_not_found"}
+            return 404, {"detail": "Share not found.", "error_code": "share_not_found"}
         return 204, None
     if len(parts) == 3 and parts[:2] == ["api", "share"] and method == "GET":
         share = state["shares"].get(parts[2])
         if share is None:
-            return 404, {"detail": "not found", "error_code": "share_not_found"}
+            return 404, {"detail": "Shared plan not found"}
         return 200, {
             "kind": share["kind"], "options": share["options"],
             "card": {"headline": "Stub trip", "stats": [{"key": "countries", "count": 2}]},

@@ -37,6 +37,12 @@ public enum TelemetryEvent: Sendable {
     case linkOut(section: String, domain: String)
     case share(target: String, object: String)
     case alertEvent(action: String, kind: String)
+    /// Share links 2.0. `kind` is the registry's `plan|recap|savings|quiz|status`, `dates` `hidden|month|exact`, `target`
+    /// `native|copy|download|...`; a value outside its enum drops the prop.
+    case shareOpen(kind: String)
+    case shareCreate(kind: String, dates: String)
+    case shareAction(kind: String, target: String)
+    case shareRevoke(kind: String)
     case onboardingStep(step: Int, action: OnboardingAction)
     case featureUsed(feature: String, page: String)
     case themeChange(String)
@@ -56,11 +62,17 @@ struct WireEvent: Sendable {
 
 extension TelemetryEvent {
     static let themes = ["system", "light", "dark"]
+    static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
+    static let shareDates = ["hidden", "month", "exact"]
+    static let shareTargets = ["native", "copy", "download", "x", "facebook", "whatsapp", "linkedin"]
 
     var wire: WireEvent {
         var props: [String: JSONValue] = [:]
         func token(_ key: String, _ value: String) {
             if let valid = PropsFilter.token(value) { props[key] = .string(valid) }
+        }
+        func choice(_ key: String, _ value: String, in allowed: [String]) {
+            if let valid = PropsFilter.enum(value, allowed: allowed) { props[key] = .string(valid) }
         }
         func int(_ key: String, _ value: Int) {
             if let valid = PropsFilter.int(value) { props[key] = .number(Double(valid)) }
@@ -130,6 +142,20 @@ extension TelemetryEvent {
             name = "alert_event"
             token("action", action)
             token("kind", kind)
+        case .shareOpen(let kind):
+            name = "share_open"
+            choice("kind", kind, in: Self.shareKinds)
+        case .shareCreate(let kind, let dates):
+            name = "share_create"
+            choice("kind", kind, in: Self.shareKinds)
+            choice("dates", dates, in: Self.shareDates)
+        case .shareAction(let kind, let target):
+            name = "share_action"
+            choice("kind", kind, in: Self.shareKinds)
+            choice("target", target, in: Self.shareTargets)
+        case .shareRevoke(let kind):
+            name = "share_revoke"
+            choice("kind", kind, in: Self.shareKinds)
         case .onboardingStep(let step, let action):
             name = "onboarding_step"
             int("step", step)

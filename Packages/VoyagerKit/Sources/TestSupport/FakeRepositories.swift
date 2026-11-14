@@ -237,6 +237,7 @@ public struct FakeRepositories: Sendable {
     public var admin = FakeAdminRepository()
     public var health = FakeHealthRepository()
     public var alertsV2 = FakeAlertsV2Repository()
+    public var shares = FakeSharesRepository()
     public var auth = FakeAuthAPI()
 
     public init() {}
@@ -246,7 +247,7 @@ public struct FakeRepositories: Sendable {
             plans: plans, preferences: preferences, recent: recent, reference: reference, search: search, chat: chat,
             agents: agents, discover: discover, compare: compare, importer: importer, watches: watches,
             notifications: notifications, nearby: nearby, devices: devices, feedback: feedback, admin: admin, health: health,
-            alertsV2: alertsV2)
+            alertsV2: alertsV2, shares: shares)
     }
 }
 
