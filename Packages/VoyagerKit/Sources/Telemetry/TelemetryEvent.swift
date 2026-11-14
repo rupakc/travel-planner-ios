@@ -44,6 +44,9 @@ public enum TelemetryEvent: Sendable {
     case consentGranted
     case perf(metric: PerfMetric, value: Double, route: String)
     case apiError(source: String, status: Int)
+    /// Price alerts 2.0: a price story was shown (`verdict` is great|good|typical|high|none) and the AI timing tip.
+    case alertStoryView(kind: String, verdict: String)
+    case alertAdvice(kind: String, outcome: String)
 }
 
 /// A validated event, ready to queue.
@@ -56,6 +59,9 @@ struct WireEvent: Sendable {
 
 extension TelemetryEvent {
     static let themes = ["system", "light", "dark"]
+    static let alertKinds = ["flight", "hotel", "activity", "trip"]
+    static let storyVerdicts = ["great", "good", "typical", "high", "none"]
+    static let adviceOutcomes = ["ok", "cached", "error"]
 
     var wire: WireEvent {
         var props: [String: JSONValue] = [:]
@@ -157,6 +163,14 @@ extension TelemetryEvent {
             props["kind"] = .string("api")
             token("source", source)
             int("status", status)
+        case .alertStoryView(let kind, let verdict):
+            name = "alert_story_view"
+            if let valid = PropsFilter.enum(kind, allowed: Self.alertKinds) { props["kind"] = .string(valid) }
+            if let valid = PropsFilter.enum(verdict, allowed: Self.storyVerdicts) { props["verdict"] = .string(valid) }
+        case .alertAdvice(let kind, let outcome):
+            name = "alert_advice"
+            if let valid = PropsFilter.enum(kind, allowed: Self.alertKinds) { props["kind"] = .string(valid) }
+            if let valid = PropsFilter.enum(outcome, allowed: Self.adviceOutcomes) { props["outcome"] = .string(valid) }
         }
         return WireEvent(name: name, props: props)
     }
