@@ -308,8 +308,8 @@ final class ChatModel {
             action = ToastAction(title: L10n.text(K.quickWatch.toast.undo)) { [weak self] in
                 Task { @MainActor in
                     guard let self else { return }
-                    if !(await env.watches.undo(kind: created, id: id)) {
-                        toast = ToastMessage(L10n.text(K.quickWatch.toast.undoFailed))
+                    if !(await self.env.watches.undo(kind: created, id: id)) {
+                        self.toast = ToastMessage(L10n.text(K.quickWatch.toast.undoFailed))
                     }
                 }
             }
