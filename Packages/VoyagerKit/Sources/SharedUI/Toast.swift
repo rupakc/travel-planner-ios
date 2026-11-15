@@ -2,13 +2,30 @@ import DesignSystem
 import L10n
 import SwiftUI
 
+/// A button on a toast (Undo): shown beside the text; running it dismisses the toast.
+public struct ToastAction: Sendable {
+    public let title: String
+    public let handler: @MainActor @Sendable () -> Void
+
+    public init(title: String, handler: @escaping @MainActor @Sendable () -> Void) {
+        self.title = title
+        self.handler = handler
+    }
+}
+
 public struct ToastMessage: Identifiable, Equatable, Sendable {
     public let id: UUID
     public let text: String
+    public let action: ToastAction?
 
-    public init(_ text: String) {
+    public init(_ text: String, action: ToastAction? = nil) {
         id = UUID()
         self.text = text
+        self.action = action
+    }
+
+    public static func == (lhs: ToastMessage, rhs: ToastMessage) -> Bool {
+        lhs.id == rhs.id && lhs.text == rhs.text
     }
 }
 
@@ -21,12 +38,13 @@ private struct ToastModifier: ViewModifier {
         content
             .overlay(alignment: .bottom) {
                 if let message {
-                    ToastView(text: message.text) { self.message = nil }
+                    ToastView(text: message.text, action: message.action, dismiss: { self.message = nil })
                         .padding(Spacing.lg)
                         .transition(reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity))
                         .task(id: message.id) {
                             LiveRegion.announce(message.text)
-                            try? await Task.sleep(for: duration)
+                            // A toast with a button stays long enough to reach it.
+                            try? await Task.sleep(for: message.action == nil ? duration : max(duration, .seconds(7)))
                             guard !Task.isCancelled else { return }
                             self.message = nil
                         }
@@ -38,6 +56,7 @@ private struct ToastModifier: ViewModifier {
 
 private struct ToastView: View {
     let text: String
+    var action: ToastAction?
     let dismiss: () -> Void
 
     var body: some View {
@@ -46,6 +65,20 @@ private struct ToastView: View {
                 .font(VFont.body(.subheadline))
                 .foregroundStyle(SemanticColor.onPrimary)
                 .frame(maxWidth: .infinity, alignment: .leading)
+            if let action {
+                Button {
+                    action.handler()
+                    dismiss()
+                } label: {
+                    Text(verbatim: action.title)
+                        .font(VFont.body(.subheadline, weight: .semibold))
+                        .foregroundStyle(SemanticColor.onPrimary)
+                        .underline()
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                .accessibilityIdentifier("toast.action")
+            }
             Button(action: dismiss) {
                 Image(systemName: "xmark")
                     .foregroundStyle(SemanticColor.onPrimary)

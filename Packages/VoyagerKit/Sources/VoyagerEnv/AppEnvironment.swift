@@ -52,6 +52,7 @@ public final class AppEnvironment {
 
     /// Call after a watch was created, changed or deleted on the server.
     public func watchesChanged() async {
+        watchCoordinator?.watchesDidChange()
         await onWatchesChanged?()
     }
 
