@@ -44,7 +44,7 @@ final class SavingsSnapshotTests: XCTestCase {
         let plain = Savings(totalUSD: 46, dropsCaught: 1, targetsHit: 0, watchesActive: 2, nextMilestone: 50, progressPct: 92)
         await assertSnapshots(
             of: { self.header(plain) }, named: "SavingsShareEntry",
-            configs: [config("se-light", height: 340), config("se-dark", dark: true, height: 340)], layout: .component)
+            configs: [config("se-light", height: 362), config("se-dark", dark: true, height: 362)], layout: .component)
     }
 
     func test_savingsHeaderEmpty() async {
