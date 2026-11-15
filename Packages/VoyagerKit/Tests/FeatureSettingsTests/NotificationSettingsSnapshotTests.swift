@@ -10,7 +10,7 @@ import XCTest
 @MainActor
 final class NotificationSettingsSnapshotTests: XCTestCase {
     private func canvas(
-        _ name: String, _ device: SnapshotDevice = .iPhoneSE, dark: Bool = false, language: AppLanguage = .en, height: CGFloat = 1900,
+        _ name: String, _ device: SnapshotDevice = .iPhoneSE, dark: Bool = false, language: AppLanguage = .en, height: CGFloat = 1300,
         ax5: Bool = false
     ) -> SnapshotConfig {
         let isPad = device == .iPadPro11
@@ -48,7 +48,7 @@ final class NotificationSettingsSnapshotTests: XCTestCase {
     func test_notifSettingsPermissionDenied() async {
         let view = await screen(live, permission: .denied)
         await assertSnapshots(
-            of: { view }, named: "NotifSettingsPermissionDenied", configs: [canvas("se-light", height: 2300)], layout: .screen)
+            of: { view }, named: "NotifSettingsPermissionDenied", configs: [canvas("se-light", height: 1450)], layout: .screen)
     }
 
     func test_notifSettingsPushUnavailable() async {
@@ -59,21 +59,21 @@ final class NotificationSettingsSnapshotTests: XCTestCase {
         settings.quietHours.enabled = false
         let view = await screen(settings, permission: .notDetermined, showsGame: false)
         await assertSnapshots(
-            of: { view }, named: "NotifSettingsPushUnavailable", configs: [canvas("se-light", height: 2300)], layout: .screen)
+            of: { view }, named: "NotifSettingsPushUnavailable", configs: [canvas("se-light", height: 1450)], layout: .screen)
     }
 
     func test_notifSettingsLongLanguages() async {
         let view = await screen(live)
         await assertSnapshots(
             of: { view }, named: "NotifSettingsDE",
-            configs: [canvas("de", language: .de, height: 2300), canvas("hi", language: .hi, height: 2500)], layout: .screen)
+            configs: [canvas("de", language: .de, height: 1300), canvas("hi", language: .hi, height: 1400)], layout: .screen)
     }
 
     func test_notifSettingsAX5() async {
         let view = await screen(live)
         await assertSnapshots(
             of: { view }, named: "NotifSettingsAX5",
-            configs: [canvas("de-ax5", language: .de, height: 9000, ax5: true)], layout: .screen)
+            configs: [canvas("de-ax5", language: .de, height: 6200, ax5: true)], layout: .screen)
     }
 
     func test_notifSettingsFormIPad() async {

@@ -12,6 +12,7 @@ public struct NotificationSettingsView: View {
     @State private var model: NotificationSettingsModel
     @Environment(\.openURL) private var openURL
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @MainActor public init(env: AppEnvironment) {
         _model = State(initialValue: NotificationSettingsModel(env: env))
@@ -127,15 +128,25 @@ public struct NotificationSettingsView: View {
         }
     }
 
-    private func clockRow(title: String, tid: String, value: String, set: @escaping (String) -> Void) -> some View {
-        DatePicker(
-            selection: Binding(get: { QuietClock.date(value) }, set: { set(QuietClock.text($0)) }),
-            displayedComponents: .hourAndMinute
-        ) {
-            Text(verbatim: title).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+    @ViewBuilder private func clockRow(title: String, tid: String, value: String, set: @escaping (String) -> Void) -> some View {
+        let selection = Binding(get: { QuietClock.date(value) }, set: { set(QuietClock.text($0)) })
+        if dynamicTypeSize.isAccessibilitySize {
+            // At accessibility sizes the compact picker takes the whole row, so the label goes above it.
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                Text(verbatim: title).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+                DatePicker(selection: selection, displayedComponents: .hourAndMinute) { Text(verbatim: title) }
+                    .labelsHidden()
+            }
+            .frame(minHeight: 44)
+            .accessibilityElement(children: .combine)
+            .accessibilityIdentifier(tid)
+        } else {
+            DatePicker(selection: selection, displayedComponents: .hourAndMinute) {
+                Text(verbatim: title).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+            }
+            .frame(minHeight: 44)
+            .accessibilityIdentifier(tid)
         }
-        .frame(minHeight: 44)
-        .accessibilityIdentifier(tid)
     }
 
     private var dailyCap: some View {
