@@ -61,6 +61,6 @@ final class WatchButtonSnapshotTests: XCTestCase {
                     self.button("off")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-            }, named: "WatchButtonStates", configs: configs(height: 480))
+            }, named: "WatchButtonStates", configs: configs(height: 397))
     }
 }

@@ -10,14 +10,14 @@ import XCTest
 @MainActor
 final class PrefsSnapshotTests: XCTestCase {
     private func canvas(
-        _ name: String, _ device: SnapshotDevice = .iPhoneSE, dark: Bool = false, language: AppLanguage = .en, height: CGFloat = 1500,
+        _ name: String, _ device: SnapshotDevice = .iPhoneSE, dark: Bool = false, language: AppLanguage = .en, height: CGFloat = 1300,
         ax5: Bool = false
     ) -> SnapshotConfig {
         let isPad = device == .iPadPro11
         return SnapshotConfig(
             name: name, device: device.config, dark: dark, language: language,
             size: ax5 ? .accessibilityExtraExtraExtraLarge : .large,
-            canvas: CGSize(width: isPad ? 834 : 320, height: isPad ? 1100 : height))
+            canvas: CGSize(width: isPad ? 834 : 320, height: height))
     }
 
     private let v2 = ClientConfig(features: ["alerts_api": .number(2), "price_alerts_v2": .bool(true), "live_prices": .bool(true)])
@@ -54,14 +54,14 @@ final class PrefsSnapshotTests: XCTestCase {
         let view = await screen(prefs)
         await assertSnapshots(
             of: { view }, named: "AlertPrefsDarkAX5",
-            configs: [canvas("se-de-dark-ax5", dark: true, language: .de, height: 6500, ax5: true)], layout: .screen)
+            configs: [canvas("se-de-dark-ax5", dark: true, language: .de, height: 5800, ax5: true)], layout: .screen)
     }
 
     func test_prefsLongLanguages() async {
         let view = await screen(prefs)
         await assertSnapshots(
             of: { view }, named: "AlertPrefsHI",
-            configs: [canvas("hi", language: .hi, height: 1600)], layout: .screen)
+            configs: [canvas("hi", language: .hi, height: 1300)], layout: .screen)
     }
 
     func test_prefsIPad() async {
@@ -94,7 +94,7 @@ final class PrefsSnapshotTests: XCTestCase {
         let view = sheet(rows: suggestionRows())
         await assertSnapshots(
             of: { view }, named: "SuggestionsSheet",
-            configs: [canvas("se-light", height: 760), canvas("se-dark", dark: true, height: 760)], layout: .screen)
+            configs: [canvas("se-light", height: 632), canvas("se-dark", dark: true, height: 632)], layout: .screen)
     }
 
     func test_suggestionsSheetProgress() async {
@@ -103,13 +103,13 @@ final class PrefsSnapshotTests: XCTestCase {
         rows[3].status = .failed("That's your limit of active watches. Remove one on the Alerts page.")
         let view = sheet(rows: rows)
         await assertSnapshots(
-            of: { view }, named: "SuggestionsSheetProgress", configs: [canvas("se-light", height: 820)], layout: .screen)
+            of: { view }, named: "SuggestionsSheetProgress", configs: [canvas("se-light", height: 683)], layout: .screen)
     }
 
     func test_suggestionsSheetGermanAX5() async {
         let view = sheet(rows: suggestionRows())
         await assertSnapshots(
             of: { view }, named: "SuggestionsSheetAX5",
-            configs: [canvas("se-de-ax5", language: .de, height: 4200, ax5: true)], layout: .screen)
+            configs: [canvas("se-de-ax5", language: .de, height: 2925, ax5: true)], layout: .screen)
     }
 }

@@ -70,7 +70,7 @@ public struct AlertPrefsView: View {
     // MARK: Sections
 
     private var digest: some View {
-        PrefsGroup(title: L10n.text(K.alertPrefs.digest.label)) {
+        PrefsGroup(title: nil) {  // the row below carries the same title
             PrefsToggleRow(
                 title: L10n.text(K.alertPrefs.digest.label), hint: nil, tid: "alertPrefs.digestWeekly",
                 isOn: Binding(get: { model.prefs.digestWeekly }, set: { model.setDigestWeekly($0) }))
@@ -86,19 +86,25 @@ public struct AlertPrefsView: View {
     }
 
     private var dayPicker: some View {
-        Picker(selection: Binding(get: { model.prefs.digestDay }, set: { model.setDigestDay($0) })) {
-            ForEach(1...7, id: \.self) { day in Text(verbatim: Self.dayName(day)).tag(day) }
-        } label: {
+        HStack {
             Text(verbatim: L10n.text(K.alertPrefs.digest.day)).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+            Spacer(minLength: Spacing.sm)
+            Picker(selection: Binding(get: { model.prefs.digestDay }, set: { model.setDigestDay($0) })) {
+                ForEach(1...7, id: \.self) { day in Text(verbatim: Self.dayName(day)).tag(day) }
+            } label: {
+                Text(verbatim: L10n.text(K.alertPrefs.digest.day))
+            }
+            .labelsHidden()
+            .pickerStyle(.menu)
+            .tint(SemanticColor.primary)
         }
-        .pickerStyle(.menu)
-        .tint(SemanticColor.primary)
         .frame(minHeight: 44)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("alertPrefs.digestDay")
     }
 
     private var instant: some View {
-        PrefsGroup(title: L10n.text(K.alertPrefs.instant.label)) {
+        PrefsGroup(title: nil) {  // the row below carries the same title
             PrefsToggleRow(
                 title: L10n.text(K.alertPrefs.instant.label), hint: L10n.text(K.alertPrefs.instant.hint),
                 tid: "alertPrefs.instant",
@@ -107,7 +113,7 @@ public struct AlertPrefsView: View {
     }
 
     private var quietHours: some View {
-        PrefsGroup(title: L10n.text(K.alertPrefs.quiet.label)) {
+        PrefsGroup(title: nil) {  // the row below carries the same title
             PrefsToggleRow(
                 title: L10n.text(K.alertPrefs.quiet.label), hint: nil, tid: "alertPrefs.quiet",
                 isOn: Binding(get: { model.prefs.quietHours.enabled }, set: { model.setQuietEnabled($0) }))
@@ -228,15 +234,17 @@ public struct AlertPrefsView: View {
 
 /// A titled card of rows.
 private struct PrefsGroup<Content: View>: View {
-    let title: String
+    let title: String?
     @ViewBuilder let content: Content
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            Text(verbatim: title)
-                .font(VFont.display(.headline)).foregroundStyle(SemanticColor.text)
-                .fixedSize(horizontal: false, vertical: true)
-                .accessibilityAddTraits(.isHeader)
+            if let title {
+                Text(verbatim: title)
+                    .font(VFont.display(.headline)).foregroundStyle(SemanticColor.text)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityAddTraits(.isHeader)
+            }
             VCard {
                 VStack(alignment: .leading, spacing: Spacing.md) { content }
             }
