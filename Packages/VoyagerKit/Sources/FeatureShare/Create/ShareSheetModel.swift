@@ -220,6 +220,7 @@ final class ShareSheetModel {
     private func track(target name: String) {
         guard let value = (share?.kind ?? kind).telemetryValue else { return }
         emit(.shareAction(kind: value, target: name))
+        if (share?.kind ?? kind) == .savings { emit(.alertSavingsShare(target: name)) }
     }
 
     private func failed(_ error: any Error) async {

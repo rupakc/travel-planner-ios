@@ -62,6 +62,8 @@ public enum TelemetryEvent: Sendable {
     case alertQuickWatch(kind: String, action: String, surface: String)
     case alertSuggest(action: String, count: Int)
     case alertPrefsChange(field: String)
+    /// A savings share went out (`target` is native|copy|download).
+    case alertSavingsShare(target: String)
     /// Notifications 2.0: the settings screen was opened, a category switched (`category` is a
     /// `NotificationCategory` raw value), quiet hours changed, the daily cap changed.
     case notifSettingsView
@@ -91,6 +93,7 @@ extension TelemetryEvent {
     static let quickWatchSurfaces = ["results", "chat", "trip", "suggest"]
     static let suggestActions = ["shown", "accepted", "dismissed"]
     static let prefsFields = ["digest", "quiet_hours", "instant", "cap", "group"]
+    static let savingsShareTargets = ["native", "copy", "download"]
     static let notifSources = ["push", "inapp"]
     static let notifCategories = NotificationCategory.allCases.map(\.rawValue)
     static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
@@ -242,6 +245,9 @@ extension TelemetryEvent {
         case .alertPrefsChange(let field):
             name = "alert_prefs_change"
             if let valid = PropsFilter.enum(field, allowed: Self.prefsFields) { props["field"] = .string(valid) }
+        case .alertSavingsShare(let target):
+            name = "alert_savings_share"
+            if let valid = PropsFilter.enum(target, allowed: Self.savingsShareTargets) { props["target"] = .string(valid) }
         case .notifSettingsView:
             name = "notif_settings_view"
         case .notifCategoryToggle(let category, let on):

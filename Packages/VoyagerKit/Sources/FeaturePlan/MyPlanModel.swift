@@ -86,6 +86,9 @@ final class MyPlanModel {
     var canSave: Bool { isSignedIn && !isSaving }
     var canShare: Bool { isSignedIn && !isSharing && !isSaving }
 
+    /// The server has share links 2.0 (`features.sharing >= 1`): Share opens the sheet instead of making a bare link.
+    var usesShareSheet: Bool { RemoteFeatures(config: env.clientConfig).hasSharingV2 }
+
     /// "Save" for a plan that was never saved, the web's "Save Changes" once it exists.
     var saveLabel: String { isSaved ? L10n.text(K.plan.modal.save) : L10n.text(K.alerts.ui.save) }
 
@@ -289,7 +292,7 @@ final class MyPlanModel {
     }
 
     /// Saves first when there is nothing saved (or unsaved changes), so the link shows what is on screen.
-    /// T29 keeps the legacy `POST /plans/{id}/share`; Share 2.0 (`POST /shares`, revoke, My shares) is Phase 4 (4.x).
+    /// Without share links 2.0 the legacy `POST /plans/{id}/share` link is kept; with it, `.shareSheet` takes over (Task 4.4).
     func share() async {
         // Signed out: send them to sign in rather than doing nothing (the button is disabled, but never fail silently).
         guard isSignedIn else { signIn(); return }
@@ -300,6 +303,11 @@ final class MyPlanModel {
         isSharing = true
         defer { isSharing = false }
         guard let id = env.plan.savedPlanID else { return }
+        if usesShareSheet {
+            // Share links 2.0: the route-based sheet (FeatureShare) makes the link, offers the card and the privacy choices.
+            env.router.open(.shareSheet(.plan(id: id)))
+            return
+        }
         do {
             let token = try await env.repos.plans.share(id: id)
             guard let url = Self.shareURL(token: token, base: env.server.baseURL) else {

@@ -12,9 +12,9 @@ struct SuggestionRow: View {
     var body: some View {
         Button(action: onToggle) {
             HStack(alignment: .top, spacing: Spacing.md) {
-                Image(systemName: row.selected && row.status == .idle ? "checkmark.circle.fill" : "circle")
+                Image(systemName: marker.symbol)
                     .font(.title3)
-                    .foregroundStyle(row.selected && row.status == .idle ? SemanticColor.primary : SemanticColor.textMuted)
+                    .foregroundStyle(marker.color)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: Spacing.xs) {
                     Text(verbatim: row.suggestion.title)
@@ -48,6 +48,19 @@ struct SuggestionRow: View {
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(row.selected && row.status == .idle ? .isSelected : [])
         .accessibilityIdentifier("suggestions.row.\(row.id)")
+    }
+
+    /// The tick follows the row's outcome: ticked to watch, done, already watched, failed.
+    private var marker: (symbol: String, color: Color) {
+        switch row.status {
+        case .idle:
+            row.selected
+                ? ("checkmark.circle.fill", SemanticColor.primary) : ("circle", SemanticColor.textMuted)
+        case .running: ("circle.dotted", SemanticColor.textMuted)
+        case .done: ("checkmark.circle.fill", SemanticColor.primary)
+        case .already: ("checkmark.circle", SemanticColor.textMuted)
+        case .failed: ("exclamationmark.circle", SemanticColor.destructive)
+        }
     }
 
     private var statusText: (text: String, isError: Bool)? {
