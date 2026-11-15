@@ -4174,6 +4174,7 @@ public enum K {
         public static let revokeConfirm = LKey("share:revokeConfirm", placeholders: [], plural: false)
         public static let revokeNo = LKey("share:revokeNo", placeholders: [], plural: false)
         public static let revokeYes = LKey("share:revokeYes", placeholders: [], plural: false)
+        public static let sameLinkNote = LKey("share:sameLinkNote", placeholders: [], plural: false)
         public static let showName = LKey("share:showName", placeholders: [], plural: false)
         public static let showOrigin = LKey("share:showOrigin", placeholders: [], plural: false)
         public enum status {
