@@ -54,7 +54,7 @@ final class PrefsSnapshotTests: XCTestCase {
         let view = await screen(prefs)
         await assertSnapshots(
             of: { view }, named: "AlertPrefsDarkAX5",
-            configs: [canvas("se-de-dark-ax5", dark: true, language: .de, height: 3600, ax5: true)], layout: .screen)
+            configs: [canvas("se-de-dark-ax5", dark: true, language: .de, height: 2203, ax5: true)], layout: .screen)
     }
 
     func test_prefsLongLanguages() async {
@@ -110,6 +110,6 @@ final class PrefsSnapshotTests: XCTestCase {
         let view = sheet(rows: suggestionRows())
         await assertSnapshots(
             of: { view }, named: "SuggestionsSheetAX5",
-            configs: [canvas("se-de-ax5", language: .de, height: 1400, ax5: true)], layout: .screen)
+            configs: [canvas("se-de-ax5", language: .de, height: 1018, ax5: true)], layout: .screen)
     }
 }

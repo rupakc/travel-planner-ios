@@ -42,7 +42,9 @@ struct SuggestionRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .disabled(isLocked || row.status != .idle)
+        // Not `.disabled`: that washes out the status line, which is the part a failed row needs readable.
+        .allowsHitTesting(!(isLocked || row.status != .idle))
+        .opacity(row.status == .already ? 0.55 : 1)
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(row.selected && row.status == .idle ? .isSelected : [])
         .accessibilityIdentifier("suggestions.row.\(row.id)")
