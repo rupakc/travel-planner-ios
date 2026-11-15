@@ -40,13 +40,13 @@ final class InboxPushRowsSnapshotTests: XCTestCase {
     func test_inboxTripRows() async {
         await assertSnapshots(
             of: { self.inbox(self.tripRows) }, named: "InboxTripRows",
-            configs: [config("se-light", height: 560), config("se-dark", dark: true, height: 560)], layout: .screen)
+            configs: [config("se-light", height: 475), config("se-dark", dark: true, height: 475)], layout: .screen)
     }
 
     func test_inboxUnknownKind() async {
         let rows = [row(1, "brand_new_kind", "Something new from Voyager", "This app does not know this kind yet.")]
         await assertSnapshots(
-            of: { self.inbox(rows) }, named: "InboxUnknownKind", configs: [config("se-light", height: 260)], layout: .screen)
+            of: { self.inbox(rows) }, named: "InboxUnknownKind", configs: [config("se-light", height: 215)], layout: .screen)
     }
 
     func test_inboxGroupedDrop() async {
@@ -56,6 +56,6 @@ final class InboxPushRowsSnapshotTests: XCTestCase {
                 data: ["group_count": 3, "links": ["alerts": "/alerts"]])
         ]
         await assertSnapshots(
-            of: { self.inbox(rows) }, named: "InboxGroupedDrop", configs: [config("se-light", height: 260)], layout: .screen)
+            of: { self.inbox(rows) }, named: "InboxGroupedDrop", configs: [config("se-light", height: 195)], layout: .screen)
     }
 }
