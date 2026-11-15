@@ -113,10 +113,7 @@ struct SlotRow: View {
     }
 
     private var actions: some View {
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: Spacing.sm) { buttons }
-            VStack(alignment: .leading, spacing: Spacing.xs) { buttons }
-        }
+        WrapLayout(spacing: Spacing.sm) { buttons }
     }
 
     @ViewBuilder private var buttons: some View {
