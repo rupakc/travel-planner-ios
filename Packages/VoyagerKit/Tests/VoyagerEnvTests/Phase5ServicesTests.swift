@@ -51,7 +51,8 @@ import VoyagerModel
         await #expect(throws: PlayService.Unavailable.self) { try await explicit.play.call { try await $0.state() } }
         #expect(fakes.play.onState.callCount == 0)
         // The game flag off in `/config` means `play` is 0 on the server too.
-        #expect(!AppEnvironment.fake(clientConfig: config(play: 0, game: false)).play.isAvailable)
+        let gameOff = AppEnvironment.fake(clientConfig: config(play: 0, game: false))
+        #expect(!gameOff.play.isAvailable)
         // Social is not game: it stays.
         explicit.play.hideGameSetting = { true }
         #expect(explicit.social.isAvailable)
