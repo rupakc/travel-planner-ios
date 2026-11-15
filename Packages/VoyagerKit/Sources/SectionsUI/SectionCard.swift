@@ -62,14 +62,8 @@ public struct SectionCard<Content: View>: View {
                 trailing
             }
             VStack(alignment: .leading, spacing: Spacing.xs) {
-                HStack(spacing: Spacing.sm) {
-                    titleButton(singleLine: false)
-                    chevron
-                }
-                HStack(spacing: Spacing.sm) {
-                    if let verification, status.isReady { VerificationBadge(verification: verification) }
-                    statusView
-                }
+                titleButton(singleLine: false)
+                WrapLayout(spacing: Spacing.sm) { trailing }
             }
         }
         .padding(.leading, Spacing.lg)
