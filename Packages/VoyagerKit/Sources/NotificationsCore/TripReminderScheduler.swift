@@ -3,8 +3,11 @@ import L10n
 import VoyagerEnv
 import VoyagerModel
 
-/// Local trip reminders: T-7 (visa, packing), T-1 (flight, weather), 08:00 on each trip day and the last day
-/// (check-out). Identifier `trip-<planID>-<kind>`; at most `maxPending` are kept (iOS caps pending at 64).
+/// Local trip reminders: T-30 (documents), T-7 (visa, packing), T-1 (flight, weather), 08:00 on each trip day and the
+/// last day (check-out). A `ReminderPolicy` drops the ones the server pushes itself (when server push is live) and the
+/// ones whose category switch is off; the body comes from the server's text catalogue when every placeholder can be
+/// filled, else from the `mobile:reminders.*` catalogue. Identifier `trip-<planID>-<kind>`; at most `maxPending` are
+/// kept (iOS caps pending at 64).
 public enum TripReminderScheduler {
     public static let maxPending = 60
     public static let idPrefix = "trip-"
@@ -13,6 +16,8 @@ public enum TripReminderScheduler {
 
     /// Copy for the reminders; the default reads the `mobile:reminders.*` catalogue in the app language.
     public struct Text: Sendable {
+        public var t30Title: @Sendable (String) -> String
+        public var t30Body: @Sendable () -> String
         public var t7Title: @Sendable (String) -> String
         public var t7Body: @Sendable () -> String
         public var t1Title: @Sendable (String) -> String
@@ -23,6 +28,8 @@ public enum TripReminderScheduler {
         public var lastDayBody: @Sendable () -> String
 
         public static let catalogue = Text(
+            t30Title: { L10n.text(K.mobile.reminders.t30Title, ["destination": $0]) },
+            t30Body: { L10n.text(K.mobile.reminders.t30Body) },
             t7Title: { L10n.text(K.mobile.reminders.t7Title, ["destination": $0]) },
             t7Body: { L10n.text(K.mobile.reminders.t7Body) },
             t1Title: { L10n.text(K.mobile.reminders.t1Title, ["destination": $0]) },
@@ -42,11 +49,14 @@ public enum TripReminderScheduler {
         center: any NotificationCenterClient = SystemNotificationCenter(),
         now: Date = Date(),
         calendar: Calendar = .current,
-        text: Text = .catalogue
+        text: Text = .catalogue,
+        policy: ReminderPolicy = ReminderPolicy(),
+        catalog: NotificationCatalog? = nil
     ) async {
         // One reschedule at a time: two overlapping runs would interleave their remove and add steps.
         await gate.run {
-            await replace(plans: plans, center: center, now: now, calendar: calendar, text: text)
+            await replace(
+                plans: plans, center: center, now: now, calendar: calendar, text: text, policy: policy, catalog: catalog)
         }
     }
 
@@ -70,12 +80,14 @@ public enum TripReminderScheduler {
         center: any NotificationCenterClient,
         now: Date,
         calendar: Calendar,
-        text: Text
+        text: Text,
+        policy: ReminderPolicy,
+        catalog: NotificationCatalog?
     ) async {
         let stale = await center.pendingIdentifiers().filter { $0.hasPrefix(idPrefix) }
         if !stale.isEmpty { await center.removePending(identifiers: stale) }
         guard await center.isAuthorized() else { return }
-        for item in reminders(for: plans, now: now, calendar: calendar, text: text) {
+        for item in reminders(for: plans, now: now, calendar: calendar, text: text, policy: policy, catalog: catalog) {
             await center.add(item)
         }
     }
@@ -89,7 +101,16 @@ public enum TripReminderScheduler {
             return
         }
         guard let plans = try? await env.repos.plans.list() else { return }
-        await reschedule(plans: plans, center: center)
+        var policy = ReminderPolicy()
+        var catalog: NotificationCatalog?
+        let features = RemoteFeatures(config: env.clientConfig)
+        if features.hasNotificationSettings {
+            // Without the settings the policy cannot tell whether the server pushes: leave what is pending as it is.
+            guard let settings = try? await env.repos.notificationSettings.get() else { return }
+            policy = ReminderPolicy(features: features, settings: settings)
+            catalog = try? await env.repos.notificationCatalog.templates(locale: env.language.language)
+        }
+        await reschedule(plans: plans, center: center, policy: policy, catalog: catalog)
     }
 
     /// Removes the trip reminders and alert notifications (pending and delivered) of the previous account.
@@ -109,11 +130,13 @@ public enum TripReminderScheduler {
         for plans: [PlanSummary],
         now: Date,
         calendar: Calendar = .current,
-        text: Text = .catalogue
+        text: Text = .catalogue,
+        policy: ReminderPolicy = ReminderPolicy(),
+        catalog: NotificationCatalog? = nil
     ) -> [LocalNotification] {
         var timed: [(Date, LocalNotification)] = []
         for plan in plans {
-            timed += reminders(for: plan, now: now, calendar: calendar, text: text)
+            timed += reminders(for: plan, now: now, calendar: calendar, text: text, policy: policy, catalog: catalog)
         }
         timed.sort { $0.0 == $1.0 ? $0.1.id < $1.1.id : $0.0 < $1.0 }
         return timed.prefix(maxPending).map(\.1)
@@ -123,7 +146,9 @@ public enum TripReminderScheduler {
         for plan: PlanSummary,
         now: Date,
         calendar: Calendar,
-        text: Text
+        text: Text,
+        policy: ReminderPolicy,
+        catalog: NotificationCatalog?
     ) -> [(Date, LocalNotification)] {
         guard let start = day(plan.searchData["departure_date"], calendar) else { return [] }
         var end = day(plan.searchData["return_date"], calendar) ?? start
@@ -131,8 +156,16 @@ public enum TripReminderScheduler {
         let destination = destinationName(plan)
         var out: [(Date, LocalNotification)] = []
 
+        /// The server template when every placeholder can be filled, else the app's own copy.
+        func body(_ key: String, days: Int? = nil, fallback: String) -> String {
+            var values = ["destination": destination]
+            if let days { values["days"] = String(days) }
+            guard !destination.isEmpty, let text = catalog?.render(key, values) else { return fallback }
+            return String(text.prefix(300))
+        }
+
         func add(_ kind: String, dayOffset: Int, from base: Date, hour: Int, title: String, body: String) {
-            guard let date = calendar.date(byAdding: .day, value: dayOffset, to: base),
+            guard policy.allows(kind: kind), let date = calendar.date(byAdding: .day, value: dayOffset, to: base),
                 let fire = calendar.date(bySettingHour: hour, minute: 0, second: 0, of: date), fire > now
             else { return }
             let parts = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: fire)
@@ -142,13 +175,18 @@ public enum TripReminderScheduler {
             )))
         }
 
-        add("t7", dayOffset: -7, from: start, hour: 9, title: text.t7Title(destination), body: text.t7Body())
-        add("t1", dayOffset: -1, from: start, hour: 18, title: text.t1Title(destination), body: text.t1Body())
+        add("t30", dayOffset: -30, from: start, hour: 9, title: text.t30Title(destination),
+            body: body(NotificationTemplateKey.tripT30, days: 30, fallback: text.t30Body()))
+        add("t7", dayOffset: -7, from: start, hour: 9, title: text.t7Title(destination),
+            body: body(NotificationTemplateKey.tripT7, days: 7, fallback: text.t7Body()))
+        add("t1", dayOffset: -1, from: start, hour: 18, title: text.t1Title(destination),
+            body: body(NotificationTemplateKey.tripT1, fallback: text.t1Body()))
         let span = calendar.dateComponents([.day], from: start, to: end).day ?? 0
         // Day reminders cover the first days (never the last); the last day always gets its own reminder.
         for index in 0..<min(max(span, 1), maxTripDays) {
             add("day\(index + 1)", dayOffset: index, from: start, hour: 8,
-                title: text.dayTitle(index + 1, destination), body: text.dayBody())
+                title: text.dayTitle(index + 1, destination),
+                body: body(NotificationTemplateKey.tripMorning, fallback: text.dayBody()))
         }
         // A one-day trip checks out the same day, later in the morning than its day reminder.
         add("last", dayOffset: span, from: start, hour: span == 0 ? 11 : 8,

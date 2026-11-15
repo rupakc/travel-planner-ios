@@ -1,5 +1,6 @@
 @_exported import DesignSystem
 @_exported import VoyagerEnv
+import Domain
 import Foundation
 import NotificationsCore
 import Telemetry
@@ -16,6 +17,8 @@ public enum LiveEnvironment {
     /// `application(_:didFinishLaunchingWithOptions:)`: the identifiers are in the Info.plist
     /// (`BGTaskSchedulerPermittedIdentifiers`).
     public static func registerBackgroundTasks() {
+        // A notification `link` is only ever opened through the deep-link allow-list.
+        NotificationLinks.install { DeepLinks.route(forNotificationLink: $0) }
         BackgroundTasks.register(env: shared)
     }
 }
