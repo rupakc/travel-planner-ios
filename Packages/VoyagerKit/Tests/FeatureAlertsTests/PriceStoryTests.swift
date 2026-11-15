@@ -1,4 +1,5 @@
 import Foundation
+import L10n
 import Networking
 import Telemetry
 import Testing
