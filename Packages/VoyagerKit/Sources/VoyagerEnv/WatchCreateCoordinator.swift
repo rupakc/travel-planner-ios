@@ -1,14 +1,20 @@
 import Foundation
 import L10n
 import Networking
+import Telemetry
+import VoyagerData
 import VoyagerModel
 
 /// What a "Watch price" tap produced.
 public enum WatchCreateResult: Sendable, Equatable {
     case created(WatchKind, Int)
+    /// A one-tap watch (Alerts 2.0): created and pending its first check; the toast offers Undo.
+    case quickCreated(WatchKind, Int)
     case alreadyWatching(WatchKind, Int)
     /// `422 no_live_price`, with the copy to show.
     case noLivePrice(String)
+    /// The server refused with a coded answer (`watch_limit`, `live_prices_off`, `spec_invalid`), with its copy.
+    case refused(String)
     case failed(APIError)
 }
 
@@ -16,25 +22,39 @@ public enum WatchCreateResult: Sendable, Equatable {
 /// (`match`, no live lookup), and only then creates the watch. Telemetry carries the action and kind only.
 @MainActor
 public final class WatchCreateCoordinator {
-    private unowned let env: AppEnvironment
+    unowned let env: AppEnvironment
+    /// What the "Watch price" buttons show; see `QuickWatchCoordinator.swift`.
+    let quick = QuickWatchStore()
+    let track: @MainActor (TelemetryEvent) -> Void
 
-    public init(env: AppEnvironment) {
+    public init(env: AppEnvironment, track: (@MainActor (TelemetryEvent) -> Void)? = nil) {
         self.env = env
+        self.track = track ?? { [unowned env] in env.telemetry.track($0) }
     }
 
-    public func handle(_ request: WatchRequest) async -> WatchCreateResult {
+    /// `surface` is where the tap happened (`results` or `chat`); only the one-tap path reports it.
+    public func handle(_ request: WatchRequest, surface: QuickWatchSurface = .results) async -> WatchCreateResult {
+        if env.alertsV2.isAvailable(.quickWatch), let result = await quickHandle(request, surface: surface) {
+            return result
+        }
+        return await legacyHandle(request)
+    }
+
+    private func legacyHandle(_ request: WatchRequest) async -> WatchCreateResult {
         let kind = request.kind
         let planId = request.spec["plan_id"].int
         let repo = env.repos.watches
         // A failed match is not fatal: the server matches again on create and answers `already_watching`.
         let query = WatchMatchQuery(kind: kind, spec: request.spec, planId: planId)
         if let existing = try? await repo.match(query), let id = existing["id"].int {
+            quick.remember(request, id: id, pending: false)
             return .alreadyWatching(kind, id)
         }
         do {
             let created = try await create(request, planId: planId)
-            env.telemetry.track(.alertEvent(action: "watch_create", kind: kind.rawValue))
+            track(.alertEvent(action: "watch_create", kind: kind.rawValue))
             if !created.existing { await env.watchesChanged() }
+            quick.remember(request, id: created.id, pending: false)
             return created.existing ? .alreadyWatching(kind, created.id) : .created(kind, created.id)
         } catch let error as APIError {
             if let copy = Self.noLivePriceCopy(error, kind: kind) { return .noLivePrice(copy) }

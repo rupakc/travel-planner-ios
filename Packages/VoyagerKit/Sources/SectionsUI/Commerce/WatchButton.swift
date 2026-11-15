@@ -15,21 +15,51 @@ struct WatchButton: View {
     let accessibilityName: String
     let ctx: SectionContext
 
+    private var request: WatchRequest {
+        switch kind {
+        case .flight: .fare(spec)
+        case .hotel: .hotel(spec)
+        case .activity: .activity(spec)
+        case .trip: .trip(spec)
+        }
+    }
+
+    /// Without live prices the server cannot start a watch, so the button is not shown (Alerts 2.0).
+    private var state: QuickWatchState { ctx.watchState?(request) ?? .idle }
+
     var body: some View {
-        if let watch = ctx.watch {
-            VButton(title, tid: tid, role: .tonal, systemImage: "bell") {
+        if let watch = ctx.watch, !state.isHidden {
+            let current = state
+            VButton(label(for: current), tid: tid, role: current.isWatching ? .secondary : .tonal, systemImage: icon(for: current)) {
                 Telemetry.shared.track(.alertEvent(action: "watch_tap", kind: kind.rawValue))
-                let request: WatchRequest
-                switch kind {
-                case .flight: request = .fare(spec)
-                case .hotel: request = .hotel(spec)
-                case .activity: request = .activity(spec)
-                case .trip: request = .trip(spec)
-                }
                 watch(request)
             }
-            .accessibilityLabel(accessibilityName)
+            .accessibilityLabel(accessibility(for: current))
+            .accessibilityValue(current.isPending ? L10n.text(K.quickWatch.prices.pending) : "")
         }
+    }
+
+    private func label(for state: QuickWatchState) -> String {
+        switch state {
+        case .existing: L10n.text(K.quickWatch.label.already)
+        case .pending: L10n.text(K.quickWatch.label.watching)
+        default: title
+        }
+    }
+
+    private func icon(for state: QuickWatchState) -> String {
+        switch state {
+        case .existing: "bell.fill"
+        case .pending: "checkmark"
+        default: "bell"
+        }
+    }
+
+    private func accessibility(for state: QuickWatchState) -> String {
+        guard state.isWatching else { return accessibilityName }
+        let name = spec["name"].string
+            ?? [spec["origin"].string, spec["destination"].string].compactMap { $0 }.joined(separator: " → ")
+        return L10n.text(K.quickWatch.aria.already, ["title": name])
     }
 }
 

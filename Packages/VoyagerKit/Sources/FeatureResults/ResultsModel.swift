@@ -218,6 +218,7 @@ public final class ResultsModel {
             isSelected: { [env] field, item in env.plan.contains(field: field, item: item) },
             toggle: { [weak self] field, item in self?.toggle(field: field, item: item) },
             watch: { [weak self] request in self?.watch(request) },
+            watchState: { [env] request in env.watches.state(for: request) },
             openURL: { [weak self] url, section in self?.open(url, section: section) },
             filtered: { [weak self] section, filters in await self?.runFiltered(section, filters) ?? .failed(nil) },
             fareCalendar: calendar,
@@ -267,9 +268,25 @@ public final class ResultsModel {
     func watch(_ request: WatchRequest) {
         Task { [weak self] in
             guard let self else { return }
-            let result = await env.watches.handle(request)
-            toast = ToastMessage(Self.watchText(result, kind: request.kind))
+            let result = await env.watches.handle(request, surface: .results)
+            toast = watchToast(result, kind: request.kind)
         }
+    }
+
+    /// The toast for a watch tap; a one-tap watch carries Undo.
+    func watchToast(_ result: WatchCreateResult, kind: WatchKind) -> ToastMessage {
+        var action: ToastAction?
+        if case .quickCreated(let created, let id) = result, env.watches.canUndo(kind: created, id: id) {
+            action = ToastAction(title: L10n.text(K.quickWatch.toast.undo)) { [weak self] in
+                Task { @MainActor in
+                    guard let self else { return }
+                    if !(await self.env.watches.undo(kind: created, id: id)) {
+                        self.toast = ToastMessage(L10n.text(K.quickWatch.toast.undoFailed))
+                    }
+                }
+            }
+        }
+        return ToastMessage(Self.watchText(result, kind: kind), action: action)
     }
 
     static func watchText(_ result: WatchCreateResult, kind: WatchKind) -> String {
@@ -278,7 +295,9 @@ public final class ResultsModel {
             return L10n.text(kind == .flight ? K.alerts.dialog.fare.watching : watching(kind))
         case .alreadyWatching:
             return L10n.text(kind == .flight ? K.alerts.dialog.fare.already : already(kind))
-        case .noLivePrice(let message):
+        case .quickCreated:
+            return L10n.text(K.quickWatch.toast.message)
+        case .noLivePrice(let message), .refused(let message):
             return message
         case .failed:
             return L10n.text(kind == .flight ? K.alerts.dialog.fare.startFailed : failed(kind))
