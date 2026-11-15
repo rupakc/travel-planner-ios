@@ -88,15 +88,17 @@ struct ShareRow: View {
                 .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("shares.confirm")
-            ActionWrap(spacing: Spacing.sm) {
-                VButton(L10n.text(K.share.mine.yes), tid: "shares.revoke-yes", role: .destructive) {
-                    Task { await model.confirmRevoke(item) }
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                HStack(spacing: Spacing.sm) {
+                    VButton(L10n.text(K.share.mine.yes), tid: "shares.revoke-yes", role: .destructive) {
+                        Task { await model.confirmRevoke(item) }
+                    }
+                    .disabled(isRevoking)
+                    if isRevoking { ProgressView().accessibilityHidden(true) }
                 }
-                .disabled(isRevoking)
                 VButton(L10n.text(K.share.mine.no), tid: "shares.revoke-no", role: .secondary) {
                     model.cancelRevoke()
                 }
-                if isRevoking { ProgressView().accessibilityHidden(true) }
             }
         }
     }
