@@ -4,7 +4,7 @@ import Networking
 import Telemetry
 import Testing
 import TestSupport
-import VoyagerEnv
+@testable import VoyagerEnv
 import VoyagerModel
 
 @MainActor
