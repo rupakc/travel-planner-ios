@@ -27,6 +27,8 @@ public struct Repositories: Sendable {
     /// Notifications 2.0 (Phase 6): called only when `RemoteFeatures` says the routes exist.
     public var notificationSettings: any NotificationSettingsRepository
     public var notificationCatalog: any NotificationCatalogRepository
+    /// Share links 2.0 (Phase 4): called only when `features.sharing >= 1`.
+    public var shares: any SharesRepository
 
     public init(
         plans: any PlansRepository,
@@ -48,7 +50,8 @@ public struct Repositories: Sendable {
         health: any HealthRepository,
         alertsV2: any AlertsV2Repository,
         notificationSettings: any NotificationSettingsRepository,
-        notificationCatalog: any NotificationCatalogRepository
+        notificationCatalog: any NotificationCatalogRepository,
+        shares: any SharesRepository
     ) {
         self.plans = plans
         self.preferences = preferences
@@ -70,6 +73,7 @@ public struct Repositories: Sendable {
         self.alertsV2 = alertsV2
         self.notificationSettings = notificationSettings
         self.notificationCatalog = notificationCatalog
+        self.shares = shares
     }
 
     /// The live repositories over one `APIClient` and one `SSEClient`. `locale` is read per request.
@@ -98,6 +102,7 @@ public struct Repositories: Sendable {
             notificationSettings: LiveNotificationSettingsRepository(api: api, locale: locale),
             notificationCatalog: CachedNotificationCatalogRepository(
                 network: LiveNotificationCatalogRepository(api: api, locale: locale),
-                store: CachedNotificationCatalogRepository.cachesStore()))
+                store: CachedNotificationCatalogRepository.cachesStore()),
+            shares: LiveSharesRepository(api: api, locale: locale))
     }
 }
