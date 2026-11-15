@@ -38,6 +38,8 @@ import VoyagerModel
         .consentGranted, .perf(metric: .coldStart, value: 312.5, route: "/"),
         .apiError(source: "search", status: 500),
         .alertStoryView(kind: "flight", verdict: "good"), .alertAdvice(kind: "flight", outcome: "ok"),
+        .notifSettingsView, .notifCategoryToggle(category: "price_drops", on: false), .notifQuietHoursChange(enabled: true),
+        .notifCapChange(cap: 5),
     ]
 
     @Test func test_everyCaseIsInRegistry() throws {
@@ -56,7 +58,7 @@ import VoyagerModel
     @Test func test_samplesCoverEveryEnumCase() {
         let names = Set(Self.samples.map(\.wire.name))
         #expect(names.count == Self.samples.count)
-        #expect(names.count == 30)
+        #expect(names.count == 34)
     }
 
     @Test func test_internalSessionStartIsInRegistry() throws {
@@ -77,6 +79,7 @@ import VoyagerModel
         #expect(Set(TelemetryEvent.alertKinds) == (try members("alert_story_view", "kind")))
         #expect(Set(TelemetryEvent.storyVerdicts) == (try members("alert_story_view", "verdict")))
         #expect(Set(TelemetryEvent.adviceOutcomes) == (try members("alert_advice", "outcome")))
+        #expect(Set(TelemetryEvent.notifCategories) == (try members("notif_category_toggle", "category")))
         #expect(Set(TelemetryEvent.shareKinds) == (try members("share_create", "kind")))
         #expect(Set(TelemetryEvent.shareDates) == (try members("share_create", "dates")))
         #expect(Set(TelemetryEvent.shareTargets) == (try members("share_action", "target")))

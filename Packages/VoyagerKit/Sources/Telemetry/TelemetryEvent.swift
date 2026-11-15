@@ -53,6 +53,12 @@ public enum TelemetryEvent: Sendable {
     /// Price alerts 2.0: a price story was shown (`verdict` is great|good|typical|high|none) and the AI timing tip.
     case alertStoryView(kind: String, verdict: String)
     case alertAdvice(kind: String, outcome: String)
+    /// Notifications 2.0: the settings screen was opened, a category switched (`category` is a
+    /// `NotificationCategory` raw value), quiet hours changed, the daily cap changed.
+    case notifSettingsView
+    case notifCategoryToggle(category: String, on: Bool)
+    case notifQuietHoursChange(enabled: Bool)
+    case notifCapChange(cap: Int)
 }
 
 /// A validated event, ready to queue.
@@ -68,6 +74,7 @@ extension TelemetryEvent {
     static let alertKinds = ["flight", "hotel", "activity", "trip"]
     static let storyVerdicts = ["great", "good", "typical", "high", "none"]
     static let adviceOutcomes = ["ok", "cached", "error"]
+    static let notifCategories = NotificationCategory.allCases.map(\.rawValue)
     static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
     static let shareDates = ["hidden", "month", "exact"]
     static let shareTargets = ["native", "copy", "download", "x", "facebook", "whatsapp", "linkedin"]
@@ -197,6 +204,18 @@ extension TelemetryEvent {
             name = "alert_advice"
             if let valid = PropsFilter.enum(kind, allowed: Self.alertKinds) { props["kind"] = .string(valid) }
             if let valid = PropsFilter.enum(outcome, allowed: Self.adviceOutcomes) { props["outcome"] = .string(valid) }
+        case .notifSettingsView:
+            name = "notif_settings_view"
+        case .notifCategoryToggle(let category, let on):
+            name = "notif_category_toggle"
+            if let valid = PropsFilter.enum(category, allowed: Self.notifCategories) { props["category"] = .string(valid) }
+            props["on"] = .bool(on)
+        case .notifQuietHoursChange(let enabled):
+            name = "notif_quiet_hours_change"
+            props["enabled"] = .bool(enabled)
+        case .notifCapChange(let cap):
+            name = "notif_cap_change"
+            int("cap", cap)
         }
         return WireEvent(name: name, props: props)
     }
