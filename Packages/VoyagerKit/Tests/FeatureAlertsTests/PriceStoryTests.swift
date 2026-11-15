@@ -119,7 +119,10 @@ struct PriceStoryTests {
         #expect(model.selected?.price == 470)
         let readout = model.readout(for: model.selected ?? point(0, 0))
         #expect(readout.contains("$470"))
-        #expect(readout.lowercased().contains("ago") || readout.contains("8"))
+        // The age is the locale's relative wording ("last week" in English, not "ago"), from the injected clock.
+        let pointDate = StoryChartData.parse(model.selected?.at ?? "")
+        let age = Fmt.relative((pointDate ?? fixedNow).timeIntervalSince(fixedNow))
+        #expect(pointDate != nil && readout.hasSuffix(age))
         model.selectFirst()
         #expect(model.selected?.price == 500)
         model.selectLatest()
