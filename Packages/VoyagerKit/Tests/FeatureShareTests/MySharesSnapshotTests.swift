@@ -45,24 +45,24 @@ final class MySharesSnapshotTests: XCTestCase {
         let (model, env) = await prepare()
         await assertSnapshots(
             of: { MySharesView(model: model, env: env) }, named: "list",
-            configs: [phone("se-light", height: 1500), phone("se-dark", dark: true, height: 1500)], layout: .screen)
+            configs: [phone("se-light", height: 1700), phone("se-dark", dark: true, height: 1700)], layout: .screen)
     }
 
     func test_empty() async {
         let (model, env) = await prepare(empty: true)
         await assertSnapshots(
-            of: { MySharesView(model: model, env: env) }, named: "empty", configs: [phone("se-light", height: 700)], layout: .screen)
+            of: { MySharesView(model: model, env: env) }, named: "empty", configs: [phone("se-light", height: 420)], layout: .screen)
     }
 
     func test_revokeConfirmation() async {
         let (model, env) = await prepare(confirming: true)
         await assertSnapshots(
-            of: { MySharesView(model: model, env: env) }, named: "revoke", configs: [phone("se-light", height: 1500)], layout: .screen)
+            of: { MySharesView(model: model, env: env) }, named: "revoke", configs: [phone("se-light", height: 1700)], layout: .screen)
     }
 
     func test_hindi() async {
         let (model, env) = await prepare()
         await assertSnapshots(
-            of: { MySharesView(model: model, env: env) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 1500)], layout: .screen)
+            of: { MySharesView(model: model, env: env) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 1700)], layout: .screen)
     }
 }

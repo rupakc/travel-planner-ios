@@ -63,20 +63,20 @@ struct ShareRow: View {
 
     private var actions: some View {
         ActionWrap(spacing: Spacing.sm) {
-            VButton(L10n.text(K.share.mine.copy), tid: "shares.copy", role: .secondary, systemImage: "doc.on.doc") {
+            VButton(L10n.text(K.share.mine.copy), tid: "shares.copy", role: .secondary) {
                 model.copy(item)
             }
             if item.token != nil {
-                VButton(L10n.text(K.share.mine.open), tid: "shares.open", role: .secondary, systemImage: "eye") {
+                VButton(L10n.text(K.share.mine.open), tid: "shares.open", role: .secondary) {
                     model.open(item)
                 }
             }
             if item.target != nil {
-                VButton(L10n.text(K.share.mine.shareAgain), tid: "shares.again", role: .secondary, systemImage: "square.and.arrow.up") {
+                VButton(L10n.text(K.share.mine.shareAgain), tid: "shares.again", role: .secondary) {
                     model.shareAgain(item)
                 }
             }
-            VButton(L10n.text(K.share.mine.revoke), tid: "shares.revoke", role: .secondary, systemImage: "link.badge.minus") {
+            VButton(L10n.text(K.share.mine.revoke), tid: "shares.revoke", role: .secondary) {
                 model.askRevoke(item)
             }
         }
