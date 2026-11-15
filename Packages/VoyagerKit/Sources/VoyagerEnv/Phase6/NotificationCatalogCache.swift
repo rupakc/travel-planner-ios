@@ -8,16 +8,6 @@ public actor CachedNotificationCatalogRepository: NotificationCatalogRepository 
     /// 24 hours: the templates change only with an app or server release.
     public static let defaultTTL: TimeInterval = 24 * 3600
 
-    private struct Entry: Codable {
-        var fetchedAt: Double
-        var catalog: NotificationCatalog
-
-        enum CodingKeys: String, CodingKey {
-            case fetchedAt = "fetched_at"
-            case catalog
-        }
-    }
-
     private let network: any NotificationCatalogRepository
     private let store: any FileStore
     private let now: @Sendable () -> Date
@@ -45,20 +35,31 @@ public actor CachedNotificationCatalogRepository: NotificationCatalogRepository 
         }
         do {
             let fresh = try await network.templates(locale: locale)
-            await write(Entry(fetchedAt: now().timeIntervalSince1970, catalog: fresh), locale)
+            await write(CatalogCacheEntry(fetchedAt: now().timeIntervalSince1970, catalog: fresh), locale)
             return fresh
         } catch {
             return cached?.catalog ?? .bundledEnglish
         }
     }
 
-    private func read(_ locale: AppLanguage) async -> Entry? {
+    private func read(_ locale: AppLanguage) async -> CatalogCacheEntry? {
         guard let data = try? await store.read(Self.path(for: locale)) else { return nil }
-        return try? JSONDecoder().decode(Entry.self, from: data)
+        return try? JSONDecoder().decode(CatalogCacheEntry.self, from: data)
     }
 
-    private func write(_ entry: Entry, _ locale: AppLanguage) async {
+    private func write(_ entry: CatalogCacheEntry, _ locale: AppLanguage) async {
         guard let data = try? JSONEncoder().encode(entry) else { return }
         try? await store.write(data, to: Self.path(for: locale))
+    }
+}
+
+/// One cache file: the catalog and when it was fetched.
+private struct CatalogCacheEntry: Codable {
+    var fetchedAt: Double
+    var catalog: NotificationCatalog
+
+    enum CodingKeys: String, CodingKey {
+        case fetchedAt = "fetched_at"
+        case catalog
     }
 }
