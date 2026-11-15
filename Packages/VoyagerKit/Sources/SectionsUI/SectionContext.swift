@@ -12,6 +12,8 @@ public struct SectionContext: Sendable {
     public var isSelected: @MainActor @Sendable (String, JSONValue) -> Bool
     public var toggle: @MainActor @Sendable (String, JSONValue) -> Void
     public var watch: (@MainActor @Sendable (WatchRequest) -> Void)?
+    /// What the Watch button shows for an item (Alerts 2.0); nil (shared plans, previews) means the plain button.
+    public var watchState: (@MainActor @Sendable (WatchRequest) -> QuickWatchState)?
     /// `(url, section)`: the host opens the provider page in `SFSafariViewController` and emits `link_out`.
     public var openURL: @MainActor @Sendable (URL, String) -> Void
     /// Re-runs a `/filtered` agent call (`flights`, `hotels`, `activities`) with the sheet's filters; nil hides the
@@ -27,6 +29,7 @@ public struct SectionContext: Sendable {
         isSelected: @escaping @MainActor @Sendable (String, JSONValue) -> Bool,
         toggle: @escaping @MainActor @Sendable (String, JSONValue) -> Void,
         watch: (@MainActor @Sendable (WatchRequest) -> Void)? = nil,
+        watchState: (@MainActor @Sendable (WatchRequest) -> QuickWatchState)? = nil,
         openURL: @escaping @MainActor @Sendable (URL, String) -> Void,
         filtered: (@MainActor @Sendable (FilterableSection, JSONValue) async -> SectionRemote)? = nil,
         fareCalendar: (@MainActor @Sendable () async -> SectionRemote)? = nil,
@@ -39,6 +42,7 @@ public struct SectionContext: Sendable {
         self.isSelected = isSelected
         self.toggle = toggle
         self.watch = watch
+        self.watchState = watchState
         self.openURL = openURL
         self.showsVerification = showsVerification
         self.searchData = searchData
