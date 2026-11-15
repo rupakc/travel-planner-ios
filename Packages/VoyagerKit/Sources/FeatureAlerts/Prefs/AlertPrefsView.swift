@@ -46,7 +46,7 @@ public struct AlertPrefsView: View {
         }
         .background(SemanticColor.surface)
         // Beyond this size German compounds no longer fit a phone-width card without splitting mid-word.
-        .dynamicTypeSize(...DynamicTypeSize.accessibility2)
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
         .navigationTitle(L10n.text(K.alertPrefs.title))
         .task { await model.load() }
         .accessibilityIdentifier("alertPrefs.root")
@@ -88,17 +88,26 @@ public struct AlertPrefsView: View {
     }
 
     private var dayPicker: some View {
-        HStack {
-            Text(verbatim: L10n.text(K.alertPrefs.digest.day)).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
-            Spacer(minLength: Spacing.sm)
-            Picker(selection: Binding(get: { model.prefs.digestDay }, set: { model.setDigestDay($0) })) {
-                ForEach(1...7, id: \.self) { day in Text(verbatim: Self.dayName(day)).tag(day) }
-            } label: {
-                Text(verbatim: L10n.text(K.alertPrefs.digest.day))
+        let selection = Binding(get: { model.prefs.digestDay }, set: { model.setDigestDay($0) })
+        let label = Text(verbatim: L10n.text(K.alertPrefs.digest.day)).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+        let picker = Picker(selection: selection) {
+            ForEach(1...7, id: \.self) { day in Text(verbatim: Self.dayName(day)).tag(day) }
+        } label: {
+            Text(verbatim: L10n.text(K.alertPrefs.digest.day))
+        }
+        .labelsHidden()
+        .pickerStyle(.menu)
+        .tint(SemanticColor.primary)
+        return Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: Spacing.xs) { label; picker.fixedSize() }
+            } else {
+                HStack {
+                    label
+                    Spacer(minLength: Spacing.sm)
+                    picker
+                }
             }
-            .labelsHidden()
-            .pickerStyle(.menu)
-            .tint(SemanticColor.primary)
         }
         .frame(minHeight: 44)
         .accessibilityElement(children: .contain)
@@ -165,20 +174,32 @@ public struct AlertPrefsView: View {
         PrefsGroup(title: L10n.text(K.alertPrefs.caps.label)) {
             ForEach(WatchKind.allCases, id: \.self) { kind in
                 let name = Self.kindName(kind)
-                Stepper(
-                    value: Binding(get: { model.prefs.dailyCap[kind] }, set: { model.setCap(kind, $0) }),
-                    in: AlertPrefsModel.capRange
-                ) {
-                    HStack {
-                        Text(verbatim: name).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
-                        Spacer(minLength: Spacing.sm)
-                        Text(verbatim: String(model.prefs.dailyCap[kind])).font(VFont.body(.body, weight: .semibold))
-                            .foregroundStyle(SemanticColor.text)
+                let value = Binding(get: { model.prefs.dailyCap[kind] }, set: { model.setCap(kind, $0) })
+                Group {
+                    if dynamicTypeSize.isAccessibilitySize {
+                        VStack(alignment: .leading, spacing: Spacing.xs) {
+                            Text(verbatim: name).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+                            HStack {
+                                Text(verbatim: String(value.wrappedValue)).font(VFont.body(.body, weight: .semibold))
+                                    .foregroundStyle(SemanticColor.text)
+                                Spacer(minLength: Spacing.sm)
+                                Stepper("", value: value, in: AlertPrefsModel.capRange).labelsHidden()
+                            }
+                        }
+                    } else {
+                        Stepper(value: value, in: AlertPrefsModel.capRange) {
+                            HStack {
+                                Text(verbatim: name).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+                                Spacer(minLength: Spacing.sm)
+                                Text(verbatim: String(value.wrappedValue)).font(VFont.body(.body, weight: .semibold))
+                                    .foregroundStyle(SemanticColor.text)
+                            }
+                        }
                     }
                 }
                 .frame(minHeight: 44)
                 .accessibilityLabel(name)
-                .accessibilityValue(String(model.prefs.dailyCap[kind]))
+                .accessibilityValue(String(value.wrappedValue))
                 .accessibilityIdentifier("alertPrefs.cap.\(kind.rawValue)")
             }
             Text(verbatim: L10n.text(K.alertPrefs.caps.hint))
@@ -282,7 +303,7 @@ private struct PrefsToggleRow: View {
 
     private var label: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(verbatim: title).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+            Text(verbatim: title).font(VFont.body(.body)).foregroundStyle(SemanticColor.text).minimumScaleFactor(0.8)
             if let hint {
                 Text(verbatim: hint).font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
                     .fixedSize(horizontal: false, vertical: true)

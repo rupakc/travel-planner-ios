@@ -54,7 +54,7 @@ final class PrefsSnapshotTests: XCTestCase {
         let view = await screen(prefs)
         await assertSnapshots(
             of: { view }, named: "AlertPrefsDarkAX5",
-            configs: [canvas("se-de-dark-ax5", dark: true, language: .de, height: 4000, ax5: true)], layout: .screen)
+            configs: [canvas("se-de-dark-ax5", dark: true, language: .de, height: 3600, ax5: true)], layout: .screen)
     }
 
     func test_prefsLongLanguages() async {
@@ -103,13 +103,13 @@ final class PrefsSnapshotTests: XCTestCase {
         rows[3].status = .failed("That's your limit of active watches. Remove one on the Alerts page.")
         let view = sheet(rows: rows)
         await assertSnapshots(
-            of: { view }, named: "SuggestionsSheetProgress", configs: [canvas("se-light", height: 683)], layout: .screen)
+            of: { view }, named: "SuggestionsSheetProgress", configs: [canvas("se-light", height: 623)], layout: .screen)
     }
 
     func test_suggestionsSheetGermanAX5() async {
         let view = sheet(rows: suggestionRows())
         await assertSnapshots(
             of: { view }, named: "SuggestionsSheetAX5",
-            configs: [canvas("se-de-ax5", language: .de, height: 3000, ax5: true)], layout: .screen)
+            configs: [canvas("se-de-ax5", language: .de, height: 1400, ax5: true)], layout: .screen)
     }
 }

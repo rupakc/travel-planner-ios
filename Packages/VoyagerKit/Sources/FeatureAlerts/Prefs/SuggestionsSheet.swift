@@ -52,7 +52,7 @@ public struct SuggestionsSheet: View {
         }
         .background(SemanticColor.surface)
         // Beyond this size German compounds no longer fit a phone-width card without splitting mid-word.
-        .dynamicTypeSize(...DynamicTypeSize.accessibility2)
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
         .task { if loadsOnAppear { await model.load() } }
         .accessibilityIdentifier("suggestions.root")
     }
