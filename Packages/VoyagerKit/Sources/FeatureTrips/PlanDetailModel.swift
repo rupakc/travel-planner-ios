@@ -167,6 +167,10 @@ final class PlanDetailModel {
     /// Asks the server for the share link; `shareURL` is `<base>/share/<token>`.
     func share() async {
         guard !isSharing else { return }
+        if RemoteFeatures(config: env.clientConfig).hasSharingV2 {
+            env.router.open(.shareSheet(.plan(id: planID)))
+            return
+        }
         isSharing = true
         defer { isSharing = false }
         do {

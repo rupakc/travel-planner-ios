@@ -16,11 +16,14 @@ struct MyPlanPresentation: ViewModifier {
     func body(content: Content) -> some View {
         if sizeClass == .regular {
             content.inspector(isPresented: presented) {
-                MyPlanView(env: env).inspectorColumnWidth(min: 320, ideal: 400, max: 520)
+                MyPlanView(env: env)
+                    .modifier(SharePresentation(env: env, router: router, insideMyPlan: true))
+                    .inspectorColumnWidth(min: 320, ideal: 400, max: 520)
             }
         } else {
             content.sheet(isPresented: presented) {
                 NavigationStack { MyPlanView(env: env) }
+                    .modifier(SharePresentation(env: env, router: router, insideMyPlan: true))
             }
         }
     }
