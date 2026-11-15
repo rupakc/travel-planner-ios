@@ -5,6 +5,7 @@ import FeatureOnboarding
 import FeaturePreferences
 import FeatureResults
 import FeatureSettings
+import FeatureShare
 import FeatureTrips
 import L10n
 import SharedUI
@@ -94,6 +95,7 @@ struct RouteDestination: View {
         case .results(let request): ResultsView(env: env, request: request)
         case .planDetail(let id): PlanDetailView(env: env, planID: id)
         case .notifications: NotificationsInboxView(env: env)
+        case .myShares: MySharesView(env: env)
         case .preferences: PreferencesView(env: env)
         case .tasteProfile: TasteProfileView(env: env)
         case .admin: AdminRootView(env: env)

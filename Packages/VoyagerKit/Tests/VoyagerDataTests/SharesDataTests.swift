@@ -50,4 +50,13 @@ struct SharesDataTests {
         #expect(h.request?.httpMethod == "DELETE" && h.request?.url?.path == "/api/shares/t1")
         #expect(try await repo.list() == ShareList())
     }
+
+    @Test func test_legacyRevokeIsTheOldPlanRoute() async throws {
+        let h = try Harness { _ in .init(status: 204) }
+        let repo = LiveSharesRepository(api: h.api, locale: h.locale)
+        try await repo.revokeLegacyPlanShare(planID: 9)
+        #expect(h.request?.httpMethod == "DELETE" && h.request?.url?.path == "/api/plans/9/share")
+        let endpoint = Endpoints.sharesRevokeLegacy(planID: 9)
+        #expect(endpoint.telemetryName == "/api/plans/:id/share" && endpoint.auth == .required)
+    }
 }

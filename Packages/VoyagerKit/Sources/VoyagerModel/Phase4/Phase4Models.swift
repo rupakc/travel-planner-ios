@@ -246,4 +246,6 @@ public protocol SharesRepository: Sendable {
     func list() async throws -> ShareList
     /// Revokes at once (`204`); there is no undo.
     func revoke(token: String) async throws
+    /// Revokes a plan's legacy share token (`DELETE /plans/{id}/share`); the older links stay revocable from My shares.
+    func revokeLegacyPlanShare(planID: Int) async throws
 }
