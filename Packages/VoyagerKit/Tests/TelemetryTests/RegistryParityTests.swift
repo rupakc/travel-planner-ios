@@ -41,6 +41,8 @@ import VoyagerModel
         .alertDropSeen(kind: "hotel", targetHit: true, via: "in_app"), .alertDigestOpen(via: "in_app"),
         .notifSettingsView, .notifCategoryToggle(category: "price_drops", on: false), .notifQuietHoursChange(enabled: true),
         .notifCapChange(cap: 5),
+        .alertQuickWatch(kind: "hotel", action: "undo", surface: "suggest"), .alertSuggest(action: "shown", count: 3),
+        .alertPrefsChange(field: "quiet_hours"),
     ]
 
     @Test func test_everyCaseIsInRegistry() throws {
@@ -59,7 +61,7 @@ import VoyagerModel
     @Test func test_samplesCoverEveryEnumCase() {
         let names = Set(Self.samples.map(\.wire.name))
         #expect(names.count == Self.samples.count)
-        #expect(names.count == 36)
+        #expect(names.count == 39)
     }
 
     @Test func test_internalSessionStartIsInRegistry() throws {
@@ -82,6 +84,10 @@ import VoyagerModel
         #expect(Set(TelemetryEvent.adviceOutcomes) == (try members("alert_advice", "outcome")))
         #expect(Set(TelemetryEvent.dropVias) == (try members("alert_drop_seen", "via")))
         #expect(Set(TelemetryEvent.digestVias) == (try members("alert_digest_open", "via")))
+        #expect(Set(TelemetryEvent.quickWatchActions) == (try members("alert_quick_watch", "action")))
+        #expect(Set(TelemetryEvent.quickWatchSurfaces) == (try members("alert_quick_watch", "surface")))
+        #expect(Set(TelemetryEvent.suggestActions) == (try members("alert_suggest", "action")))
+        #expect(Set(TelemetryEvent.prefsFields) == (try members("alert_prefs_change", "field")))
         #expect(Set(TelemetryEvent.notifCategories) == (try members("notif_category_toggle", "category")))
         #expect(Set(TelemetryEvent.shareKinds) == (try members("share_create", "kind")))
         #expect(Set(TelemetryEvent.shareDates) == (try members("share_create", "dates")))

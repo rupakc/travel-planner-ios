@@ -1,4 +1,5 @@
 import Foundation
+import L10n
 import Networking
 import os
 import SectionsUI
@@ -246,5 +247,15 @@ final class ResultsModelTests: XCTestCase {
         XCTAssertNotEqual(
             ResultsModel.watchText(.alreadyWatching(.hotel, 2), kind: .hotel),
             ResultsModel.watchText(.failed(.network), kind: .hotel))
+    }
+
+    func test_oneTapWatchTextsAndUndoToast() {
+        let (model, _, _, _) = make { _ in }
+        XCTAssertEqual(ResultsModel.watchText(.quickCreated(.hotel, 4), kind: .hotel), L10n.text(K.quickWatch.toast.message))
+        XCTAssertEqual(ResultsModel.watchText(.refused("Limit reached"), kind: .hotel), "Limit reached")
+        // Undo is offered only for a watch this session created with a one-tap watch.
+        XCTAssertNil(model.watchToast(.quickCreated(.hotel, 4), kind: .hotel).action)
+        XCTAssertNil(model.watchToast(.created(.hotel, 4), kind: .hotel).action)
+        XCTAssertNil(model.watchToast(.refused("Limit reached"), kind: .hotel).action)
     }
 }

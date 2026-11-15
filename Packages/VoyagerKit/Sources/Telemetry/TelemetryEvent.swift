@@ -56,6 +56,12 @@ public enum TelemetryEvent: Sendable {
     /// A drop moment was shown (`via` is in_app|push|email) and the weekly digest was opened (`via` is in_app|email_link).
     case alertDropSeen(kind: String, targetHit: Bool, via: String)
     case alertDigestOpen(via: String)
+    /// A one-tap watch (`action` add|undo|exists|blocked, `surface` results|chat|trip|suggest), the suggestions sheet
+    /// (`action` shown|accepted|dismissed, `count` of suggestions) and an alert preference that changed (`field`
+    /// digest|quiet_hours|instant|cap|group).
+    case alertQuickWatch(kind: String, action: String, surface: String)
+    case alertSuggest(action: String, count: Int)
+    case alertPrefsChange(field: String)
     /// Notifications 2.0: the settings screen was opened, a category switched (`category` is a
     /// `NotificationCategory` raw value), quiet hours changed, the daily cap changed.
     case notifSettingsView
@@ -79,6 +85,10 @@ extension TelemetryEvent {
     static let adviceOutcomes = ["ok", "cached", "error"]
     static let dropVias = ["in_app", "push", "email"]
     static let digestVias = ["in_app", "email_link"]
+    static let quickWatchActions = ["add", "undo", "exists", "blocked"]
+    static let quickWatchSurfaces = ["results", "chat", "trip", "suggest"]
+    static let suggestActions = ["shown", "accepted", "dismissed"]
+    static let prefsFields = ["digest", "quiet_hours", "instant", "cap", "group"]
     static let notifCategories = NotificationCategory.allCases.map(\.rawValue)
     static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
     static let shareDates = ["hidden", "month", "exact"]
@@ -217,6 +227,18 @@ extension TelemetryEvent {
         case .alertDigestOpen(let via):
             name = "alert_digest_open"
             if let valid = PropsFilter.enum(via, allowed: Self.digestVias) { props["via"] = .string(valid) }
+        case .alertQuickWatch(let kind, let action, let surface):
+            name = "alert_quick_watch"
+            if let valid = PropsFilter.enum(kind, allowed: Self.alertKinds) { props["kind"] = .string(valid) }
+            if let valid = PropsFilter.enum(action, allowed: Self.quickWatchActions) { props["action"] = .string(valid) }
+            if let valid = PropsFilter.enum(surface, allowed: Self.quickWatchSurfaces) { props["surface"] = .string(valid) }
+        case .alertSuggest(let action, let count):
+            name = "alert_suggest"
+            if let valid = PropsFilter.enum(action, allowed: Self.suggestActions) { props["action"] = .string(valid) }
+            int("count", count)
+        case .alertPrefsChange(let field):
+            name = "alert_prefs_change"
+            if let valid = PropsFilter.enum(field, allowed: Self.prefsFields) { props["field"] = .string(valid) }
         case .notifSettingsView:
             name = "notif_settings_view"
         case .notifCategoryToggle(let category, let on):
