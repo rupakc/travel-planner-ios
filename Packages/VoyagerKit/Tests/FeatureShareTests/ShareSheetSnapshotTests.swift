@@ -12,7 +12,7 @@ import XCTest
 final class ShareSheetSnapshotTests: XCTestCase {
     private func canvas(_ height: CGFloat) -> CGSize { CGSize(width: 320, height: height) }
 
-    private func phone(_ name: String, dark: Bool = false, language: AppLanguage = .en, size: UIContentSizeCategory = .large, height: CGFloat = 1500)
+    private func phone(_ name: String, dark: Bool = false, language: AppLanguage = .en, size: UIContentSizeCategory = .large, height: CGFloat)
         -> SnapshotConfig {
         SnapshotConfig(
             name: name, device: .iPhoneSe(.portrait), dark: dark, language: language, size: size, canvas: canvas(height))
@@ -72,19 +72,19 @@ final class ShareSheetSnapshotTests: XCTestCase {
         let prepared = await prepare(ready: true, cards: true)
         await assertSnapshots(
             of: { ShareSheetView(model: prepared.model) }, named: "plan",
-            configs: [phone("se-light"), phone("se-dark", dark: true)], layout: .screen)
+            configs: [phone("se-light", height: 1085), phone("se-dark", dark: true, height: 1085)], layout: .screen)
     }
 
     func test_datesExactIsAnUnsavedChange() async {
         let prepared = await prepare(ready: true, cards: true, dirty: ShareOptions(dates: .exact, showOrigin: true))
         await assertSnapshots(
-            of: { ShareSheetView(model: prepared.model) }, named: "dates-exact", configs: [phone("se-light")], layout: .screen)
+            of: { ShareSheetView(model: prepared.model) }, named: "dates-exact", configs: [phone("se-light", height: 1145)], layout: .screen)
     }
 
     func test_loadingCard() async {
         let prepared = await prepare(ready: true, cards: false)
         await assertSnapshots(
-            of: { ShareSheetView(model: prepared.model) }, named: "loading-card", configs: [phone("se-light")], layout: .screen)
+            of: { ShareSheetView(model: prepared.model) }, named: "loading-card", configs: [phone("se-light", height: 1035)], layout: .screen)
         prepared.model.cancel()
     }
 
@@ -92,7 +92,7 @@ final class ShareSheetSnapshotTests: XCTestCase {
         let prepared = await prepare(ready: true, cards: true)
         await assertSnapshots(
             of: { ShareSheetView(model: prepared.model) }, named: "de",
-            configs: [phone("se-de", language: .de, height: 1700)], layout: .screen)
+            configs: [phone("se-de", language: .de, height: 1085)], layout: .screen)
     }
 
     func test_ax5() async {
@@ -100,14 +100,14 @@ final class ShareSheetSnapshotTests: XCTestCase {
         let prepared = await prepare(ready: false, cards: false)
         await assertSnapshots(
             of: { ShareSheetView(model: prepared.model) }, named: "ax5",
-            configs: [phone("se-ax5", size: .accessibilityExtraExtraExtraLarge, height: 3000)], layout: .screen)
+            configs: [phone("se-ax5", size: .accessibilityExtraExtraExtraLarge, height: 2500)], layout: .screen)
     }
 
     func test_ipadForm() async {
         let prepared = await prepare(ready: false, cards: true)
         await assertSnapshots(
             of: { ShareSheetView(model: prepared.model) }, named: "form",
-            configs: [SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 1000))],
+            configs: [SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 670))],
             layout: .screen)
     }
 }

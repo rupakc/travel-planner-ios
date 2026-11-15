@@ -198,7 +198,7 @@ public struct ShareSheetView: View {
                 .accessibilityIdentifier("share.url")
             actions(url)
         }
-        if let status = model.status {
+        if let status = cardsPending ? L10n.text(K.share.working) : model.status {
             Text(verbatim: status)
                 .font(VFont.body(.footnote))
                 .foregroundStyle(model.copyFailed ? SemanticColor.destructive : SemanticColor.textMuted)
@@ -209,6 +209,12 @@ public struct ShareSheetView: View {
                 .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
                 .accessibilityIdentifier("share.card-unavailable")
         }
+    }
+
+    /// The card downloads are still running: the link exists, but its preview is not ready, so sharing waits.
+    private var cardsPending: Bool {
+        guard model.offersCard else { return false }
+        return [model.linkCard, model.storyCard].contains { $0 == .loading || $0 == .idle }
     }
 
     @ViewBuilder private var cardPreview: some View {
@@ -248,6 +254,7 @@ public struct ShareSheetView: View {
             }
             .buttonStyle(PrimaryButtonStyle())
             .simultaneousGesture(TapGesture().onEnded { model.didShareNatively(tid: "share.native") })
+            .disabled(cardsPending)
             .accessibilityIdentifier("share.native")
             if case .ready(let file) = model.storyCard {
                 ShareLink(item: ShareImage(fileURL: file), preview: preview(title: model.shareText ?? model.title)) {
@@ -264,6 +271,7 @@ public struct ShareSheetView: View {
             VButton(L10n.text(K.share.actions.copy), tid: "share.copy", role: .secondary, systemImage: "doc.on.doc") {
                 model.copyLink()
             }
+            .disabled(cardsPending)
         }
     }
 
