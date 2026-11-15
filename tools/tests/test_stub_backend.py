@@ -114,11 +114,46 @@ def test_share_create_is_idempotent_and_revoke_removes():
         httpd.shutdown()
 
 
-def test_notification_settings_validate_cap():
+def test_notification_settings_follow_the_contract():
     httpd = _serve()
     try:
-        assert _call(httpd, "PUT", "/api/notifications/settings", {"daily_cap": 0})[0] == 422
-        status, settings = _call(httpd, "PUT", "/api/notifications/settings", {"categories": {"quiz": False}})
-        assert status == 200 and settings["categories"]["quiz"] is False and settings["categories"]["trip"] is True
+        status, settings = _call(httpd, "GET", "/api/notification-settings")
+        assert status == 200 and set(settings["categories"]) == {
+            "price_drops", "trip_reminders", "morning_brief", "weather", "nearby", "social", "quiz"}
+        assert settings["categories"]["quiz"] == {"enabled": True} and settings["push"] == {"fcm": False, "apns": False}
+        assert _call(httpd, "PUT", "/api/notification-settings", {"daily_cap": 0})[0] == 422
+        assert _call(httpd, "PUT", "/api/notification-settings", {"daily_cap": 11})[0] == 422
+        assert _call(httpd, "PUT", "/api/notification-settings", {"categories": {"nope": {"enabled": True}}})[0] == 422
+        assert _call(httpd, "PUT", "/api/notification-settings", {"categories": {"quiz": False}})[0] == 422
+        assert _call(httpd, "PUT", "/api/notification-settings", {"quiet_hours": {"enabled": True, "start": "7:00", "end": "08:00"}})[0] == 422
+        status, answer = _call(httpd, "PUT", "/api/notification-settings", {"categories": {"quiz": {"enabled": False}}})
+        assert status == 200 and answer["categories"]["quiz"] == {"enabled": False}
+        assert answer["categories"]["trip_reminders"] == {"enabled": True}
+        code = _call(httpd, "PUT", "/api/notification-settings", {"daily_cap": 99})[1]["error_code"]
+        assert code == "notification_settings_invalid"
+    finally:
+        httpd.shutdown()
+
+
+def test_quiet_hours_are_shared_with_the_alert_prefs():
+    httpd = _serve()
+    try:
+        quiet = {"enabled": True, "start": "23:00", "end": "06:30"}
+        assert _call(httpd, "PUT", "/api/notification-settings", {"quiet_hours": quiet})[0] == 200
+        assert _call(httpd, "GET", "/api/alerts/preferences")[1]["quiet_hours"] == quiet
+        other = {"enabled": False, "start": "21:00", "end": "05:00"}
+        assert _call(httpd, "PUT", "/api/alerts/preferences", {"quiet_hours": other})[0] == 200
+        assert _call(httpd, "GET", "/api/notification-settings")[1]["quiet_hours"] == other
+    finally:
+        httpd.shutdown()
+
+
+def test_notification_catalog_falls_back_to_english():
+    httpd = _serve()
+    try:
+        status, es = _call(httpd, "GET", "/api/notifications/catalog?locale=es")
+        assert status == 200 and es["locale"] == "es" and "{place}" in es["templates"]["nearby_arrival"]
+        assert _call(httpd, "GET", "/api/notifications/catalog?locale=xx")[1]["locale"] == "en"
+        assert all(isinstance(text, str) for text in _call(httpd, "GET", "/api/notifications/catalog")[1]["templates"].values())
     finally:
         httpd.shutdown()

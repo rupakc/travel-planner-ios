@@ -24,6 +24,9 @@ public struct Repositories: Sendable {
     public var health: any HealthRepository
     /// Price alerts 2.0 (Phase 3): called only when `RemoteFeatures` says the routes exist.
     public var alertsV2: any AlertsV2Repository
+    /// Notifications 2.0 (Phase 6): called only when `RemoteFeatures` says the routes exist.
+    public var notificationSettings: any NotificationSettingsRepository
+    public var notificationCatalog: any NotificationCatalogRepository
 
     public init(
         plans: any PlansRepository,
@@ -43,7 +46,9 @@ public struct Repositories: Sendable {
         feedback: any FeedbackRepository,
         admin: any AdminRepository,
         health: any HealthRepository,
-        alertsV2: any AlertsV2Repository
+        alertsV2: any AlertsV2Repository,
+        notificationSettings: any NotificationSettingsRepository,
+        notificationCatalog: any NotificationCatalogRepository
     ) {
         self.plans = plans
         self.preferences = preferences
@@ -63,6 +68,8 @@ public struct Repositories: Sendable {
         self.admin = admin
         self.health = health
         self.alertsV2 = alertsV2
+        self.notificationSettings = notificationSettings
+        self.notificationCatalog = notificationCatalog
     }
 
     /// The live repositories over one `APIClient` and one `SSEClient`. `locale` is read per request.
@@ -87,6 +94,10 @@ public struct Repositories: Sendable {
             feedback: LiveFeedbackRepository(api: api, locale: locale),
             admin: LiveAdminRepository(api: api, locale: locale),
             health: LiveHealthRepository(api: api, locale: locale),
-            alertsV2: LiveAlertsV2Repository(api: api, locale: locale))
+            alertsV2: LiveAlertsV2Repository(api: api, locale: locale),
+            notificationSettings: LiveNotificationSettingsRepository(api: api, locale: locale),
+            notificationCatalog: CachedNotificationCatalogRepository(
+                network: LiveNotificationCatalogRepository(api: api, locale: locale),
+                store: CachedNotificationCatalogRepository.cachesStore()))
     }
 }

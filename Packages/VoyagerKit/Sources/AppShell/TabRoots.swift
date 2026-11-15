@@ -105,6 +105,7 @@ struct RouteDestination: View {
             }
         case .alerts(let kind, let watchID):
             AlertsRootView(env: env, kind: kind, watchID: watchID)
+        case .notificationSettings: NotificationSettingsView(env: env)
         default: EmptyState(icon: "questionmark.circle", title: TelemetryRouteName.template(for: route))
         }
     }
