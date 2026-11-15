@@ -47,6 +47,9 @@ public enum TelemetryEvent: Sendable {
     /// Price alerts 2.0: a price story was shown (`verdict` is great|good|typical|high|none) and the AI timing tip.
     case alertStoryView(kind: String, verdict: String)
     case alertAdvice(kind: String, outcome: String)
+    /// A drop moment was shown (`via` is in_app|push|email) and the weekly digest was opened (`via` is in_app|email_link).
+    case alertDropSeen(kind: String, targetHit: Bool, via: String)
+    case alertDigestOpen(via: String)
 }
 
 /// A validated event, ready to queue.
@@ -62,6 +65,8 @@ extension TelemetryEvent {
     static let alertKinds = ["flight", "hotel", "activity", "trip"]
     static let storyVerdicts = ["great", "good", "typical", "high", "none"]
     static let adviceOutcomes = ["ok", "cached", "error"]
+    static let dropVias = ["in_app", "push", "email"]
+    static let digestVias = ["in_app", "email_link"]
 
     var wire: WireEvent {
         var props: [String: JSONValue] = [:]
@@ -171,6 +176,14 @@ extension TelemetryEvent {
             name = "alert_advice"
             if let valid = PropsFilter.enum(kind, allowed: Self.alertKinds) { props["kind"] = .string(valid) }
             if let valid = PropsFilter.enum(outcome, allowed: Self.adviceOutcomes) { props["outcome"] = .string(valid) }
+        case .alertDropSeen(let kind, let targetHit, let via):
+            name = "alert_drop_seen"
+            if let valid = PropsFilter.enum(kind, allowed: Self.alertKinds) { props["kind"] = .string(valid) }
+            props["target_hit"] = .bool(targetHit)
+            if let valid = PropsFilter.enum(via, allowed: Self.dropVias) { props["via"] = .string(valid) }
+        case .alertDigestOpen(let via):
+            name = "alert_digest_open"
+            if let valid = PropsFilter.enum(via, allowed: Self.digestVias) { props["via"] = .string(valid) }
         }
         return WireEvent(name: name, props: props)
     }

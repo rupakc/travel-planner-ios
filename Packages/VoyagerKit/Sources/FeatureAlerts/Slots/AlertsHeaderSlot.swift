@@ -1,9 +1,17 @@
+import DesignSystem
 import SwiftUI
 
-/// Extension point under the Alerts intro text: Task 3.3 puts the savings header, the paused banner and the digest
-/// row here, Task 3.4 the suggestions and prefs entry points. Empty until then, so the page is unchanged.
+/// Extension point under the Alerts intro text: the savings header and the paused banner (Task 3.3); Task 3.4 adds the
+/// suggestions and prefs entry points. Shows nothing on a backend without Alerts 2.0, so the page is unchanged.
 struct AlertsHeaderSlot: View {
+    let model: AlertsHeaderModel
+
     var body: some View {
-        EmptyView()
+        if model.isAvailable {
+            VStack(alignment: .leading, spacing: Spacing.lg) {
+                if model.showsPausedBanner { PausedBanner() }
+                SavingsHeader(model: model)
+            }
+        }
     }
 }

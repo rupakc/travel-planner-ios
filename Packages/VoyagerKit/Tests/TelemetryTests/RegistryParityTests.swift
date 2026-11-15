@@ -37,6 +37,7 @@ import VoyagerModel
         .consentGranted, .perf(metric: .coldStart, value: 312.5, route: "/"),
         .apiError(source: "search", status: 500),
         .alertStoryView(kind: "flight", verdict: "good"), .alertAdvice(kind: "flight", outcome: "ok"),
+        .alertDropSeen(kind: "hotel", targetHit: true, via: "in_app"), .alertDigestOpen(via: "in_app"),
     ]
 
     @Test func test_everyCaseIsInRegistry() throws {
@@ -76,5 +77,7 @@ import VoyagerModel
         #expect(Set(TelemetryEvent.alertKinds) == (try members("alert_story_view", "kind")))
         #expect(Set(TelemetryEvent.storyVerdicts) == (try members("alert_story_view", "verdict")))
         #expect(Set(TelemetryEvent.adviceOutcomes) == (try members("alert_advice", "outcome")))
+        #expect(Set(TelemetryEvent.dropVias) == (try members("alert_drop_seen", "via")))
+        #expect(Set(TelemetryEvent.digestVias) == (try members("alert_digest_open", "via")))
     }
 }

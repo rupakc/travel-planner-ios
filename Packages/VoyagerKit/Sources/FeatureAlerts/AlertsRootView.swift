@@ -40,14 +40,18 @@ public struct AlertsRootView: View {
                         .foregroundStyle(SemanticColor.textMuted)
                         .fixedSize(horizontal: false, vertical: true)
                         .dynamicTypeSize(...DynamicTypeSize.accessibility2)
-                    AlertsHeaderSlot()
+                    AlertsHeaderSlot(model: model.header)
                     content
                 }
                 .frame(maxWidth: AdaptiveLayout.readableMaxWidth, alignment: .leading)
                 .frame(maxWidth: .infinity)
                 .padding(Spacing.lg)
             }
-            .refreshable { await model.load() }
+            .refreshable {
+                async let header: Void = model.header.load()
+                await model.load()
+                await header
+            }
             .onChange(of: model.focusedID) { _, id in
                 guard let id else { return }
                 withAnimation { proxy.scrollTo(id, anchor: .top) }
@@ -66,6 +70,7 @@ public struct AlertsRootView: View {
             await model.load()
             await model.loadInbox()
         }
+        .task { await model.header.load() }
         .sheet(item: $model.editing) { row in
             WatchEditor(
                 row: row, hasEmail: model.hasEmail, saving: model.busy[row.id] == .save,

@@ -74,6 +74,8 @@ public final class AlertsModel {
 
     /// The price stories of the watch cards (Alerts 2.0), one model per watch.
     @ObservationIgnored let stories: PriceStoryStore
+    /// The savings tally and the paused banner at the top of the page (Alerts 2.0).
+    public let header: AlertsHeaderModel
     @ObservationIgnored private let env: AppEnvironment
     @ObservationIgnored private let focusKind: WatchKind?
     @ObservationIgnored private let focusWatch: Int?
@@ -94,6 +96,7 @@ public final class AlertsModel {
         self.track = resolvedTrack
         self.now = resolvedNow
         stories = PriceStoryStore(env: env, track: resolvedTrack, now: resolvedNow)
+        header = AlertsHeaderModel(env: env)
     }
 
     // MARK: - Reading

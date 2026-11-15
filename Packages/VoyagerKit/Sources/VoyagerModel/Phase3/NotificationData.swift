@@ -105,10 +105,12 @@ public struct DigestWatch: Sendable, Hashable {
     public var change7d: Double?
     public var lowest: Double?
     public var checkedAt: String?
+    /// Not in the frozen contract but sent by the server (`alert_digest`); nil when absent, and then no symbol is shown.
+    public var currency: String?
 
     public init(
         kind: WatchKind? = nil, watchId: Int? = nil, title: String? = nil, latest: Double? = nil, change7d: Double? = nil,
-        lowest: Double? = nil, checkedAt: String? = nil
+        lowest: Double? = nil, checkedAt: String? = nil, currency: String? = nil
     ) {
         self.kind = kind
         self.watchId = watchId
@@ -117,6 +119,7 @@ public struct DigestWatch: Sendable, Hashable {
         self.change7d = change7d
         self.lowest = lowest
         self.checkedAt = checkedAt
+        self.currency = currency
     }
 
     init(json: JSONValue) {
@@ -124,7 +127,7 @@ public struct DigestWatch: Sendable, Hashable {
             kind: json["kind"].string.flatMap(WatchKind.init(rawValue:)), watchId: json["watch_id"].lenientInt,
             title: json["title"].lenientString, latest: json["latest"].lenientDouble,
             change7d: json["change_7d"].lenientDouble, lowest: json["lowest"].lenientDouble,
-            checkedAt: json["checked_at"].lenientString)
+            checkedAt: json["checked_at"].lenientString, currency: json["currency"].lenientString)
     }
 }
 
