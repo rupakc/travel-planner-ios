@@ -161,3 +161,94 @@ def test_notification_catalog_falls_back_to_english():
         assert all(isinstance(text, str) for text in _call(httpd, "GET", "/api/notifications/catalog")[1]["templates"].values())
     finally:
         httpd.shutdown()
+
+
+def test_phase5_flags_and_profile_flow():
+    httpd = _serve()
+    try:
+        features = _call(httpd, "GET", "/api/config")[1]["features"]
+        assert features["social"] == 1 and features["play"] == 1 and features["game"] is True
+        status, profile = _call(httpd, "GET", "/api/social/profile")
+        assert status == 200 and profile["handle"] is None and profile["visibility"] == "private"
+        assert _call(httpd, "PUT", "/api/social/profile", {"bio": "x"})[0] == 422
+        assert _call(httpd, "PUT", "/api/social/profile", {"handle": "pat"})[0] == 409
+        assert _call(httpd, "PUT", "/api/social/profile", {"handle": "admin"})[1]["error_code"] == "handle_reserved"
+        assert _call(httpd, "GET", "/api/social/handles/check?handle=Maria_K")[1] == {"available": True}
+        status, mine = _call(httpd, "PUT", "/api/social/profile", {"handle": "Maria_K", "visibility": "public"})
+        assert status == 200 and mine["handle"] == "maria_k" and mine["show_level"] is False
+        status, limited = _call(httpd, "PUT", "/api/social/profile", {"handle": "other_name"})
+        assert status == 422 and limited["error_code"] == "handle_rate_limited" and limited["retry_after"] > 0
+        assert _call(httpd, "PUT", "/api/social/follow/pat")[1] == {"state": "following"}
+        assert _call(httpd, "PUT", "/api/social/follow/lena")[1] == {"state": "pending"}
+        assert _call(httpd, "GET", "/api/social/profile/nobody")[0] == 404
+    finally:
+        httpd.shutdown()
+
+
+def test_phase5_feed_publish_like_comment_report():
+    httpd = _serve()
+    try:
+        assert _call(httpd, "POST", "/api/social/ideas", {"plan_id": 1, "title": "T"})[1]["error_code"] == "profile_required"
+        _call(httpd, "PUT", "/api/social/profile", {"handle": "maria_k", "visibility": "public"})
+        status, idea = _call(httpd, "POST", "/api/social/ideas", {"plan_id": 1, "title": "Kyoto", "caption": "see http://x"})
+        assert status == 200 and idea["status"] == "held" and idea["mine"] is True
+        assert _call(httpd, "POST", "/api/social/ideas", {"plan_id": 1, "title": " "})[1]["error_code"] == "title_invalid"
+        ideas = _call(httpd, "GET", "/api/social/feed?scope=new")[1]["ideas"]
+        assert {i["id"] for i in ideas} == {"i1", idea["id"]}
+        assert _call(httpd, "PUT", "/api/social/ideas/i1/like")[0] == 204
+        assert _call(httpd, "GET", "/api/social/ideas/i1")[1]["liked"] is True
+        assert _call(httpd, "POST", "/api/social/ideas/i1/save")[1]["plan_id"] > 0
+        assert _call(httpd, "POST", "/api/social/ideas/i1/comments", {"text": "Nice"})[1]["mine"] is True
+        assert len(_call(httpd, "GET", "/api/social/ideas/i1/comments")[1]["comments"]) == 2
+        assert _call(httpd, "POST", "/api/social/reports", {"target": "idea", "id": "i1", "reason": "spam"})[0] == 204
+        assert _call(httpd, "GET", "/api/social/ideas/zzz")[1]["error_code"] == "idea_not_found"
+    finally:
+        httpd.shutdown()
+
+
+def test_phase5_daily_quiz_is_answered_server_side_and_done_once():
+    httpd = _serve()
+    try:
+        status, session = _call(httpd, "POST", "/api/play/quiz", {"mode": "daily"})
+        assert status == 200 and len(session["questions"]) == 5 and session["questions"][0]["options"][0]["code"] == "JP"
+        sid = session["session_id"]
+        last = None
+        for index in range(5):
+            last = _call(httpd, "POST", f"/api/play/quiz/{sid}/answer", {"index": index, "choice": "a"})[1]
+        assert last["done"] is True and last["summary"]["correct"] == 5 and last["summary"]["xp"]["xp"] == 10
+        assert _call(httpd, "POST", "/api/play/quiz", {"mode": "daily"})[1]["error_code"] == "already_done"
+        state = _call(httpd, "GET", "/api/play/state")[1]
+        assert state["daily"]["done"] is True and state["daily"]["score"] == last["summary"]["score"]
+        assert _call(httpd, "POST", "/api/play/quiz", {"mode": "pack", "pack": "nope"})[1]["error_code"] == "invalid_pack"
+        assert _call(httpd, "GET", "/api/play/quiz/missing")[1]["error_code"] == "session_not_found"
+        assert len(_call(httpd, "GET", "/api/play/history")[1]["history"]) == 1
+    finally:
+        httpd.shutdown()
+
+
+def test_phase5_head_to_head_and_boards():
+    httpd = _serve()
+    try:
+        assert _call(httpd, "POST", "/api/play/h2h", {"handle": "pat", "pack": "flags"})[0] == 409
+        _call(httpd, "PUT", "/api/social/profile", {"handle": "maria_k", "visibility": "public"})
+        assert _call(httpd, "POST", "/api/play/h2h", {"handle": "maria_k", "pack": "flags"})[1]["error_code"] == "cannot_challenge_self"
+        status, created = _call(httpd, "POST", "/api/play/h2h", {"handle": "pat", "pack": "flags"})
+        assert status == 200 and created["id"] == "m1" and created["mode"] == "h2h"
+        match = _call(httpd, "GET", "/api/play/h2h")[1]["matches"][0]
+        assert match["state"] == "waiting_them" and match["them"] is None and match["session_id"] == created["session_id"]
+        board = _call(httpd, "GET", "/api/play/leaderboard?scope=global&week=current")[1]
+        assert board["week"] == "2026-W46" and board["you"]["rank"] is None
+        _call(httpd, "PUT", "/api/social/profile", {"leaderboard_opt_in": True})
+        assert _call(httpd, "GET", "/api/play/leaderboard?scope=global")[1]["you"]["rank"] == 2
+        assert _call(httpd, "GET", "/api/play/challenge")[1]["kind"] == "featured"
+    finally:
+        httpd.shutdown()
+
+
+def test_phase5_catalog_has_the_social_and_quiz_templates():
+    httpd = _serve()
+    try:
+        templates = _call(httpd, "GET", "/api/notifications/catalog")[1]["templates"]
+        assert {"idea_saved", "new_follower", "h2h_invite", "h2h_result"} <= set(templates)
+    finally:
+        httpd.shutdown()

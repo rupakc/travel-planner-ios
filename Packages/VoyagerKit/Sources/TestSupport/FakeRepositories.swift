@@ -240,6 +240,8 @@ public struct FakeRepositories: Sendable {
     public var notificationSettings = FakeNotificationSettingsRepository()
     public var notificationCatalog = FakeNotificationCatalogRepository()
     public var shares = FakeSharesRepository()
+    public var social = FakeSocialRepository()
+    public var play = FakePlayRepository()
     public var auth = FakeAuthAPI()
 
     public init() {}
@@ -250,7 +252,7 @@ public struct FakeRepositories: Sendable {
             agents: agents, discover: discover, compare: compare, importer: importer, watches: watches,
             notifications: notifications, nearby: nearby, devices: devices, feedback: feedback, admin: admin, health: health,
             alertsV2: alertsV2, notificationSettings: notificationSettings, notificationCatalog: notificationCatalog,
-            shares: shares)
+            shares: shares, social: social, play: play)
     }
 }
 
