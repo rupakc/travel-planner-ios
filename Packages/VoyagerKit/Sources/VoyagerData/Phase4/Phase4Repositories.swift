@@ -18,6 +18,11 @@ extension Endpoints {
             method: .delete, path: "/api/shares/" + Self.pathSegment(token), telemetryName: "/api/shares/:token")
     }
 
+    /// `DELETE /plans/{id}/share`: the legacy plan link (`legacy_plan_shares` of `GET /shares`).
+    public static func sharesRevokeLegacy(planID: Int) -> Endpoint<Empty> {
+        Endpoint(method: .delete, path: "/api/plans/\(planID)/share", telemetryName: "/api/plans/:id/share")
+    }
+
     /// One URL path segment: everything outside the unreserved set is percent-encoded, so a token can never add a
     /// slash, a query or a dot segment.
     static func pathSegment(_ value: String) -> String {
@@ -46,4 +51,8 @@ public struct LiveSharesRepository: SharesRepository {
     public func list() async throws -> ShareList { try await api.send(Endpoints.sharesList()) }
 
     public func revoke(token: String) async throws { _ = try await api.send(Endpoints.sharesRevoke(token: token)) }
+
+    public func revokeLegacyPlanShare(planID: Int) async throws {
+        _ = try await api.send(Endpoints.sharesRevokeLegacy(planID: planID))
+    }
 }
