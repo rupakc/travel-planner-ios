@@ -19,14 +19,20 @@ struct AlertPrefsTests {
         let fakes = FakeRepositories()
         fakes.alertsV2.onPrefs.returns(prefs)
         // The server applies a patch to what it holds and answers the whole object.
+        let held = Held(prefs)
         fakes.alertsV2.onUpdatePrefs.handler = { patch in
-            var next = prefs
-            next.apply(patch)
-            return next
+            held.value.apply(patch)
+            return held.value
         }
         let env = AppEnvironment.fake(fakes: fakes, clientConfig: config ?? v2)
         let log = TrackLog()
         return (AlertPrefsModel(env: env, track: { log.events.append($0) }), fakes, log)
+    }
+
+    /// What the fake server holds between saves.
+    final class Held: @unchecked Sendable {
+        var value: AlertPrefs
+        init(_ value: AlertPrefs) { self.value = value }
     }
 
     @MainActor final class TrackLog {
