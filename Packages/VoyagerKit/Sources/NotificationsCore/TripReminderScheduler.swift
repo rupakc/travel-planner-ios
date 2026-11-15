@@ -115,7 +115,7 @@ public enum TripReminderScheduler {
 
     /// Removes the trip reminders and alert notifications (pending and delivered) of the previous account.
     public static func purgeAccountNotifications(center: any NotificationCenterClient = SystemNotificationCenter()) async {
-        await center.purge(prefixes: [idPrefix, AlertPoller.idPrefix, NearbyInvite.idPrefix])
+        await center.purge(prefixes: [idPrefix, AlertPoller.idPrefix])
     }
 
     /// Sign-out or user switch: clears the old account's notifications, then loads the new user's trips.
