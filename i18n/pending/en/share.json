@@ -1,3 +1,6 @@
 {
-  "sameLinkNote": "Sharing this again updates the same link: your new choices replace the earlier ones."
+  "sameLinkNote": "Sharing this again updates the same link: your new choices replace the earlier ones.",
+  "mine": {
+    "shareAgain": "Share again"
+  }
 }

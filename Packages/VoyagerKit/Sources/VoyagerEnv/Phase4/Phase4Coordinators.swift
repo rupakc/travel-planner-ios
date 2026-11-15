@@ -35,6 +35,11 @@ public final class SharesService {
         try await run(.revoke) { try await $0.revoke(token: token) }
     }
 
+    /// Revokes a legacy plan link (the older `POST /plans/{id}/share` token).
+    public func revokeLegacy(planID: Int) async throws {
+        try await run(.revoke) { try await $0.revokeLegacyPlanShare(planID: planID) }
+    }
+
     /// Downloads one of a share's cards when its host is trusted; nil URL means link only.
     public func cardLoader() -> any ShareCardLoading {
         let server = env.server
