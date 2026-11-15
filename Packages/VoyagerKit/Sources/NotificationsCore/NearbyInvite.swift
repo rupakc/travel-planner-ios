@@ -1,8 +1,10 @@
 import Foundation
 
 /// An on-device "near you" invite built from the server text catalogue (`nearby_arrival`, `{name}` placeholders;
-/// `GET /api/notifications/catalog`). Nothing location-like leaves the device. Task 47 supplies the places.
+/// `GET /api/notifications/catalog`). Nothing location-like leaves the device. `NearYouNotifier` supplies the places (one non-grounded `POST /nearby`).
 public enum NearbyInvite {
+    public static let idPrefix = "nearby-"
+
     /// Fills `{place}`, `{item}` and `{minutes}`; unknown placeholders are left as they are.
     public static func render(template: String, place: String, item: String, minutes: Int) -> String {
         template
@@ -12,6 +14,6 @@ public enum NearbyInvite {
     }
 
     public static func notification(id: String, title: String, body: String) -> LocalNotification {
-        LocalNotification(id: "nearby-\(id)", title: title, body: body, userInfo: ["route": "nearby"])
+        LocalNotification(id: idPrefix + id, title: title, body: body, userInfo: ["route": "nearby"])
     }
 }
