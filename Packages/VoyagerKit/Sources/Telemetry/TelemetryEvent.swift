@@ -56,6 +56,8 @@ public enum TelemetryEvent: Sendable {
     /// A drop moment was shown (`via` is in_app|push|email) and the weekly digest was opened (`via` is in_app|email_link).
     case alertDropSeen(kind: String, targetHit: Bool, via: String)
     case alertDigestOpen(via: String)
+    /// A savings share went out (`target` is native|copy|download).
+    case alertSavingsShare(target: String)
     /// Notifications 2.0: the settings screen was opened, a category switched (`category` is a
     /// `NotificationCategory` raw value), quiet hours changed, the daily cap changed.
     case notifSettingsView
@@ -81,6 +83,7 @@ extension TelemetryEvent {
     static let adviceOutcomes = ["ok", "cached", "error"]
     static let dropVias = ["in_app", "push", "email"]
     static let digestVias = ["in_app", "email_link"]
+    static let savingsShareTargets = ["native", "copy", "download"]
     static let notifSources = ["push", "inapp"]
     static let notifCategories = NotificationCategory.allCases.map(\.rawValue)
     static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
@@ -220,6 +223,9 @@ extension TelemetryEvent {
         case .alertDigestOpen(let via):
             name = "alert_digest_open"
             if let valid = PropsFilter.enum(via, allowed: Self.digestVias) { props["via"] = .string(valid) }
+        case .alertSavingsShare(let target):
+            name = "alert_savings_share"
+            if let valid = PropsFilter.enum(target, allowed: Self.savingsShareTargets) { props["target"] = .string(valid) }
         case .notifSettingsView:
             name = "notif_settings_view"
         case .notifCategoryToggle(let category, let on):

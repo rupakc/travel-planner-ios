@@ -39,6 +39,14 @@ final class SavingsSnapshotTests: XCTestCase {
             of: { self.header(self.milestone) }, named: "SavingsHeaderMilestone", configs: [light, dark], layout: .component)
     }
 
+    /// The "Share savings" entry (Task 4.4): a plain tally with the share button the sheet opens from.
+    func test_savingsShareEntry() async {
+        let plain = Savings(totalUSD: 46, dropsCaught: 1, targetsHit: 0, watchesActive: 2, nextMilestone: 50, progressPct: 92)
+        await assertSnapshots(
+            of: { self.header(plain) }, named: "SavingsShareEntry",
+            configs: [config("se-light", height: 340), config("se-dark", dark: true, height: 340)], layout: .component)
+    }
+
     func test_savingsHeaderEmpty() async {
         await assertSnapshots(
             of: { self.header(Savings()) }, named: "SavingsHeaderEmpty", configs: [config("se-light", height: 200)],

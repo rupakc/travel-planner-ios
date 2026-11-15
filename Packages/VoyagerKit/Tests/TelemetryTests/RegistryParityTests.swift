@@ -38,7 +38,7 @@ import VoyagerModel
         .consentGranted, .perf(metric: .coldStart, value: 312.5, route: "/"),
         .apiError(source: "search", status: 500),
         .alertStoryView(kind: "flight", verdict: "good"), .alertAdvice(kind: "flight", outcome: "ok"),
-        .alertDropSeen(kind: "hotel", targetHit: true, via: "in_app"), .alertDigestOpen(via: "in_app"),
+        .alertDropSeen(kind: "hotel", targetHit: true, via: "in_app"), .alertDigestOpen(via: "in_app"), .alertSavingsShare(target: "copy"),
         .notifSettingsView, .notifCategoryToggle(category: "price_drops", on: false), .notifQuietHoursChange(enabled: true),
         .notifCapChange(cap: 5), .notifOpen(category: "trip_reminders", source: "push"),
     ]

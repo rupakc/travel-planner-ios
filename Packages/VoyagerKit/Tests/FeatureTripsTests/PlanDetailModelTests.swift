@@ -47,6 +47,18 @@ final class PlanDetailModelTests: XCTestCase {
         XCTAssertFalse(model.shareFailed)
     }
 
+    func test_shareOpensSheetWhenFlagOn() async {
+        let fakes = FakeRepositories()
+        fakes.plans.onGet.returns(TripsFixtures.savedPlan)
+        let env = AppEnvironment.fake(fakes: fakes, clientConfig: ClientConfig(features: ["sharing": .number(1)]))
+        let model = PlanDetailModel(env: env, planID: 2, files: MemoryFileStore())
+        await model.load()
+        await model.share()
+        XCTAssertEqual(env.recordedRoutes, [.shareSheet(.plan(id: 2))])
+        XCTAssertEqual(fakes.plans.onShare.callCount, 0)
+        XCTAssertNil(model.shareURL)
+    }
+
     func test_deleteNeedsConfirmationThenLeaves() async {
         let (model, env, fakes) = await make()
         env.plan.load(TripsFixtures.savedPlan)

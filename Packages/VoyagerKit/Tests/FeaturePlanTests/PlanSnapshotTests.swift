@@ -110,6 +110,24 @@ final class PlanSnapshotTests: XCTestCase {
             named: "over", configs: [.phoneLight, .phoneDark], layout: .component)
     }
 
+    /// The Share and Export actions with share links 2.0 on (Share opens the share sheet).
+    func test_planShareEntry() async {
+        let env = AppEnvironment.fake(user: .sample, clientConfig: ClientConfig(features: ["sharing": .number(1)]))
+        env.plan.selections = PlanFixtures.selections
+        env.plan.searchData = PlanFixtures.searchData
+        env.plan.isDirty = false
+        let model = MyPlanModel(env: env)
+        func actions() -> some View {
+            HStack(spacing: Spacing.sm) {
+                ShareLinkButton(model: model).frame(maxWidth: .infinity)
+                ExportMenu(model: model).frame(maxWidth: .infinity)
+            }
+        }
+        await FontRegistry.ready()
+        let configs = fullHeight([.phoneLight, .phoneDark], padding: 16) { actions() }
+        await assertSnapshots(of: { actions().padding(16) }, named: "PlanShareEntry", configs: configs, layout: .component)
+    }
+
     func test_saveSheet() async {
         let (_, env) = content()
         let model = MyPlanModel(env: env)
