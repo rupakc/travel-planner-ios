@@ -50,6 +50,7 @@ public struct SharedPlanView: View {
                 content(plan)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(SemanticColor.surface)
         .telemetryRoute("/share/:token")
         .task {
