@@ -102,6 +102,8 @@ public struct SectionCard<Content: View>: View {
                     .multilineTextAlignment(.leading)
                     .lineLimit(singleLine ? 1 : nil)
                     .fixedSize(horizontal: singleLine, vertical: true)
+                    // A long word never breaks mid-word at the largest sizes: the title steps down a notch there.
+                    .dynamicTypeSize(...(singleLine ? DynamicTypeSize.accessibility5 : DynamicTypeSize.accessibility2))
                 Spacer(minLength: Spacing.xs)
             }
             .frame(minHeight: 44)
