@@ -68,6 +68,8 @@ public enum TelemetryEvent: Sendable {
     case notifCategoryToggle(category: String, on: Bool)
     case notifQuietHoursChange(enabled: Bool)
     case notifCapChange(cap: Int)
+    /// A notification was opened: `category` is a `NotificationCategory` raw value, `source` is `push|inapp`.
+    case notifOpen(category: String, source: String)
 }
 
 /// A validated event, ready to queue.
@@ -89,6 +91,7 @@ extension TelemetryEvent {
     static let quickWatchSurfaces = ["results", "chat", "trip", "suggest"]
     static let suggestActions = ["shown", "accepted", "dismissed"]
     static let prefsFields = ["digest", "quiet_hours", "instant", "cap", "group"]
+    static let notifSources = ["push", "inapp"]
     static let notifCategories = NotificationCategory.allCases.map(\.rawValue)
     static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
     static let shareDates = ["hidden", "month", "exact"]
@@ -251,6 +254,10 @@ extension TelemetryEvent {
         case .notifCapChange(let cap):
             name = "notif_cap_change"
             int("cap", cap)
+        case .notifOpen(let category, let source):
+            name = "notif_open"
+            if let valid = PropsFilter.enum(category, allowed: Self.notifCategories) { props["category"] = .string(valid) }
+            if let valid = PropsFilter.enum(source, allowed: Self.notifSources) { props["source"] = .string(valid) }
         }
         return WireEvent(name: name, props: props)
     }

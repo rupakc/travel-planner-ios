@@ -20,6 +20,14 @@ public struct ShareSheetView: View {
         _model = State(initialValue: ShareSheetModel(env: env, target: target))
     }
 
+    /// A sheet that starts from a link's current choices ("Share again" in My shares), so a second share never silently
+    /// resets them to the private defaults.
+    @MainActor init(env: AppEnvironment, target: ShareTarget, options: ShareOptions) {
+        let model = ShareSheetModel(env: env, target: target)
+        model.options = options
+        _model = State(initialValue: model)
+    }
+
     @MainActor init(model: ShareSheetModel) {
         _model = State(initialValue: model)
     }

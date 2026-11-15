@@ -8,11 +8,13 @@ public final class FakeSharesRepository: SharesRepository {
     public let onCreate = FakeCall<ShareRequest, Share>("shares.create")
     public let onList = FakeCall<Void, ShareList>("shares.list") { _ in ShareList() }
     public let onRevoke = FakeCall<String, Void>("shares.revoke") { _ in }
+    public let onRevokeLegacy = FakeCall<Int, Void>("shares.revokeLegacy") { _ in }
     public init() {}
 
     public func create(_ request: ShareRequest) async throws -> Share { try await onCreate(request) }
     public func list() async throws -> ShareList { try await onList() }
     public func revoke(token: String) async throws { try await onRevoke(token) }
+    public func revokeLegacyPlanShare(planID: Int) async throws { try await onRevokeLegacy(planID) }
 }
 
 // The fake's input mirrors the protocol's three parameters.

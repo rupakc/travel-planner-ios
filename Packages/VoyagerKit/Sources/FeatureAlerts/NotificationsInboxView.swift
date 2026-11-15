@@ -86,6 +86,7 @@ public struct NotificationsInboxView: View {
                     .frame(width: 10, height: 10)
                     .padding(.top, Spacing.xs)
                     .accessibilityHidden(true)
+                if let symbol = NotificationRowIcon.symbol(for: item) { NotificationRowIconView(symbol: symbol) }
                 VStack(alignment: .leading, spacing: Spacing.xs) {
                     Text(verbatim: item.title ?? "")
                         .font(VFont.body(.subheadline, weight: unread ? .semibold : .regular))

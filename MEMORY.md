@@ -63,3 +63,9 @@
 - Ruling: the one new string ("Sharing this again updates the same link...") is a pending English key (`i18n/pending/en/share.json`) until Task 41 translates it; every other string is an existing web `share:` / `mobile:share.*` key in all 7 languages. Cost: one English line in six languages until Task 41.
 - Ruling: `FeatureShare` Create is built on main only; T29's `ShareLinkButton` (#47, unmerged) is untouched, so no entry point opens `.shareSheet` yet (Task 4.4).
 
+## Task 4.2 rulings (My shares)
+- Ruling: "Stop sharing" confirms inline in the row (the web's `mine.confirm`/`yes`/`no` copy, no Undo, says the loss of access is immediate) instead of a `confirmationDialog`, so the confirmation is snapshot-testable and reads the same at AX5. Cost: not the system action sheet.
+- Ruling: legacy plan links are revoked with `DELETE /plans/{id}/share` through `SharesRepository.revokeLegacyPlanShare` (a 404 counts as already gone); "Open" on a legacy row reads the token from its URL.
+- Ruling: "Share again" opens `ShareSheetView` over the list, starting from the link's own options (so a second share never resets them to private); only plan, recap and savings rows offer it (quiz and status need a session or active trip the list does not carry).
+- Ruling: a pasted link opens only as `voyager://share/<token>` or `https://<trusted host>/share/<token>` (`ShareLinkParser`, the `DeepLinks` allow-list; 8-64 URL-safe characters); anything else shows `mobile:share.openLinkInvalid`.
+- Ruling: one new string, `share:mine.shareAgain` ("Share again"), is a pending English key until Task 41.

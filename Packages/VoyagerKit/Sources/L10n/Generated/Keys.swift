@@ -4143,6 +4143,7 @@ public enum K {
             public static let `open` = LKey("share:mine.open", placeholders: [], plural: false)
             public static let revoke = LKey("share:mine.revoke", placeholders: [], plural: false)
             public static let revoked = LKey("share:mine.revoked", placeholders: [], plural: false)
+            public static let shareAgain = LKey("share:mine.shareAgain", placeholders: [], plural: false)
             public static let title = LKey("share:mine.title", placeholders: [], plural: false)
             public static let untitled = LKey("share:mine.untitled", placeholders: [], plural: false)
             public static let yes = LKey("share:mine.yes", placeholders: [], plural: false)

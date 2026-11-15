@@ -1,4 +1,5 @@
 import DesignSystem
+import Domain
 import NotificationsCore
 import SharedUI
 import SwiftUI
@@ -34,6 +35,7 @@ public struct RootView: View {
             .environment(\.locale, env.language.locale)
             .router(router)
             .onAppear {
+                NotificationLinks.install { DeepLinks.route(forNotificationLink: $0) }
                 // Every watch create / change / delete goes through this one hook.
                 env.onWatchesChanged = { [env] in
                     await TripReminderScheduler.refresh(env: env)
