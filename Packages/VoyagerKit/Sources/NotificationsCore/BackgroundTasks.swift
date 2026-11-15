@@ -1,5 +1,6 @@
 import BackgroundTasks
 import Foundation
+import Telemetry
 import UserNotifications
 import VoyagerEnv
 import VoyagerModel
@@ -54,8 +55,26 @@ public enum BackgroundTasks {
     @MainActor
     public static func pollAlerts(env: AppEnvironment) async {
         guard env.device.alertPoll, env.auth.phase == .signedIn, let user = env.auth.session?.user.username else { return }
-        let poller = pollerBox.poller(for: env.repos.notifications, userID: user)
+        let poller = pollerBox.poller(for: env.repos.notifications, userID: user) { [env] in
+            await pollContext(env: env)
+        }
         await poller.poll()
+    }
+
+    /// The rules for this poll (R9). Nil: the notification settings exist but could not be read, so the poll waits.
+    @MainActor
+    static func pollContext(env: AppEnvironment) async -> PollContext? {
+        let features = RemoteFeatures(config: env.clientConfig)
+        // Quiz rows carry game wording; whether the account hides the game is not readable here, so they stay hidden.
+        let showsGame = StaticGameVisibility(gameFeature: features.game, hideGameSetting: nil).showsGame
+        guard features.hasNotificationSettings else { return PollContext(showsGame: showsGame) }
+        guard let settings = try? await env.repos.notificationSettings.get() else { return nil }
+        NotificationPolicyCache.shared.store(settings)
+        var prefs: AlertPrefs?
+        if features.hasAlertsV2 { prefs = try? await env.repos.alertsV2.prefs() }
+        return PollContext(
+            settings: settings, prefs: prefs, showsGame: showsGame,
+            serverPushLive: features.serverPushLive && settings.devices >= 1)
     }
 
     private static func handle(
@@ -96,11 +115,13 @@ private final class PollerBox: @unchecked Sendable {
     private var current: AlertPoller?
 
     /// A new user gets a new poller (its own seen ids, a clean 404 flag).
-    func poller(for repo: any NotificationsRepository, userID: String) -> AlertPoller {
+    func poller(
+        for repo: any NotificationsRepository, userID: String, context: @escaping @Sendable () async -> PollContext?
+    ) -> AlertPoller {
         lock.lock()
         defer { lock.unlock() }
         if let current, current.userID == userID { return current }
-        let made = AlertPoller(repo: repo, userID: userID)
+        let made = AlertPoller(repo: repo, userID: userID, context: context)
         current = made
         return made
     }
@@ -123,14 +144,73 @@ final class NotificationTapDelegate: NSObject, UNUserNotificationCenterDelegate 
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification
     ) async -> UNNotificationPresentationOptions {
-        [.banner, .list, .sound]
+        let info = notification.request.content.userInfo
+        let push = PushPayload(userInfo: info)
+        await MainActor.run { self.recordPush(push) }
+        // Foreground presentation honours the category switch (the last settings this launch read).
+        if let category = push.category, !NotificationPolicyCache.shared.isEnabled(category) { return [] }
+        return [.banner, .list, .sound]
     }
 
     nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse
     ) async {
-        let route = NotificationRouting.route(userInfo: response.notification.request.content.userInfo)
-        await MainActor.run { env?.router.open(route) }
+        let request = response.notification.request
+        let info = UserInfoBox(request.content.userInfo)
+        let push = PushPayload(userInfo: info.value)
+        let isPush = request.trigger is UNPushNotificationTrigger
+        await MainActor.run {
+            recordPush(push)
+            guard let env else { return }
+            let route = NotificationRouting.route(
+                userInfo: info.value, todayAvailable: env.clientConfig?.journeyAvailable ?? false)
+            if let category = Self.openedCategory(info: info.value, push: push) {
+                env.telemetry.track(.notifOpen(category: category.rawValue, source: isPush ? "push" : "inapp"))
+            }
+            env.router.open(route)
+        }
+    }
+
+    /// The category of the tapped notification: the push's own, or the one its local `route` stands for.
+    static func openedCategory(info: [AnyHashable: Any], push: PushPayload) -> NotificationCategory? {
+        if let category = push.category { return category }
+        switch info["route"] as? String {
+        case "trip": return .tripReminders
+        case "alerts": return .priceDrops
+        case "nearby": return .nearby
+        default: return nil
+        }
+    }
+
+    private func recordPush(_ push: PushPayload) {
+        guard let id = push.notificationID, let user = env?.auth.session?.user.username else { return }
+        AlertPoller.recordPush(id: id, userID: user)
+    }
+}
+
+/// A notification's `userInfo` carried into the main actor. It is a plain property list read once and never changed.
+private struct UserInfoBox: @unchecked Sendable {
+    let value: [AnyHashable: Any]
+    init(_ value: [AnyHashable: Any]) { self.value = value }
+}
+
+/// The last notification settings this launch read, for the foreground banner decision (no network in `willPresent`).
+final class NotificationPolicyCache: @unchecked Sendable {
+    static let shared = NotificationPolicyCache()
+    private let lock = NSLock()
+    private var settings: NotificationSettings?
+
+    func store(_ value: NotificationSettings) {
+        lock.lock()
+        settings = value
+        lock.unlock()
+    }
+
+    /// Unknown settings (not read yet) count as on: the server already applied the switches before it sent the push.
+    func isEnabled(_ category: NotificationCategory) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return settings?.isEnabled(category) ?? true
     }
 }

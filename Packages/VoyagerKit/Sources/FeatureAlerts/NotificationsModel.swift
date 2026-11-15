@@ -1,3 +1,4 @@
+import Domain
 import Foundation
 import L10n
 import Networking
@@ -110,7 +111,13 @@ public final class NotificationsModel {
     /// A tap: mark read, then focus the watch the notification is about (when it names one).
     public func open(_ notification: AppNotification) async {
         track(.alertEvent(action: "inbox_open", kind: Self.kindToken(notification)))
-        if notification.isPriceDigest {
+        if let category = NotificationCategory.of(kind: notification.kind) {
+            track(.notifOpen(category: category.rawValue, source: "inapp"))
+        }
+        if let route = Self.serverRoute(of: notification, todayAvailable: env.clientConfig?.journeyAvailable ?? false) {
+            // Trip, weather, social and quiz rows: Today by `plan_id`, or the row's allow-listed `link` (R8).
+            env.router.open(route)
+        } else if notification.isPriceDigest {
             // The weekly digest has no single watch: it opens the Alerts page.
             extras.digestOpened()
             env.router.open(.alerts(kind: nil, watchID: nil))
@@ -126,6 +133,18 @@ public final class NotificationsModel {
     }
 
     // MARK: - Parsing
+
+    /// Where a non-price row goes: trip and weather rows open Today (or the trip detail while Today is off) by `data.plan_id`,
+    /// social and quiz rows follow `data.link`. Nil for price rows, unknown kinds, and trip rows without a `plan_id`
+    /// (they are already in the inbox).
+    static func serverRoute(of notification: AppNotification, todayAvailable: Bool) -> Route? {
+        guard let kind = notification.kind, let category = NotificationCategory.of(kind: kind), category != .priceDrops
+        else { return nil }
+        let planID = notification.data["plan_id"].int
+        let route = NotificationTarget.route(
+            kind: kind, planID: planID, link: notification.data["link"].string, todayAvailable: todayAvailable)
+        return route == .notifications ? nil : route
+    }
 
     /// `data.links.alerts` is a web path: `/alerts?watch=7` or `/alerts?kind=hotel&watch=4`. Falls back to
     /// `data.watch_id` (and `data.kind`) for rows without links.

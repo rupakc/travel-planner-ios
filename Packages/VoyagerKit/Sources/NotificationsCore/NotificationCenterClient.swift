@@ -36,8 +36,14 @@ public protocol NotificationCenterClient: Sendable {
     func add(_ notification: LocalNotification) async -> Bool
     func pendingIdentifiers() async -> [String]
     func removePending(identifiers: [String]) async
+    /// The `notification_id` of every server push already in the notification list (to not show a row twice).
+    func deliveredPushIDs() async -> Set<Int>
     /// Removes pending and already delivered notifications whose identifier starts with one of `prefixes`.
     func purge(prefixes: [String]) async
+}
+
+extension NotificationCenterClient {
+    public func deliveredPushIDs() async -> Set<Int> { [] }
 }
 
 /// The live center. `UNUserNotificationCenter` is thread-safe.
@@ -85,6 +91,14 @@ public struct SystemNotificationCenter: NotificationCenterClient {
 
     public func removePending(identifiers: [String]) async {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+    }
+
+    public func deliveredPushIDs() async -> Set<Int> {
+        var ids = Set<Int>()
+        for item in await UNUserNotificationCenter.current().deliveredNotifications() {
+            if let id = PushPayload(userInfo: item.request.content.userInfo).notificationID { ids.insert(id) }
+        }
+        return ids
     }
 
     public func purge(prefixes: [String]) async {

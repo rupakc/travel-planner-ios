@@ -12,6 +12,12 @@ final class FakeCenter: NotificationCenterClient, Sendable {
     init(granted: Bool = true) { state.withLock { $0.granted = granted } }
 
     var added: [LocalNotification] { state.withLock { Array($0.pending.values) } }
+    private let delivered = OSAllocatedUnfairLock(initialState: Set<Int>())
+    var deliveredIDs: Set<Int> {
+        get { delivered.withLock { $0 } }
+        set { delivered.withLock { $0 = newValue } }
+    }
+    func deliveredPushIDs() async -> Set<Int> { deliveredIDs }
     var requests: Int { state.withLock { $0.requests } }
     func requestAuthorization() async -> Bool { state.withLock { $0.requests += 1; return $0.granted } }
     func isAuthorized() async -> Bool { state.withLock { $0.granted } }
@@ -78,7 +84,7 @@ private func plan(_ id: Int, from: String?, to: String?) -> PlanSummary {
 }
 
 private let text = TripReminderScheduler.Text(
-    t7Title: { "t7 \($0)" }, t7Body: { "b7" }, t1Title: { "t1 \($0)" }, t1Body: { "b1" },
+    t30Title: { "t30 \($0)" }, t30Body: { "b30" }, t7Title: { "t7 \($0)" }, t7Body: { "b7" }, t1Title: { "t1 \($0)" }, t1Body: { "b1" },
     dayTitle: { "d\($0) \($1)" }, dayBody: { "bd" }, lastDayTitle: { "last \($0)" }, lastDayBody: { "bl" }
 )
 
@@ -245,7 +251,8 @@ private let text = TripReminderScheduler.Text(
     }
 
     @Test func tripAndNearbyRoutes() {
-        #expect(NotificationRouting.route(userInfo: ["route": "trip", "plan_id": "12"]) == .planDetail(id: 12))
+        #expect(NotificationRouting.route(userInfo: ["route": "trip", "plan_id": "12"]) == .tripToday(planID: 12))
+        #expect(NotificationRouting.route(["route": "trip", "plan_id": "12"], todayAvailable: false) == .planDetail(id: 12))
         #expect(NotificationRouting.route(["route": "trip", "plan_id": "x"]) == .tab(.trips))
         #expect(NotificationRouting.route(["route": "nearby"]) == .nearby)
     }

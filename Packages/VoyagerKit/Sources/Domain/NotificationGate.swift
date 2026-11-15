@@ -52,7 +52,7 @@ public enum NotificationGate {
     }
 
     /// The watch kind of a price row: `data.watch_kind`, `flight` for fare-watch rows, else the kind prefix.
-    static func watchKind(of row: AppNotification) -> WatchKind? {
+    public static func watchKind(of row: AppNotification) -> WatchKind? {
         if let raw = row.data["watch_kind"].string ?? row.data["kind"].string, let kind = WatchKind(rawValue: raw) { return kind }
         guard let name = row.kind else { return nil }
         if name.hasPrefix("fare_") { return .flight }
