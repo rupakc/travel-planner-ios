@@ -29,7 +29,13 @@ enum SavingsText {
         guard let next = savings.nextMilestone else { return L10n.text(K.savings.allDone) }
         return L10n.text(
             K.savings.progress,
-            ["pct": Fmt.number(Double(clampedPercent(savings)), fractionDigits: 0), "amount": Fmt.currency(Double(next), code: "USD")])
+            ["pct": Fmt.number(Double(clampedPercent(savings)), fractionDigits: 0), "amount": wholeDollars(next)])
+    }
+
+    /// A milestone as "$1,000": whole dollars, in the app language.
+    static func wholeDollars(_ amount: Int) -> String {
+        Double(amount).formatted(
+            .currency(code: "USD").precision(.fractionLength(0)).locale(LanguageController.current.intlLocale))
     }
 
     static func clampedPercent(_ savings: Savings) -> Int { max(0, min(100, savings.progressPct)) }
@@ -47,7 +53,7 @@ enum SavingsText {
     static func milestoneChips(_ savings: Savings) -> [MilestoneChip] {
         savings.milestones.sorted().map { milestone in
             let reached = savings.totalUSD >= Double(milestone)
-            let amount = Fmt.currency(Double(milestone), code: "USD")
+            let amount = wholeDollars(milestone)
             return MilestoneChip(
                 amount: milestone, reached: reached,
                 text: L10n.text(reached ? K.savings.milestoneReached : K.savings.milestoneAhead, ["amount": amount]))

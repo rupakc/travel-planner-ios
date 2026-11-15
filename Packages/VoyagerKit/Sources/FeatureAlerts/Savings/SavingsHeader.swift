@@ -56,15 +56,17 @@ struct SavingsHeader: View {
     private func tally(_ savings: Savings) -> some View {
         VCard {
             VStack(alignment: .leading, spacing: Spacing.md) {
-                Text(verbatim: L10n.text(K.savings.title))
-                    .font(VFont.display(.headline)).foregroundStyle(SemanticColor.text)
-                    .accessibilityAddTraits(.isHeader)
                 VStack(alignment: .leading, spacing: Spacing.xs) {
                     if let total = SavingsText.totalLine(savings) {
+                        // "Drops caught: $245.00" is its own heading; the plain title only stands in when no USD was caught.
                         Text(verbatim: total)
-                            .font(VFont.display(.title2)).foregroundStyle(SemanticColor.primary)
-                            .minimumScaleFactor(0.7)
+                            .font(VFont.display(.title3)).foregroundStyle(SemanticColor.primary)
+                            .accessibilityAddTraits(.isHeader)
                             .accessibilityIdentifier("alerts.savings.total")
+                    } else {
+                        Text(verbatim: L10n.text(K.savings.title))
+                            .font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
+                            .accessibilityAddTraits(.isHeader)
                     }
                     Text(verbatim: SavingsText.countsLine(savings))
                         .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)

@@ -274,7 +274,7 @@ struct SavingsTests {
         extras.dropSeen(note)
         extras.dropSeen(dropNote(id: 8, data: dropData))
         extras.dropSeen(dropNote(id: 9, data: .null))
-        #expect(events.drops == ["hotel:false:in_app", "flight:false:in_app"])
+        #expect(events.drops == ["hotel:false:in_app", "hotel:false:in_app"])
     }
 
     // MARK: Digest

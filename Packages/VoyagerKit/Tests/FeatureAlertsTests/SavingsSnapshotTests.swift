@@ -75,7 +75,7 @@ final class SavingsSnapshotTests: XCTestCase {
         ]
         if game { data["game"] = dropGame }
         return AppNotification(
-            id: 1, kind: "fare_drop", title: target ? "Your target price is here" : "Berlin → Lisbon dropped to $454",
+            id: 1, kind: "fare_drop", title: target ? "Lumen Hotel reached your target" : "Berlin → Lisbon dropped to $454",
             body: "For 1–8 Dec", data: .object(data), createdAt: iso(fixedNow.addingTimeInterval(-3600)))
     }
 
