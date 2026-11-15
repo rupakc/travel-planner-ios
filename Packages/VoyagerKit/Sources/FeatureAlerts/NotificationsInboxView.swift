@@ -42,6 +42,7 @@ public struct NotificationsInboxView: View {
         }
         .task { await model.load() }
         .toast($model.toast)
+        .environment(\.inboxExtras, model.extras)
         .accessibilityIdentifier("inbox.root")
     }
 

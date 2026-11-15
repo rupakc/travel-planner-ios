@@ -34,16 +34,21 @@ public final class NotificationsModel {
     public private(set) var isLoadingMore = false
     public var toast: ToastMessage?
 
+    /// What the rows' extension slot needs: game visibility and the drop / digest telemetry (Task 3.3).
+    @ObservationIgnored let extras: InboxExtras
     @ObservationIgnored private let env: AppEnvironment
     @ObservationIgnored private let track: @MainActor (TelemetryEvent) -> Void
     @ObservationIgnored private let now: @MainActor () -> Date
 
     public init(
-        env: AppEnvironment, track: (@MainActor (TelemetryEvent) -> Void)? = nil, now: (@MainActor () -> Date)? = nil
+        env: AppEnvironment, track: (@MainActor (TelemetryEvent) -> Void)? = nil, now: (@MainActor () -> Date)? = nil,
+        gameVisibility: (@MainActor () -> any GameVisibility)? = nil
     ) {
         self.env = env
-        self.track = track ?? { [telemetry = env.telemetry] event in telemetry.track(event) }
+        let resolved = track ?? { [telemetry = env.telemetry] event in telemetry.track(event) }
+        self.track = resolved
         self.now = now ?? { Date() }
+        extras = InboxExtras(env: env, track: resolved, gameVisibility: gameVisibility)
     }
 
     public var hasMore: Bool { items.count < total }
@@ -105,7 +110,11 @@ public final class NotificationsModel {
     /// A tap: mark read, then focus the watch the notification is about (when it names one).
     public func open(_ notification: AppNotification) async {
         track(.alertEvent(action: "inbox_open", kind: Self.kindToken(notification)))
-        if let target = Self.target(of: notification), target.watchID != nil || target.kind != nil {
+        if notification.isPriceDigest {
+            // The weekly digest has no single watch: it opens the Alerts page.
+            extras.digestOpened()
+            env.router.open(.alerts(kind: nil, watchID: nil))
+        } else if let target = Self.target(of: notification), target.watchID != nil || target.kind != nil {
             env.router.open(.alerts(kind: target.kind, watchID: target.watchID))
         }
         await markRead(notification)

@@ -44,6 +44,11 @@
 - Ruling: `AlertsV2Service.quickWatch` is a watch create path and fires `watchesChanged()` itself (not the view); `existing: true` and failures do not. Why: TripReminderScheduler.refresh and the poll must follow every create. Cost if wrong: a stale poll until the next launch.
 - Ruling: an advice 503 maps to `ai_limit` (the 5xx body is dropped by `ErrorMapping`); `ai_billing` shows the same copy. Cost: none visible.
 
+## Task 3.3 rulings
+- Ruling: the drop moment is an inline card in the inbox row (via `InboxRowSlot`), not a modal; the row's own tap opens the watch's story. Game wording uses `GameVisibility` with `features.game` and an account `hide_game` that the app cannot read yet (no account-settings sync), so it counts as hidden and the XP / badge line stays off until that sync exists. Why: plan R4 and "an unreadable setting counts as hidden". Cost if wrong: owners with the game on see no XP line until the sync lands.
+- Ruling: `DigestWatch` also reads `currency` (sent by `alert_digest`, absent from the frozen contract); without it prices show as plain numbers, never a guessed symbol. A digest row tap opens the Alerts page and sends `alert_digest_open` (`via: in_app`). Cost if wrong: none (additive).
+- Ruling: the "Share savings" button shows only with `features.sharing >= 1` and something caught; it calls `router.open(.shareSheet(.savings))`, wired for real in 4.4.
+
 ## Phase 6 rulings (Task 6.1)
 - Ruling: a failed settings save (a `422 notification_settings_invalid` included) undoes the change and shows the web's "It was undone" copy; the plan's `test_invalidKeepsDraft` is `test_invalidIsUndoneWithAMessage`. Why: the web copy says "undone", toggles and a stepper have no draft to fix. Cost if wrong: none visible.
 - Ruling: the quiz switch is shown only when `GameVisibility.showsGame`. The account's `hide_game` is not read anywhere yet, so `NotificationSettingsModel.defaultGameVisibility(env:)` reports it unreadable (= hidden) until the account/Play work injects a reader. Why: global rule, an unreadable setting counts as hidden. Cost: quiz switch missing until then.

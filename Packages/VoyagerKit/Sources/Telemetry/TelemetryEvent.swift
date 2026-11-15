@@ -53,6 +53,9 @@ public enum TelemetryEvent: Sendable {
     /// Price alerts 2.0: a price story was shown (`verdict` is great|good|typical|high|none) and the AI timing tip.
     case alertStoryView(kind: String, verdict: String)
     case alertAdvice(kind: String, outcome: String)
+    /// A drop moment was shown (`via` is in_app|push|email) and the weekly digest was opened (`via` is in_app|email_link).
+    case alertDropSeen(kind: String, targetHit: Bool, via: String)
+    case alertDigestOpen(via: String)
     /// Notifications 2.0: the settings screen was opened, a category switched (`category` is a
     /// `NotificationCategory` raw value), quiet hours changed, the daily cap changed.
     case notifSettingsView
@@ -74,6 +77,8 @@ extension TelemetryEvent {
     static let alertKinds = ["flight", "hotel", "activity", "trip"]
     static let storyVerdicts = ["great", "good", "typical", "high", "none"]
     static let adviceOutcomes = ["ok", "cached", "error"]
+    static let dropVias = ["in_app", "push", "email"]
+    static let digestVias = ["in_app", "email_link"]
     static let notifCategories = NotificationCategory.allCases.map(\.rawValue)
     static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
     static let shareDates = ["hidden", "month", "exact"]
@@ -204,6 +209,14 @@ extension TelemetryEvent {
             name = "alert_advice"
             if let valid = PropsFilter.enum(kind, allowed: Self.alertKinds) { props["kind"] = .string(valid) }
             if let valid = PropsFilter.enum(outcome, allowed: Self.adviceOutcomes) { props["outcome"] = .string(valid) }
+        case .alertDropSeen(let kind, let targetHit, let via):
+            name = "alert_drop_seen"
+            if let valid = PropsFilter.enum(kind, allowed: Self.alertKinds) { props["kind"] = .string(valid) }
+            props["target_hit"] = .bool(targetHit)
+            if let valid = PropsFilter.enum(via, allowed: Self.dropVias) { props["via"] = .string(valid) }
+        case .alertDigestOpen(let via):
+            name = "alert_digest_open"
+            if let valid = PropsFilter.enum(via, allowed: Self.digestVias) { props["via"] = .string(valid) }
         case .notifSettingsView:
             name = "notif_settings_view"
         case .notifCategoryToggle(let category, let on):
