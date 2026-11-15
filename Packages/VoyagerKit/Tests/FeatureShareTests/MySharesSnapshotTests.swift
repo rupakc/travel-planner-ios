@@ -57,7 +57,7 @@ final class MySharesSnapshotTests: XCTestCase {
     func test_revokeConfirmation() async {
         let (model, env) = await prepare(confirming: true)
         await assertSnapshots(
-            of: { MySharesView(model: model, env: env) }, named: "revoke", configs: [phone("se-light", height: 1400)], layout: .screen)
+            of: { MySharesView(model: model, env: env) }, named: "revoke", configs: [phone("se-light", height: 1480)], layout: .screen)
     }
 
     func test_hindi() async {
