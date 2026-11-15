@@ -48,3 +48,10 @@
 - Ruling: the drop moment is an inline card in the inbox row (via `InboxRowSlot`), not a modal; the row's own tap opens the watch's story. Game wording uses `GameVisibility` with `features.game` and an account `hide_game` that the app cannot read yet (no account-settings sync), so it counts as hidden and the XP / badge line stays off until that sync exists. Why: plan R4 and "an unreadable setting counts as hidden". Cost if wrong: owners with the game on see no XP line until the sync lands.
 - Ruling: `DigestWatch` also reads `currency` (sent by `alert_digest`, absent from the frozen contract); without it prices show as plain numbers, never a guessed symbol. A digest row tap opens the Alerts page and sends `alert_digest_open` (`via: in_app`). Cost if wrong: none (additive).
 - Ruling: the "Share savings" button shows only with `features.sharing >= 1` and something caught; it calls `router.open(.shareSheet(.savings))`, wired for real in 4.4.
+
+## Phase 4 rulings
+- Ruling: `ShareFailure` lives in `VoyagerEnv` (features may not import `VoyagerData`) and reads 404 codes from the envelope's fixed `detail` text, because `ErrorMapping` keeps only `detail` for a 404. Why: no `APIError` change for one feature. Cost if wrong: a reworded backend 404 shows the generic copy.
+- Ruling: `ShareCardLoading`, `LiveShareCardLoader` and `ShareCardStore` live in `VoyagerEnv/Phase4` (not `FeatureShare/Create`) so `TestSupport` can fake them. Why: TestSupport cannot import features. Cost: none.
+- Ruling: the one new string ("Sharing this again updates the same link...") is a pending English key (`i18n/pending/en/share.json`) until Task 41 translates it; every other string is an existing web `share:` / `mobile:share.*` key in all 7 languages. Cost: one English line in six languages until Task 41.
+- Ruling: `FeatureShare` Create is built on main only; T29's `ShareLinkButton` (#47, unmerged) is untouched, so no entry point opens `.shareSheet` yet (Task 4.4).
+

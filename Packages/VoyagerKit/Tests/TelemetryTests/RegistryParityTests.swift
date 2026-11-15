@@ -32,7 +32,8 @@ import VoyagerModel
         .searchFirstSection(ms: 900), .searchComplete(ms: 40_000, sections: 14, errors: 1),
         .searchAbandon(ms: 5_000, sections: 2), .sectionExpand(section: "hotels"), .planSelect(section: "flights"),
         .linkOut(section: "hotels", domain: "booking.com"), .share(target: "link", object: "plan"),
-        .alertEvent(action: "create", kind: "fare"), .onboardingStep(step: 2, action: .next),
+        .alertEvent(action: "create", kind: "fare"), .shareOpen(kind: "plan"), .shareCreate(kind: "recap", dates: "month"),
+        .shareAction(kind: "savings", target: "native"), .shareRevoke(kind: "quiz"), .onboardingStep(step: 2, action: .next),
         .featureUsed(feature: "compare", page: "search"), .themeChange("dark"), .languageChange(.de),
         .consentGranted, .perf(metric: .coldStart, value: 312.5, route: "/"),
         .apiError(source: "search", status: 500),
@@ -56,7 +57,7 @@ import VoyagerModel
     @Test func test_samplesCoverEveryEnumCase() {
         let names = Set(Self.samples.map(\.wire.name))
         #expect(names.count == Self.samples.count)
-        #expect(names.count == 28)
+        #expect(names.count == 32)
     }
 
     @Test func test_internalSessionStartIsInRegistry() throws {
@@ -79,5 +80,8 @@ import VoyagerModel
         #expect(Set(TelemetryEvent.adviceOutcomes) == (try members("alert_advice", "outcome")))
         #expect(Set(TelemetryEvent.dropVias) == (try members("alert_drop_seen", "via")))
         #expect(Set(TelemetryEvent.digestVias) == (try members("alert_digest_open", "via")))
+        #expect(Set(TelemetryEvent.shareKinds) == (try members("share_create", "kind")))
+        #expect(Set(TelemetryEvent.shareDates) == (try members("share_create", "dates")))
+        #expect(Set(TelemetryEvent.shareTargets) == (try members("share_action", "target")))
     }
 }

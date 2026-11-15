@@ -108,6 +108,10 @@ def test_share_create_is_idempotent_and_revoke_removes():
         status, again = _call(httpd, "POST", "/api/shares", {"kind": "plan", "plan_id": 5, "options": {"dates": "month"}})
         assert status == 200 and again["token"] == first["token"] and again["options"]["dates"] == "month"
         assert _call(httpd, "POST", "/api/shares", {"kind": "nope"})[0] == 422
+        assert _call(httpd, "POST", "/api/shares", {"kind": "plan"})[1]["error_code"] == "plan_not_found"
+        assert _call(httpd, "POST", "/api/shares", {"kind": "quiz"})[1]["error_code"] == "session_not_found"
+        savings = _call(httpd, "POST", "/api/shares", {"kind": "savings"})[1]
+        assert savings["title"] == "Price alerts" and _call(httpd, "DELETE", f"/api/shares/{savings['token']}")[0] == 204
         assert _call(httpd, "DELETE", f"/api/shares/{first['token']}")[0] == 204
         assert _call(httpd, "GET", "/api/shares")[1]["shares"] == []
     finally:

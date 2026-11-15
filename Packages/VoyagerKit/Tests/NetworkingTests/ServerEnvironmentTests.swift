@@ -68,4 +68,28 @@ struct ServerEnvironmentTests {
             for try await _ in sse.stream(path: "/api/search", telemetryName: "/api/search", body: ["q": "x"], auth: .optional) {}
         }
     }
+
+    @Test func test_cardHostMustBeTrusted() throws {
+        let env = ServerEnvironment(
+            buildBaseURL: try url("https://api.example.org"), trustedHosts: ["cdn.example.org"], allowsOverride: false,
+            defaults: try defaults())
+        #expect(env.trustsAsset(try url("https://api.example.org/api/share/t/card.png?size=link")))
+        #expect(env.trustsAsset(try url("https://API.example.org:443/x.png")))
+        #expect(env.trustsAsset(try url("https://cdn.example.org/x.png")))
+        #expect(!env.trustsAsset(try url("https://evil.example.net/x.png")))
+        #expect(!env.trustsAsset(try url("https://api.example.org.evil.net/x.png")))
+        // Plain http is never trusted for a trusted host, and a different port is another origin.
+        #expect(!env.trustsAsset(try url("http://cdn.example.org/x.png")))
+        #expect(!env.trustsAsset(try url("http://api.example.org/x.png")))
+        #expect(!env.trustsAsset(try url("https://api.example.org:8443/x.png")))
+        #expect(!env.trustsAsset(try url("file:///etc/passwd")))
+    }
+
+    @Test func test_localDebugBackendTrustsItsOwnOrigin() throws {
+        let env = ServerEnvironment(
+            buildBaseURL: try url("http://localhost:8001"), trustedHosts: [], allowsOverride: false, defaults: try defaults())
+        #expect(env.trustsAsset(try url("http://localhost:8001/api/share/t/card.png")))
+        #expect(!env.trustsAsset(try url("http://localhost:9999/card.png")))
+        #expect(!env.trustsAsset(try url("https://stub.invalid/card.png")))
+    }
 }
