@@ -59,7 +59,7 @@ import VoyagerModel
     @Test func test_samplesCoverEveryEnumCase() {
         let names = Set(Self.samples.map(\.wire.name))
         #expect(names.count == Self.samples.count)
-        #expect(names.count == 37)
+        #expect(names.count == 38)
     }
 
     @Test func test_internalSessionStartIsInRegistry() throws {
