@@ -41,11 +41,13 @@ public struct MySharesView: View {
         .onChange(of: model.noticeText) { _, text in
             if let text { LiveRegion.announce(text) }
         }
-        .sheet(item: $model.sharingAgain, onDismiss: { Task { await model.load() } }) { item in
-            if let target = item.target {
-                ShareSheetView(env: env, target: target, options: item.options ?? ShareOptions())
-            }
-        }
+        .sheet(
+            item: $model.sharingAgain, onDismiss: { Task { await model.load() } },
+            content: { item in
+                if let target = item.target {
+                    ShareSheetView(env: env, target: target, options: item.options ?? ShareOptions())
+                }
+            })
         .accessibilityIdentifier("shares.root")
     }
 
