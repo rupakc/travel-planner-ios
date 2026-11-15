@@ -51,6 +51,8 @@ public struct SuggestionsSheet: View {
             .frame(maxWidth: .infinity)
         }
         .background(SemanticColor.surface)
+        // Beyond this size German compounds no longer fit a phone-width card without splitting mid-word.
+        .dynamicTypeSize(...DynamicTypeSize.accessibility2)
         .task { if loadsOnAppear { await model.load() } }
         .accessibilityIdentifier("suggestions.root")
     }
@@ -76,11 +78,13 @@ public struct SuggestionsSheet: View {
         if model.isFinished {
             VButton(L10n.text(K.watchSuggest.done), tid: "suggestions.done", role: .primary) { closeAndReport() }
         } else {
-            VButton(
-                L10n.text(K.watchSuggest.watchN, count: model.selectedCount), tid: "suggestions.watch", role: .primary,
-                systemImage: "bell"
-            ) { Task { await model.watchSelected() } }
-            .disabled(!model.canWatch)
+            if !model.nothingLeftToWatch {
+                VButton(
+                    L10n.text(K.watchSuggest.watchN, count: model.selectedCount), tid: "suggestions.watch", role: .primary,
+                    systemImage: "bell"
+                ) { Task { await model.watchSelected() } }
+                .disabled(!model.canWatch)
+            }
             close
         }
     }

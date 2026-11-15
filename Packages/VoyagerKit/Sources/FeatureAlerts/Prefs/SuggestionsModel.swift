@@ -54,6 +54,8 @@ public final class SuggestionsModel {
     public var isAvailable: Bool { env.alertsV2.isAvailable(.quickWatch) }
 
     public var selectedCount: Int { rows.filter { $0.selected && $0.status == .idle }.count }
+    /// Something was tried and nothing is left to try (a limit stopped the rest): the watch button has no job.
+    public var nothingLeftToWatch: Bool { selectedCount == 0 && rows.contains { $0.status != .idle } }
     public var canWatch: Bool { !isWatching && selectedCount > 0 }
     /// Every ticked row has been tried.
     public var isFinished: Bool { !rows.isEmpty && rows.allSatisfy { $0.status != .idle && $0.status != .running } }

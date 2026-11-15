@@ -45,6 +45,8 @@ public struct AlertPrefsView: View {
             .frame(maxWidth: .infinity)
         }
         .background(SemanticColor.surface)
+        // Beyond this size German compounds no longer fit a phone-width card without splitting mid-word.
+        .dynamicTypeSize(...DynamicTypeSize.accessibility2)
         .navigationTitle(L10n.text(K.alertPrefs.title))
         .task { await model.load() }
         .accessibilityIdentifier("alertPrefs.root")
@@ -259,19 +261,33 @@ private struct PrefsToggleRow: View {
     let tid: String
     @Binding var isOn: Bool
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
-        Toggle(isOn: $isOn) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(verbatim: title).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
-                if let hint {
-                    Text(verbatim: hint).font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
-                        .fixedSize(horizontal: false, vertical: true)
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                // The switch would leave the label a sliver of the row: label above, switch below.
+                VStack(alignment: .leading, spacing: Spacing.xs) {
+                    label
+                    Toggle(isOn: $isOn) { Text(verbatim: title) }.labelsHidden()
                 }
+            } else {
+                Toggle(isOn: $isOn) { label }
             }
         }
         .tint(SemanticColor.primary)
         .telemetryToggle(tid: tid, value: isOn)
         .accessibilityIdentifier(tid)
+    }
+
+    private var label: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(verbatim: title).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+            if let hint {
+                Text(verbatim: hint).font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
     }
 }
 
