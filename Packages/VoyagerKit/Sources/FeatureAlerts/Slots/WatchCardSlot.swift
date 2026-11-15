@@ -1,13 +1,20 @@
 import SwiftUI
 import VoyagerModel
 
-/// Extension point on `WatchCard`, between the price details and the actions: Task 3.2 puts the price story here.
-/// Empty until then, so the card is unchanged.
+/// Extension point on `WatchCard`, between the price details and the actions: the price story (Task 3.2). Without the
+/// Alerts screen's story store (a preview) or on an older backend it shows nothing, so the card is unchanged.
+/// `version` changes whenever the card's own price or check time does, so the story reloads after "Check now".
 struct WatchCardSlot: View {
     let kind: WatchKind
     let watchID: Int
+    var version = ""
+    @Environment(\.priceStories) private var stories
 
     var body: some View {
-        EmptyView()
+        if let stories {
+            let model = stories.model(kind: kind, watchID: watchID)
+            PriceStoryView(model: model)
+                .task(id: version) { await model.load() }
+        }
     }
 }

@@ -25,7 +25,9 @@ struct WatchCard: View {
                 header
                 priceBlock
                 details
-                WatchCardSlot(kind: row.kind, watchID: row.watchID)
+                WatchCardSlot(
+                    kind: row.kind, watchID: row.watchID,
+                    version: "\(row.price ?? 0)|\(row.checkedAt?.timeIntervalSince1970 ?? 0)")
                 actions
             }
         }
