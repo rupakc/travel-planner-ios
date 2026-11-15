@@ -188,7 +188,7 @@ public enum PromptTemplate: Sendable, Hashable {
     }
 }
 
-public struct QuizOption: Sendable, Hashable, Identifiable {
+public struct PlayOption: Sendable, Hashable, Identifiable {
     /// Opaque (`a` to `d`), shuffled per session.
     public var id: String
     public var label: String
@@ -202,18 +202,18 @@ public struct QuizOption: Sendable, Hashable, Identifiable {
     }
 }
 
-public struct QuizQuestion: Sendable, Hashable, Identifiable {
+public struct PlayQuestion: Sendable, Hashable, Identifiable {
     public var index: Int
     /// The server's `kind` text, kept as sent.
     public var kind: String
     public var template: PromptTemplate
     /// The prompt's placeholder values (`country`, `capital`, `landmark`, `dish`, `code`, ...), read by the views.
     public var prompt: JSONValue
-    public var options: [QuizOption]
+    public var options: [PlayOption]
 
     public var id: Int { index }
 
-    public init(index: Int, kind: String = "", template: PromptTemplate, prompt: JSONValue = .null, options: [QuizOption]) {
+    public init(index: Int, kind: String = "", template: PromptTemplate, prompt: JSONValue = .null, options: [PlayOption]) {
         self.index = index
         self.kind = kind
         self.template = template
@@ -223,9 +223,9 @@ public struct QuizQuestion: Sendable, Hashable, Identifiable {
 
     init?(json: JSONValue) {
         guard let index = json["index"].lenientInt else { return nil }
-        let options = (json["options"].array ?? []).compactMap { item -> QuizOption? in
+        let options = (json["options"].array ?? []).compactMap { item -> PlayOption? in
             guard let id = item["id"].lenientString, !id.isEmpty else { return nil }
-            return QuizOption(id: id, label: item["label"].string ?? "", code: item["code"].string)
+            return PlayOption(id: id, label: item["label"].string ?? "", code: item["code"].string)
         }
         self.init(
             index: index, kind: json["kind"].string ?? "", template: PromptTemplate(rawValue: json["prompt"]["template"].string ?? ""),
@@ -236,7 +236,7 @@ public struct QuizQuestion: Sendable, Hashable, Identifiable {
     public var isSupported: Bool { template.isKnown && options.count >= 2 }
 }
 
-extension QuizQuestion: JSONBacked {
+extension PlayQuestion: JSONBacked {
     public init(from decoder: any Decoder) throws { self = try Self.read(decoder) }
 }
 
@@ -299,7 +299,7 @@ public struct QuizSession: JSONBacked, Sendable, Hashable {
     /// `daily`, `pack`, `challenge` or `h2h` (kept as sent).
     public var mode: String
     public var pack: String?
-    public var questions: [QuizQuestion]
+    public var questions: [PlayQuestion]
     public var expiresAt: String?
     public var answers: [GivenAnswer]
     public var done: Bool
@@ -307,7 +307,7 @@ public struct QuizSession: JSONBacked, Sendable, Hashable {
     public var summary: QuizSummary?
 
     public init(
-        sessionID: String, matchID: String? = nil, mode: String = "daily", pack: String? = nil, questions: [QuizQuestion] = [],
+        sessionID: String, matchID: String? = nil, mode: String = "daily", pack: String? = nil, questions: [PlayQuestion] = [],
         expiresAt: String? = nil, answers: [GivenAnswer] = [], done: Bool = false, resumed: Bool = false, summary: QuizSummary? = nil
     ) {
         self.sessionID = sessionID
@@ -328,13 +328,13 @@ public struct QuizSession: JSONBacked, Sendable, Hashable {
         guard let sessionID = json["session_id"].lenientString, !sessionID.isEmpty else { return nil }
         self.init(
             sessionID: sessionID, matchID: json["id"].lenientString, mode: json["mode"].string ?? "daily", pack: json["pack"].string,
-            questions: json["questions"].models(QuizQuestion.self).sorted { $0.index < $1.index }, expiresAt: json["expires_at"].string,
+            questions: json["questions"].models(PlayQuestion.self).sorted { $0.index < $1.index }, expiresAt: json["expires_at"].string,
             answers: json["answers"].models(GivenAnswer.self), done: json["done"].lenientBool ?? false,
             resumed: json["resumed"].lenientBool ?? false, summary: QuizSummary(json: json["summary"]))
     }
 
     /// The question to show on resume: the first one without an answer, or nil when every question was answered.
-    public var firstUnanswered: QuizQuestion? {
+    public var firstUnanswered: PlayQuestion? {
         let answered = Set(answers.map(\.index))
         return questions.first { !answered.contains($0.index) }
     }
