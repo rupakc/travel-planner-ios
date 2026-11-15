@@ -27,7 +27,7 @@ enum DigestContent {
             }
             return DigestLine(
                 id: index, title: watch.title ?? "", latest: watch.latest.map(price), change: change,
-                lowest: watch.lowest.map { L10n.text(K.priceStory.lowest, ["price": price($0)]) })
+                lowest: watch.lowest.map { L10n.text(K.priceStory.chart.lowest, ["price": price($0)]) })
         }
     }
 
