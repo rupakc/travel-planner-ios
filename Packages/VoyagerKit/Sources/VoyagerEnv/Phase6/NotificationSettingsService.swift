@@ -11,7 +11,7 @@ public final class NotificationSettingsService {
     /// Thrown instead of calling a route whose flag is off.
     public struct Unavailable: Error, Equatable, Sendable {}
 
-    private unowned let env: AppEnvironment
+    private let env: AppEnvironment  // strong: the model creates the service, the environment does not own it
     private var degraded = false
 
     public init(env: AppEnvironment) {
