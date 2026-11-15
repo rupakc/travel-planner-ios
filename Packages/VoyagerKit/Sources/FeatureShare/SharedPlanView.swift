@@ -50,6 +50,7 @@ public struct SharedPlanView: View {
                 content(plan)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(SemanticColor.surface)
         .telemetryRoute("/share/:token")
         .task {
@@ -62,14 +63,21 @@ public struct SharedPlanView: View {
         ScrollView {
             // VStack, not LazyVStack: lazy stacks hang hosted snapshot tests.
             VStack(alignment: .leading, spacing: Spacing.lg) {
-                poster(plan)
-                if !model.isCard {
-                    ForEach(Array(model.sections.enumerated()), id: \.offset) { _, section in
-                        SectionCard(id: section.id, status: .done, expanded: .constant(true)) {
-                            SectionRegistry.view(for: section.id, data: section.data, ctx: context)
-                        }
-                    }
-                    remixBar
+                switch model.presentation {
+                case .plan:
+                    planBody(plan)
+                case .recap:
+                    SharedRecapView(
+                        card: plan.card ?? SharedCard(), fallbackHeadline: model.cardHeadline ?? "", ownerName: model.ownerName,
+                        onPlanOwn: planOwn)
+                case .savings:
+                    SharedSavingsView(
+                        card: plan.card ?? SharedCard(), fallbackHeadline: model.cardHeadline ?? "", ownerName: model.ownerName,
+                        onPlanOwn: planOwn)
+                case .unknown:
+                    SharedUnknownKindView(
+                        headline: model.cardHeadline ?? L10n.text(K.misc.share.defaultDestination), ownerName: model.ownerName,
+                        browserURL: model.browserURL)
                 }
                 Text(verbatim: L10n.text(K.misc.share.readOnly))
                     .font(VFont.body(.footnote))
@@ -80,6 +88,20 @@ public struct SharedPlanView: View {
             .frame(maxWidth: .infinity)
         }
     }
+
+    @ViewBuilder
+    private func planBody(_ plan: SharedPlan) -> some View {
+        poster(plan)
+        ForEach(Array(model.sections.enumerated()), id: \.offset) { _, section in
+            SectionCard(id: section.id, status: .done, expanded: .constant(true)) {
+                SectionRegistry.view(for: section.id, data: section.data, ctx: context)
+            }
+        }
+        remixBar
+    }
+
+    /// "Plan your own trip": leaves the viewer for the Explore tab.
+    private func planOwn() { model.planOwnTrip() }
 
     private var context: SectionContext {
         SectionContext(
@@ -92,7 +114,7 @@ public struct SharedPlanView: View {
     private func poster(_ plan: SharedPlan) -> some View {
         VCard {
             VStack(alignment: .leading, spacing: Spacing.sm) {
-                Text(verbatim: L10n.text(posterTag(plan)).uppercased())
+                Text(verbatim: L10n.text(K.misc.share.posterTag).uppercased())
                     .font(VFont.body(.caption, weight: .semibold))
                     .foregroundStyle(SemanticColor.primary)
                 Text(verbatim: headline(plan))
@@ -115,21 +137,11 @@ public struct SharedPlanView: View {
         }
     }
 
-    private func posterTag(_ plan: SharedPlan) -> LKey {
-        if model.isCard { return plan.kind == "savings" ? K.mobile.share.savingsTag : K.mobile.share.recapTag }
-        return K.misc.share.posterTag
-    }
-
     private func headline(_ plan: SharedPlan) -> String {
-        if model.isCard, let text = plan.card?.headline, !text.isEmpty { return text }
-        return model.destination ?? model.title ?? L10n.text(K.misc.share.defaultDestination)
+        model.destination ?? model.title ?? L10n.text(K.misc.share.defaultDestination)
     }
 
     private func subtitle(_ plan: SharedPlan) -> String? {
-        if model.isCard {
-            let parts = [plan.card?.destination, plan.card?.period].compactMap { $0 }.filter { !$0.isEmpty }
-            return parts.isEmpty ? nil : parts.joined(separator: " · ")
-        }
         var parts: [String] = []
         if let origin = model.origin { parts.append(L10n.text(K.misc.share.fromOrigin, ["origin": origin])) }
         if let count = model.travelers { parts.append(L10n.text(K.misc.share.travelers, count: count)) }
