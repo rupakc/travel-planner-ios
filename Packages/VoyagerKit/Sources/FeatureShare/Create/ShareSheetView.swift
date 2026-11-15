@@ -14,6 +14,7 @@ import UIKit
 public struct ShareSheetView: View {
     @State private var model: ShareSheetModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @MainActor public init(env: AppEnvironment, target: ShareTarget) {
         _model = State(initialValue: ShareSheetModel(env: env, target: target))
@@ -146,15 +147,31 @@ public struct ShareSheetView: View {
         }
     }
 
+    @ViewBuilder
     private func toggle(_ title: String, tid: String, isOn: Binding<Bool>) -> some View {
-        Toggle(isOn: isOn) {
-            Text(verbatim: title).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
-                .fixedSize(horizontal: false, vertical: true)
+        if dynamicTypeSize.isAccessibilitySize {
+            // The label gets the full width (beside the switch it broke mid-word at the largest sizes).
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                Text(verbatim: title).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+                    .fixedSize(horizontal: false, vertical: true)
+                Toggle(isOn: isOn) { EmptyView() }
+                    .labelsHidden()
+                    .tint(SemanticColor.primary)
+                    .accessibilityLabel(Text(verbatim: title))
+            }
+            .frame(minHeight: 44, alignment: .leading)
+            .telemetryToggle(tid: tid, value: isOn.wrappedValue)
+            .accessibilityIdentifier(tid)
+        } else {
+            Toggle(isOn: isOn) {
+                Text(verbatim: title).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .tint(SemanticColor.primary)
+            .frame(minHeight: 44)
+            .telemetryToggle(tid: tid, value: isOn.wrappedValue)
+            .accessibilityIdentifier(tid)
         }
-        .tint(SemanticColor.primary)
-        .frame(minHeight: 44)
-        .telemetryToggle(tid: tid, value: isOn.wrappedValue)
-        .accessibilityIdentifier(tid)
     }
 
     private var createButton: some View {
