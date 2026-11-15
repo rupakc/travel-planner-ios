@@ -1,7 +1,8 @@
 import Foundation
 
 /// An on-device "near you" invite built from the server text catalogue (`nearby_arrival`, `{name}` placeholders;
-/// `GET /api/notifications/catalog`). Nothing location-like leaves the device. `NearYouNotifier` supplies the places (one non-grounded `POST /nearby`).
+/// `GET /api/notifications/catalog`). Nothing location-like leaves the device. `NearYouNotifier` supplies the places
+/// (one non-grounded `POST /nearby`).
 public enum NearbyInvite {
     public static let idPrefix = "nearby-"
 
