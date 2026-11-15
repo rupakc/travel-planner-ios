@@ -58,13 +58,14 @@ public final class SharedPlanModel {
 
     /// Shows `plan` without loading (snapshots).
     func show(_ plan: SharedPlan) { state = .loaded(plan) }
+    func showNotFound() { state = .notFound }
 
     // MARK: - Derived content
 
     /// The sections to show, in the web's order, each as the data shape its `SectionsUI` view reads.
     /// Only a plan share has them (a recap or savings share is a card).
     public var sections: [(id: SectionID, data: JSONValue)] {
-        guard let plan, !isCard else { return [] }
+        guard let plan, presentation == .plan else { return [] }
         return Self.sections(from: plan.selections)
     }
 
@@ -94,11 +95,34 @@ public final class SharedPlanModel {
         return out.map { (id: $0.0, data: $0.1) }
     }
 
-    /// A recap or savings share (Phase 4): `kind` plus a `card`, no plan body.
-    public var isCard: Bool {
-        guard let plan, plan.card != nil else { return false }
-        return plan.kind == "recap" || plan.kind == "savings"
+    /// Which viewer a share gets (`kind`, Phase 4). A missing kind is a legacy plan token.
+    public enum Presentation: Equatable, Sendable {
+        case plan, recap, savings
+        /// A kind this app does not know (quiz, status, later ones), or a card kind without its card: headline only.
+        case unknown
     }
+
+    public var presentation: Presentation {
+        guard let plan else { return .plan }
+        switch plan.kind {
+        case nil, "plan": return .plan
+        case "recap": return plan.card == nil ? .unknown : .recap
+        case "savings": return plan.card == nil ? .unknown : .savings
+        default: return .unknown
+        }
+    }
+
+    /// A card share (recap or savings): the card, no plan body.
+    public var isCard: Bool { presentation == .recap || presentation == .savings }
+
+    /// The share's own web page, for "Open in browser": the backend's `/share/<token>`, https only.
+    public var browserURL: URL? {
+        guard let base = env.server.baseURL, base.scheme?.lowercased() == "https", base.host() != nil else { return nil }
+        return base.appending(path: "share").appending(path: token)
+    }
+
+    /// The headline of a card or unknown-kind share: the card's, else the share's name.
+    public var cardHeadline: String? { nonEmpty(plan?.card?.headline) ?? title }
 
     public var title: String? {
         guard let name = plan?.name?.trimmingCharacters(in: .whitespacesAndNewlines), !name.isEmpty else { return nil }
@@ -137,7 +161,7 @@ public final class SharedPlanModel {
     /// Signed in: copies the shared plan into My Plan (an unsaved draft, never someone else's plan id) and opens
     /// it. Signed out: nothing is copied; `needsSignIn` asks the view for sign-in first.
     public func remix() {
-        guard let plan, !isCard else { return }
+        guard let plan, presentation == .plan else { return }
         guard isSignedIn else {
             needsSignIn = true
             return
@@ -149,6 +173,11 @@ public final class SharedPlanModel {
         env.plan.planName = title
         env.plan.isDirty = true
         env.router.open(.myPlan)
+    }
+
+    /// "Plan your own trip" on a card share: leaves the viewer for the Explore tab.
+    public func planOwnTrip() {
+        env.router.open(.tab(.explore))
     }
 
     /// Signed out, the way to sign-in: leaves the viewer (the shell shows the login screen).
