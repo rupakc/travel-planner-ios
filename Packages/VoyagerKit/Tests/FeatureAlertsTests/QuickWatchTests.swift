@@ -25,10 +25,14 @@ struct QuickWatchTests {
             kind: .hotel, watch: .price(PriceWatch(id: id, kind: .hotel, pendingFirstCheck: !existing)), existing: existing)
     }
 
+    /// The coordinators hold their environment unowned: keep every one alive for the whole run.
+    private static var liveEnvs: [AppEnvironment] = []
+
     private func coordinator(
         _ fakes: FakeRepositories, config: ClientConfig? = nil, events: Recorder = Recorder()
     ) -> (WatchCreateCoordinator, AppEnvironment) {
         let env = AppEnvironment.fake(fakes: fakes, clientConfig: config ?? self.config())
+        Self.liveEnvs.append(env)
         return (WatchCreateCoordinator(env: env, track: { events.record($0) }), env)
     }
 
