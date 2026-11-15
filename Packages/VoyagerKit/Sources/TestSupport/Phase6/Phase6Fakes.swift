@@ -1,4 +1,5 @@
 import Foundation
+import os
 import VoyagerEnv
 import VoyagerModel
 
@@ -23,34 +24,30 @@ public final class FakeNotificationCatalogRepository: NotificationCatalogReposit
 }
 
 /// A `NotificationPermissionProviding` with a fixed state; `request()` answers `grantsRequest` and moves the state.
-public final class FakeNotificationPermission: NotificationPermissionProviding, @unchecked Sendable {
-    private let lock = NSLock()
-    private var current: NotificationPermissionState
-    private var requested = 0
+public final class FakeNotificationPermission: NotificationPermissionProviding {
+    private struct State: Sendable {
+        var current: NotificationPermissionState
+        var requested = 0
+    }
+
+    private let box: OSAllocatedUnfairLock<State>
     private let grantsRequest: Bool
 
     public init(_ state: NotificationPermissionState = .allowed, grantsRequest: Bool = true) {
-        current = state
+        box = OSAllocatedUnfairLock(initialState: State(current: state))
         self.grantsRequest = grantsRequest
     }
 
-    public var requestCount: Int {
-        lock.lock()
-        defer { lock.unlock() }
-        return requested
-    }
+    public var requestCount: Int { box.withLock { $0.requested } }
 
-    public func state() async -> NotificationPermissionState {
-        lock.lock()
-        defer { lock.unlock() }
-        return current
-    }
+    public func state() async -> NotificationPermissionState { box.withLock { $0.current } }
 
     public func request() async -> Bool {
-        lock.lock()
-        defer { lock.unlock() }
-        requested += 1
-        current = grantsRequest ? .allowed : .denied
-        return grantsRequest
+        let grants = grantsRequest
+        box.withLock { value in
+            value.requested += 1
+            value.current = grants ? .allowed : .denied
+        }
+        return grants
     }
 }
