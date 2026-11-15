@@ -61,15 +61,19 @@ struct SavingsHeader: View {
                         // "Drops caught: $245.00" is its own heading; the plain title only stands in when no USD was caught.
                         Text(verbatim: total)
                             .font(VFont.display(.title3)).foregroundStyle(SemanticColor.primary)
+                            .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+                            .minimumScaleFactor(0.7)
                             .accessibilityAddTraits(.isHeader)
                             .accessibilityIdentifier("alerts.savings.total")
                     } else {
                         Text(verbatim: L10n.text(K.savings.title))
                             .font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
+                            .dynamicTypeSize(...DynamicTypeSize.accessibility1)
                             .accessibilityAddTraits(.isHeader)
                     }
                     Text(verbatim: SavingsText.countsLine(savings))
                         .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)
+                        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
                         .accessibilityIdentifier("alerts.savings.counts")
                 }
                 .fixedSize(horizontal: false, vertical: true)
