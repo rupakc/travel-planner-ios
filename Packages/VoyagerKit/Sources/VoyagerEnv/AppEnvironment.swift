@@ -41,6 +41,8 @@ public final class AppEnvironment {
     @ObservationIgnored private var watchCoordinator: WatchCreateCoordinator?
     @ObservationIgnored private var alertsV2Service: AlertsV2Service?
     @ObservationIgnored private var sharesService: SharesService?
+    @ObservationIgnored private var socialService: SocialService?
+    @ObservationIgnored private var playService: PlayService?
     /// The user whose chat threads are shown (`.none` = not loaded yet; `.some(nil)` = signed out).
     @ObservationIgnored private var chatUser: String??
 
@@ -77,6 +79,22 @@ public final class AppEnvironment {
         if let sharesService { return sharesService }
         let service = SharesService(env: self, cards: shareCardStore)
         sharesService = service
+        return service
+    }
+
+    /// The Phase 5 social routes behind `features.social`.
+    public var social: SocialService {
+        if let socialService { return socialService }
+        let service = SocialService(env: self)
+        socialService = service
+        return service
+    }
+
+    /// The Phase 5 Play routes behind `features.play` and the hidden game.
+    public var play: PlayService {
+        if let playService { return playService }
+        let service = PlayService(env: self)
+        playService = service
         return service
     }
 
@@ -247,6 +265,9 @@ public final class AppEnvironment {
         guard chatUser != .some(username) else { return nil }
         // Launch and every sign-out or user switch: cached share cards are the previous user's.
         shares.cards.purge()
+        // The next user starts with whatever `/config` says: a degraded or hidden-game flag was the previous user's.
+        social.reset()
+        play.reset()
         chatUser = .some(username)
         let threads = chatThreads
         let plan = plan
