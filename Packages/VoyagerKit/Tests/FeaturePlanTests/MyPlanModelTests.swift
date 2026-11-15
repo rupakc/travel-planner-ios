@@ -168,7 +168,8 @@ final class MyPlanModelTests: XCTestCase {
         env.plan.searchData = PlanFixtures.searchData
         env.plan.isDirty = false
         env.plan.savedPlanID = 7
-        let model = MyPlanModel(env: env, now: { self.fixedNow })
+        let now = fixedNow
+        let model = MyPlanModel(env: env, now: { now })
         XCTAssertTrue(model.usesShareSheet)
         await model.share()
         XCTAssertEqual(env.recordedRoutes, [.shareSheet(.plan(id: 7))])
@@ -182,7 +183,8 @@ final class MyPlanModelTests: XCTestCase {
         let env = AppEnvironment.fake(user: .sample, fakes: fakes, clientConfig: ClientConfig(features: ["sharing": .number(1)]))
         env.plan.selections = PlanFixtures.selections
         env.plan.searchData = PlanFixtures.searchData
-        let model = MyPlanModel(env: env, now: { self.fixedNow })
+        let now = fixedNow
+        let model = MyPlanModel(env: env, now: { now })
         await model.share()
         XCTAssertEqual(fakes.plans.onCreate.callCount, 1)
         XCTAssertEqual(env.recordedRoutes, [.shareSheet(.plan(id: 11))])
