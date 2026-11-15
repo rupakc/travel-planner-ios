@@ -50,9 +50,7 @@ extension WatchCreateCoordinator {
     /// "Already watching" for an existing watch, and a limit state after `409 watch_limit`.
     public func state(for request: WatchRequest) -> QuickWatchState {
         if quick.livePricesOff { return .off }
-        if let config = env.clientConfig, config.features["live_prices"] != nil,
-            !RemoteFeatures(config: config).livePrices
-        {
+        if let config = env.clientConfig, config.features["live_prices"] != nil, !RemoteFeatures(config: config).livePrices {
             return .off
         }
         if let entry = quick.known[request] { return entry.pending ? .pending(entry.id) : .existing(entry.id) }
@@ -152,8 +150,8 @@ struct QuickWatchDraft: Equatable {
         }
         func dates(_ from: String, _ to: String) -> String? {
             switch (text(from), text(to)) {
-            case (let a?, let b?): "\(a) – \(b)"
-            case (let a?, nil): a
+            case (let first?, let last?): "\(first) – \(last)"
+            case (let first?, nil): first
             default: nil
             }
         }

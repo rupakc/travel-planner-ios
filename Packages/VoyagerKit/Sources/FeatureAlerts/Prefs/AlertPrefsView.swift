@@ -120,11 +120,16 @@ public struct AlertPrefsView: View {
                 }
             }
             // The time zone is the account's; it is read-only here.
-            Text(verbatim: model.prefs.timezone.map { L10n.text(K.alertPrefs.quiet.timezone, ["tz": $0]) } ?? L10n.text(K.alertPrefs.quiet.inactive))
+            Text(verbatim: timezoneText)
                 .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("alertPrefs.timezone")
         }
+    }
+
+    private var timezoneText: String {
+        guard let zone = model.prefs.timezone else { return L10n.text(K.alertPrefs.quiet.inactive) }
+        return L10n.text(K.alertPrefs.quiet.timezone, ["tz": zone])
     }
 
     @ViewBuilder private func clockRow(title: String, tid: String, value: String, set: @escaping (String) -> Void) -> some View {
