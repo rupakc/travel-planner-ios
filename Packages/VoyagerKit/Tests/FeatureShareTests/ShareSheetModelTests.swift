@@ -127,6 +127,23 @@ struct ShareSheetModelTests {
         #expect(savings.fakes.shares.onCreate.lastCall?.kind == .savings && savings.fakes.shares.onCreate.lastCall?.planID == nil)
     }
 
+    @Test func test_savingsShareEmitsTelemetry() async {
+        let r = rig(target: .savings) { $0.shares.onCreate.returns(self.share(kind: .savings)) }
+        await r.model.create()
+        r.model.copyLink()
+        r.model.didShareNatively(tid: "share.native")
+        let targets = r.events.all.compactMap { event -> String? in
+            if case .alertSavingsShare(let target) = event { return target }
+            return nil
+        }
+        #expect(targets == ["copy", "native"])
+        // A plan share never reports a savings event.
+        let plan = rig { $0.shares.onCreate.returns(self.share()) }
+        await plan.model.create()
+        plan.model.copyLink()
+        #expect(!plan.events.all.contains { if case .alertSavingsShare = $0 { true } else { false } })
+    }
+
     // MARK: Cards
 
     @Test func test_cardsAreDownloadedAfterCreate() async {

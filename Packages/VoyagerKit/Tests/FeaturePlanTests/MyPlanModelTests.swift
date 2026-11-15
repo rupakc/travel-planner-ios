@@ -161,6 +161,46 @@ final class MyPlanModelTests: XCTestCase {
         XCTAssertEqual(env.plan.savedPlanID, 11)
     }
 
+    func test_planShareOpensSheetWhenFlagOn() async {
+        let fakes = FakeRepositories()
+        let env = AppEnvironment.fake(user: .sample, fakes: fakes, clientConfig: ClientConfig(features: ["sharing": .number(1)]))
+        env.plan.selections = PlanFixtures.selections
+        env.plan.searchData = PlanFixtures.searchData
+        env.plan.isDirty = false
+        env.plan.savedPlanID = 7
+        let now = fixedNow
+        let model = MyPlanModel(env: env, now: { now })
+        XCTAssertTrue(model.usesShareSheet)
+        await model.share()
+        XCTAssertEqual(env.recordedRoutes, [.shareSheet(.plan(id: 7))])
+        XCTAssertEqual(fakes.plans.onShare.callCount, 0, "the legacy link is not made")
+        XCTAssertNil(model.shareURL)
+    }
+
+    func test_planShareSavesFirstThenOpensSheet() async {
+        let fakes = FakeRepositories()
+        fakes.plans.onCreate.returns(SavedPlan(id: 11, name: "Tokyo plan", searchData: PlanFixtures.searchData, selections: PlanFixtures.selections))
+        let env = AppEnvironment.fake(user: .sample, fakes: fakes, clientConfig: ClientConfig(features: ["sharing": .number(1)]))
+        env.plan.selections = PlanFixtures.selections
+        env.plan.searchData = PlanFixtures.searchData
+        let now = fixedNow
+        let model = MyPlanModel(env: env, now: { now })
+        await model.share()
+        XCTAssertEqual(fakes.plans.onCreate.callCount, 1)
+        XCTAssertEqual(env.recordedRoutes, [.shareSheet(.plan(id: 11))])
+    }
+
+    func test_planShareKeepsLegacyLinkWhenFlagOff() async {
+        let (model, env, fakes) = make()
+        env.plan.savedPlanID = 5
+        env.plan.isDirty = false
+        fakes.plans.onShare.returns("legacy")
+        XCTAssertFalse(model.usesShareSheet)
+        await model.share()
+        XCTAssertEqual(model.shareURL?.lastPathComponent, "legacy")
+        XCTAssertTrue(env.recordedRoutes.isEmpty)
+    }
+
     func test_shareFailureShowsMessage() async {
         let (model, env, fakes) = make()
         env.plan.savedPlanID = 5

@@ -80,6 +80,7 @@ struct ShellView: View {
             SidebarShell(env: env, router: router, unread: unread, consent: consent)
         }
         .modifier(MyPlanPresentation(env: env, router: router))
+        .modifier(SharePresentation(env: env, router: router, insideMyPlan: false))
         .sheet(isPresented: mainBinding(get: { router.nearbyPresented }, set: { router.nearbyPresented = $0 })) {
             NavigationStack { NearbySheet(env: env) }
         }
