@@ -124,11 +124,11 @@ final class PlanSnapshotTests: XCTestCase {
             }
         }
         await FontRegistry.ready()
-        // 44 pt buttons plus the 16 pt padding on each side, measured from the first run.
+        // 44 pt buttons plus 16 pt padding each side, under the 36 pt top inset the SE config adds (measured).
         let configs = [false, true].map {
             SnapshotConfig(
                 name: $0 ? "se-dark" : "se-light", device: SnapshotDevice.iPhoneSE.config, dark: $0,
-                canvas: CGSize(width: 320, height: 76))
+                canvas: CGSize(width: 320, height: 112))
         }
         await assertSnapshots(of: { actions().padding(16) }, named: "PlanShareEntry", configs: configs, layout: .component)
     }
