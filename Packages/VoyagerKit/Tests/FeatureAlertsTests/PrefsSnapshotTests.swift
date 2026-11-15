@@ -10,7 +10,7 @@ import XCTest
 @MainActor
 final class PrefsSnapshotTests: XCTestCase {
     private func canvas(
-        _ name: String, _ device: SnapshotDevice = .iPhoneSE, dark: Bool = false, language: AppLanguage = .en, height: CGFloat = 1300,
+        _ name: String, _ device: SnapshotDevice = .iPhoneSE, dark: Bool = false, language: AppLanguage = .en, height: CGFloat = 1191,
         ax5: Bool = false
     ) -> SnapshotConfig {
         let isPad = device == .iPadPro11
@@ -47,26 +47,26 @@ final class PrefsSnapshotTests: XCTestCase {
         var off = AlertPrefs(timezone: nil)
         off.quietHours.enabled = true
         let view = await screen(off)
-        await assertSnapshots(of: { view }, named: "AlertPrefsDigestOff", configs: [canvas("se-light")], layout: .screen)
+        await assertSnapshots(of: { view }, named: "AlertPrefsDigestOff", configs: [canvas("se-light", height: 1135)], layout: .screen)
     }
 
     func test_prefsDarkAX5() async {
         let view = await screen(prefs)
         await assertSnapshots(
             of: { view }, named: "AlertPrefsDarkAX5",
-            configs: [canvas("se-de-dark-ax5", dark: true, language: .de, height: 5800, ax5: true)], layout: .screen)
+            configs: [canvas("se-de-dark-ax5", dark: true, language: .de, height: 5142, ax5: true)], layout: .screen)
     }
 
     func test_prefsLongLanguages() async {
         let view = await screen(prefs)
         await assertSnapshots(
             of: { view }, named: "AlertPrefsHI",
-            configs: [canvas("hi", language: .hi, height: 1300)], layout: .screen)
+            configs: [canvas("hi", language: .hi)], layout: .screen)
     }
 
     func test_prefsIPad() async {
         let view = await screen(prefs)
-        await assertSnapshots(of: { view }, named: "AlertPrefsIPad", configs: [canvas("ipad-light", .iPadPro11)], layout: .screen)
+        await assertSnapshots(of: { view }, named: "AlertPrefsIPad", configs: [canvas("ipad-light", .iPadPro11, height: 1083)], layout: .screen)
     }
 
     // MARK: Suggestions
