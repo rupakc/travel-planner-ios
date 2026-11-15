@@ -74,6 +74,11 @@ final class ItinerarySnapshotTests: XCTestCase {
         let slot = editor.scheduledDays[0]["slots"][1]
         assertSnapshots(
             of: { SlotRow(model: editor, slot: slot, dayNumber: 1, showsTransit: true, isLast: true, onMove: {}, onEdit: {}) },
-            named: "ax5", configs: [.germanAX5])
+            named: "ax5",
+            configs: [{
+                var config = SnapshotConfig.germanAX5
+                config.canvas = CGSize(width: 320, height: 672)
+                return config
+            }()])
     }
 }

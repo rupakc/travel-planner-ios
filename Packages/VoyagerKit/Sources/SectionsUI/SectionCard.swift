@@ -130,8 +130,7 @@ public struct SectionCard<Content: View>: View {
             .foregroundStyle(Palette.color(.amber, .s700))
             .padding(.horizontal, Spacing.sm)
             .padding(.vertical, Spacing.xs)
-            .background(Palette.color(.amber, .s100), in: Capsule())
-            .overlay { Capsule().strokeBorder(Palette.color(.amber, .s200), lineWidth: 1) }
+            .borderedSurface(Capsule(), fill: Palette.color(.amber, .s100), border: Palette.color(.amber, .s200))
             .accessibilityElement(children: .combine)
             .accessibilityHint(L10n.text(K.results.status.enhancingTitle))
         case .done:
