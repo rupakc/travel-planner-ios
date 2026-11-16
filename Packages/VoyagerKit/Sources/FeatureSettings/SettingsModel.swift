@@ -61,6 +61,8 @@ final class SettingsModel {
     var showsMySharesRow: Bool { features.hasSharingV2 }
     /// My profile (Phase 5) shows while `features.social` is on and the routes still answer.
     var showsProfileRow: Bool { env.social.isAvailable }
+    /// Play (Phase 5) shows while `features.play` is on, the game is not hidden and the routes still answer.
+    var showsPlayRow: Bool { env.play.isAvailable }
     var showsServerSection: Bool { env.build.isDebug }
 
     // MARK: - Appearance and language

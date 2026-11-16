@@ -46,6 +46,8 @@ import VoyagerModel
         .notifOpen(category: "trip_reminders", source: "push"),
         .socialProfileView, .socialProfileSave(visibility: "followers"), .socialFollow(state: "pending"),
         .socialBlock(on: true), .socialReport(target: "profile", reason: "spam"),
+        .playStateView, .playQuizStart(mode: "pack", pack: "flags"), .playQuizAnswer(correct: true, elapsedS: 4),
+        .playQuizDone(correct: 4, mode: "daily"),
     ]
 
     @Test func test_everyCaseIsInRegistry() throws {
@@ -64,7 +66,7 @@ import VoyagerModel
     @Test func test_samplesCoverEveryEnumCase() {
         let names = Set(Self.samples.map(\.wire.name))
         #expect(names.count == Self.samples.count)
-        #expect(names.count == 46)
+        #expect(names.count == 50)
     }
 
     @Test func test_internalSessionStartIsInRegistry() throws {

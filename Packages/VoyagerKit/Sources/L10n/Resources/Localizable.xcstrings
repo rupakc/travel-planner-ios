@@ -100830,6 +100830,348 @@
         }
       }
     },
+    "play:home.freeze" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A streak freeze is ready. One missed day will not break your streak."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A streak freeze is ready. One missed day will not break your streak."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A streak freeze is ready. One missed day will not break your streak."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A streak freeze is ready. One missed day will not break your streak."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A streak freeze is ready. One missed day will not break your streak."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A streak freeze is ready. One missed day will not break your streak."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A streak freeze is ready. One missed day will not break your streak."
+          }
+        }
+      }
+    },
+    "play:home.history" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent games"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent games"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent games"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent games"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent games"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent games"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent games"
+          }
+        }
+      }
+    },
+    "play:home.openH2H" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head match is waiting for you"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head matches are waiting for you"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head match is waiting for you"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head matches are waiting for you"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head match is waiting for you"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head matches are waiting for you"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head match is waiting for you"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head matches are waiting for you"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head match is waiting for you"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head matches are waiting for you"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head match is waiting for you"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head matches are waiting for you"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head match is waiting for you"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg head-to-head matches are waiting for you"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "play:home.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play is not available right now."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play is not available right now."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play is not available right now."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play is not available right now."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play is not available right now."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play is not available right now."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play is not available right now."
+          }
+        }
+      }
+    },
     "play:loading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -101112,6 +101454,53 @@
         }
       }
     },
+    "play:quiz.alreadyDone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You already played today's quiz. Come back tomorrow."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You already played today's quiz. Come back tomorrow."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You already played today's quiz. Come back tomorrow."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You already played today's quiz. Come back tomorrow."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You already played today's quiz. Come back tomorrow."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You already played today's quiz. Come back tomorrow."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You already played today's quiz. Come back tomorrow."
+          }
+        }
+      }
+    },
     "play:quiz.correct" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -101362,6 +101751,53 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "play:quiz.expired" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This quiz timed out. Start a new one from Play."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This quiz timed out. Start a new one from Play."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This quiz timed out. Start a new one from Play."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This quiz timed out. Start a new one from Play."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This quiz timed out. Start a new one from Play."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This quiz timed out. Start a new one from Play."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This quiz timed out. Start a new one from Play."
           }
         }
       }

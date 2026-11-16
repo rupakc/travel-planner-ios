@@ -2625,6 +2625,12 @@ public enum K {
             public static let winner_them = LKey("play:h2h.winner_them", placeholders: [], plural: false)
             public static let winner_you = LKey("play:h2h.winner_you", placeholders: [], plural: false)
         }
+        public enum home {
+            public static let freeze = LKey("play:home.freeze", placeholders: [], plural: false)
+            public static let history = LKey("play:home.history", placeholders: [], plural: false)
+            public static let openH2H = LKey("play:home.openH2H", placeholders: [], plural: true)
+            public static let unavailable = LKey("play:home.unavailable", placeholders: [], plural: false)
+        }
         public static let loading = LKey("play:loading", placeholders: [], plural: false)
         public enum pack {
             public static let capitals = LKey("play:pack.capitals", placeholders: [], plural: false)
@@ -2636,8 +2642,10 @@ public enum K {
             public static let title = LKey("play:packs.title", placeholders: [], plural: false)
         }
         public enum quiz {
+            public static let alreadyDone = LKey("play:quiz.alreadyDone", placeholders: [], plural: false)
             public static let correct = LKey("play:quiz.correct", placeholders: [], plural: false)
             public static let correctPoints = LKey("play:quiz.correctPoints", placeholders: [], plural: true)
+            public static let expired = LKey("play:quiz.expired", placeholders: [], plural: false)
             public static let finish = LKey("play:quiz.finish", placeholders: [], plural: false)
             public static let flagAlt = LKey("play:quiz.flagAlt", placeholders: [], plural: false)
             public static let next = LKey("play:quiz.next", placeholders: [], plural: false)
