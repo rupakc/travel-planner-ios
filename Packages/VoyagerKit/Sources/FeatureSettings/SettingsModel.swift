@@ -59,6 +59,8 @@ final class SettingsModel {
     var showsNotificationSettingsRow: Bool { features.hasNotificationSettings }
     var showsAlertPrefsRow: Bool { features.hasAlertsV2 }
     var showsMySharesRow: Bool { features.hasSharingV2 }
+    /// My profile (Phase 5) shows while `features.social` is on and the routes still answer.
+    var showsProfileRow: Bool { env.social.isAvailable }
     var showsServerSection: Bool { env.build.isDebug }
 
     // MARK: - Appearance and language
