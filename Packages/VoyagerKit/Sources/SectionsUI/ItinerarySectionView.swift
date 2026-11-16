@@ -57,9 +57,7 @@ public struct ItinerarySectionView: View {
             }
             TripMapView(data: model.arranged, ctx: ctx, edits: model.edits)
             if let total = ItineraryText.cost(model.arranged["total_estimated_cost_usd"]), total > 0 {
-                Text(verbatim: L10n.text(K.itinerary.section.estCost, ["cost": ItineraryText.usd(total)]))
-                    .font(VFont.body(.subheadline, weight: .medium))
-                    .foregroundStyle(Palette.color(.teal, .s700))
+                EstimatedCostLine(amount: ItineraryText.usd(total))
             }
             if model.editable { toolbar }
             VStack(alignment: .leading, spacing: Spacing.xl) {
@@ -83,10 +81,12 @@ public struct ItinerarySectionView: View {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(verbatim: L10n.text(K.itinerary.toolbar.changes, count: model.changeCount))
                     .font(VFont.body(.caption, weight: .medium)).foregroundStyle(SemanticColor.textMuted)
+                // Both pills share one capped size, so stacked buttons match at any Dynamic Type size.
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: Spacing.sm) { toolbarButtons }
                     VStack(alignment: .leading, spacing: Spacing.xs) { toolbarButtons }
                 }
+                .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
             }
             .accessibilityElement(children: .contain)
             .accessibilityLabel(Text(verbatim: L10n.text(K.itinerary.toolbar.label)))
@@ -114,21 +114,32 @@ public struct ItinerarySectionView: View {
             ForEach(Array(model.removed.enumerated()), id: \.offset) { _, entry in
                 let key = entry["key"].string ?? ""
                 let name = model.activityName(key: key, fallback: entry["slot"]["activity"].string)
-                HStack {
-                    Text(verbatim: name).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
-                        .strikethrough().fixedSize(horizontal: false, vertical: true)
-                    Spacer(minLength: Spacing.sm)
-                    Button {
-                        Telemetry.shared.track(.uiTap(tid: "itinerary.restore", route: route))
-                        restore(key: key, name: name, day: entry["slot"]["day_number"])
-                    } label: {
-                        Text(verbatim: L10n.text(K.itinerary.removed.restore))
-                            .font(VFont.body(.footnote, weight: .medium)).foregroundStyle(SemanticColor.primary)
-                            .frame(minHeight: 44)
+                let nameText = Text(verbatim: name).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
+                    .strikethrough()
+                let restoreButton = Button {
+                    Telemetry.shared.track(.uiTap(tid: "itinerary.restore", route: route))
+                    restore(key: key, name: name, day: entry["slot"]["day_number"])
+                } label: {
+                    Text(verbatim: L10n.text(K.itinerary.removed.restore))
+                        .font(VFont.body(.footnote, weight: .medium)).foregroundStyle(SemanticColor.primary)
+                        .lineLimit(1).fixedSize(horizontal: true, vertical: false)
+                        .frame(minHeight: 44)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text(verbatim: L10n.text(K.itinerary.removed.restoreAria, ["name": name])))
+                .accessibilityIdentifier("itinerary.restore")
+                // Name and Restore share a row when they fit; otherwise Restore drops below, never breaking mid-word.
+                ViewThatFits(in: .horizontal) {
+                    HStack {
+                        nameText.lineLimit(1).fixedSize(horizontal: true, vertical: false)
+                        Spacer(minLength: Spacing.sm)
+                        restoreButton
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(Text(verbatim: L10n.text(K.itinerary.removed.restoreAria, ["name": name])))
-                    .accessibilityIdentifier("itinerary.restore")
+                    VStack(alignment: .leading, spacing: 0) {
+                        nameText.fixedSize(horizontal: false, vertical: true)
+                        restoreButton
+                    }
+                    .dynamicTypeSize(...DynamicTypeSize.accessibility1)
                 }
             }
             if let message = restoreFailure {
@@ -247,5 +258,43 @@ struct LinkCoverageBanner: View {
         }
         // `<src/>` marks where the web puts the link; plain text names the source there.
         return L10n.text(key, args, count: total).replacingOccurrences(of: "<src/>", with: source)
+    }
+}
+
+/// "Estimated trip cost: $75.00". When the sentence does not fit one line, the amount drops to its own line
+/// (at a smaller Dynamic Type size if needed), so the colon never starts a wrapped line.
+private struct EstimatedCostLine: View {
+    let amount: String
+
+    private var full: String { L10n.text(K.itinerary.section.estCost, ["cost": amount]) }
+    private var label: String {
+        full.hasSuffix(amount) ? String(full.dropLast(amount.count)).trimmingCharacters(in: .whitespaces) : full
+    }
+
+    private var gluedLabel: String {
+        label.hasSuffix(":") ? String(label.dropLast()) + "\u{2060}:" : label
+    }
+
+    var body: some View {
+        ViewThatFits(in: .horizontal) {
+            Text(verbatim: full).lineLimit(1).fixedSize(horizontal: true, vertical: false)
+            stacked
+            stacked.dynamicTypeSize(...DynamicTypeSize.accessibility1)
+            // Last resort: the label wraps at word boundaries with the colon glued to its word, at a capped size.
+            VStack(alignment: .leading, spacing: 0) {
+                Text(verbatim: gluedLabel).fixedSize(horizontal: false, vertical: true)
+                Text(verbatim: amount)
+            }
+            .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+        }
+        .font(VFont.body(.subheadline, weight: .medium))
+        .foregroundStyle(Palette.color(.teal, .s700))
+    }
+
+    private var stacked: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(verbatim: label).lineLimit(1).fixedSize(horizontal: true, vertical: false)
+            Text(verbatim: amount)
+        }
     }
 }
