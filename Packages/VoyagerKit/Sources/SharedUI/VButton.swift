@@ -40,7 +40,7 @@ public struct VButton: View {
                     Image(systemName: systemImage).accessibilityHidden(true)
                 }
                 // A single line at the user's size when it fits; else a single line at a smaller Dynamic Type
-                // size (so a long word never breaks mid-word); only then wrapped at word boundaries.
+                // size (so a long word never breaks mid-word); only then wrapped (capped at AX1 so a long word breaks as little as possible).
                 ViewThatFits(in: .horizontal) {
                     Text(verbatim: title)
                         .lineLimit(1)
@@ -56,6 +56,7 @@ public struct VButton: View {
                     Text(verbatim: title)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
+                        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
                 }
             }
         }
