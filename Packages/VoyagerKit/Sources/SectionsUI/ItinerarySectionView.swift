@@ -260,13 +260,21 @@ private struct EstimatedCostLine: View {
         full.hasSuffix(amount) ? String(full.dropLast(amount.count)).trimmingCharacters(in: .whitespaces) : full
     }
 
+    private var gluedLabel: String {
+        label.hasSuffix(":") ? String(label.dropLast()) + "\u{2060}:" : label
+    }
+
     var body: some View {
         ViewThatFits(in: .horizontal) {
             Text(verbatim: full).lineLimit(1).fixedSize(horizontal: true, vertical: false)
             stacked
             stacked.dynamicTypeSize(...DynamicTypeSize.accessibility1)
-            stacked.dynamicTypeSize(...DynamicTypeSize.xxxLarge)
-            Text(verbatim: full).fixedSize(horizontal: false, vertical: true)
+            // Last resort: the label wraps at word boundaries with the colon glued to its word, at a capped size.
+            VStack(alignment: .leading, spacing: 0) {
+                Text(verbatim: gluedLabel).fixedSize(horizontal: false, vertical: true)
+                Text(verbatim: amount)
+            }
+            .dynamicTypeSize(...DynamicTypeSize.accessibility1)
         }
         .font(VFont.body(.subheadline, weight: .medium))
         .foregroundStyle(Palette.color(.teal, .s700))

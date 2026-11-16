@@ -113,7 +113,9 @@ struct SlotRow: View {
     }
 
     private var actions: some View {
+        // One capped size for every action, so labels never scale individually.
         WrapLayout(spacing: Spacing.sm) { buttons }
+            .dynamicTypeSize(...DynamicTypeSize.accessibility1)
     }
 
     @ViewBuilder private var buttons: some View {
@@ -146,7 +148,7 @@ struct SlotRow: View {
             Telemetry.shared.track(.uiTap(tid: tid, route: route))
             action()
         } label: {
-            Label { Text(verbatim: title).lineLimit(1).minimumScaleFactor(0.6) } icon: { Image(systemName: symbol) }
+            Label { Text(verbatim: title).lineLimit(1) } icon: { Image(systemName: symbol) }
                 .font(VFont.body(.footnote, weight: .medium))
                 .foregroundStyle(SemanticColor.primary)
                 .padding(.horizontal, Spacing.sm)
