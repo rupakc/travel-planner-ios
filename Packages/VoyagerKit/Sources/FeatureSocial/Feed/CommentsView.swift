@@ -21,7 +21,12 @@ struct CommentsView: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityIdentifier("comments.error")
             }
-            composer
+            if model.needsRules {
+                CommunityRulesCard(
+                    tidPrefix: "comments", accept: { Task { await model.acceptRules() } }, decline: model.declineRules)
+            } else {
+                composer
+            }
         }
         .task { await model.start() }
         .accessibilityIdentifier("comments.root")

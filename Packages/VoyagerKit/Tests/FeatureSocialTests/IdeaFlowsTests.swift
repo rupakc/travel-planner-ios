@@ -16,11 +16,15 @@ struct IdeaFlowsTests {
         var all: [TelemetryEvent] = []
     }
 
-    private func makeEnv(social: Bool = true, configure: (FakeRepositories) -> Void = { _ in }) -> (AppEnvironment, FakeRepositories) {
+    private func makeEnv(
+        social: Bool = true, rules: Bool = true, configure: (FakeRepositories) -> Void = { _ in }
+    ) -> (AppEnvironment, FakeRepositories) {
         let fakes = FakeRepositories()
         configure(fakes)
         let features: [String: JSONValue] = social ? ["social": .number(1)] : [:]
-        return (AppEnvironment.fake(fakes: fakes, clientConfig: ClientConfig(features: features)), fakes)
+        let env = AppEnvironment.fake(user: User(username: "sam"), fakes: fakes, clientConfig: ClientConfig(features: features))
+        if rules { env.device.acceptCommunityRules(for: "sam") }
+        return (env, fakes)
     }
 
     private func error(_ status: Int, _ code: String) -> APIError {
@@ -145,6 +149,41 @@ struct IdeaFlowsTests {
         await model.delete(model.visible[2])
         #expect(delta == 0)
         #expect(events.all.count == 1)
+    }
+
+    // MARK: Community rules (R13)
+
+    @Test func test_firstPublishWaitsForRulesThenSendsOnce() async {
+        let (env, fakes) = makeEnv(rules: false)
+        let model = PublishIdeaModel(env: env, planID: 7, kind: .plan, suggestedTitle: "Lisbon", track: { _ in })
+        fakes.social.onPublish.returns(FeedModelTests.idea("n", mine: true))
+        await model.submit()
+        #expect(model.needsRules)
+        #expect(fakes.social.onPublish.callCount == 0)
+        model.declineRules()
+        #expect(!model.needsRules && model.phase == .form)
+        await model.submit()
+        await model.acceptRules()
+        #expect(!model.needsRules && model.phase == .published)
+        #expect(fakes.social.onPublish.callCount == 1)
+        #expect(env.device.hasAcceptedCommunityRules(for: "sam"))
+        let again = PublishIdeaModel(env: env, planID: 7, kind: .plan, suggestedTitle: "Lisbon", track: { _ in })
+        await again.submit()
+        #expect(!again.needsRules && fakes.social.onPublish.callCount == 2)
+    }
+
+    @Test func test_firstCommentWaitsForRulesThenPosts() async {
+        let (env, fakes) = makeEnv(rules: false) {
+            $0.social.onComments.returns(CommentPage(comments: []))
+        }
+        fakes.social.onComment.returns(IdeaComment(id: "c3", authorHandle: "me", text: "Hi", mine: true))
+        let model = CommentsModel(env: env, ideaID: "1", ideaMine: false, track: { _ in })
+        await model.start()
+        model.draft = "Hi"
+        await model.post()
+        #expect(model.needsRules && fakes.social.onComment.callCount == 0 && model.draft == "Hi")
+        await model.acceptRules()
+        #expect(!model.needsRules && model.draft.isEmpty && fakes.social.onComment.callCount == 1)
     }
 
     @Test func test_commentDraftCappedAt300() {

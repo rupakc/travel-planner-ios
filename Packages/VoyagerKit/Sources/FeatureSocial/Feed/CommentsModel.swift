@@ -25,6 +25,8 @@ final class CommentsModel {
     private(set) var isLoadingMore = false
     private(set) var isPosting = false
     private(set) var failure: IdeaFailure?
+    /// The rules card is showing: the first comment of this user waits for "I agree" (plan ruling R13).
+    private(set) var needsRules = false
     var draft = "" {
         didSet { if draft.count > Self.maxLength { draft = String(draft.prefix(Self.maxLength)) } }
     }
@@ -91,7 +93,26 @@ final class CommentsModel {
         }
     }
 
+    private var username: String { env.auth.session?.user.username ?? "" }
+
     func post() async {
+        guard canPost else { return }
+        guard env.device.hasAcceptedCommunityRules(for: username) else {
+            needsRules = true
+            return
+        }
+        await send()
+    }
+
+    func acceptRules() async {
+        env.device.acceptCommunityRules(for: username)
+        needsRules = false
+        await send()
+    }
+
+    func declineRules() { needsRules = false }
+
+    private func send() async {
         let text = draft.trimmingCharacters(in: .whitespacesAndNewlines)
         guard canPost else { return }
         isPosting = true

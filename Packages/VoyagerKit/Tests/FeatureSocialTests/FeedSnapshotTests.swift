@@ -150,11 +150,13 @@ final class FeedSnapshotTests: XCTestCase {
 
     // MARK: Publish and report
 
-    private func publishModel(profile: OwnProfile, submit: Bool = false, status: IdeaStatus = .published) async -> PublishIdeaModel {
+    private func publishModel(profile: OwnProfile, submit: Bool = false, status: IdeaStatus = .published, rules: Bool = true) async -> PublishIdeaModel {
         let fakes = FakeRepositories()
         fakes.social.onProfile.returns(profile)
         fakes.social.onPublish.returns(Self.ideas[0].withStatus(status))
-        let env = AppEnvironment.fake(fakes: fakes, clientConfig: ClientConfig(features: ["social": .number(1)]))
+        let env = AppEnvironment.fake(
+            user: User(username: "sam"), fakes: fakes, clientConfig: ClientConfig(features: ["social": .number(1)]))
+        if rules { env.device.acceptCommunityRules(for: "sam") }
         let model = PublishIdeaModel(env: env, planID: 3, kind: .plan, suggestedTitle: "A slow week in Lisbon", track: { _ in })
         await model.checkProfile()
         if submit { await model.submit() }
@@ -172,6 +174,13 @@ final class FeedSnapshotTests: XCTestCase {
         let model = await publishModel(profile: OwnProfile())
         await assertSnapshots(
             of: { PublishIdeaView(model: model) }, named: "needs-profile", configs: [phone("se-light", height: 622)], layout: .screen)
+    }
+
+    func test_publishRulesCard() async {
+        let model = await publishModel(profile: OwnProfile(handle: "me_myself", visibility: .public), submit: true, rules: false)
+        await assertSnapshots(
+            of: { PublishIdeaView(model: model) }, named: "rules",
+            configs: [phone("se-light", height: 500), phone("se-dark", dark: true, height: 500)], layout: .screen)
     }
 
     func test_heldNotice() async {

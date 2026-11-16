@@ -23,7 +23,14 @@ public struct PublishIdeaView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: Spacing.lg) {
-                    if model.isDone { done } else { form }
+                    if model.isDone {
+                        done
+                    } else if model.needsRules {
+                        CommunityRulesCard(
+                            tidPrefix: "publish", accept: { Task { await model.acceptRules() } }, decline: model.declineRules)
+                    } else {
+                        form
+                    }
                 }
                 .frame(maxWidth: AdaptiveLayout.readableMaxWidth, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .leading)

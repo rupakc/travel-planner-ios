@@ -31,6 +31,8 @@ final class PublishIdeaModel {
     }
     private(set) var phase: Phase = .form
     private(set) var profile: ProfileState = .unknown
+    /// The rules card is showing: the first publish of this user waits for "I agree" (plan ruling R13).
+    private(set) var needsRules = false
 
     @ObservationIgnored private let env: AppEnvironment
     @ObservationIgnored private let emit: @MainActor (TelemetryEvent) -> Void
@@ -66,7 +68,26 @@ final class PublishIdeaModel {
         }
     }
 
+    private var username: String { env.auth.session?.user.username ?? "" }
+
     func submit() async {
+        guard canSubmit else { return }
+        guard env.device.hasAcceptedCommunityRules(for: username) else {
+            needsRules = true
+            return
+        }
+        await send()
+    }
+
+    func acceptRules() async {
+        env.device.acceptCommunityRules(for: username)
+        needsRules = false
+        await send()
+    }
+
+    func declineRules() { needsRules = false }
+
+    private func send() async {
         guard canSubmit else { return }
         phase = .sending
         let draft = IdeaDraft(
