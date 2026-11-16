@@ -40,8 +40,7 @@ struct PriceInsightsChip: View {
                 .foregroundStyle(Palette.color(family, .s700))
                 .padding(.horizontal, Spacing.md)
                 .padding(.vertical, Spacing.xs)
-                .background(Palette.color(family, .s100), in: Capsule())
-                .overlay { Capsule().strokeBorder(Palette.color(family, .s200), lineWidth: 1) }
+                .borderedSurface(Capsule(), fill: Palette.color(family, .s100), border: Palette.color(family, .s200))
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("results.flights.price-insights")
         }

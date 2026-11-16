@@ -50,7 +50,7 @@ final class SettingsSnapshotTests: XCTestCase {
     func test_feedbackSheet() async {
         await assertSnapshots(
             of: { FeedbackSheet(env: AppEnvironment.fake()) {} }, named: "feedback",
-            configs: [SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 900))],
+            configs: [SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 600))],
             layout: .screen)
     }
 }
