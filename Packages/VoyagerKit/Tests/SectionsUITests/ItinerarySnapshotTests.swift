@@ -73,8 +73,8 @@ final class ItinerarySnapshotTests: XCTestCase {
                     .environment(\.itineraryHost, host(selections))
             }, named: "moved",
             configs: [
-                SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 1200)),
-                SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 1200)),
+                SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 680)),
+                SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 680)),
             ])
     }
 

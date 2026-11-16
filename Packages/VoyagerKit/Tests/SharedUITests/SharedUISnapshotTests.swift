@@ -26,7 +26,7 @@ final class SharedUISnapshotTests: XCTestCase {
             configs: Array(SnapshotConfig.standard.dropLast()) + [
                 SnapshotConfig(
                     name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
-                    size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 384)),
+                    size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 358)),
             ])
     }
 
@@ -34,7 +34,7 @@ final class SharedUISnapshotTests: XCTestCase {
     func test_vButtonGermanAX5() async {
         let canvas = SnapshotConfig(
             name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
-            size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 500))
+            size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 467))
         await assertSnapshots(
             of: {
                 VStack(spacing: 12) {

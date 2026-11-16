@@ -22,9 +22,9 @@ final class SearchSnapshotTests: XCTestCase {
     /// The filled form is taller than the empty one (recent searches): its own canvases, measured to the content.
     private let filledConfigs = [
         SnapshotConfig(
-            name: "se-de", device: .iPhoneSe(.portrait), dark: false, language: .de, canvas: CGSize(width: 320, height: 3200)),
+            name: "se-de", device: .iPhoneSe(.portrait), dark: false, language: .de, canvas: CGSize(width: 320, height: 2362)),
         SnapshotConfig(
-            name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 3000)),
+            name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 2310)),
         SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 1700)),
         SnapshotConfig(name: "ipad-dark", device: .iPadPro11(.portrait), dark: true, canvas: CGSize(width: 834, height: 1700)),
     ]
