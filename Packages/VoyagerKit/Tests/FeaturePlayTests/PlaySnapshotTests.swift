@@ -85,7 +85,7 @@ final class PlaySnapshotTests: XCTestCase {
         let model = await hub(busyState, history: games)
         await assertSnapshots(
             of: { PlayHomeView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 4292)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 4135)], layout: .screen)
     }
 
     func test_hubHidden() async {

@@ -62,21 +62,21 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = await list(matches)
         await assertSnapshots(
             of: { H2HSectionView(model: model) }, named: "list",
-            configs: [phone("se-light", height: 1500), phone("se-dark", dark: true, height: 1500), pad("ipad-light", height: 900)],
+            configs: [phone("se-light", height: 676), phone("se-dark", dark: true, height: 676), pad("ipad-light", height: 662)],
             layout: .component)
     }
 
     func test_h2hListEmptyWithError() async {
         let model = await list([], error: true)
         await assertSnapshots(
-            of: { H2HSectionView(model: model) }, named: "empty", configs: [phone("se-light", height: 900)], layout: .component)
+            of: { H2HSectionView(model: model) }, named: "empty", configs: [phone("se-light", height: 449)], layout: .component)
     }
 
     func test_h2hListGermanAX5() async {
         let model = await list(Array(matches.prefix(3)))
         await assertSnapshots(
             of: { H2HSectionView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 4000)], layout: .component)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 1688)], layout: .component)
     }
 
     // MARK: One match
@@ -172,7 +172,7 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = await board(rows: rows, you: BoardYou(rank: 3, score: 410, optedIn: true))
         await assertSnapshots(
             of: { BoardSectionView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 3000)], layout: .component)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 1051)], layout: .component)
     }
 
     // MARK: Challenge
