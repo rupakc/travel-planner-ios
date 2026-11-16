@@ -22,14 +22,19 @@ final class SharedUISnapshotTests: XCTestCase {
                     VButton("Clear", tid: "snap.tonal", role: .tonal) {}
                     VButton("Delete trip", tid: "snap.destructive", role: .destructive) {}
                 }
-            }, named: "buttons", configs: SnapshotConfig.standard)
+            }, named: "buttons",
+            configs: Array(SnapshotConfig.standard.dropLast()) + [
+                SnapshotConfig(
+                    name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
+                    size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 390)),
+            ])
     }
 
     /// Long German labels at AX5 wrap inside a rounded rectangle (never a circle/oval), enabled and disabled.
     func test_vButtonGermanAX5() async {
         let canvas = SnapshotConfig(
             name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
-            size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 640))
+            size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 500))
         await assertSnapshots(
             of: {
                 VStack(spacing: 12) {

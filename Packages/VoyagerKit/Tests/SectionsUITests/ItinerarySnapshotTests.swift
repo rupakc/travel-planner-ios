@@ -45,7 +45,13 @@ final class ItinerarySnapshotTests: XCTestCase {
                         isSelected: { _, _ in false }, toggle: { _, _ in }, openURL: { _, _ in },
                         searchData: ["must_include": [["name": "Alfama"], ["name": "Sintra"]]]))
                 .environment(\.itineraryHost, host(selections))
-            }, named: "edited", configs: [.phoneLight, .padDark, .germanAX5])
+            }, named: "edited",
+            configs: [
+                .phoneLight, .padDark,
+                SnapshotConfig(
+                    name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
+                    size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 2600)),
+            ])
     }
 
     func test_stressTest() {
