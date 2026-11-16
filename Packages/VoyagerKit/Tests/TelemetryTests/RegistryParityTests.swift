@@ -44,6 +44,8 @@ import VoyagerModel
         .alertQuickWatch(kind: "hotel", action: "undo", surface: "suggest"), .alertSuggest(action: "shown", count: 3),
         .alertPrefsChange(field: "quiet_hours"),
         .notifOpen(category: "trip_reminders", source: "push"),
+        .socialFeedView(scope: "for_you"), .socialIdeaOpen, .socialIdeaLike(on: true), .socialIdeaSave,
+        .socialIdeaPublish(kind: "recap"), .socialComment,
         .socialProfileView, .socialProfileSave(visibility: "followers"), .socialFollow(state: "pending"),
         .socialBlock(on: true), .socialReport(target: "profile", reason: "spam"),
         .playStateView, .playQuizStart(mode: "pack", pack: "flags"), .playQuizAnswer(correct: true, elapsedS: 4),
@@ -66,7 +68,7 @@ import VoyagerModel
     @Test func test_samplesCoverEveryEnumCase() {
         let names = Set(Self.samples.map(\.wire.name))
         #expect(names.count == Self.samples.count)
-        #expect(names.count == 50)
+        #expect(names.count == 56)
     }
 
     @Test func test_internalSessionStartIsInRegistry() throws {
