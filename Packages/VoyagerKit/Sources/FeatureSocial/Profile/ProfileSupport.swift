@@ -1,6 +1,7 @@
 import Foundation
 import L10n
 import Networking
+import SharedUI
 import VoyagerData
 import VoyagerModel
 
