@@ -257,13 +257,16 @@ struct WrapLayout: Layout {
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let rows = arrange(width: proposal.width ?? .infinity, subviews: subviews)
-        return CGSize(width: rows.width, height: rows.height)
+        // Never wider than offered: a child wider than the row is squeezed to it, not allowed to push the parent out.
+        return CGSize(width: min(rows.width, proposal.width ?? .infinity), height: rows.height)
     }
 
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         let rows = arrange(width: bounds.width, subviews: subviews)
         for (index, origin) in rows.origins.enumerated() {
-            subviews[index].place(at: CGPoint(x: bounds.minX + origin.x, y: bounds.minY + origin.y), proposal: .unspecified)
+            let ideal = subviews[index].sizeThatFits(.unspecified)
+            let proposed = ideal.width > bounds.width ? ProposedViewSize(width: bounds.width, height: nil) : .unspecified
+            subviews[index].place(at: CGPoint(x: bounds.minX + origin.x, y: bounds.minY + origin.y), proposal: proposed)
         }
     }
 
@@ -280,7 +283,8 @@ struct WrapLayout: Layout {
         var rowHeight: CGFloat = 0
         var widest: CGFloat = 0
         for subview in subviews {
-            let size = subview.sizeThatFits(.unspecified)
+            let ideal = subview.sizeThatFits(.unspecified)
+            let size = ideal.width > width ? subview.sizeThatFits(ProposedViewSize(width: width, height: nil)) : ideal
             if x > 0, x + size.width > width {
                 x = 0
                 y += rowHeight + spacing
