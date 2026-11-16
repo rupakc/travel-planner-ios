@@ -40,11 +40,7 @@ public struct SectionCard<Content: View>: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
-            .background(SemanticColor.surfaceRaised)
-            .overlay(alignment: .leading) {
-                Rectangle().fill(SectionAccent.color(for: id.rawValue)).frame(width: 4)
-                    .accessibilityHidden(true)
-            }
+            .background { accentedBackground }
             .clipShape(RoundedRectangle(cornerRadius: Radius.itemCard))
             .overlay {
                 RoundedRectangle(cornerRadius: Radius.itemCard).strokeBorder(SemanticColor.border, lineWidth: 1)
@@ -52,6 +48,20 @@ public struct SectionCard<Content: View>: View {
             .accessibilityElement(children: .contain)
             .accessibilityIdentifier("results.section.\(id.rawValue)")
         }
+    }
+
+    /// Raised surface with a 4 pt accent edge that follows the corner curve (the web's curved left border): the
+    /// accent fills the card shape, masked to its left end, and the surface covers all but the leading 4 pt.
+    private var accentedBackground: some View {
+        let radius = Radius.itemCard
+        return ZStack {
+            RoundedRectangle(cornerRadius: radius).fill(SemanticColor.surfaceRaised)
+            RoundedRectangle(cornerRadius: radius).fill(SectionAccent.color(for: id.rawValue))
+                .mask(alignment: .leading) { Rectangle().frame(width: radius * 2) }
+            RoundedRectangle(cornerRadius: radius).fill(SemanticColor.surfaceRaised)
+                .padding(.leading, 4)
+        }
+        .accessibilityHidden(true)
     }
 
     private var header: some View {

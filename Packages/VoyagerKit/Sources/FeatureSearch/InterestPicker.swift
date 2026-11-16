@@ -64,8 +64,7 @@ struct TagInput: View {
                                 .foregroundStyle(SemanticColor.primary)
                                 .padding(.horizontal, Spacing.md)
                                 .frame(minHeight: 44)
-                                .background(SemanticColor.surfaceRaised, in: Capsule())
-                                .overlay { Capsule().strokeBorder(SemanticColor.primary, lineWidth: 1) }
+                                .borderedSurface(Capsule(), fill: SemanticColor.surfaceRaised, border: SemanticColor.primary)
                             }
                             .buttonStyle(.plain)
                             .accessibilityLabel(tag)

@@ -72,7 +72,7 @@ struct FeedbackSheet: View {
                 text: Binding(get: { model.message }, set: { model.updateMessage($0) }), axis: .vertical
             )
             .lineLimit(4...8)
-            .textFieldStyle(.roundedBorder)
+            .themedTextField()
             .accessibilityIdentifier("feedback.message")
             Text(verbatim: "\(model.message.count)/\(FeedbackModel.maxMessage)")
                 .font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)

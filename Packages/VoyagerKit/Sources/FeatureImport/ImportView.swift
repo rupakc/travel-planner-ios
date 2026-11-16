@@ -52,7 +52,7 @@ public struct ImportView: View {
                         .font(VFont.body(.footnote, weight: .medium)).foregroundStyle(SemanticColor.textMuted)
                     TextField(L10n.text(K.search.import.placeholder), text: $model.text, axis: .vertical)
                         .lineLimit(3...8)
-                        .textFieldStyle(.roundedBorder)
+                        .themedTextField()
                         .textInputAutocapitalization(.never)
                         .keyboardType(.default)
                         .disabled(!model.shots.isEmpty)
