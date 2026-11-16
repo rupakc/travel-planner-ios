@@ -29,6 +29,9 @@ public struct Repositories: Sendable {
     public var notificationCatalog: any NotificationCatalogRepository
     /// Share links 2.0 (Phase 4): called only when `features.sharing >= 1`.
     public var shares: any SharesRepository
+    /// Social and Play (Phase 5): called only when `features.social` / `features.play` are on.
+    public var social: any SocialRepository
+    public var play: any PlayRepository
 
     public init(
         plans: any PlansRepository,
@@ -51,7 +54,9 @@ public struct Repositories: Sendable {
         alertsV2: any AlertsV2Repository,
         notificationSettings: any NotificationSettingsRepository,
         notificationCatalog: any NotificationCatalogRepository,
-        shares: any SharesRepository
+        shares: any SharesRepository,
+        social: any SocialRepository,
+        play: any PlayRepository
     ) {
         self.plans = plans
         self.preferences = preferences
@@ -74,6 +79,8 @@ public struct Repositories: Sendable {
         self.notificationSettings = notificationSettings
         self.notificationCatalog = notificationCatalog
         self.shares = shares
+        self.social = social
+        self.play = play
     }
 
     /// The live repositories over one `APIClient` and one `SSEClient`. `locale` is read per request.
@@ -103,6 +110,8 @@ public struct Repositories: Sendable {
             notificationCatalog: CachedNotificationCatalogRepository(
                 network: LiveNotificationCatalogRepository(api: api, locale: locale),
                 store: CachedNotificationCatalogRepository.cachesStore()),
-            shares: LiveSharesRepository(api: api, locale: locale))
+            shares: LiveSharesRepository(api: api, locale: locale),
+            social: LiveSocialRepository(api: api, locale: locale),
+            play: LivePlayRepository(api: api, locale: locale))
     }
 }

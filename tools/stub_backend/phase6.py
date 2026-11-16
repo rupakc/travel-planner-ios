@@ -16,6 +16,10 @@ CATALOG = {
         "trip_morning": "Good morning from {destination}. Open Today for your plan.",
         "nearby_arrival": "You're near {place}: {item} is {minutes} min away",
         "weather_rain": "Rain is likely around {time}: take an umbrella for {slot}.",
+        "idea_saved": "{handle} saved your idea {title}.",
+        "new_follower": "{handle} started following you.",
+        "h2h_invite": "{handle} challenged you to a {pack} quiz.",
+        "h2h_result": "Your quiz match with {handle} is done.",
     },
     "es": {"nearby_arrival": "Estás cerca de {place}: {item} está a {minutes} min"},
 }
