@@ -11,6 +11,17 @@ import XCTest
 final class ItinerarySnapshotTests: XCTestCase {
     private let lean: [SnapshotConfig] = [.phoneLight, .phoneDark, .padLight, .padDark]
 
+    /// Canvases sized to the measured content (plus a small tail), so nothing is cut off and no blank tail remains.
+    private var editedConfigs: [SnapshotConfig] {
+        var phone = SnapshotConfig.phoneLight
+        phone.canvas = CGSize(width: 320, height: 2000)
+        var pad = SnapshotConfig.padDark
+        pad.canvas = CGSize(width: 834, height: 3000)
+        var german = SnapshotConfig.germanAX5
+        german.canvas = CGSize(width: 320, height: 6000)
+        return [phone, pad, german]
+    }
+
     private func editedSelections() -> JSONValue {
         let itinerary = ItineraryFixture.itinerary
         var layout = ItineraryLayout.moveSlot(itinerary, layout: nil, key: "1-evening", day: 2, timeOfDay: "evening")
@@ -45,7 +56,7 @@ final class ItinerarySnapshotTests: XCTestCase {
                         isSelected: { _, _ in false }, toggle: { _, _ in }, openURL: { _, _ in },
                         searchData: ["must_include": [["name": "Alfama"], ["name": "Sintra"]]]))
                 .environment(\.itineraryHost, host(selections))
-            }, named: "edited", configs: [.phoneLight, .padDark, .germanAX5])
+            }, named: "edited", configs: editedConfigs)
     }
 
     func test_stressTest() {
