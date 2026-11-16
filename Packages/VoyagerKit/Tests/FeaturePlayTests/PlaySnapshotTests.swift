@@ -1,4 +1,5 @@
 import AuthCore
+import Networking
 import SnapshotTesting
 import SwiftUI
 import TestSupport
@@ -21,7 +22,7 @@ final class PlaySnapshotTests: XCTestCase {
     }
 
     private func pad(_ name: String, height: CGFloat) -> SnapshotConfig {
-        SnapshotConfig(name: name, device: .iPadPro11(.portrait), canvas: CGSize(width: 834, height: height))
+        SnapshotConfig(name: name, device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: height))
     }
 
     private func env(_ fakes: FakeRepositories) -> AppEnvironment {
