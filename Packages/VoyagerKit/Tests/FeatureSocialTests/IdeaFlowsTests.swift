@@ -34,7 +34,7 @@ struct IdeaFlowsTests {
         let model = PublishIdeaModel(env: env, planID: 7, kind: .plan, suggestedTitle: "Lisbon", track: { _ in })
         fakes.social.onPublish.fails(APIError.forbidden("Create a profile first."))
         await model.submit()
-        guard case .failed(let missing) = model.phase else { return Issue.record("expected failure") }
+        guard case .failed(let missing) = model.phase else { Issue.record("expected failure"); return }
         #expect(missing.failure == .profileRequired)
         #expect(model.needsProfileEditor)
         model.openEditor()
@@ -42,18 +42,18 @@ struct IdeaFlowsTests {
 
         fakes.social.onPublish.fails(APIError.forbidden("Confirm your email first."))
         await model.submit()
-        guard case .failed(let unverified) = model.phase else { return Issue.record("expected failure") }
+        guard case .failed(let unverified) = model.phase else { Issue.record("expected failure"); return }
         #expect(unverified.failure == .emailUnverified)
         #expect(!model.needsProfileEditor)
 
         fakes.social.onPublish.fails(error(422, "limit_reached"))
         await model.submit()
-        guard case .failed(let limit) = model.phase else { return Issue.record("expected failure") }
+        guard case .failed(let limit) = model.phase else { Issue.record("expected failure"); return }
         #expect(limit.failure == .limitReached)
 
         fakes.social.onPublish.fails(error(422, "content_rejected"))
         await model.submit()
-        guard case .failed(let rejected) = model.phase else { return Issue.record("expected failure") }
+        guard case .failed(let rejected) = model.phase else { Issue.record("expected failure"); return }
         #expect(rejected.failure == .contentRejected)
     }
 
