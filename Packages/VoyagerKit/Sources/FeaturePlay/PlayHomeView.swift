@@ -129,11 +129,14 @@ public struct PlayHomeView: View {
         return L10n.text(K.play.challenge.featured)
     }
 
+    /// Two columns on a phone; one column at accessibility sizes.
+    private var packMinimum: CGFloat { typeSize.isAccessibilitySize ? 400 : 130 }
+
     private var packsCard: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             Text(verbatim: L10n.text(K.play.packs.title)).font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
                 .accessibilityAddTraits(.isHeader)
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: typeSize.isAccessibilitySize ? 400 : 130), spacing: Spacing.md)], spacing: Spacing.md) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: packMinimum), spacing: Spacing.md)], spacing: Spacing.md) {
                 ForEach(model.packs) { pack in
                     PackTile(title: QuizText.packName(pack.id), tid: "play.pack.\(pack.id)", busy: model.isBusy) {
                         Task { await model.startPack(pack) }
