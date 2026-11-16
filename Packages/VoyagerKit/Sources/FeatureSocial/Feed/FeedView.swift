@@ -94,15 +94,14 @@ public struct IdeasFeedView: View {
     }
 
     private var scopeChips: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: Spacing.sm) {
-                ForEach(FeedScope.allCases, id: \.self) { scope in
-                    VChip(title: Self.title(scope), tid: "feed.scope.\(scope.rawValue)", selected: model.scope == scope) {
-                        Task { await model.select(scope) }
-                    }
+        SocialActionWrap(spacing: Spacing.sm) {
+            ForEach(FeedScope.allCases, id: \.self) { scope in
+                VChip(title: Self.title(scope), tid: "feed.scope.\(scope.rawValue)", selected: model.scope == scope) {
+                    Task { await model.select(scope) }
                 }
             }
         }
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
         .accessibilityLabel(Text(verbatim: L10n.text(K.social.feed.scopes)))
         .accessibilityIdentifier("feed.scopes")
     }

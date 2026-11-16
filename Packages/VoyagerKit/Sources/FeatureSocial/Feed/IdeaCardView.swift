@@ -173,10 +173,8 @@ struct IdeaCardView: View {
     // MARK: Actions
 
     private var actionRow: some View {
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: Spacing.sm) { buttons }
-            VStack(alignment: .leading, spacing: Spacing.sm) { buttons }
-        }
+        SocialActionWrap(spacing: Spacing.sm) { buttons }
+            .dynamicTypeSize(...DynamicTypeSize.accessibility1)
     }
 
     @ViewBuilder private var buttons: some View {
