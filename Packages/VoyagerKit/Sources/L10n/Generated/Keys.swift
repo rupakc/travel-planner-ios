@@ -4404,8 +4404,16 @@ public enum K {
             public static let tripDays = LKey("social:idea.tripDays", placeholders: ["days"], plural: false)
             public static let unlike = LKey("social:idea.unlike", placeholders: [], plural: false)
         }
+        public enum lists {
+            public static let noBlocked = LKey("social:lists.noBlocked", placeholders: [], plural: false)
+            public static let noFollowers = LKey("social:lists.noFollowers", placeholders: [], plural: false)
+            public static let noFollowing = LKey("social:lists.noFollowing", placeholders: [], plural: false)
+            public static let noRequests = LKey("social:lists.noRequests", placeholders: [], plural: false)
+        }
         public enum profile {
             public static let badges = LKey("social:profile.badges", placeholders: [], plural: false)
+            public static let cancelRequest = LKey("social:profile.cancelRequest", placeholders: [], plural: false)
+            public static let createFirst = LKey("social:profile.createFirst", placeholders: [], plural: false)
             public static let edit = LKey("social:profile.edit", placeholders: [], plural: false)
             public static let follow = LKey("social:profile.follow", placeholders: [], plural: false)
             public static let followers = LKey("social:profile.followers", placeholders: [], plural: false)
@@ -4419,6 +4427,8 @@ public enum K {
             public static let notFound = LKey("social:profile.notFound", placeholders: [], plural: false)
             public static let of = LKey("social:profile.of", placeholders: ["handle"], plural: false)
             public static let requested = LKey("social:profile.requested", placeholders: [], plural: false)
+            public static let stopFollowing = LKey("social:profile.stopFollowing", placeholders: [], plural: false)
+            public static let viewOwn = LKey("social:profile.viewOwn", placeholders: [], plural: false)
             public static let visited = LKey("social:profile.visited", placeholders: [], plural: false)
         }
         public enum report {

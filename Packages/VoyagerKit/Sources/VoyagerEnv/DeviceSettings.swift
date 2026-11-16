@@ -16,9 +16,21 @@ public final class DeviceSettings {
         public static let nearbyInvites = "tp_nearby_invites"
         public static let alertPoll = "tp_alert_poll"
         public static let pushToken = "tp_push_token"
+        /// `tp_social_rules_<username>`: the community rules were accepted by that user on this device.
+        public static let communityRulesPrefix = "tp_social_rules_"
     }
 
     @ObservationIgnored private let defaults: UserDefaults
+
+    /// Whether `username` accepted the community rules on this device (Social ruling R13: once per user, before the
+    /// first profile save or post). Another account on the same device is asked again.
+    public func hasAcceptedCommunityRules(for username: String) -> Bool {
+        defaults.bool(forKey: Keys.communityRulesPrefix + username.lowercased())
+    }
+
+    public func acceptCommunityRules(for username: String) {
+        defaults.set(true, forKey: Keys.communityRulesPrefix + username.lowercased())
+    }
 
     public var onboardingCompleted: Bool {
         didSet { defaults.set(onboardingCompleted, forKey: Keys.onboardingCompleted) }

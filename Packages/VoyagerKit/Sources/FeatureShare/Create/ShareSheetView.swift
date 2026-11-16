@@ -100,6 +100,13 @@ public struct ShareSheetView: View {
                 .accessibilityIdentifier("share.error")
         }
         if model.hasLink { result }
+        if model.ideasTarget != nil {
+            VButton(L10n.text(K.socialShare.cta), tid: "share.to-ideas", role: .secondary) {
+                model.shareToIdeas()
+                model.cancel()
+                dismiss()
+            }
+        }
     }
 
     private var optionsCard: some View {

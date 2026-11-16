@@ -98,6 +98,11 @@ public struct SettingsRootView: View {
                     model.open(.myShares)
                 }
             }
+            if model.showsProfileRow {
+                SettingsLinkRow(title: L10n.text(K.social.feed.myProfile), icon: "person.crop.circle", tid: "settings.profile") {
+                    model.open(.profileEditor)
+                }
+            }
             if model.showsAdminRow {
                 SettingsLinkRow(title: L10n.text(K.common.nav.admin), icon: "shield", tid: "settings.admin") {
                     model.open(.admin)

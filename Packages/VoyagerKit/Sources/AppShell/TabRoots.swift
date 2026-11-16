@@ -6,6 +6,7 @@ import FeaturePreferences
 import FeatureResults
 import FeatureSettings
 import FeatureShare
+import FeatureSocial
 import FeatureTrips
 import L10n
 import SharedUI
@@ -109,6 +110,9 @@ struct RouteDestination: View {
             AlertsRootView(env: env, kind: kind, watchID: watchID)
         case .notificationSettings: NotificationSettingsView(env: env)
         case .alertPrefs: AlertPrefsView(env: env)
+        case .ideaDetail(let id): IdeaDetailView(env: env, ideaID: id)
+        case .profile(let handle): PublicProfileView(env: env, handle: handle)
+        case .profileEditor: ProfileEditorView(env: env)
         default: EmptyState(icon: "questionmark.circle", title: TelemetryRouteName.template(for: route))
         }
     }

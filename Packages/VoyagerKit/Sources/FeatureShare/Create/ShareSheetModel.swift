@@ -159,7 +159,23 @@ final class ShareSheetModel {
     /// Plan, recap and savings let the sharer pick; quiz and status share a fixed card.
     var showsOptions: Bool { isV2 && kind != .quiz }
 
+    /// "Share to Ideas" for a plan or recap, when the backend has the social feed.
+    var ideasTarget: (planID: Int, kind: IdeaKind)? {
+        guard env.social.isAvailable else { return nil }
+        switch target {
+        case .plan(let id): return (id, .plan)
+        case .recap(let id): return (id, .recap)
+        default: return nil
+        }
+    }
+
     // MARK: Actions
+
+    /// Hands the item to the Ideas publish sheet (the caller closes this sheet).
+    func shareToIdeas() {
+        guard let ideas = ideasTarget else { return }
+        env.router.open(.publishIdea(planID: ideas.planID, kind: ideas.kind))
+    }
 
     /// Telemetry: the sheet was opened (once).
     func opened() {
