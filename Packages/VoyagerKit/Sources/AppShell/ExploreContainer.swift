@@ -85,7 +85,7 @@ struct ExploreContainer: View {
         case .chat: ChatRootView(env: env)
         case .compare: CompareView(env: env)
         case .link: ImportView(env: env, initialURL: router.importURL).id(router.importURL)
-        case .discover: DiscoverView(env: env)
+        case .discover: DiscoverIdeasHost(env: env, router: router)
         }
     }
 }

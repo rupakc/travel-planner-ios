@@ -18,12 +18,14 @@ struct MyPlanPresentation: ViewModifier {
             content.inspector(isPresented: presented) {
                 MyPlanView(env: env)
                     .modifier(SharePresentation(env: env, router: router, insideMyPlan: true))
+                    .modifier(PublishPresentation(env: env, router: router, insideMyPlan: true))
                     .inspectorColumnWidth(min: 320, ideal: 400, max: 520)
             }
         } else {
             content.sheet(isPresented: presented) {
                 NavigationStack { MyPlanView(env: env) }
                     .modifier(SharePresentation(env: env, router: router, insideMyPlan: true))
+                    .modifier(PublishPresentation(env: env, router: router, insideMyPlan: true))
             }
         }
     }

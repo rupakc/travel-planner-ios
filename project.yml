@@ -73,6 +73,7 @@ targets:
           - io.github.rupakc.travelplanner.alert-poll
         VoyagerBaseURL: $(VOYAGER_BASE_URL)
         VoyagerTrustedHosts: $(VOYAGER_TRUSTED_HOSTS)
+        VoyagerSupportURL: $(VOYAGER_SUPPORT_URL)
         CFBundleURLTypes:
           - CFBundleURLName: io.github.rupakc.travelplanner
             CFBundleTypeRole: Viewer

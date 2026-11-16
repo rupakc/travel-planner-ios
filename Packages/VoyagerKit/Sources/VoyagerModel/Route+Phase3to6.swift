@@ -26,6 +26,7 @@ extension TelemetryRouteName {
         case .profileEditor: "/profile"
         case .ideaDetail: "/feed/:id"
         case .ideas: "/feed"
+        case .publishIdea: "/feed/new"
         case .play: "/play"
         case .quiz: "/play/quiz"
         case .h2h: "/play/h2h/:id"

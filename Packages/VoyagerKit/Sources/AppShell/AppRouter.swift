@@ -4,6 +4,13 @@ import SwiftUI
 import VoyagerEnv
 import VoyagerModel
 
+/// What a publish sheet publishes.
+public struct PublishTarget: Hashable, Sendable, Identifiable {
+    public var planID: Int
+    public var kind: IdeaKind
+    public var id: String { "\(kind.rawValue)-\(planID)" }
+}
+
 /// What the Alerts tab shows first (set by `Route.alerts`).
 public struct AlertsFocus: Hashable, Sendable {
     public var kind: WatchKind?
@@ -27,6 +34,10 @@ public final class AppRouter: AppRouting {
     public var sharedToken: String?
     /// The item a share sheet should open for (set by `Route.shareSheet`; `FeatureShare` presents and clears it).
     public var shareTarget: ShareTarget?
+    /// The plan or recap a "Share to Ideas" sheet publishes (set by `Route.publishIdea`).
+    public var publishTarget: PublishTarget?
+    /// The Discover tab shows its Ideas segment (set by `Route.ideas` and `Route.ideaDetail`).
+    public var showsIdeas = false
 
     public init() {}
 
@@ -69,6 +80,8 @@ public final class AppRouter: AppRouting {
             sharedToken = token
         case .shareSheet(let target):
             shareTarget = target
+        case .publishIdea(let planID, let kind):
+            publishTarget = PublishTarget(planID: planID, kind: kind)
         case .myShares, .notificationSettings, .alertPrefs, .profile, .profileEditor, .play, .quiz, .h2h:
             push(route, on: .you)
         case .priceStory:
@@ -77,15 +90,20 @@ public final class AppRouter: AppRouting {
             push(route, on: .trips)
         case .ideaDetail, .ideas:
             // Ideas are a segment of the Discover tab; the segment itself arrives with Phase 5.
-            exploreMode = .discover
-            selectedTab = .explore
-            paths[.explore] = route == .ideas ? [] : [route]
+            openIdeas(route)
         case .importLink(let url):
             importURL = url
             exploreMode = .link
             selectedTab = .explore
             paths[.explore] = []
         }
+    }
+
+    private func openIdeas(_ route: Route) {
+        exploreMode = .discover
+        showsIdeas = true
+        selectedTab = .explore
+        paths[.explore] = route == .ideas ? [] : [route]
     }
 
     public func closeShare() { sharedToken = nil }

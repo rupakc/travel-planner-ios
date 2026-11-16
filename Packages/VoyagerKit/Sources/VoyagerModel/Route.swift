@@ -42,6 +42,8 @@ public enum Route: Hashable, Sendable {
     case profileEditor
     case ideaDetail(id: String)
     case ideas
+    /// Publish a plan or recap to the Ideas feed (a sheet over whatever is on screen).
+    case publishIdea(planID: Int, kind: IdeaKind)
     case play
     case quiz(sessionID: String)
     case h2h(id: String)
