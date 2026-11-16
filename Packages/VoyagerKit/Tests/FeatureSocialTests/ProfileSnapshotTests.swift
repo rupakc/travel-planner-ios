@@ -66,7 +66,7 @@ final class ProfileSnapshotTests: XCTestCase {
         await model.pendingCheck?.value
         await model.save()
         await assertSnapshots(
-            of: { ProfileEditorView(model: model) }, named: "rules", configs: [phone("se-light", height: 800)], layout: .screen)
+            of: { ProfileEditorView(model: model) }, named: "rules", configs: [phone("se-light", height: 280)], layout: .screen)
     }
 
     private let full = PublicProfile(
@@ -102,7 +102,7 @@ final class ProfileSnapshotTests: XCTestCase {
     func test_publicMinimal() async {
         let model = await publicModel(PublicProfile(handle: "quiet_one"), game: false, ideas: false)
         await assertSnapshots(
-            of: { PublicProfileView(model: model) }, named: "minimal", configs: [phone("se-light", height: 420)], layout: .screen)
+            of: { PublicProfileView(model: model) }, named: "minimal", configs: [phone("se-light", height: 346)], layout: .screen)
     }
 
     func test_publicFollowing() async {
@@ -155,7 +155,7 @@ final class ProfileSnapshotTests: XCTestCase {
         let model = await publicModel(full)
         await assertSnapshots(
             of: { PublicProfileView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: .accessibilityExtraExtraExtraLarge, height: 2279)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: .accessibilityExtraExtraExtraLarge, height: 2182)], layout: .screen)
     }
 
     func test_editorHindi() async {
