@@ -77,7 +77,7 @@ final class ItinerarySnapshotTests: XCTestCase {
             named: "ax5",
             configs: [{
                 var config = SnapshotConfig.germanAX5
-                config.canvas = CGSize(width: 320, height: 672)
+                config.canvas = CGSize(width: 320, height: 780)
                 return config
             }()])
     }
