@@ -61,7 +61,7 @@ final class PlaySnapshotTests: XCTestCase {
         let model = await hub(busyState, history: games)
         await assertSnapshots(
             of: { PlayHomeView(model: model) }, named: "hub",
-            configs: [phone("se-light", height: 1200), phone("se-dark", dark: true, height: 1200), pad("ipad-light", height: 700)],
+            configs: [phone("se-light", height: 808), phone("se-dark", dark: true, height: 808), pad("ipad-light", height: 658)],
             layout: .screen)
     }
 
@@ -72,20 +72,20 @@ final class PlaySnapshotTests: XCTestCase {
         state.openH2H = 0
         let model = await hub(state)
         await assertSnapshots(
-            of: { PlayHomeView(model: model) }, named: "done", configs: [phone("se-light", height: 800)], layout: .screen)
+            of: { PlayHomeView(model: model) }, named: "done", configs: [phone("se-light", height: 561)], layout: .screen)
     }
 
     func test_hubHindi() async {
         let model = await hub(busyState, history: games)
         await assertSnapshots(
-            of: { PlayHomeView(model: model) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 1200)], layout: .screen)
+            of: { PlayHomeView(model: model) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 808)], layout: .screen)
     }
 
     func test_hubGermanAX5() async {
         let model = await hub(busyState, history: games)
         await assertSnapshots(
             of: { PlayHomeView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 6000)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 3107)], layout: .screen)
     }
 
     func test_hubHidden() async {
@@ -162,7 +162,7 @@ final class PlaySnapshotTests: XCTestCase {
         let model = await quiz(capitalQuestion)
         await assertSnapshots(
             of: { QuizView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 2500)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 734)], layout: .screen)
     }
 
     func test_questionHindi() async {
