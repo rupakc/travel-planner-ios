@@ -44,6 +44,8 @@ import VoyagerModel
         .alertQuickWatch(kind: "hotel", action: "undo", surface: "suggest"), .alertSuggest(action: "shown", count: 3),
         .alertPrefsChange(field: "quiet_hours"),
         .notifOpen(category: "trip_reminders", source: "push"),
+        .socialFeedView(scope: "for_you"), .socialIdeaOpen, .socialIdeaLike(on: true), .socialIdeaSave,
+        .socialIdeaPublish(kind: "recap"), .socialComment, .socialReport(reason: "spam", target: "idea"),
     ]
 
     @Test func test_everyCaseIsInRegistry() throws {
@@ -62,7 +64,7 @@ import VoyagerModel
     @Test func test_samplesCoverEveryEnumCase() {
         let names = Set(Self.samples.map(\.wire.name))
         #expect(names.count == Self.samples.count)
-        #expect(names.count == 41)
+        #expect(names.count == 48)
     }
 
     @Test func test_internalSessionStartIsInRegistry() throws {

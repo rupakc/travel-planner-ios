@@ -72,6 +72,15 @@ public enum TelemetryEvent: Sendable {
     case notifCapChange(cap: Int)
     /// A notification was opened: `category` is a `NotificationCategory` raw value, `source` is `push|inapp`.
     case notifOpen(category: String, source: String)
+    /// Social ideas feed (Phase 5). Props are enums or bools only: never a handle, id, caption or comment text.
+    /// `scope` is `for_you|following|new`, `kind` `plan|recap`, `reason` and `target` the report enums.
+    case socialFeedView(scope: String)
+    case socialIdeaOpen
+    case socialIdeaLike(on: Bool)
+    case socialIdeaSave
+    case socialIdeaPublish(kind: String)
+    case socialComment
+    case socialReport(reason: String, target: String)
 }
 
 /// A validated event, ready to queue.
@@ -95,6 +104,10 @@ extension TelemetryEvent {
     static let prefsFields = ["digest", "quiet_hours", "instant", "cap", "group"]
     static let savingsShareTargets = ["native", "copy", "download"]
     static let notifSources = ["push", "inapp"]
+    static let feedScopes = ["for_you", "following", "new"]
+    static let ideaKinds = ["plan", "recap"]
+    static let reportReasons = ["spam", "abuse", "sexual", "violence", "misinformation", "other"]
+    static let reportTargets = ["idea", "comment", "profile"]
     static let notifCategories = NotificationCategory.allCases.map(\.rawValue)
     static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
     static let shareDates = ["hidden", "month", "exact"]
@@ -264,6 +277,22 @@ extension TelemetryEvent {
             name = "notif_open"
             if let valid = PropsFilter.enum(category, allowed: Self.notifCategories) { props["category"] = .string(valid) }
             if let valid = PropsFilter.enum(source, allowed: Self.notifSources) { props["source"] = .string(valid) }
+        case .socialFeedView(let scope):
+            name = "social_feed_view"
+            choice("scope", scope, in: Self.feedScopes)
+        case .socialIdeaOpen: name = "social_idea_open"
+        case .socialIdeaLike(let on):
+            name = "social_idea_like"
+            props["on"] = .bool(on)
+        case .socialIdeaSave: name = "social_idea_save"
+        case .socialIdeaPublish(let kind):
+            name = "social_idea_publish"
+            choice("kind", kind, in: Self.ideaKinds)
+        case .socialComment: name = "social_comment"
+        case .socialReport(let reason, let target):
+            name = "social_report"
+            choice("reason", reason, in: Self.reportReasons)
+            choice("target", target, in: Self.reportTargets)
         }
         return WireEvent(name: name, props: props)
     }

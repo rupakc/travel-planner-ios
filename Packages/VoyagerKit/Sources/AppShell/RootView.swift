@@ -81,6 +81,7 @@ struct ShellView: View {
         }
         .modifier(MyPlanPresentation(env: env, router: router))
         .modifier(SharePresentation(env: env, router: router, insideMyPlan: false))
+        .modifier(PublishPresentation(env: env, router: router, insideMyPlan: false))
         .sheet(isPresented: mainBinding(get: { router.nearbyPresented }, set: { router.nearbyPresented = $0 })) {
             NavigationStack { NearbySheet(env: env) }
         }

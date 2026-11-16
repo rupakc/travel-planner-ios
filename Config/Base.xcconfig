@@ -25,3 +25,6 @@ CODE_SIGN_IDENTITY[sdk=iphonesimulator*] = -
 // The production host (R5). CI overrides each one only when the repo variable of the same
 // name is non-empty (scripts/ci/archive.sh). A custom domain later is a config change.
 VOYAGER_PROD_BASE_URL = https:/$()/35-207-18-35.sslip.io
+
+// "Contact support" link of the community screens (App Store guideline 1.2). Empty hides the row; the owner sets it.
+VOYAGER_SUPPORT_URL =

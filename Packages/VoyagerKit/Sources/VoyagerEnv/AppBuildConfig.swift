@@ -8,8 +8,12 @@ public struct AppBuildConfig: Sendable, Equatable {
     public var trustedHosts: Set<String>
     public var appVersion: String
     public var isDebug: Bool
+    /// `VOYAGER_SUPPORT_URL`: where "Contact support" goes (App Store guideline 1.2). nil while the owner has not set
+    /// one; the row is then hidden.
+    public var supportURL: URL?
 
-    public init(baseURL: URL?, trustedHosts: Set<String>, appVersion: String, isDebug: Bool) {
+    public init(baseURL: URL?, trustedHosts: Set<String>, appVersion: String, isDebug: Bool, supportURL: URL? = nil) {
+        self.supportURL = supportURL
         self.baseURL = baseURL
         self.trustedHosts = Set(trustedHosts.map { $0.lowercased() })
         self.appVersion = appVersion
@@ -18,6 +22,7 @@ public struct AppBuildConfig: Sendable, Equatable {
 
     public static let baseURLKey = "VoyagerBaseURL"
     public static let trustedHostsKey = "VoyagerTrustedHosts"
+    public static let supportURLKey = "VoyagerSupportURL"
 
     /// Whether this code was compiled with `DEBUG` (Xcode Debug configuration).
     #if DEBUG
@@ -46,7 +51,7 @@ public struct AppBuildConfig: Sendable, Equatable {
             baseURL: baseURL,
             trustedHosts: Set(hosts),
             appVersion: string("CFBundleShortVersionString").flatMap { $0.isEmpty ? nil : $0 } ?? "0.0.0",
-            isDebug: isDebug)
+            isDebug: isDebug, supportURL: url(string(supportURLKey)))
     }
 
     /// An absolute http(s) URL, or nil (empty, unexpanded `$(...)`, or junk).
