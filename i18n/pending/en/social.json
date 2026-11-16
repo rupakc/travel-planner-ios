@@ -1,0 +1,14 @@
+{
+  "lists": {
+    "noBlocked": "You have not blocked anyone.",
+    "noFollowers": "No followers yet.",
+    "noFollowing": "You are not following anyone yet.",
+    "noRequests": "No follow requests."
+  },
+  "profile": {
+    "cancelRequest": "Cancel follow request",
+    "createFirst": "Create your profile to follow people.",
+    "stopFollowing": "Stop following",
+    "viewOwn": "See how others see your profile"
+  }
+}
