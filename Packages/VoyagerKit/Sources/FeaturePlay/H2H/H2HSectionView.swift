@@ -91,6 +91,8 @@ struct H2HSectionView: View {
             PlayButton(L10n.text(K.play.h2h.create), tid: "play.h2h.create") { Task { await model.create() } }
                 .disabled(!model.canCreate)
         }
+        // The field, its labels and the picker hold a handle or a pack name: capped so a word never breaks mid-word.
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
     }
 }
 
