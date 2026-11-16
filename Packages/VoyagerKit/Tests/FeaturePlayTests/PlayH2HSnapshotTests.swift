@@ -76,7 +76,7 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = await list(Array(matches.prefix(3)))
         await assertSnapshots(
             of: { H2HSectionView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 2400)], layout: .component)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 1062)], layout: .component)
     }
 
     // MARK: One match
