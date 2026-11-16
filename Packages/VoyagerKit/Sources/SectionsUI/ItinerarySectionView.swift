@@ -114,21 +114,32 @@ public struct ItinerarySectionView: View {
             ForEach(Array(model.removed.enumerated()), id: \.offset) { _, entry in
                 let key = entry["key"].string ?? ""
                 let name = model.activityName(key: key, fallback: entry["slot"]["activity"].string)
-                HStack {
-                    Text(verbatim: name).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
-                        .strikethrough().fixedSize(horizontal: false, vertical: true)
-                    Spacer(minLength: Spacing.sm)
-                    Button {
-                        Telemetry.shared.track(.uiTap(tid: "itinerary.restore", route: route))
-                        restore(key: key, name: name, day: entry["slot"]["day_number"])
-                    } label: {
-                        Text(verbatim: L10n.text(K.itinerary.removed.restore))
-                            .font(VFont.body(.footnote, weight: .medium)).foregroundStyle(SemanticColor.primary)
-                            .frame(minHeight: 44)
+                let nameText = Text(verbatim: name).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
+                    .strikethrough()
+                let restoreButton = Button {
+                    Telemetry.shared.track(.uiTap(tid: "itinerary.restore", route: route))
+                    restore(key: key, name: name, day: entry["slot"]["day_number"])
+                } label: {
+                    Text(verbatim: L10n.text(K.itinerary.removed.restore))
+                        .font(VFont.body(.footnote, weight: .medium)).foregroundStyle(SemanticColor.primary)
+                        .lineLimit(1).fixedSize(horizontal: true, vertical: false)
+                        .frame(minHeight: 44)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text(verbatim: L10n.text(K.itinerary.removed.restoreAria, ["name": name])))
+                .accessibilityIdentifier("itinerary.restore")
+                // Name and Restore share a row when they fit; otherwise Restore drops below, never breaking mid-word.
+                ViewThatFits(in: .horizontal) {
+                    HStack {
+                        nameText.lineLimit(1).fixedSize(horizontal: true, vertical: false)
+                        Spacer(minLength: Spacing.sm)
+                        restoreButton
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(Text(verbatim: L10n.text(K.itinerary.removed.restoreAria, ["name": name])))
-                    .accessibilityIdentifier("itinerary.restore")
+                    VStack(alignment: .leading, spacing: 0) {
+                        nameText.fixedSize(horizontal: false, vertical: true)
+                        restoreButton
+                    }
+                    .dynamicTypeSize(...DynamicTypeSize.accessibility1)
                 }
             }
             if let message = restoreFailure {
