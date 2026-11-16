@@ -181,7 +181,7 @@ final class FeedSnapshotTests: XCTestCase {
         let model = await publishModel(profile: OwnProfile(handle: "me_myself", visibility: .public), submit: true, rules: false)
         await assertSnapshots(
             of: { PublishIdeaView(model: model) }, named: "rules",
-            configs: [phone("se-light", height: 500), phone("se-dark", dark: true, height: 500)], layout: .screen)
+            configs: [phone("se-light", height: 324), phone("se-dark", dark: true, height: 324)], layout: .screen)
     }
 
     func test_heldNotice() async {
