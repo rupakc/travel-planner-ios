@@ -65,6 +65,8 @@ struct ProfileListView: View {
                 Button { model.open(person) } label: {
                     Text(verbatim: "@" + person.handle)
                         .font(VFont.body(.body, weight: .semibold)).foregroundStyle(SemanticColor.text)
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+                        .lineLimit(1).minimumScaleFactor(0.5)
                         .multilineTextAlignment(.leading).frame(minHeight: 44, alignment: .leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }

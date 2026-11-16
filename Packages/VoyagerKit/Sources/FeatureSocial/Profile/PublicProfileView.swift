@@ -80,7 +80,9 @@ public struct PublicProfileView: View {
             VStack(alignment: .leading, spacing: Spacing.md) {
                 Text(verbatim: "@" + profile.handle)
                     .font(VFont.display(.title2)).foregroundStyle(SemanticColor.text)
-                    .fixedSize(horizontal: false, vertical: true)
+                    // A handle is one word of up to 20 characters: it scales down instead of breaking mid-word.
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+                    .lineLimit(1).minimumScaleFactor(0.5)
                     .accessibilityAddTraits(.isHeader)
                 if model.followsYou {
                     VChip(title: L10n.text(K.social.profile.followsYou), tid: "profile.followsYou", selected: false) {}

@@ -5,10 +5,25 @@ import SwiftUI
 import VoyagerEnv
 import VoyagerModel
 
+/// The lists the editor opens.
+enum ProfileDestination: Hashable {
+    case requests, followers, following, blocked
+
+    var kind: ProfileListKind {
+        switch self {
+        case .requests: .requests
+        case .followers: .followers
+        case .following: .following
+        case .blocked: .blocked
+        }
+    }
+}
+
 /// You > My profile (`router.open(.profileEditor)`): create or edit the handle, visibility, bio and the opt-ins, with the
 /// community rules shown once before the first save, and the lists of follow requests, blocked people, followers and following.
 public struct ProfileEditorView: View {
     @State private var model: ProfileEditorModel
+    @State private var destination: ProfileDestination?
     private let env: AppEnvironment
 
     @MainActor public init(env: AppEnvironment) {
@@ -37,6 +52,9 @@ public struct ProfileEditorView: View {
         .task { await model.load() }
         .onChange(of: model.noticeText) { _, text in
             if let text { LiveRegion.announce(text) }
+        }
+        .navigationDestination(item: $destination) { target in
+            ProfileListView(model: listModel(target))
         }
         .accessibilityIdentifier("profile.editor")
     }
@@ -180,6 +198,7 @@ public struct ProfileEditorView: View {
                 }
             }
             .pickerStyle(.menu)
+            .tint(SemanticColor.primary)
             .frame(minHeight: 44, alignment: .leading)
             .accessibilityIdentifier("profile.country")
         }
@@ -223,38 +242,29 @@ public struct ProfileEditorView: View {
     private var links: some View {
         VCard {
             VStack(alignment: .leading, spacing: Spacing.sm) {
-                NavigationLink {
-                    ProfileListView(model: ProfileListModel(env: env, kind: .requests))
-                } label: {
-                    ProfileLinkRow(title: L10n.text(K.social.editor.requests), detail: model.requestCount.map(String.init))
+                linkRow(L10n.text(K.social.editor.requests), detail: model.requestCount.map(String.init), tid: "profile.requests") {
+                    destination = .requests
                 }
-                .buttonStyle(.plain).accessibilityIdentifier("profile.requests")
-                NavigationLink {
-                    ProfileListView(model: ProfileListModel(env: env, kind: .followers))
-                } label: {
-                    ProfileLinkRow(title: L10n.text(K.social.profile.followers), detail: nil)
-                }
-                .buttonStyle(.plain).accessibilityIdentifier("profile.followers")
-                NavigationLink {
-                    ProfileListView(model: ProfileListModel(env: env, kind: .following))
-                } label: {
-                    ProfileLinkRow(title: L10n.text(K.social.profile.followingLabel), detail: nil)
-                }
-                .buttonStyle(.plain).accessibilityIdentifier("profile.following")
-                NavigationLink {
-                    ProfileListView(model: ProfileListModel(env: env, kind: .blocked))
-                } label: {
-                    ProfileLinkRow(title: L10n.text(K.social.editor.blocked), detail: nil)
-                }
-                .buttonStyle(.plain).accessibilityIdentifier("profile.blocked")
+                linkRow(L10n.text(K.social.profile.followers), detail: nil, tid: "profile.followers") { destination = .followers }
+                linkRow(L10n.text(K.social.profile.followingLabel), detail: nil, tid: "profile.following") { destination = .following }
+                linkRow(L10n.text(K.social.editor.blocked), detail: nil, tid: "profile.blocked") { destination = .blocked }
                 if let own = model.original.handle {
-                    Button { env.router.open(.profile(handle: own)) } label: {
-                        ProfileLinkRow(title: L10n.text(K.social.profile.viewOwn), detail: nil)
+                    linkRow(L10n.text(K.social.profile.viewOwn), detail: nil, tid: "profile.viewOwn") {
+                        env.router.open(.profile(handle: own))
                     }
-                    .buttonStyle(.plain).accessibilityIdentifier("profile.viewOwn")
                 }
             }
         }
+    }
+
+    private func linkRow(_ title: String, detail: String?, tid: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) { ProfileLinkRow(title: title, detail: detail) }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier(tid)
+    }
+
+    private func listModel(_ target: ProfileDestination) -> ProfileListModel {
+        ProfileListModel(env: env, kind: target.kind)
     }
 
     // MARK: Rules

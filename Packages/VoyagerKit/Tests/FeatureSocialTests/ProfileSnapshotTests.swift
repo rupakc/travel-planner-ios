@@ -46,13 +46,13 @@ final class ProfileSnapshotTests: XCTestCase {
         let model = await editor(fakes)
         await assertSnapshots(
             of: { ProfileEditorView(model: model) }, named: "editor",
-            configs: [phone("se-light", height: 1900), phone("se-dark", dark: true, height: 1900)], layout: .screen)
+            configs: [phone("se-light", height: 1244), phone("se-dark", dark: true, height: 1244)], layout: .screen)
     }
 
     func test_editorNew() async {
         let model = await editor(FakeRepositories())
         await assertSnapshots(
-            of: { ProfileEditorView(model: model) }, named: "editorNew", configs: [phone("se-light", height: 1500)], layout: .screen)
+            of: { ProfileEditorView(model: model) }, named: "editorNew", configs: [phone("se-light", height: 944)], layout: .screen)
     }
 
     func test_rulesCard() async {
@@ -63,9 +63,10 @@ final class ProfileSnapshotTests: XCTestCase {
             env: environment, sleep: { _ in }, gameVisibility: { StaticGameVisibility.hidden }, track: { _ in })
         await model.load()
         model.setHandle("sam_t")
+        await model.pendingCheck?.value
         await model.save()
         await assertSnapshots(
-            of: { ProfileEditorView(model: model) }, named: "rules", configs: [phone("se-light", height: 600)], layout: .screen)
+            of: { ProfileEditorView(model: model) }, named: "rules", configs: [phone("se-light", height: 800)], layout: .screen)
     }
 
     private let full = PublicProfile(
@@ -73,15 +74,17 @@ final class ProfileSnapshotTests: XCTestCase {
         level: 4, badges: [ProfileBadge(id: "first_trip"), ProfileBadge(id: "countries_3")], ideasCount: 3, followersCount: 120,
         followingCount: 45, you: ProfileRelation(followsYou: true))
 
-    private func publicModel(_ profile: PublicProfile, fakes: FakeRepositories = FakeRepositories(), game: Bool = true)
+    private func publicModel(
+        _ profile: PublicProfile, fakes: FakeRepositories = FakeRepositories(), game: Bool = true, ideas: Bool = true)
         async -> PublicProfileModel
     {
         fakes.social.onPublicProfile.returns(profile)
         fakes.social.onIdeasOf.returns(
-            IdeaPage(ideas: [
-                Idea(id: "1", title: "Lisbon in three days", author: IdeaAuthor(handle: profile.handle)),
-                Idea(id: "2", title: "Porto food crawl", author: IdeaAuthor(handle: profile.handle)),
-            ]))
+            IdeaPage(
+                ideas: !ideas ? [] : [
+                    Idea(id: "1", title: "Lisbon in three days", author: IdeaAuthor(handle: profile.handle)),
+                    Idea(id: "2", title: "Porto food crawl", author: IdeaAuthor(handle: profile.handle)),
+                ]))
         let model = PublicProfileModel(
             env: env(fakes, game: game), handle: profile.handle, gameVisibility: { game ? StaticGameVisibility.visible : .hidden },
             track: { _ in })
@@ -93,13 +96,13 @@ final class ProfileSnapshotTests: XCTestCase {
         let model = await publicModel(full)
         await assertSnapshots(
             of: { PublicProfileView(model: model) }, named: "full",
-            configs: [phone("se-light", height: 1300), phone("se-dark", dark: true, height: 1300)], layout: .screen)
+            configs: [phone("se-light", height: 711), phone("se-dark", dark: true, height: 711)], layout: .screen)
     }
 
     func test_publicMinimal() async {
-        let model = await publicModel(PublicProfile(handle: "quiet_one"), game: false)
+        let model = await publicModel(PublicProfile(handle: "quiet_one"), game: false, ideas: false)
         await assertSnapshots(
-            of: { PublicProfileView(model: model) }, named: "minimal", configs: [phone("se-light", height: 620)], layout: .screen)
+            of: { PublicProfileView(model: model) }, named: "minimal", configs: [phone("se-light", height: 420)], layout: .screen)
     }
 
     func test_publicFollowing() async {
@@ -107,7 +110,7 @@ final class ProfileSnapshotTests: XCTestCase {
         profile.you = ProfileRelation(pending: true, followsYou: false)
         let model = await publicModel(profile)
         await assertSnapshots(
-            of: { PublicProfileView(model: model) }, named: "requested", configs: [phone("se-light", height: 1300)], layout: .screen)
+            of: { PublicProfileView(model: model) }, named: "requested", configs: [phone("se-light", height: 655)], layout: .screen)
     }
 
     func test_followRequests() async {
@@ -117,7 +120,7 @@ final class ProfileSnapshotTests: XCTestCase {
         await model.load()
         await assertSnapshots(
             of: { ProfileListView(model: model) }, named: "requests",
-            configs: [phone("se-light", height: 420), phone("se-dark", dark: true, height: 420)], layout: .screen)
+            configs: [phone("se-light", height: 320), phone("se-dark", dark: true, height: 320)], layout: .screen)
     }
 
     func test_blockList() async {
@@ -126,33 +129,33 @@ final class ProfileSnapshotTests: XCTestCase {
         let model = ProfileListModel(env: env(fakes), kind: .blocked, track: { _ in })
         await model.load()
         await assertSnapshots(
-            of: { ProfileListView(model: model) }, named: "blocks", configs: [phone("se-light", height: 340)], layout: .screen)
+            of: { ProfileListView(model: model) }, named: "blocks", configs: [phone("se-light", height: 320)], layout: .screen)
     }
 
     func test_emptyList() async {
         let model = ProfileListModel(env: env(FakeRepositories()), kind: .followers, track: { _ in })
         await model.load()
         await assertSnapshots(
-            of: { ProfileListView(model: model) }, named: "empty", configs: [phone("se-light", height: 300)], layout: .screen)
+            of: { ProfileListView(model: model) }, named: "empty", configs: [phone("se-light", height: 156)], layout: .screen)
     }
 
     func test_reportSheet() async {
         let model = ProfileReportModel(env: env(FakeRepositories()), handle: "ana", track: { _ in })
         await assertSnapshots(
-            of: { ProfileReportView(model: model) {} }, named: "report", configs: [phone("se-light", height: 900)], layout: .screen)
+            of: { ProfileReportView(model: model) {} }, named: "report", configs: [phone("se-light", height: 681)], layout: .screen)
     }
 
     func test_profileHindi() async {
         let model = await publicModel(full)
         await assertSnapshots(
-            of: { PublicProfileView(model: model) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 1300)], layout: .screen)
+            of: { PublicProfileView(model: model) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 711)], layout: .screen)
     }
 
     func test_profileGermanAX5() async {
         let model = await publicModel(full)
         await assertSnapshots(
             of: { PublicProfileView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: .accessibilityExtraExtraExtraLarge, height: 3200)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: .accessibilityExtraExtraExtraLarge, height: 2279)], layout: .screen)
     }
 
     func test_editorHindi() async {
@@ -160,6 +163,6 @@ final class ProfileSnapshotTests: XCTestCase {
         fakes.social.onProfile.returns(existing)
         let model = await editor(fakes)
         await assertSnapshots(
-            of: { ProfileEditorView(model: model) }, named: "editorHi", configs: [phone("se-hi", language: .hi, height: 2000)], layout: .screen)
+            of: { ProfileEditorView(model: model) }, named: "editorHi", configs: [phone("se-hi", language: .hi, height: 1226)], layout: .screen)
     }
 }
