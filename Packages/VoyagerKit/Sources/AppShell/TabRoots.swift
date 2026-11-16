@@ -5,7 +5,6 @@ import FeatureOnboarding
 import FeaturePreferences
 import FeatureResults
 import FeatureSettings
-import FeatureSocial
 import FeatureShare
 import FeatureSocial
 import FeatureTrips
