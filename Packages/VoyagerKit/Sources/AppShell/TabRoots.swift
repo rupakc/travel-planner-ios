@@ -2,6 +2,7 @@ import FeatureAdmin
 import FeatureAlerts
 import FeatureAuth
 import FeatureOnboarding
+import FeaturePlay
 import FeaturePreferences
 import FeatureResults
 import FeatureSettings
@@ -113,6 +114,8 @@ struct RouteDestination: View {
         case .ideaDetail(let id): IdeaDetailView(env: env, ideaID: id)
         case .profile(let handle): PublicProfileView(env: env, handle: handle)
         case .profileEditor: ProfileEditorView(env: env)
+        case .play: PlayHomeView(env: env)
+        case .quiz(let sessionID): QuizView(env: env, sessionID: sessionID)
         default: EmptyState(icon: "questionmark.circle", title: TelemetryRouteName.template(for: route))
         }
     }

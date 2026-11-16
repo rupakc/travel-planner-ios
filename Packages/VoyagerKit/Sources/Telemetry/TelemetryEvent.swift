@@ -88,6 +88,13 @@ public enum TelemetryEvent: Sendable {
     case socialFollow(state: String)
     case socialBlock(on: Bool)
     case socialReport(target: String, reason: String)
+    /// Play (Phase 5): the hub was opened; a quiz started (`mode` daily|pack|challenge|h2h, `pack` flags|capitals|
+    /// landmarks|cuisine|none); a question answered (`elapsedS` is the server's elapsed time); a quiz finished
+    /// (`correct` out of five). Never a handle, session id or answer.
+    case playStateView
+    case playQuizStart(mode: String, pack: String)
+    case playQuizAnswer(correct: Bool, elapsedS: Int)
+    case playQuizDone(correct: Int, mode: String)
 }
 
 /// A validated event, ready to queue.
@@ -118,6 +125,8 @@ extension TelemetryEvent {
     static let socialFollowStates = ["following", "pending", "none"]
     static let socialReportTargets = ["idea", "comment", "profile"]
     static let socialReportReasons = ["spam", "abuse", "sexual", "violence", "misinformation", "other"]
+    static let playModes = ["daily", "pack", "challenge", "h2h"]
+    static let playPacks = ["flags", "capitals", "landmarks", "cuisine", "none"]
     static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
     static let shareDates = ["hidden", "month", "exact"]
     static let shareTargets = ["native", "copy", "download", "x", "facebook", "whatsapp", "linkedin"]
@@ -312,6 +321,19 @@ extension TelemetryEvent {
             name = "social_report"
             choice("target", target, in: Self.socialReportTargets)
             choice("reason", reason, in: Self.socialReportReasons)
+        case .playStateView: name = "play_state_view"
+        case .playQuizStart(let mode, let pack):
+            name = "play_quiz_start"
+            choice("mode", mode, in: Self.playModes)
+            choice("pack", pack, in: Self.playPacks)
+        case .playQuizAnswer(let correct, let elapsedS):
+            name = "play_quiz_answer"
+            props["correct"] = .bool(correct)
+            int("elapsed_s", elapsedS)
+        case .playQuizDone(let correct, let mode):
+            name = "play_quiz_done"
+            int("correct", correct)
+            choice("mode", mode, in: Self.playModes)
         }
         return WireEvent(name: name, props: props)
     }
