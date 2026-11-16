@@ -136,6 +136,8 @@ private struct BoardRowView: View {
                 points
             }
         }
+        // A handle is one unbreakable word: capped so it never breaks mid-word at the largest sizes.
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
         .accessibilityElement(children: .combine)
         .accessibilityIdentifier(row.isYou ? "play.board.row.you" : "play.board.row")
     }

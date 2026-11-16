@@ -76,7 +76,7 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = await list(Array(matches.prefix(3)))
         await assertSnapshots(
             of: { H2HSectionView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 1688)], layout: .component)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 2400)], layout: .component)
     }
 
     // MARK: One match
@@ -172,7 +172,7 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = await board(rows: rows, you: BoardYou(rank: 3, score: 410, optedIn: true))
         await assertSnapshots(
             of: { BoardSectionView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 1051)], layout: .component)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 2000)], layout: .component)
     }
 
     // MARK: Challenge

@@ -111,6 +111,8 @@ private struct MatchRow: View {
                 openButton
             }
         }
+        // A handle is one unbreakable word: capped so it never breaks mid-word at the largest sizes.
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
     }
 
     private var texts: some View {
