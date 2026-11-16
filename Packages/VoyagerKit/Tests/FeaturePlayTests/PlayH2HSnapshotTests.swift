@@ -93,7 +93,7 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = await matchModel(matches[0])
         await assertSnapshots(
             of: { H2HMatchView(model: model) }, named: "invite",
-            configs: [phone("se-light", height: 600), phone("se-dark", dark: true, height: 600)], layout: .screen)
+            configs: [phone("se-light", height: 308), phone("se-dark", dark: true, height: 308)], layout: .screen)
     }
 
     func test_h2hResult() async {
@@ -101,8 +101,8 @@ final class PlayH2HSnapshotTests: XCTestCase {
         await assertSnapshots(
             of: { H2HMatchView(model: model) }, named: "result",
             configs: [
-                phone("se-light", height: 600), phone("se-dark", dark: true, height: 600),
-                phone("se-hi", language: .hi, height: 600),
+                phone("se-light", height: 284), phone("se-dark", dark: true, height: 284),
+                phone("se-hi", language: .hi, height: 284),
             ], layout: .screen)
     }
 
@@ -110,7 +110,7 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = await matchModel(matches[0])
         await assertSnapshots(
             of: { H2HMatchView(model: model) }, named: "inviteAX5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 2000)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 351)], layout: .screen)
     }
 
     // MARK: Boards
@@ -137,42 +137,42 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = await board(rows: rows, you: BoardYou(rank: 3, score: 410, optedIn: true))
         await assertSnapshots(
             of: { BoardSectionView(model: model) }, named: "global",
-            configs: [phone("se-light", height: 900), phone("se-dark", dark: true, height: 900), pad("ipad-light", height: 700)],
+            configs: [phone("se-light", height: 370), phone("se-dark", dark: true, height: 370), pad("ipad-light", height: 374)],
             layout: .component)
     }
 
     func test_boardOptIn() async {
         let model = await board(rows: Array(rows.prefix(2)), you: BoardYou(rank: nil, score: 0, optedIn: false))
         await assertSnapshots(
-            of: { BoardSectionView(model: model) }, named: "optin", configs: [phone("se-light", height: 1000)], layout: .component)
+            of: { BoardSectionView(model: model) }, named: "optin", configs: [phone("se-light", height: 432)], layout: .component)
     }
 
     func test_boardNeedsProfile() async {
         let model = await board(rows: Array(rows.prefix(2)), you: nil)
         await assertSnapshots(
             of: { BoardSectionView(model: model) }, named: "needsProfile",
-            configs: [phone("se-dark", dark: true, height: 1000)], layout: .component)
+            configs: [phone("se-dark", dark: true, height: 432)], layout: .component)
     }
 
     func test_boardFriendsEmpty() async {
         let model = await board(scope: .friends, rows: [], you: BoardYou(rank: nil, score: 0, optedIn: true))
         await assertSnapshots(
             of: { BoardSectionView(model: model) }, named: "friendsEmpty",
-            configs: [phone("se-light", height: 600), phone("se-dark", dark: true, height: 600)], layout: .component)
+            configs: [phone("se-light", height: 300), phone("se-dark", dark: true, height: 300)], layout: .component)
     }
 
     func test_boardHindi() async {
         let model = await board(rows: rows, you: BoardYou(rank: 3, score: 410, optedIn: true), week: .previous)
         await assertSnapshots(
             of: { BoardSectionView(model: model) }, named: "hi",
-            configs: [phone("se-hi", language: .hi, height: 900)], layout: .component)
+            configs: [phone("se-hi", language: .hi, height: 370)], layout: .component)
     }
 
     func test_boardGermanAX5() async {
         let model = await board(rows: rows, you: BoardYou(rank: 3, score: 410, optedIn: true))
         await assertSnapshots(
             of: { BoardSectionView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 3500)], layout: .component)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 1247)], layout: .component)
     }
 
     // MARK: Challenge
@@ -181,7 +181,7 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let open = PlayChallenge(id: "2026-W46:JP", kind: .destination, country: "JP")
         await assertSnapshots(
             of: { ChallengeCard(challenge: open, busy: false, start: {}) }, named: "open",
-            configs: [phone("se-light", height: 400), phone("se-dark", dark: true, height: 400)], layout: .component)
+            configs: [phone("se-light", height: 206), phone("se-dark", dark: true, height: 206)], layout: .component)
     }
 
     func test_challengeCardDoneAndAX5() async {
@@ -189,9 +189,9 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let open = PlayChallenge(id: "2026-W46:JP", kind: .destination, country: "JP")
         await assertSnapshots(
             of: { ChallengeCard(challenge: done, busy: false, start: {}) }, named: "done",
-            configs: [phone("se-light", height: 400)], layout: .component)
+            configs: [phone("se-light", height: 183)], layout: .component)
         await assertSnapshots(
             of: { ChallengeCard(challenge: open, busy: false, start: {}) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 1200)], layout: .component)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 476)], layout: .component)
     }
 }

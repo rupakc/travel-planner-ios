@@ -63,14 +63,26 @@ struct H2HSectionView: View {
                 .accessibilityIdentifier("play.h2h.handle")
             Text(verbatim: L10n.text(K.play.h2h.pack)).font(VFont.body(.subheadline, weight: .semibold))
                 .foregroundStyle(SemanticColor.text).accessibilityHidden(true)
-            Picker(L10n.text(K.play.h2h.pack), selection: $model.pack) {
-                ForEach(H2HListModel.packs, id: \.self) { id in
-                    Text(verbatim: QuizText.packName(id)).tag(id)
+            Menu {
+                Picker(L10n.text(K.play.h2h.pack), selection: $model.pack) {
+                    ForEach(H2HListModel.packs, id: \.self) { id in
+                        Text(verbatim: QuizText.packName(id)).tag(id)
+                    }
                 }
+            } label: {
+                HStack {
+                    Text(verbatim: QuizText.packName(model.pack)).font(VFont.body(.body)).foregroundStyle(SemanticColor.text)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer(minLength: Spacing.sm)
+                    Image(systemName: "chevron.up.chevron.down").font(.footnote.weight(.semibold))
+                        .foregroundStyle(SemanticColor.textMuted).accessibilityHidden(true)
+                }
+                .padding(.horizontal, Spacing.md)
+                .frame(minHeight: 44)
+                .borderedSurface(
+                    RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
             }
-            .pickerStyle(.menu)
-            .tint(SemanticColor.primary)
-            .frame(minHeight: 44, alignment: .leading)
+            .accessibilityLabel(Text(verbatim: L10n.text(K.play.h2h.pack) + ": " + QuizText.packName(model.pack)))
             .accessibilityIdentifier("play.h2h.pack")
             if let text = model.errorText {
                 Text(verbatim: text).font(VFont.body(.footnote, weight: .semibold)).foregroundStyle(SemanticColor.destructive)
@@ -105,20 +117,19 @@ private struct MatchRow: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(verbatim: match.opponent).font(VFont.body(.body, weight: .semibold)).foregroundStyle(SemanticColor.text)
                 .fixedSize(horizontal: false, vertical: true)
-            Text(verbatim: status).font(VFont.body(.subheadline))
+            Text(verbatim: H2HText.state(match.state)).font(VFont.body(.subheadline))
                 .foregroundStyle(match.state == .waitingYou ? SemanticColor.primary : SemanticColor.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
+            if let score = H2HText.score(match) {
+                Text(verbatim: score).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
         .accessibilityElement(children: .combine)
     }
 
-    private var status: String {
-        let state = H2HText.state(match.state)
-        guard let score = H2HText.score(match) else { return state }
-        return state + " · " + score
-    }
-
     private var openButton: some View {
         PlayButton(L10n.text(K.play.h2h.open), tid: "play.h2h.open", role: .secondary, action: open)
+            .fixedSize(horizontal: true, vertical: false)
     }
 }

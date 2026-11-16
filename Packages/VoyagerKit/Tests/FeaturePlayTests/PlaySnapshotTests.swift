@@ -61,7 +61,7 @@ final class PlaySnapshotTests: XCTestCase {
         let model = await hub(busyState, history: games)
         await assertSnapshots(
             of: { PlayHomeView(model: model) }, named: "hub",
-            configs: [phone("se-light", height: 2400), phone("se-dark", dark: true, height: 2400), pad("ipad-light", height: 1700)],
+            configs: [phone("se-light", height: 1444), phone("se-dark", dark: true, height: 1444), pad("ipad-light", height: 1277)],
             layout: .screen)
     }
 
@@ -72,20 +72,20 @@ final class PlaySnapshotTests: XCTestCase {
         state.openH2H = 0
         let model = await hub(state)
         await assertSnapshots(
-            of: { PlayHomeView(model: model) }, named: "done", configs: [phone("se-light", height: 2000)], layout: .screen)
+            of: { PlayHomeView(model: model) }, named: "done", configs: [phone("se-light", height: 1145)], layout: .screen)
     }
 
     func test_hubHindi() async {
         let model = await hub(busyState, history: games)
         await assertSnapshots(
-            of: { PlayHomeView(model: model) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 2600)], layout: .screen)
+            of: { PlayHomeView(model: model) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 1444)], layout: .screen)
     }
 
     func test_hubGermanAX5() async {
         let model = await hub(busyState, history: games)
         await assertSnapshots(
             of: { PlayHomeView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 5600)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 4292)], layout: .screen)
     }
 
     func test_hubHidden() async {
