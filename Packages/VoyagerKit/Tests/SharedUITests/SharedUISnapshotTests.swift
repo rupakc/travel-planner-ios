@@ -25,6 +25,22 @@ final class SharedUISnapshotTests: XCTestCase {
             }, named: "buttons", configs: SnapshotConfig.standard)
     }
 
+    /// Long German labels at AX5 wrap inside a rounded rectangle (never a circle/oval), enabled and disabled.
+    func test_vButtonGermanAX5() async {
+        let canvas = SnapshotConfig(
+            name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
+            size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 1000))
+        await assertSnapshots(
+            of: {
+                VStack(spacing: 12) {
+                    VButton("Tagesquiz jetzt starten und Punkte sammeln", tid: "snap.p", systemImage: "play.fill") {}
+                    VButton("Erneut versuchen oder später zurückkehren", tid: "snap.s", role: .secondary) {}
+                    VButton("Handelsregisterauszug anfordern", tid: "snap.d", role: .secondary) {}.disabled(true)
+                    VButton("Primär deaktiviert und nicht verfügbar", tid: "snap.pd").disabled(true)
+                }
+            }, named: "buttons-long", configs: [canvas])
+    }
+
     func test_errorState() async {
         await assertSnapshots(
             of: {
