@@ -14,7 +14,7 @@ final class SettingsSnapshotTests: XCTestCase {
         let isPad = device == .iPadPro11
         return SnapshotConfig(
             name: name, device: device.config, dark: dark, language: language,
-            canvas: CGSize(width: isPad ? 834 : 320, height: isPad ? 3200 : 4300))
+            canvas: CGSize(width: isPad ? 834 : 320, height: isPad ? 3200 : 3000))
     }
 
     private func screen(admin: Bool = false) -> SettingsRootView {

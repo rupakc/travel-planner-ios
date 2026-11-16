@@ -9,16 +9,19 @@ import XCTest
 
 @MainActor
 final class ImportSnapshotTests: XCTestCase {
-    private let configs: [SnapshotConfig] = [
-        SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 1400)),
-        SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 1400)),
-        SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 1400)),
-    ]
+    /// Canvases sized to the content (se, ipad heights in points) so there is no blank tail.
+    private func configs(se: CGFloat, ipad: CGFloat) -> [SnapshotConfig] {
+        [
+            SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: se)),
+            SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: se)),
+            SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: ipad)),
+        ]
+    }
 
     func test_input() async {
         await assertSnapshots(
             of: { ImportView(model: ImportModel(env: AppEnvironment.fake(), track: { _ in })) },
-            named: "input", configs: configs, layout: .screen)
+            named: "input", configs: configs(se: 490, ipad: 430), layout: .screen)
     }
 
     func test_review() async {
@@ -39,6 +42,6 @@ final class ImportSnapshotTests: XCTestCase {
                         ],
                         unresolved: [ImportPlace(name: "Secret Cafe", kind: "food")]))
                 return ImportView(model: model)
-            }, named: "review", configs: configs, layout: .screen)
+            }, named: "review", configs: configs(se: 1000, ipad: 990), layout: .screen)
     }
 }
