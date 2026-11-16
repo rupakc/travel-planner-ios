@@ -14,11 +14,11 @@ final class ItinerarySnapshotTests: XCTestCase {
     /// Canvases sized to the measured content (plus a small tail), so nothing is cut off and no blank tail remains.
     private var editedConfigs: [SnapshotConfig] {
         var phone = SnapshotConfig.phoneLight
-        phone.canvas = CGSize(width: 320, height: 2000)
+        phone.canvas = CGSize(width: 320, height: 1598)
         var pad = SnapshotConfig.padDark
-        pad.canvas = CGSize(width: 834, height: 3000)
+        pad.canvas = CGSize(width: 834, height: 1366)
         var german = SnapshotConfig.germanAX5
-        german.canvas = CGSize(width: 320, height: 6000)
+        german.canvas = CGSize(width: 320, height: 4472)
         return [phone, pad, german]
     }
 
