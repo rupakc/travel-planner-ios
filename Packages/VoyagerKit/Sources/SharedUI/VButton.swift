@@ -51,7 +51,8 @@ public struct VButton: View {
     /// `wrapped`, but only as wide-allowing as the longest word needs: an invisible one-line copy of that word
     /// makes the candidate too wide for `ViewThatFits` (so the next, smaller one is tried) instead of breaking it.
     private var wrappedKeepingWords: some View {
-        let longest = title.split(whereSeparator: \.isWhitespace).max { $0.count < $1.count }.map(String.init) ?? title
+        let words: [String] = title.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }
+        let longest = words.max { $0.count < $1.count } ?? title
         return ZStack {
             Text(verbatim: longest).lineLimit(1).fixedSize(horizontal: true, vertical: false).hidden().accessibilityHidden(true)
             wrapped
