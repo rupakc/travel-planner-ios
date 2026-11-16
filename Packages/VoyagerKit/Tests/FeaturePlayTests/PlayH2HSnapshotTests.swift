@@ -172,7 +172,7 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = await board(rows: rows, you: BoardYou(rank: 3, score: 410, optedIn: true))
         await assertSnapshots(
             of: { BoardSectionView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 1247)], layout: .component)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 3000)], layout: .component)
     }
 
     // MARK: Challenge

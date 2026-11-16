@@ -20,12 +20,14 @@ struct BoardSectionView: View {
                         HStack(spacing: Spacing.sm) { scopeChips }
                         VStack(alignment: .leading, spacing: Spacing.sm) { scopeChips }
                     }
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                     .accessibilityElement(children: .contain)
                     .accessibilityLabel(Text(verbatim: L10n.text(K.play.board.scope)))
                     ViewThatFits(in: .horizontal) {
                         HStack(spacing: Spacing.sm) { weekChips }
                         VStack(alignment: .leading, spacing: Spacing.sm) { weekChips }
                     }
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                     content
                 }
             }
