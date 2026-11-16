@@ -63,13 +63,13 @@ final class FeedSnapshotTests: XCTestCase {
         let (model, env) = await make(Self.ideas, next: "more")
         await assertSnapshots(
             of: { IdeasFeedView(model: model, env: env, supportURL: URL(string: "https://example.test/help")) }, named: "cards",
-            configs: [phone("se-light", height: 1510), phone("se-dark", dark: true, height: 1510)], layout: .screen)
+            configs: [phone("se-light", height: 1352), phone("se-dark", dark: true, height: 1352)], layout: .screen)
     }
 
     func test_feedHindi() async {
         let (model, env) = await make(Self.ideas)
         await assertSnapshots(
-            of: { IdeasFeedView(model: model, env: env) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 1402)],
+            of: { IdeasFeedView(model: model, env: env) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 1246)],
             layout: .screen)
     }
 
@@ -77,7 +77,7 @@ final class FeedSnapshotTests: XCTestCase {
         let (model, env) = await make(Array(Self.ideas.prefix(1)))
         await assertSnapshots(
             of: { IdeasFeedView(model: model, env: env) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: .accessibilityExtraExtraExtraLarge, height: 2420)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: .accessibilityExtraExtraExtraLarge, height: 2126)], layout: .screen)
     }
 
     func test_feedTwoColumn() async {
@@ -86,7 +86,7 @@ final class FeedSnapshotTests: XCTestCase {
             copy.id = "4"
             return copy
         })
-        let pad = SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 1156))
+        let pad = SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 948))
         await assertSnapshots(of: { IdeasFeedView(model: model, env: env) }, named: "two-column", configs: [pad], layout: .screen)
     }
 
@@ -114,7 +114,7 @@ final class FeedSnapshotTests: XCTestCase {
             snapshot: .object(["items": .object(["activities": .array([.object(["name": .string(hostile)])])])]))
         let (model, env) = await make([idea])
         await assertSnapshots(
-            of: { IdeasFeedView(model: model, env: env) }, named: "hostile", configs: [phone("se-light", height: 570)],
+            of: { IdeasFeedView(model: model, env: env) }, named: "hostile", configs: [phone("se-light", height: 518)],
             layout: .screen)
     }
 
@@ -133,7 +133,7 @@ final class FeedSnapshotTests: XCTestCase {
         await comments.start()
         await assertSnapshots(
             of: { IdeaDetailView(model: detail, comments: comments, env: env) }, named: "detail",
-            configs: [phone("se-light", height: 1154), phone("se-dark", dark: true, height: 1154)], layout: .screen)
+            configs: [phone("se-light", height: 1102), phone("se-dark", dark: true, height: 1102)], layout: .screen)
     }
 
     func test_ideaGone() async {
