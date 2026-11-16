@@ -88,6 +88,7 @@ public struct QuizView: View {
                     }
                     Text(verbatim: QuizText.prompt(question) ?? "")
                         .font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                         .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
                         .accessibilityAddTraits(.isHeader).accessibilityIdentifier("play.quiz.prompt")
                     VStack(spacing: Spacing.sm) {
@@ -193,6 +194,7 @@ private struct OptionButton: View {
         } label: {
             HStack(spacing: Spacing.sm) {
                 Text(verbatim: label).font(VFont.body(.body, weight: .semibold)).foregroundStyle(SemanticColor.text)
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                     .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
                 Spacer(minLength: Spacing.sm)
                 if let symbol {
@@ -205,7 +207,8 @@ private struct OptionButton: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .disabled(disabled)
+        // Not `.disabled`: the system would dim the revealed answers. Taps are ignored while an answer is in flight or shown.
+        .allowsHitTesting(!disabled)
         .accessibilityLabel(Text(verbatim: spoken))
         .accessibilityIdentifier(tid)
     }

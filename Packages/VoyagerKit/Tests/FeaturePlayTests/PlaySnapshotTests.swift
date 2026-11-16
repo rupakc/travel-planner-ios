@@ -61,7 +61,7 @@ final class PlaySnapshotTests: XCTestCase {
         let model = await hub(busyState, history: games)
         await assertSnapshots(
             of: { PlayHomeView(model: model) }, named: "hub",
-            configs: [phone("se-light", height: 1400), phone("se-dark", dark: true, height: 1400), pad("ipad-light", height: 1100)],
+            configs: [phone("se-light", height: 1200), phone("se-dark", dark: true, height: 1200), pad("ipad-light", height: 700)],
             layout: .screen)
     }
 
@@ -72,20 +72,20 @@ final class PlaySnapshotTests: XCTestCase {
         state.openH2H = 0
         let model = await hub(state)
         await assertSnapshots(
-            of: { PlayHomeView(model: model) }, named: "done", configs: [phone("se-light", height: 900)], layout: .screen)
+            of: { PlayHomeView(model: model) }, named: "done", configs: [phone("se-light", height: 800)], layout: .screen)
     }
 
     func test_hubHindi() async {
         let model = await hub(busyState, history: games)
         await assertSnapshots(
-            of: { PlayHomeView(model: model) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 1400)], layout: .screen)
+            of: { PlayHomeView(model: model) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 1200)], layout: .screen)
     }
 
     func test_hubGermanAX5() async {
         let model = await hub(busyState, history: games)
         await assertSnapshots(
             of: { PlayHomeView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 3000)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 6000)], layout: .screen)
     }
 
     func test_hubHidden() async {
@@ -94,7 +94,7 @@ final class PlaySnapshotTests: XCTestCase {
         let model = PlayHomeModel(env: env(fakes), track: { _ in })
         await model.load()
         await assertSnapshots(
-            of: { PlayHomeView(model: model) }, named: "hidden", configs: [phone("se-light", height: 400)], layout: .screen)
+            of: { PlayHomeView(model: model) }, named: "hidden", configs: [phone("se-light", height: 204)], layout: .screen)
     }
 
     // MARK: Quiz
@@ -139,7 +139,7 @@ final class PlaySnapshotTests: XCTestCase {
         let model = await quiz(flagQuestion)
         await assertSnapshots(
             of: { QuizView(model: model) }, named: "flag",
-            configs: [phone("se-light", height: 800), phone("se-dark", dark: true, height: 800), pad("ipad-light", height: 800)],
+            configs: [phone("se-light", height: 587), phone("se-dark", dark: true, height: 587), pad("ipad-light", height: 566)],
             layout: .screen)
     }
 
@@ -148,27 +148,27 @@ final class PlaySnapshotTests: XCTestCase {
             flagQuestion, result: AnswerResult(correct: false, correctChoice: "b", points: 0, elapsedMs: 6100), pick: "a")
         await assertSnapshots(
             of: { QuizView(model: model) }, named: "wrong",
-            configs: [phone("se-light", height: 900), phone("se-dark", dark: true, height: 900)], layout: .screen)
+            configs: [phone("se-light", height: 697), phone("se-dark", dark: true, height: 697)], layout: .screen)
     }
 
     func test_revealCorrect() async {
         let model = await quiz(
             capitalQuestion, result: AnswerResult(correct: true, correctChoice: "b", points: 138, elapsedMs: 1900), pick: "b")
         await assertSnapshots(
-            of: { QuizView(model: model) }, named: "correct", configs: [phone("se-light", height: 900)], layout: .screen)
+            of: { QuizView(model: model) }, named: "correct", configs: [phone("se-light", height: 578)], layout: .screen)
     }
 
     func test_questionGermanAX5() async {
         let model = await quiz(capitalQuestion)
         await assertSnapshots(
             of: { QuizView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 2400)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 2500)], layout: .screen)
     }
 
     func test_questionHindi() async {
         let model = await quiz(flagQuestion)
         await assertSnapshots(
-            of: { QuizView(model: model) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 800)], layout: .screen)
+            of: { QuizView(model: model) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 562)], layout: .screen)
     }
 
     func test_unsupportedQuestion() async {
@@ -177,7 +177,7 @@ final class PlaySnapshotTests: XCTestCase {
             options: [PlayOption(id: "a", label: "x"), PlayOption(id: "b", label: "y")])
         let model = await quiz(odd)
         await assertSnapshots(
-            of: { QuizView(model: model) }, named: "unsupported", configs: [phone("se-light", height: 400)], layout: .screen)
+            of: { QuizView(model: model) }, named: "unsupported", configs: [phone("se-light", height: 212)], layout: .screen)
     }
 
     private func summaryModel(language: AppLanguage = .en) async -> QuizModel {
@@ -197,14 +197,14 @@ final class PlaySnapshotTests: XCTestCase {
         let model = await summaryModel()
         await assertSnapshots(
             of: { QuizView(model: model) }, named: "summary",
-            configs: [phone("se-light", height: 500), phone("se-dark", dark: true, height: 500)], layout: .screen)
+            configs: [phone("se-light", height: 316), phone("se-dark", dark: true, height: 316)], layout: .screen)
     }
 
     func test_summaryGermanAX5() async {
         let model = await summaryModel()
         await assertSnapshots(
             of: { QuizView(model: model) }, named: "summaryAX5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 1400)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 674)], layout: .screen)
     }
 
     func test_expired() async {
@@ -214,6 +214,6 @@ final class PlaySnapshotTests: XCTestCase {
         let model = QuizModel(env: env(fakes), sessionID: "s1", sleep: sleepForever, track: { _ in })
         await model.load()
         await assertSnapshots(
-            of: { QuizView(model: model) }, named: "expired", configs: [phone("se-light", height: 300)], layout: .screen)
+            of: { QuizView(model: model) }, named: "expired", configs: [phone("se-light", height: 149)], layout: .screen)
     }
 }

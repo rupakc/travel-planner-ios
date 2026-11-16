@@ -10,6 +10,7 @@ import VoyagerModel
 /// Everything shown comes from the server; the hub never computes a score or a streak.
 public struct PlayHomeView: View {
     @State private var model: PlayHomeModel
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     @MainActor public init(env: AppEnvironment) {
         _model = State(initialValue: PlayHomeModel(env: env))
@@ -132,7 +133,7 @@ public struct PlayHomeView: View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             Text(verbatim: L10n.text(K.play.packs.title)).font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
                 .accessibilityAddTraits(.isHeader)
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: Spacing.md)], spacing: Spacing.md) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: typeSize.isAccessibilitySize ? 400 : 130), spacing: Spacing.md)], spacing: Spacing.md) {
                 ForEach(model.packs) { pack in
                     PackTile(title: QuizText.packName(pack.id), tid: "play.pack.\(pack.id)", busy: model.isBusy) {
                         Task { await model.startPack(pack) }
@@ -170,6 +171,7 @@ private struct PackTile: View {
             action()
         } label: {
             Text(verbatim: title).font(VFont.body(.body, weight: .semibold)).foregroundStyle(SemanticColor.text)
+                .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                 .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, minHeight: 56, alignment: .leading)
                 .padding(.horizontal, Spacing.md).padding(.vertical, Spacing.sm)
