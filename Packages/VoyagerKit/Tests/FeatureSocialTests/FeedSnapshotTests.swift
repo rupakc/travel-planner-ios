@@ -26,7 +26,10 @@ final class FeedSnapshotTests: XCTestCase {
         ]),
         "items": .object([
             "activities": .array(
-                ["Tram 28 ride", "Belem pastry tour", "Alfama walking tour", "Sunset at Miradouro", "Fado night", "Day trip to Sintra", "Time Out Market"]
+                [
+                    "Tram 28 ride", "Belem pastry tour", "Alfama walking tour", "Sunset at Miradouro", "Fado night",
+                    "Day trip to Sintra", "Time Out Market",
+                ]
                     .map { .object(["name": .string($0)]) }),
             "hotels": .array([.object(["name": .string("Hotel Avenida Palace")])]),
         ]),
@@ -46,7 +49,7 @@ final class FeedSnapshotTests: XCTestCase {
         ]
     }
 
-    private func make(_ ideas: [Idea], profile: Bool = true, next: String? = nil, social: Bool = true) async -> (FeedModel, AppEnvironment) {
+    private func make(_ ideas: [Idea], profile: Bool = true, next: String? = nil) async -> (FeedModel, AppEnvironment) {
         let fakes = FakeRepositories()
         fakes.social.onFeed.returns(IdeaPage(ideas: ideas, next: next))
         if profile { fakes.social.onProfile.returns(OwnProfile(handle: "me_myself", visibility: .public)) }

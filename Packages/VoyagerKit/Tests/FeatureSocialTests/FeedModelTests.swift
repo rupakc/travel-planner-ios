@@ -175,7 +175,9 @@ struct FeedModelTests {
     @Test func test_snapshotFactsReadDefensively() {
         let snapshot: JSONValue = .object([
             "destinations": .array([.string("Lisbon"), .number(3)]), "days": .number(5),
-            "stats": .array([.object(["key": .string("hotels"), "count": .number(2)]), .object(["key": .string("zzz"), "count": .number(1)])]),
+            "stats": .array([
+                .object(["key": .string("hotels"), "count": .number(2)]), .object(["key": .string("zzz"), "count": .number(1)]),
+            ]),
             "items": .object(["activities": .array([.object(["name": .string("Tram 28")]), .object([:])])]),
         ])
         let facts = IdeaFacts(snapshot: snapshot)
