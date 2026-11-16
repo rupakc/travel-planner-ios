@@ -1,3 +1,4 @@
+import AuthCore
 import SnapshotTesting
 import SwiftUI
 import TestSupport

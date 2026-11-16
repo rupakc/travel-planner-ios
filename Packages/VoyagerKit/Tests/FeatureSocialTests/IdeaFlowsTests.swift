@@ -1,3 +1,4 @@
+import AuthCore
 import Foundation
 import L10n
 import Networking
