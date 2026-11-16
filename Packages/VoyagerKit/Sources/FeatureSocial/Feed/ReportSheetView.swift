@@ -61,7 +61,8 @@ struct ReportSheetView: View {
             .lineLimit(2...4)
             .font(VFont.body(.subheadline))
             .padding(Spacing.sm)
-            .borderedSurface(RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
+            .borderedSurface(
+                    RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
             .accessibilityLabel(Text(verbatim: L10n.text(K.social.report.noteLabel)))
             .accessibilityIdentifier("report.note")
         if case .failed(let failure) = model.phase {

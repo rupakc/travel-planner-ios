@@ -1,14 +1,16 @@
 import Foundation
 import VoyagerModel
 
+struct IdeaFactStat: Equatable {
+    enum Key: String { case activities, hotels, places }
+    var key: Key
+    var count: Int
+}
+
 /// What an idea's `snapshot` shows: destinations, trip length, the three counts and the names of the picked items.
 /// The server whitelists the snapshot; every key is read defensively and a wrong-typed one is simply absent.
 struct IdeaFacts: Equatable {
-    struct Stat: Equatable {
-        enum Key: String { case activities, hotels, places }
-        var key: Key
-        var count: Int
-    }
+    typealias Stat = IdeaFactStat
 
     static let shownItems = 6
     private static let itemGroups = ["activities", "places_to_see", "hotels", "walking_tours", "events"]

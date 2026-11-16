@@ -126,7 +126,8 @@ struct CommentsView: View {
                 .textInputAutocapitalization(.sentences)
                 .autocorrectionDisabled(false)
                 .padding(Spacing.sm)
-                .borderedSurface(RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
+                .borderedSurface(
+                    RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
                 .accessibilityLabel(Text(verbatim: L10n.text(K.social.comments.label)))
                 .accessibilityIdentifier("comments.input")
             Text(verbatim: L10n.text(

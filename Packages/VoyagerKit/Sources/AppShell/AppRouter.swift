@@ -90,16 +90,20 @@ public final class AppRouter: AppRouting {
             push(route, on: .trips)
         case .ideaDetail, .ideas:
             // Ideas are a segment of the Discover tab; the segment itself arrives with Phase 5.
-            exploreMode = .discover
-            showsIdeas = true
-            selectedTab = .explore
-            paths[.explore] = route == .ideas ? [] : [route]
+            openIdeas(route)
         case .importLink(let url):
             importURL = url
             exploreMode = .link
             selectedTab = .explore
             paths[.explore] = []
         }
+    }
+
+    private func openIdeas(_ route: Route) {
+        exploreMode = .discover
+        showsIdeas = true
+        selectedTab = .explore
+        paths[.explore] = route == .ideas ? [] : [route]
     }
 
     public func closeShare() { sharedToken = nil }

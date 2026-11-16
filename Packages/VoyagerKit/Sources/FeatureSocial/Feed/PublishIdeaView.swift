@@ -115,7 +115,8 @@ public struct PublishIdeaView: View {
                 .lineLimit(lines)
                 .font(VFont.body(.subheadline))
                 .padding(Spacing.sm)
-                .borderedSurface(RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
+                .borderedSurface(
+                    RoundedRectangle(cornerRadius: Radius.input), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
                 .accessibilityLabel(Text(verbatim: label))
                 .accessibilityIdentifier(tid)
             Text(verbatim: L10n.text(K.socialShare.counter, ["n": String(count), "max": String(max)]))

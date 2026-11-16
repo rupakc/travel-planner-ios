@@ -153,7 +153,8 @@ public struct IdeasFeedView: View {
                         .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.destructive)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                VButton(L10n.text(model.isLoadingMore ? K.social.feed.loading : K.social.feed.loadMore), tid: "feed.more", role: .secondary) {
+                let moreTitle = L10n.text(model.isLoadingMore ? K.social.feed.loading : K.social.feed.loadMore)
+                VButton(moreTitle, tid: "feed.more", role: .secondary) {
                     Task { await model.loadMore() }
                 }
                 .disabled(model.isLoadingMore)
