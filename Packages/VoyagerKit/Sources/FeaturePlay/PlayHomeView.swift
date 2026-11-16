@@ -52,7 +52,7 @@ public struct PlayHomeView: View {
             VStack(alignment: .leading, spacing: Spacing.md) {
                 Text(verbatim: ErrorCopy.message(kind: kind, detail: detail)).font(VFont.body(.subheadline))
                     .foregroundStyle(SemanticColor.destructive).fixedSize(horizontal: false, vertical: true)
-                VButton(L10n.text(K.social.feed.retry), tid: "play.retry", role: .secondary) { Task { await model.load() } }
+                PlayButton(L10n.text(K.social.feed.retry), tid: "play.retry", role: .secondary) { Task { await model.load() } }
             }
         case .loaded:
             loaded
@@ -79,6 +79,7 @@ public struct PlayHomeView: View {
         VCard {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 Text(verbatim: L10n.text(K.play.daily.title)).font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                     .accessibilityAddTraits(.isHeader)
                 Text(verbatim: L10n.text(K.play.daily.hint)).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
@@ -96,7 +97,7 @@ public struct PlayHomeView: View {
                         .font(VFont.body(.body, weight: .semibold)).foregroundStyle(SemanticColor.primary)
                         .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.daily.done")
                 } else {
-                    VButton(L10n.text(K.play.daily.start), tid: "play.daily.start", systemImage: "play.fill") {
+                    PlayButton(L10n.text(K.play.daily.start), tid: "play.daily.start", systemImage: "play.fill") {
                         Task { await model.startDaily() }
                     }
                     .disabled(model.isBusy || !model.daily.available)
@@ -109,6 +110,7 @@ public struct PlayHomeView: View {
         VCard {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 Text(verbatim: L10n.text(K.play.challenge.title)).font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                     .accessibilityAddTraits(.isHeader)
                 Text(verbatim: challengeText(challenge)).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
@@ -135,6 +137,7 @@ public struct PlayHomeView: View {
     private var packsCard: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             Text(verbatim: L10n.text(K.play.packs.title)).font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                 .accessibilityAddTraits(.isHeader)
             LazyVGrid(columns: [GridItem(.adaptive(minimum: packMinimum), spacing: Spacing.md)], spacing: Spacing.md) {
                 ForEach(model.packs) { pack in
@@ -149,6 +152,7 @@ public struct PlayHomeView: View {
     private var historyCard: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             Text(verbatim: L10n.text(K.play.home.history)).font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                 .accessibilityAddTraits(.isHeader)
             VCard {
                 VStack(alignment: .leading, spacing: Spacing.md) {

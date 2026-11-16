@@ -49,7 +49,7 @@ public struct QuizView: View {
             Text(verbatim: message).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.destructive)
                 .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.quiz.failed")
             if retryable {
-                VButton(L10n.text(K.social.feed.retry), tid: "play.quiz.retry", role: .secondary) { Task { await model.load() } }
+                PlayButton(L10n.text(K.social.feed.retry), tid: "play.quiz.retry", role: .secondary) { Task { await model.load() } }
             }
             backButton
         case .question:
@@ -60,7 +60,7 @@ public struct QuizView: View {
     }
 
     private var backButton: some View {
-        VButton(L10n.text(K.play.result.back), tid: "play.quiz.back", role: .secondary) { dismiss() }
+        PlayButton(L10n.text(K.play.result.back), tid: "play.quiz.back", role: .secondary) { dismiss() }
     }
 
     // MARK: Question
@@ -136,7 +136,7 @@ public struct QuizView: View {
             Text(verbatim: result.correct ? L10n.text(K.play.quiz.correctPoints, count: result.points) : L10n.text(K.play.quiz.wrongNote))
                 .font(VFont.body(.body, weight: .semibold)).foregroundStyle(SemanticColor.text)
                 .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.quiz.reveal")
-            VButton(
+            PlayButton(
                 model.isLast ? L10n.text(K.play.quiz.finish) : L10n.text(K.play.quiz.next), tid: "play.quiz.next"
             ) { model.next() }
         }
