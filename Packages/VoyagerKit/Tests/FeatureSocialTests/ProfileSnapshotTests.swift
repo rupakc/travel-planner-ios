@@ -155,7 +155,7 @@ final class ProfileSnapshotTests: XCTestCase {
         let model = await publicModel(full)
         await assertSnapshots(
             of: { PublicProfileView(model: model) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: .accessibilityExtraExtraExtraLarge, height: 2500)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: .accessibilityExtraExtraExtraLarge, height: 2230)], layout: .screen)
     }
 
     func test_editorHindi() async {

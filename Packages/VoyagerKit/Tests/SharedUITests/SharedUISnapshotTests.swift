@@ -26,7 +26,7 @@ final class SharedUISnapshotTests: XCTestCase {
             configs: Array(SnapshotConfig.standard.dropLast()) + [
                 SnapshotConfig(
                     name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
-                    size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 390)),
+                    size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 384)),
             ])
     }
 

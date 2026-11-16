@@ -50,7 +50,7 @@ final class ItinerarySnapshotTests: XCTestCase {
                 .phoneLight, .padDark,
                 SnapshotConfig(
                     name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
-                    size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 2600)),
+                    size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 6000)),
             ])
     }
 
