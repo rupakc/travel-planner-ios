@@ -175,7 +175,7 @@ struct IdeaFlowsTests {
         let (_, fakes) = makeEnv()
         let model = ReportModel(target: .comment, id: "c", send: { request in
             try await fakes.social.report(request)
-            events.all.append(.socialReport(reason: request.reason.rawValue, target: request.target.rawValue))
+            events.all.append(.socialReport(target: request.target.rawValue, reason: request.reason.rawValue))
         })
         model.note = String(repeating: "n", count: 400)
         #expect(model.note.count == 200)

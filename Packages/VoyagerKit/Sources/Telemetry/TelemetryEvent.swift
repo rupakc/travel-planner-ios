@@ -80,7 +80,14 @@ public enum TelemetryEvent: Sendable {
     case socialIdeaSave
     case socialIdeaPublish(kind: String)
     case socialComment
-    case socialReport(reason: String, target: String)
+    /// Social profiles (Phase 5): a profile was opened (own or public), saved (`visibility` private|followers|public),
+    /// a follow changed (`state` following|pending|none), a block toggled (`on`), a report sent (`target`
+    /// idea|comment|profile, `reason` as the report sheet's reasons). No handle ever goes in.
+    case socialProfileView
+    case socialProfileSave(visibility: String)
+    case socialFollow(state: String)
+    case socialBlock(on: Bool)
+    case socialReport(target: String, reason: String)
 }
 
 /// A validated event, ready to queue.
@@ -106,9 +113,11 @@ extension TelemetryEvent {
     static let notifSources = ["push", "inapp"]
     static let feedScopes = ["for_you", "following", "new"]
     static let ideaKinds = ["plan", "recap"]
-    static let reportReasons = ["spam", "abuse", "sexual", "violence", "misinformation", "other"]
-    static let reportTargets = ["idea", "comment", "profile"]
     static let notifCategories = NotificationCategory.allCases.map(\.rawValue)
+    static let socialVisibilities = ["private", "followers", "public"]
+    static let socialFollowStates = ["following", "pending", "none"]
+    static let socialReportTargets = ["idea", "comment", "profile"]
+    static let socialReportReasons = ["spam", "abuse", "sexual", "violence", "misinformation", "other"]
     static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
     static let shareDates = ["hidden", "month", "exact"]
     static let shareTargets = ["native", "copy", "download", "x", "facebook", "whatsapp", "linkedin"]
@@ -289,10 +298,20 @@ extension TelemetryEvent {
             name = "social_idea_publish"
             choice("kind", kind, in: Self.ideaKinds)
         case .socialComment: name = "social_comment"
-        case .socialReport(let reason, let target):
+        case .socialProfileView: name = "social_profile_view"
+        case .socialProfileSave(let visibility):
+            name = "social_profile_save"
+            choice("visibility", visibility, in: Self.socialVisibilities)
+        case .socialFollow(let state):
+            name = "social_follow"
+            choice("state", state, in: Self.socialFollowStates)
+        case .socialBlock(let on):
+            name = "social_block"
+            props["on"] = .bool(on)
+        case .socialReport(let target, let reason):
             name = "social_report"
-            choice("reason", reason, in: Self.reportReasons)
-            choice("target", target, in: Self.reportTargets)
+            choice("target", target, in: Self.socialReportTargets)
+            choice("reason", reason, in: Self.socialReportReasons)
         }
         return WireEvent(name: name, props: props)
     }

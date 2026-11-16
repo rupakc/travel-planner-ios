@@ -69,7 +69,7 @@ var targets: [Target] = [
 for name in featureNames {
     var deps: [Target.Dependency] = ["VoyagerEnv", "SharedUI"] + coreModules
     if sectionFeatures.contains(name) { deps.append("SectionsUI") }
-    // The Phase 5 features read the typed `SocialFailure` / `PlayFailure` codes.
+    // The social and play screens read the typed failures (`SocialFailure`, `PlayFailure`) of the data layer.
     if name == "FeatureSocial" || name == "FeaturePlay" { deps.append("VoyagerData") }
     targets.append(.target(name: name, dependencies: deps))
 }

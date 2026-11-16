@@ -46,7 +46,7 @@ struct IdeaActions {
 
     func report(_ request: ReportRequest) async throws {
         try await env.social.call { try await $0.report(request) }
-        emit(.socialReport(reason: request.reason.rawValue, target: request.target.rawValue))
+        emit(.socialReport(target: request.target.rawValue, reason: request.reason.rawValue))
     }
 
     func block(_ handle: String) async throws {
