@@ -45,8 +45,17 @@ public struct VButton: View {
         let text = systemImage.map { Text(Image(systemName: $0)) + Text(verbatim: " ") + label } ?? label
         return text
             .multilineTextAlignment(.center)
-            .minimumScaleFactor(0.5)
             .fixedSize(horizontal: false, vertical: true)
+    }
+
+    /// `wrapped`, but only as wide-allowing as the longest word needs: an invisible one-line copy of that word
+    /// makes the candidate too wide for `ViewThatFits` (so the next, smaller one is tried) instead of breaking it.
+    private var wrappedKeepingWords: some View {
+        let longest = title.split(whereSeparator: \.isWhitespace).max { $0.count < $1.count }.map(String.init) ?? title
+        return ZStack {
+            Text(verbatim: longest).lineLimit(1).fixedSize(horizontal: true, vertical: false).hidden().accessibilityHidden(true)
+            wrapped
+        }
     }
 
     public var body: some View {
@@ -55,13 +64,15 @@ public struct VButton: View {
             action()
         } label: {
             // A single line at the user's size when it fits; else a single line at a smaller Dynamic Type
-            // size (so a long word never breaks mid-word); only then wrapped, capped at AX1 and scaled down
-            // rather than broken. The icon and label are one centred group in every variant.
+            // size (so a long word never breaks mid-word); only then wrapped at a size where the longest
+            // word still fits on a line. The icon and label are one centred group in every variant.
             ViewThatFits(in: .horizontal) {
                 singleLine
                 singleLine.dynamicTypeSize(...DynamicTypeSize.accessibility1)
                 singleLine.dynamicTypeSize(...DynamicTypeSize.xxxLarge)
-                wrapped.dynamicTypeSize(...DynamicTypeSize.accessibility1)
+                wrappedKeepingWords.dynamicTypeSize(...DynamicTypeSize.accessibility1)
+                wrappedKeepingWords.dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+                wrapped.dynamicTypeSize(...DynamicTypeSize.large)
             }
         }
         .buttonStyle(role: role)
