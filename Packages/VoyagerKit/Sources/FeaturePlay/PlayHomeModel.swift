@@ -27,6 +27,10 @@ final class PlayHomeModel {
     private(set) var starting: String?
     private(set) var errorText: String?
 
+    /// Head-to-head matches and the weekly board: parts of the hub with their own loading and failures.
+    let h2h: H2HListModel
+    let board: BoardModel
+
     @ObservationIgnored let env: AppEnvironment
     @ObservationIgnored private let emit: @MainActor (TelemetryEvent) -> Void
     /// Set when a quiz was opened: the hub reloads when it comes back to the front.
@@ -35,7 +39,11 @@ final class PlayHomeModel {
     init(env: AppEnvironment, track: (@MainActor (TelemetryEvent) -> Void)? = nil) {
         self.env = env
         let telemetry = env.telemetry
-        self.emit = track ?? { telemetry.track($0) }
+        let emit: @MainActor (TelemetryEvent) -> Void = track ?? { telemetry.track($0) }
+        self.emit = emit
+        self.h2h = H2HListModel(env: env, track: emit)
+        self.board = BoardModel(env: env, track: emit)
+        h2h.didOpenQuiz = { [weak self] in self?.needsRefresh = true }
     }
 
     var daily: DailyQuizState { state.daily }
@@ -58,6 +66,7 @@ final class PlayHomeModel {
             emit(.playStateView)
             // Recent games are a nicety: a failure here leaves the list as it was.
             if let games = try? await env.play.call({ try await $0.history(limit: 5) }) { history = games }
+            await loadParts()
         } catch is CancellationError {
             return
         } catch is PlayService.Unavailable {
@@ -74,6 +83,15 @@ final class PlayHomeModel {
         }
     }
 
+    /// The parts with their own routes: the challenge card, head-to-head and the board. A `403 game_hidden` on any Play
+    /// route hides the whole hub.
+    private func loadParts() async {
+        if state.challenge != nil { emit(.playChallengeView) }
+        await h2h.load()
+        await board.load()
+        if !env.play.isAvailable { phase = .unavailable(gameHidden: env.play.isHiddenByServer) }
+    }
+
     /// Called when the hub is shown again (after a quiz): a quiz finished meanwhile changes today's card.
     func refreshIfNeeded() async {
         guard needsRefresh else { return }
@@ -83,6 +101,12 @@ final class PlayHomeModel {
 
     func startDaily() async {
         await start(QuizStart(mode: .daily), key: "daily")
+    }
+
+    func startChallenge() async {
+        // One challenge a week: a finished one only shows its done state.
+        guard challenge?.done != true else { return }
+        await start(QuizStart(mode: .challenge), key: "challenge")
     }
 
     func startPack(_ pack: QuizPack) async {

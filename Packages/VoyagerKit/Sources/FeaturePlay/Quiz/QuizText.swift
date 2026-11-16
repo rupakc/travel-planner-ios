@@ -78,6 +78,11 @@ enum PlayMessage {
             case .sessionExpired, .sessionNotFound: return L10n.text(K.play.quiz.expired)
             case .gameHidden: return L10n.text(K.playYou.hidden.note)
             case .limitReached: return L10n.text(K.social.errors.limit_reached)
+            case .matchExpired: return L10n.text(K.play.quiz.expired)
+            case .matchNotFound: return L10n.text(K.play.h2h.missing)
+            case .profileNotFound: return L10n.text(K.social.errors.profile_not_found)
+            case .profileRequired: return L10n.text(K.social.errors.profile_required)
+            case .restricted: return L10n.text(K.social.errors.restricted)
             default: break
             }
         }

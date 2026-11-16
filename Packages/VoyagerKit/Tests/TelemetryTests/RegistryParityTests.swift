@@ -50,6 +50,7 @@ import VoyagerModel
         .socialBlock(on: true), .socialReport(target: "profile", reason: "spam"),
         .playStateView, .playQuizStart(mode: "pack", pack: "flags"), .playQuizAnswer(correct: true, elapsedS: 4),
         .playQuizDone(correct: 4, mode: "daily"),
+        .playH2HCreate, .playH2HOpen, .playH2HResult(winner: "draw"), .playBoardView(scope: "friends"), .playChallengeView,
     ]
 
     @Test func test_everyCaseIsInRegistry() throws {
@@ -68,7 +69,7 @@ import VoyagerModel
     @Test func test_samplesCoverEveryEnumCase() {
         let names = Set(Self.samples.map(\.wire.name))
         #expect(names.count == Self.samples.count)
-        #expect(names.count == 56)
+        #expect(names.count == 61)
     }
 
     @Test func test_internalSessionStartIsInRegistry() throws {
@@ -98,6 +99,8 @@ import VoyagerModel
         #expect(Set(TelemetryEvent.notifCategories) == (try members("notif_category_toggle", "category")))
         #expect(Set(TelemetryEvent.notifSources) == (try members("notif_open", "source")))
         #expect(Set(TelemetryEvent.notifCategories) == (try members("notif_open", "category")))
+        #expect(Set(TelemetryEvent.playWinners) == (try members("play_h2h_result", "winner")))
+        #expect(Set(TelemetryEvent.playBoardScopes) == (try members("play_board_view", "scope")))
         #expect(Set(TelemetryEvent.shareKinds) == (try members("share_create", "kind")))
         #expect(Set(TelemetryEvent.shareDates) == (try members("share_create", "dates")))
         #expect(Set(TelemetryEvent.shareTargets) == (try members("share_action", "target")))

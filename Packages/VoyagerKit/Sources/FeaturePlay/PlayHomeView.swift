@@ -71,7 +71,9 @@ public struct PlayHomeView: View {
                 .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.openH2H")
         }
         if let challenge = model.challenge { challengeCard(challenge) }
+        H2HSectionView(model: model.h2h)
         if !model.packs.isEmpty { packsCard }
+        BoardSectionView(model: model.board)
         if !model.history.isEmpty { historyCard }
     }
 
@@ -107,28 +109,7 @@ public struct PlayHomeView: View {
     }
 
     private func challengeCard(_ challenge: PlayChallenge) -> some View {
-        VCard {
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                Text(verbatim: L10n.text(K.play.challenge.title)).font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
-                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
-                    .accessibilityAddTraits(.isHeader)
-                Text(verbatim: challengeText(challenge)).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
-                    .fixedSize(horizontal: false, vertical: true)
-                if challenge.done {
-                    Text(verbatim: L10n.text(K.play.challenge.done)).font(VFont.body(.body, weight: .semibold))
-                        .foregroundStyle(SemanticColor.primary).fixedSize(horizontal: false, vertical: true)
-                }
-            }
-        }
-        .accessibilityIdentifier("play.challenge")
-    }
-
-    private func challengeText(_ challenge: PlayChallenge) -> String {
-        if challenge.kind == .destination, let country = challenge.country, !country.isEmpty {
-            let name = country.count == 2 ? QuizText.regionName(code: country, fallback: country) : country
-            return L10n.text(K.play.challenge.destination, ["country": name])
-        }
-        return L10n.text(K.play.challenge.featured)
+        ChallengeCard(challenge: challenge, busy: model.isBusy) { Task { await model.startChallenge() } }
     }
 
     /// Two columns on a phone; one column at accessibility sizes.
