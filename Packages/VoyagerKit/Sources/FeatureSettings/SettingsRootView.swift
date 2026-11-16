@@ -103,6 +103,11 @@ public struct SettingsRootView: View {
                     model.open(.profileEditor)
                 }
             }
+            if model.showsPlayRow {
+                SettingsLinkRow(title: L10n.text(K.playYou.page.title), icon: "gamecontroller", tid: "settings.play") {
+                    model.open(.play)
+                }
+            }
             if model.showsAdminRow {
                 SettingsLinkRow(title: L10n.text(K.common.nav.admin), icon: "shield", tid: "settings.admin") {
                     model.open(.admin)

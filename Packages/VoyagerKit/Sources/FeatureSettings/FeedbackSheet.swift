@@ -65,7 +65,7 @@ struct FeedbackSheet: View {
                     }
                 }
             }
-            Text(verbatim: "\(L10n.text(K.misc.feedback.message)) (\(L10n.text(K.misc.feedback.optional)))")
+            Text(verbatim: "\(L10n.text(K.misc.feedback.message)) \(L10n.text(K.misc.feedback.optional))")
                 .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
             TextField(
                 L10n.text(K.misc.feedback.placeholder),
@@ -81,12 +81,13 @@ struct FeedbackSheet: View {
                 Text(verbatim: ErrorCopy.message(kind: error.presentationKind, detail: error.userFacingDetail))
                     .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.destructive)
             }
-            HStack(spacing: Spacing.md) {
-                VButton(L10n.text(K.misc.feedback.close), tid: "feedback.cancel", role: .secondary, action: dismiss)
+            // Stacked (primary first): a long "Send feedback" label never shares a row, so it stays on one line.
+            VStack(spacing: Spacing.sm) {
                 VButton(
                     model.sending ? L10n.text(K.misc.feedback.sending) : L10n.text(K.misc.feedback.send), tid: "feedback.send"
                 ) { Task { await model.send() } }
                 .disabled(!model.canSend)
+                VButton(L10n.text(K.misc.feedback.close), tid: "feedback.cancel", role: .secondary, action: dismiss)
             }
         }
     }

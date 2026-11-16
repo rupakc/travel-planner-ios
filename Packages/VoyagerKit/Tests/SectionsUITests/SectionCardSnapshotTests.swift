@@ -25,13 +25,13 @@ final class SectionCardSnapshotTests: XCTestCase {
     }
 
     func test_loading() {
-        assertSnapshots(of: { Host(id: .flights, status: .loading) { EmptyView() } }, named: "loading", configs: lean)
+        assertSnapshots(of: { Host(id: .flights, status: .loading) { EmptyView() } }, named: "loading", configs: fit(se: 195, pad: 200))
     }
 
     func test_enhancing() {
         assertSnapshots(
             of: { Host(id: .visa, status: .enhancing) { GenericSectionView(data: Self.sample, ctx: .inert) } },
-            named: "enhancing", configs: lean)
+            named: "enhancing", configs: fit(se: 240, pad: 242))
     }
 
     func test_doneVerified() {
@@ -42,8 +42,18 @@ final class SectionCardSnapshotTests: XCTestCase {
     }
 
     func test_error() {
-        assertSnapshots(of: { Host(id: .visa, status: .error("")) { EmptyView() } }, named: "error", configs: lean)
+        assertSnapshots(of: { Host(id: .visa, status: .error("")) { EmptyView() } }, named: "error", configs: fit(se: 175, pad: 160))
     }
 
-    private var lean: [SnapshotConfig] { [.phoneLight, .phoneDark, .padLight, .padDark] }
+    /// Phone and pad, light and dark, on canvases cut to the content (no blank tail): `se` and `pad` are heights in points.
+    private func fit(se: CGFloat, pad: CGFloat) -> [SnapshotConfig] {
+        func sized(_ config: SnapshotConfig, _ height: CGFloat, _ width: CGFloat) -> SnapshotConfig {
+            var copy = config
+            copy.canvas = CGSize(width: width, height: height)
+            return copy
+        }
+        return [
+            sized(.phoneLight, se, 320), sized(.phoneDark, se, 320), sized(.padLight, pad, 834), sized(.padDark, pad, 834),
+        ]
+    }
 }

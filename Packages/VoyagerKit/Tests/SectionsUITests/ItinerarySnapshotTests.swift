@@ -11,6 +11,17 @@ import XCTest
 final class ItinerarySnapshotTests: XCTestCase {
     private let lean: [SnapshotConfig] = [.phoneLight, .phoneDark, .padLight, .padDark]
 
+    /// Canvases sized to the measured content (plus a small tail), so nothing is cut off and no blank tail remains.
+    private var editedConfigs: [SnapshotConfig] {
+        var phone = SnapshotConfig.phoneLight
+        phone.canvas = CGSize(width: 320, height: 1598)
+        var pad = SnapshotConfig.padDark
+        pad.canvas = CGSize(width: 834, height: 1366)
+        var german = SnapshotConfig.germanAX5
+        german.canvas = CGSize(width: 320, height: 4009)
+        return [phone, pad, german]
+    }
+
     private func editedSelections() -> JSONValue {
         let itinerary = ItineraryFixture.itinerary
         var layout = ItineraryLayout.moveSlot(itinerary, layout: nil, key: "1-evening", day: 2, timeOfDay: "evening")
@@ -45,13 +56,7 @@ final class ItinerarySnapshotTests: XCTestCase {
                         isSelected: { _, _ in false }, toggle: { _, _ in }, openURL: { _, _ in },
                         searchData: ["must_include": [["name": "Alfama"], ["name": "Sintra"]]]))
                 .environment(\.itineraryHost, host(selections))
-            }, named: "edited",
-            configs: [
-                .phoneLight, .padDark,
-                SnapshotConfig(
-                    name: "se-de-ax5", device: .iPhoneSe(.portrait), dark: false, language: .de,
-                    size: .accessibilityExtraExtraExtraLarge, canvas: CGSize(width: 320, height: 4496)),
-            ])
+            }, named: "edited", configs: editedConfigs)
     }
 
     func test_stressTest() {
@@ -80,6 +85,11 @@ final class ItinerarySnapshotTests: XCTestCase {
         let slot = editor.scheduledDays[0]["slots"][1]
         assertSnapshots(
             of: { SlotRow(model: editor, slot: slot, dayNumber: 1, showsTransit: true, isLast: true, onMove: {}, onEdit: {}) },
-            named: "ax5", configs: [.germanAX5])
+            named: "ax5",
+            configs: [{
+                var config = SnapshotConfig.germanAX5
+                config.canvas = CGSize(width: 320, height: 726)
+                return config
+            }()])
     }
 }

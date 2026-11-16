@@ -55,42 +55,65 @@ public struct SectionCard<Content: View>: View {
     }
 
     private var header: some View {
-        HStack(spacing: Spacing.sm) {
-            Button {
-                let opening = !expanded.wrappedValue
-                expanded.wrappedValue = opening
-                Telemetry.shared.track(.uiTap(tid: "results.section.toggle", route: route))
-                if opening { Telemetry.shared.track(.sectionExpand(section: id.rawValue)) }
-            } label: {
-                HStack(spacing: Spacing.sm) {
-                    Image(systemName: id.symbol)
-                        .foregroundStyle(SectionAccent.color(for: id.rawValue))
-                        .accessibilityHidden(true)
-                    Text(verbatim: id.title)
-                        .font(VFont.display(.headline))
-                        .foregroundStyle(SemanticColor.text)
-                        .multilineTextAlignment(.leading)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Spacer(minLength: Spacing.xs)
-                }
-                .frame(minHeight: 44)
-                .contentShape(Rectangle())
+        // One row when the title fits on a single line beside the chip; else the chip drops under the title.
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: Spacing.sm) {
+                titleButton(singleLine: true)
+                trailing
             }
-            .buttonStyle(.plain)
-            .accessibilityIdentifier("results.section.toggle")
-            .accessibilityAddTraits(.isHeader)
-            .accessibilityValue(
-                L10n.text(expanded.wrappedValue ? K.sections.card.expanded : K.sections.card.collapsed))
-            if let verification, status.isReady { VerificationBadge(verification: verification) }
-            statusView
-            Image(systemName: "chevron.down")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(SemanticColor.textMuted)
-                .rotationEffect(.degrees(expanded.wrappedValue ? 180 : 0))
-                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                titleButton(singleLine: false)
+                WrapLayout(spacing: Spacing.sm) { trailing }
+            }
         }
         .padding(.leading, Spacing.lg)
         .padding(.trailing, Spacing.md)
+        .padding(.vertical, Spacing.xs)
+    }
+
+    @ViewBuilder private var trailing: some View {
+        if let verification, status.isReady { VerificationBadge(verification: verification) }
+        statusView
+        chevron
+    }
+
+    private var chevron: some View {
+        Image(systemName: "chevron.down")
+            .font(.footnote.weight(.semibold))
+            .foregroundStyle(SemanticColor.textMuted)
+            .rotationEffect(.degrees(expanded.wrappedValue ? 180 : 0))
+            .accessibilityHidden(true)
+    }
+
+    private func titleButton(singleLine: Bool) -> some View {
+        Button {
+            let opening = !expanded.wrappedValue
+            expanded.wrappedValue = opening
+            Telemetry.shared.track(.uiTap(tid: "results.section.toggle", route: route))
+            if opening { Telemetry.shared.track(.sectionExpand(section: id.rawValue)) }
+        } label: {
+            HStack(spacing: Spacing.sm) {
+                Image(systemName: id.symbol)
+                    .foregroundStyle(SectionAccent.color(for: id.rawValue))
+                    .accessibilityHidden(true)
+                Text(verbatim: id.title)
+                    .font(VFont.display(.headline))
+                    .foregroundStyle(SemanticColor.text)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(singleLine ? 1 : nil)
+                    .fixedSize(horizontal: singleLine, vertical: true)
+                    // A long word never breaks mid-word at the largest sizes: the title steps down a notch there.
+                    .dynamicTypeSize(...(singleLine ? DynamicTypeSize.accessibility5 : DynamicTypeSize.accessibility2))
+                Spacer(minLength: Spacing.xs)
+            }
+            .frame(minHeight: 44)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("results.section.toggle")
+        .accessibilityAddTraits(.isHeader)
+        .accessibilityValue(
+            L10n.text(expanded.wrappedValue ? K.sections.card.expanded : K.sections.card.collapsed))
     }
 
     @ViewBuilder private var statusView: some View {
@@ -107,8 +130,7 @@ public struct SectionCard<Content: View>: View {
             .foregroundStyle(Palette.color(.amber, .s700))
             .padding(.horizontal, Spacing.sm)
             .padding(.vertical, Spacing.xs)
-            .background(Palette.color(.amber, .s100), in: Capsule())
-            .overlay { Capsule().strokeBorder(Palette.color(.amber, .s200), lineWidth: 1) }
+            .borderedSurface(Capsule(), fill: Palette.color(.amber, .s100), border: Palette.color(.amber, .s200))
             .accessibilityElement(children: .combine)
             .accessibilityHint(L10n.text(K.results.status.enhancingTitle))
         case .done:
