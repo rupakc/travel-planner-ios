@@ -63,13 +63,13 @@ final class FeedSnapshotTests: XCTestCase {
         let (model, env) = await make(Self.ideas, next: "more")
         await assertSnapshots(
             of: { IdeasFeedView(model: model, env: env, supportURL: URL(string: "https://example.test/help")) }, named: "cards",
-            configs: [phone("se-light", height: 2400), phone("se-dark", dark: true, height: 2400)], layout: .screen)
+            configs: [phone("se-light", height: 1510), phone("se-dark", dark: true, height: 1510)], layout: .screen)
     }
 
     func test_feedHindi() async {
         let (model, env) = await make(Self.ideas)
         await assertSnapshots(
-            of: { IdeasFeedView(model: model, env: env) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 2400)],
+            of: { IdeasFeedView(model: model, env: env) }, named: "hi", configs: [phone("se-hi", language: .hi, height: 1402)],
             layout: .screen)
     }
 
@@ -77,7 +77,7 @@ final class FeedSnapshotTests: XCTestCase {
         let (model, env) = await make(Array(Self.ideas.prefix(1)))
         await assertSnapshots(
             of: { IdeasFeedView(model: model, env: env) }, named: "ax5",
-            configs: [phone("se-de-ax5", language: .de, size: .accessibilityExtraExtraExtraLarge, height: 3600)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: .accessibilityExtraExtraExtraLarge, height: 2420)], layout: .screen)
     }
 
     func test_feedTwoColumn() async {
@@ -86,14 +86,14 @@ final class FeedSnapshotTests: XCTestCase {
             copy.id = "4"
             return copy
         })
-        let pad = SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 1500))
+        let pad = SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 1156))
         await assertSnapshots(of: { IdeasFeedView(model: model, env: env) }, named: "two-column", configs: [pad], layout: .screen)
     }
 
     func test_feedEmptyAndPrompt() async {
         let (model, env) = await make([], profile: false)
         await assertSnapshots(
-            of: { IdeasFeedView(model: model, env: env) }, named: "empty", configs: [phone("se-light", height: 560)], layout: .screen)
+            of: { IdeasFeedView(model: model, env: env) }, named: "empty", configs: [phone("se-light", height: 410)], layout: .screen)
     }
 
     func test_feedError() async {
@@ -103,7 +103,7 @@ final class FeedSnapshotTests: XCTestCase {
         let model = FeedModel(env: env, track: { _ in })
         await model.start()
         await assertSnapshots(
-            of: { IdeasFeedView(model: model, env: env) }, named: "error", configs: [phone("se-light", height: 400)], layout: .screen)
+            of: { IdeasFeedView(model: model, env: env) }, named: "error", configs: [phone("se-light", height: 340)], layout: .screen)
     }
 
     /// Hostile text (markdown, a javascript link, a bare URL) shows exactly as typed.
@@ -114,7 +114,7 @@ final class FeedSnapshotTests: XCTestCase {
             snapshot: .object(["items": .object(["activities": .array([.object(["name": .string(hostile)])])])]))
         let (model, env) = await make([idea])
         await assertSnapshots(
-            of: { IdeasFeedView(model: model, env: env) }, named: "hostile", configs: [phone("se-light", height: 700)],
+            of: { IdeasFeedView(model: model, env: env) }, named: "hostile", configs: [phone("se-light", height: 570)],
             layout: .screen)
     }
 
@@ -133,7 +133,7 @@ final class FeedSnapshotTests: XCTestCase {
         await comments.start()
         await assertSnapshots(
             of: { IdeaDetailView(model: detail, comments: comments, env: env) }, named: "detail",
-            configs: [phone("se-light", height: 2000), phone("se-dark", dark: true, height: 2000)], layout: .screen)
+            configs: [phone("se-light", height: 1154), phone("se-dark", dark: true, height: 1154)], layout: .screen)
     }
 
     func test_ideaGone() async {
@@ -145,7 +145,7 @@ final class FeedSnapshotTests: XCTestCase {
         let comments = CommentsModel(env: env, ideaID: "1", ideaMine: false, track: { _ in })
         await assertSnapshots(
             of: { IdeaDetailView(model: detail, comments: comments, env: env) }, named: "gone",
-            configs: [phone("se-light", height: 300)], layout: .screen)
+            configs: [phone("se-light", height: 200)], layout: .screen)
     }
 
     // MARK: Publish and report
@@ -165,19 +165,19 @@ final class FeedSnapshotTests: XCTestCase {
         let model = await publishModel(profile: OwnProfile(handle: "me_myself", visibility: .public))
         await assertSnapshots(
             of: { PublishIdeaView(model: model) }, named: "publish",
-            configs: [phone("se-light", height: 900), phone("se-dark", dark: true, height: 900)], layout: .screen)
+            configs: [phone("se-light", height: 510), phone("se-dark", dark: true, height: 510)], layout: .screen)
     }
 
     func test_publishNeedsProfile() async {
         let model = await publishModel(profile: OwnProfile())
         await assertSnapshots(
-            of: { PublishIdeaView(model: model) }, named: "needs-profile", configs: [phone("se-light", height: 900)], layout: .screen)
+            of: { PublishIdeaView(model: model) }, named: "needs-profile", configs: [phone("se-light", height: 622)], layout: .screen)
     }
 
     func test_heldNotice() async {
         let model = await publishModel(profile: OwnProfile(handle: "me_myself", visibility: .public), submit: true, status: .held)
         await assertSnapshots(
-            of: { PublishIdeaView(model: model) }, named: "held", configs: [phone("se-light", height: 400)], layout: .screen)
+            of: { PublishIdeaView(model: model) }, named: "held", configs: [phone("se-light", height: 192)], layout: .screen)
     }
 
     func test_reportSheet() async {
@@ -185,7 +185,7 @@ final class FeedSnapshotTests: XCTestCase {
         let model = ReportModel(target: .idea, id: "1", env: env)
         await assertSnapshots(
             of: { ReportSheetView(model: model, supportURL: URL(string: "https://example.test/help")) }, named: "report",
-            configs: [phone("se-light", height: 1000), phone("se-dark", dark: true, height: 1000)], layout: .screen)
+            configs: [phone("se-light", height: 671), phone("se-dark", dark: true, height: 671)], layout: .screen)
     }
 }
 
