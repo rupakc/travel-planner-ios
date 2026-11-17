@@ -46,6 +46,13 @@ final class TripsSnapshotTests: XCTestCase {
     }
 
     /// The trip is under way (2026-11-12 sits inside it) and the server has Sharing 2.0: "Share status" shows (R15).
+    /// iPad canvas = content height (~708 pt) + 16 pt, so the capture has no blank tail.
+    private static let statusShareConfigs: [SnapshotConfig] = {
+        var pad = [SnapshotConfig.padLight, .padDark]
+        for index in pad.indices { pad[index].canvas = CGSize(width: 834, height: 724) }
+        return [.phoneLight, .phoneDark] + pad
+    }()
+
     func test_statusShareEntry() async {
         let fakes = FakeRepositories()
         fakes.plans.onGet.returns(TripsFixtures.activePlan)
@@ -55,7 +62,7 @@ final class TripsSnapshotTests: XCTestCase {
         await detail.load()
         await assertSnapshots(
             of: { NavigationStack { PlanDetailView(env: env, model: detail) } },
-            named: "statusShare", configs: Self.configs, layout: .screen)
+            named: "statusShare", configs: Self.statusShareConfigs, layout: .screen)
     }
 
     func test_splitWithSelectedPlan() async {
