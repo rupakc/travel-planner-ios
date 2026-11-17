@@ -180,6 +180,11 @@ public struct PlanDetailView: View {
             VButton(L10n.text(K.mobile.trips.openInMyPlan), tid: "plan.detail.open", systemImage: "tray.and.arrow.down") {
                 model.openInMyPlan()
             }
+            if model.canShareStatus {
+                VButton(L10n.text(K.today.shareStatus), tid: "plan.detail.shareStatus", role: .tonal, systemImage: "location") {
+                    model.shareStatus()
+                }
+            }
             HStack(spacing: Spacing.sm) {
                 VButton(L10n.text(K.plan.modal.share), tid: "plan.detail.share", role: .tonal, systemImage: "square.and.arrow.up") {
                     Task { await model.share() }

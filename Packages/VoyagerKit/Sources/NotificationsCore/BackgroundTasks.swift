@@ -164,7 +164,8 @@ final class NotificationTapDelegate: NSObject, UNUserNotificationCenterDelegate 
             recordPush(push)
             guard let env else { return }
             let route = NotificationRouting.route(
-                userInfo: info.value, todayAvailable: env.clientConfig?.journeyAvailable ?? false)
+                userInfo: info.value, todayAvailable: env.clientConfig?.journeyAvailable ?? false,
+                playAvailable: env.play.isAvailable)
             if let category = Self.openedCategory(info: info.value, push: push) {
                 env.telemetry.track(.notifOpen(category: category.rawValue, source: isPush ? "push" : "inapp"))
             }

@@ -59,6 +59,34 @@ final class PlanDetailModelTests: XCTestCase {
         XCTAssertNil(model.shareURL)
     }
 
+    private func statusModel(sharing: Bool, now: Date) async -> (PlanDetailModel, AppEnvironment) {
+        let fakes = FakeRepositories()
+        fakes.plans.onGet.returns(TripsFixtures.savedPlan)
+        let env = AppEnvironment.fake(
+            fakes: fakes, clientConfig: ClientConfig(features: sharing ? ["sharing": .number(1)] : [:]))
+        let model = PlanDetailModel(
+            env: env, planID: 2, files: MemoryFileStore(), now: { now }, calendar: TripsFixtures.calendar)
+        await model.load()
+        return (model, env)
+    }
+
+    func test_statusShareOnlyForAnActiveTripWithSharing() async {
+        // The fixture trip runs 2026-12-05 to 2026-12-12.
+        let day = { (iso: String) -> Date in TripDates.date(iso, TripsFixtures.calendar) ?? TripsFixtures.now }
+        let (early, _) = await statusModel(sharing: true, now: day("2026-12-04").addingTimeInterval(43_200))
+        XCTAssertFalse(early.canShareStatus)
+        let (active, env) = await statusModel(sharing: true, now: day("2026-12-12").addingTimeInterval(43_200))
+        XCTAssertTrue(active.canShareStatus)
+        active.shareStatus()
+        XCTAssertEqual(env.recordedRoutes, [.shareSheet(.status(planID: 2))])
+        let (late, _) = await statusModel(sharing: true, now: day("2026-12-13").addingTimeInterval(3_600))
+        XCTAssertFalse(late.canShareStatus)
+        let (noSharing, noEnv) = await statusModel(sharing: false, now: day("2026-12-08"))
+        XCTAssertFalse(noSharing.canShareStatus)
+        noSharing.shareStatus()
+        XCTAssertTrue(noEnv.recordedRoutes.isEmpty)
+    }
+
     func test_deleteNeedsConfirmationThenLeaves() async {
         let (model, env, fakes) = await make()
         env.plan.load(TripsFixtures.savedPlan)

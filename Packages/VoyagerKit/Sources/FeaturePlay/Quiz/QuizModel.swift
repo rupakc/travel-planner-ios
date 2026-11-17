@@ -70,6 +70,16 @@ final class QuizModel {
     /// The XP of the finished quiz, only when the server reported some.
     var xpEarned: Int { summary?.xp?.awardedPoints ?? 0 }
 
+    /// "Share result": a finished session on a server with Sharing 2.0 (R15). The card is the pack and the score, never
+    /// time or answers, and the sharer's name stays hidden (the quiz kind has no options).
+    var canShare: Bool { phase == .summary && summary != nil && env.play.isAvailable && env.shares.isAvailable }
+
+    /// Opens the share sheet for this session through the router.
+    func share() {
+        guard canShare else { return }
+        env.router.open(.shareSheet(.quiz(sessionID: sessionID)))
+    }
+
     func load() async {
         guard env.play.isAvailable else {
             phase = .unavailable
