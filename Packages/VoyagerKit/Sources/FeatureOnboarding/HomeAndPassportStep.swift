@@ -84,7 +84,7 @@ struct HomeAndPassportStep: View {
                 .background(SemanticColor.surfaceRaised, in: RoundedRectangle(cornerRadius: 12))
             } else {
                 TextField(placeholder, text: text)
-                    .textFieldStyle(.roundedBorder)
+                    .themedTextField()
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .frame(minHeight: 44)

@@ -101,7 +101,7 @@ public struct ProfileEditorView: View {
             TextField(
                 L10n.text(K.social.editor.handle), text: Binding(get: { model.handle }, set: { model.setHandle($0) })
             )
-            .textFieldStyle(.roundedBorder)
+            .themedTextField()
             #if os(iOS)
             .textInputAutocapitalization(.never)
             .keyboardType(.asciiCapable)
@@ -177,7 +177,7 @@ public struct ProfileEditorView: View {
                 L10n.text(K.social.editor.bio), text: Binding(get: { model.bio }, set: { model.setBio($0) }), axis: .vertical
             )
             .lineLimit(3...6)
-            .textFieldStyle(.roundedBorder)
+            .themedTextField()
             .accessibilityIdentifier("profile.bio")
             Text(verbatim: L10n.text(K.social.editor.counter, ["n": String(model.bioCount), "max": String(ProfileEditorModel.maxBio)]))
                 .font(VFont.body(.caption)).foregroundStyle(SemanticColor.textMuted)

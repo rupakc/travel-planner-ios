@@ -18,7 +18,7 @@ struct ServerSection: View {
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 .keyboardType(.URL)
-                .textFieldStyle(.roundedBorder)
+                .themedTextField()
                 .accessibilityIdentifier("settings.server.url")
             if invalid {
                 Text(verbatim: L10n.text(K.mobile.server.invalid))

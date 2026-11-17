@@ -103,10 +103,10 @@ struct ImportReview: View {
         VCard {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 TextField(L10n.text(K.search.form.cityOrAirport), text: $model.origin)
-                    .textFieldStyle(.roundedBorder)
+                    .themedTextField()
                     .accessibilityIdentifier("import.origin")
                 TextField(L10n.text(K.search.form.nationalityPlaceholder), text: $model.nationality)
-                    .textFieldStyle(.roundedBorder)
+                    .themedTextField()
                     .accessibilityIdentifier("import.nationality")
                 DatePicker(L10n.text(K.search.preview.leavingOn), selection: $model.departure, displayedComponents: .date)
                     .accessibilityIdentifier("import.departure")
@@ -148,7 +148,7 @@ private struct PlaceRow: View {
             .accessibilityIdentifier("import.include.\(row.id)")
             if renaming {
                 TextField(row.name, text: $draft)
-                    .textFieldStyle(.roundedBorder)
+                    .themedTextField()
                     .onSubmit {
                         model.rename(row.id, to: draft)
                         renaming = false
@@ -190,7 +190,7 @@ private struct UnplacedRow: View {
             }
             HStack {
                 TextField(L10n.text(K.search.preview.whichTown), text: $town)
-                    .textFieldStyle(.roundedBorder)
+                    .themedTextField()
                     .accessibilityLabel(L10n.text(K.search.preview.townFor, ["name": row.name]))
                     .accessibilityIdentifier("import.town.\(row.id)")
                 Button(L10n.text(model.placing.contains(row.id) ? K.search.preview.placing : K.search.preview.placeIt)) {

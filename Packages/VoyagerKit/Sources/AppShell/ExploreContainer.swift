@@ -65,8 +65,9 @@ struct ExploreContainer: View {
                             .padding(.horizontal, Spacing.md)
                             .padding(.vertical, Spacing.sm)
                             .foregroundStyle(selected ? SemanticColor.onPrimary : SemanticColor.text)
-                            .background(selected ? SemanticColor.primary : SemanticColor.surfaceRaised, in: Capsule())
-                            .overlay { Capsule().strokeBorder(SemanticColor.border, lineWidth: selected ? 0 : 1) }
+                            .borderedSurface(
+                                Capsule(), fill: selected ? SemanticColor.primary : SemanticColor.surfaceRaised,
+                                border: selected ? nil : SemanticColor.border)
                     }
                     .buttonStyle(.plain)
                     .accessibilityAddTraits(selected ? .isSelected : [])
