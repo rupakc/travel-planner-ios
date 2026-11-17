@@ -95,6 +95,13 @@ public enum TelemetryEvent: Sendable {
     case playQuizStart(mode: String, pack: String)
     case playQuizAnswer(correct: Bool, elapsedS: Int)
     case playQuizDone(correct: Int, mode: String)
+    /// Play, head-to-head, boards and the weekly challenge: a match created or opened, a finished match seen (`winner`
+    /// you|them|draw), a board viewed (`scope` global|friends), the challenge card shown. Never a handle or match id.
+    case playH2HCreate
+    case playH2HOpen
+    case playH2HResult(winner: String)
+    case playBoardView(scope: String)
+    case playChallengeView
 }
 
 /// A validated event, ready to queue.
@@ -126,6 +133,8 @@ extension TelemetryEvent {
     static let socialReportTargets = ["idea", "comment", "profile"]
     static let socialReportReasons = ["spam", "abuse", "sexual", "violence", "misinformation", "other"]
     static let playModes = ["daily", "pack", "challenge", "h2h"]
+    static let playWinners = ["you", "them", "draw"]
+    static let playBoardScopes = ["global", "friends"]
     static let playPacks = ["flags", "capitals", "landmarks", "cuisine", "none"]
     static let shareKinds = ["plan", "recap", "savings", "quiz", "status"]
     static let shareDates = ["hidden", "month", "exact"]
@@ -334,6 +343,15 @@ extension TelemetryEvent {
             name = "play_quiz_done"
             int("correct", correct)
             choice("mode", mode, in: Self.playModes)
+        case .playH2HCreate: name = "play_h2h_create"
+        case .playH2HOpen: name = "play_h2h_open"
+        case .playH2HResult(let winner):
+            name = "play_h2h_result"
+            choice("winner", winner, in: Self.playWinners)
+        case .playBoardView(let scope):
+            name = "play_board_view"
+            choice("scope", scope, in: Self.playBoardScopes)
+        case .playChallengeView: name = "play_challenge_view"
         }
         return WireEvent(name: name, props: props)
     }

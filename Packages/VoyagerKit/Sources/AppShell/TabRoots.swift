@@ -116,6 +116,7 @@ struct RouteDestination: View {
         case .profileEditor: ProfileEditorView(env: env)
         case .play: PlayHomeView(env: env)
         case .quiz(let sessionID): QuizView(env: env, sessionID: sessionID)
+        case .h2h(let id): H2HMatchView(env: env, matchID: id)
         default: EmptyState(icon: "questionmark.circle", title: TelemetryRouteName.template(for: route))
         }
     }
