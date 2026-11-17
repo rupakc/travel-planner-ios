@@ -24,7 +24,7 @@ public struct PlayHomeView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: Spacing.lg) { content }
                 .frame(maxWidth: AdaptiveLayout.readableMaxWidth, alignment: .leading)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .padding(Spacing.lg)
         }
         .background(SemanticColor.surface)

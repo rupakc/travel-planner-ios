@@ -110,7 +110,7 @@ private struct MatchRow: View {
             }
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 texts
-                openButton
+                openButton.frame(maxWidth: .infinity, alignment: .trailing)
             }
         }
         // A handle is one unbreakable word: capped so it never breaks mid-word at the largest sizes.
