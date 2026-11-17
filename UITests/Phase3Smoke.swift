@@ -14,6 +14,7 @@ final class Phase3Smoke: XCTestCase {
         XCTAssertTrue(
             Smoke.eventually(timeout: 30) { Smoke.stubSaw(prefix: "GET /api/alerts/watches/flight/7/story") },
             "the card asks for its story")
+        if !Smoke.stubSaw(prefix: "GET /api/alerts/watches/flight/7/story") { Smoke.dump() }
         Smoke.expect(Smoke.element(app, "alerts.story.flight-7"))
         Smoke.expect(Smoke.element(app, "alerts.story.verdict"))
         // The tally of observed drops: the stub reports $43 caught.

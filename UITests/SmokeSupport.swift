@@ -53,14 +53,21 @@ enum Smoke {
             RunLoop.current.run(until: Date().addingTimeInterval(0.5))
         }
         if username.exists {
-            username.tap()
-            username.typeText("smoke")
-            let password = app.secureTextFields["login.password"]
-            password.tap()
+            type(username, "smoke")
             // Return submits the form.
-            password.typeText("stub-password\n")
+            type(app.secureTextFields["login.password"], "stub-password\n")
         }
         return app
+    }
+
+    /// Focuses a text field (a second tap when the first did not, as on iPad with a hardware keyboard) and types.
+    static func type(_ field: XCUIElement, _ text: String) {
+        for _ in 0..<4 {
+            field.tap()
+            let focused = XCTNSPredicateExpectation(predicate: NSPredicate(format: "hasKeyboardFocus == true"), object: field)
+            if XCTWaiter().wait(for: [focused], timeout: 3) == .completed { break }
+        }
+        field.typeText(text)
     }
 
     static func element(_ app: XCUIApplication, _ id: String) -> XCUIElement {
@@ -92,13 +99,18 @@ enum Smoke {
     /// Opens a tab: the tab bar on iPhone, the sidebar row on iPad.
     static func openTab(_ app: XCUIApplication, _ title: String, file: StaticString = #filePath, line: UInt = #line) {
         let bar = app.tabBars.buttons[title]
-        if bar.waitForExistence(timeout: 40) {
+        let sidebar = element(app, "shell.sidebar")
+        let deadline = Date().addingTimeInterval(60)
+        while Date() < deadline, !bar.exists, !sidebar.exists {
+            RunLoop.current.run(until: Date().addingTimeInterval(0.5))
+        }
+        if bar.exists {
             bar.tap()
             return
         }
-        let sidebar = element(app, "shell.sidebar")
-        guard sidebar.waitForExistence(timeout: 10) else {
+        guard sidebar.exists else {
             XCTFail("no tab bar and no sidebar", file: file, line: line)
+            dump()
             return
         }
         let row = sidebar.staticTexts[title].firstMatch
@@ -121,6 +133,12 @@ enum Smoke {
         if app.tabBars.firstMatch.exists, app.navigationBars.buttons.count > 0 {
             app.navigationBars.buttons.element(boundBy: 0).tap()
         }
+    }
+
+    /// Scrolls to `element` and taps it.
+    static func scrollAndTap(_ app: XCUIApplication, _ element: XCUIElement, file: StaticString = #filePath, line: UInt = #line) {
+        scrollTo(app, element, file: file, line: line)
+        element.tap()
     }
 
     /// A switch's own control sits at the trailing edge of its row.

@@ -15,8 +15,8 @@ final class Phase5Smoke: XCTestCase {
         Smoke.expect(Smoke.element(app, "profile.editor"))
 
         let handle = Smoke.element(app, "profile.handle")
-        Smoke.tap(handle)
-        handle.typeText("smokey_traveler\n")
+        Smoke.expect(handle)
+        Smoke.type(handle, "smokey_traveler\n")
         let save = Smoke.element(app, "profile.save")
         // The save button enables once the live handle check answered "available".
         let enabled = NSPredicate(format: "isEnabled == true")

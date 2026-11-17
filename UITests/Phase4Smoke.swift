@@ -23,8 +23,10 @@ final class Phase4Smoke: XCTestCase {
 
         Smoke.expect(Smoke.element(app, "shares.root"))
         Smoke.expect(Smoke.element(app, "shares.row"))
-        Smoke.tap(Smoke.element(app, "shares.revoke"))
-        Smoke.tap(Smoke.element(app, "shares.revoke-yes"))
+        Smoke.scrollAndTap(app, Smoke.element(app, "shares.revoke"))
+        let yes = Smoke.element(app, "shares.revoke-yes")
+        Smoke.expect(yes)
+        Smoke.scrollAndTap(app, yes)
 
         Smoke.expect(Smoke.element(app, "shares.empty"))
         XCTAssertTrue(Smoke.eventually { Smoke.stubSaw(prefix: "DELETE /api/shares/") })
