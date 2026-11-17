@@ -52,7 +52,7 @@ public struct ImportView: View {
                         .font(VFont.body(.footnote, weight: .medium)).foregroundStyle(SemanticColor.textMuted)
                     TextField(L10n.text(K.search.import.placeholder), text: $model.text, axis: .vertical)
                         .lineLimit(3...8)
-                        .textFieldStyle(.roundedBorder)
+                        .themedTextField()
                         .textInputAutocapitalization(.never)
                         .keyboardType(.default)
                         .disabled(!model.shots.isEmpty)
@@ -129,7 +129,7 @@ public struct ImportView: View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
             Text(verbatim: L10n.text(K.search.import.examples)).font(VFont.body(.footnote))
                 .foregroundStyle(SemanticColor.textMuted)
-            HStack {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 VChip(title: L10n.text(K.search.import.example.lisbon.label), tid: "import.example.lisbon", selected: false) {
                     model.useText(L10n.text(K.search.import.example.lisbon.text))
                 }

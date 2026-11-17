@@ -72,7 +72,7 @@ public struct DiscoverView: View {
                 .font(VFont.body(.footnote, weight: .medium))
                 .foregroundStyle(SemanticColor.textMuted)
             TextField(L10n.text(placeholder), text: text)
-                .textFieldStyle(.roundedBorder)
+                .themedTextField()
                 .keyboardType(numeric ? .decimalPad : .default)
                 .accessibilityIdentifier(id)
         }

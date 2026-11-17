@@ -61,7 +61,7 @@ struct ProfileReportView: View {
                 L10n.text(K.social.report.noteLabel), text: Binding(get: { model.note }, set: { model.setNote($0) }), axis: .vertical
             )
             .lineLimit(3...6)
-            .textFieldStyle(.roundedBorder)
+            .themedTextField()
             .accessibilityIdentifier("report.note")
             if case .failed(let message) = model.phase {
                 Text(verbatim: message).font(VFont.body(.footnote, weight: .semibold)).foregroundStyle(SemanticColor.destructive)

@@ -24,15 +24,15 @@ struct CreateUserSheet: View {
                 Text(verbatim: L10n.text(K.account.admin.users.newUser)).font(VFont.display(.title3)).foregroundStyle(SemanticColor.text)
                 label(K.account.admin.users.usernameRequired)
                 TextField(L10n.text(K.account.admin.table.username), text: $username)
-                    .textInputAutocapitalization(.never).autocorrectionDisabled().textFieldStyle(.roundedBorder)
+                    .textInputAutocapitalization(.never).autocorrectionDisabled().themedTextField()
                     .accessibilityIdentifier("admin.create.username")
                 label(K.account.admin.users.emailOptional)
                 TextField(L10n.text(K.account.admin.table.email), text: $email)
                     .textInputAutocapitalization(.never).autocorrectionDisabled().keyboardType(.emailAddress)
-                    .textFieldStyle(.roundedBorder).accessibilityIdentifier("admin.create.email")
+                    .themedTextField().accessibilityIdentifier("admin.create.email")
                 label(K.account.admin.users.tempPasswordRequired)
                 SecureField(L10n.text(K.account.admin.reset.minPlaceholder), text: $password)
-                    .textFieldStyle(.roundedBorder).accessibilityIdentifier("admin.create.password")
+                    .themedTextField().accessibilityIdentifier("admin.create.password")
                 Toggle(isOn: $makeAdmin) {
                     Text(verbatim: L10n.text(K.account.admin.users.adminPrivileges)).foregroundStyle(SemanticColor.text)
                 }
@@ -102,9 +102,9 @@ struct ResetPasswordSheet: View {
                         .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
                 }
                 SecureField(L10n.text(K.account.admin.reset.newPassword), text: $password)
-                    .textFieldStyle(.roundedBorder).accessibilityIdentifier("admin.reset.password")
+                    .themedTextField().accessibilityIdentifier("admin.reset.password")
                 SecureField(L10n.text(K.account.admin.reset.confirmPassword), text: $confirm)
-                    .textFieldStyle(.roundedBorder).accessibilityIdentifier("admin.reset.confirm")
+                    .themedTextField().accessibilityIdentifier("admin.reset.confirm")
                 if showHints && !UsersModel.validPassword(password) {
                     hint(L10n.text(K.account.admin.reset.tooShort))
                 } else if showHints && password != confirm {
