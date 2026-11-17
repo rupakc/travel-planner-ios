@@ -104,7 +104,7 @@ private struct MatchRow: View {
     var body: some View {
         // One layout for every row: decided by the size category, not per row, so the buttons line up.
         Group {
-            if dynamicTypeSize.isAccessibilitySize {
+            if typeSize.isAccessibilitySize {
                 VStack(alignment: .leading, spacing: Spacing.sm) {
                     texts
                     openButton.frame(maxWidth: .infinity, alignment: .trailing)
