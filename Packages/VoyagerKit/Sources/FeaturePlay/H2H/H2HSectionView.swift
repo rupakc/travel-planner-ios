@@ -102,15 +102,19 @@ private struct MatchRow: View {
     let open: () -> Void
 
     var body: some View {
-        ViewThatFits(in: .horizontal) {
-            HStack(alignment: .center, spacing: Spacing.md) {
-                texts
-                Spacer(minLength: Spacing.sm)
-                openButton
-            }
-            VStack(alignment: .leading, spacing: Spacing.sm) {
-                texts
-                openButton.frame(maxWidth: .infinity, alignment: .trailing)
+        // One layout for every row: decided by the size category, not per row, so the buttons line up.
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    texts
+                    openButton.frame(maxWidth: .infinity, alignment: .trailing)
+                }
+            } else {
+                HStack(alignment: .center, spacing: Spacing.md) {
+                    texts
+                    Spacer(minLength: Spacing.sm)
+                    openButton
+                }
             }
         }
         // A handle is one unbreakable word: capped so it never breaks mid-word at the largest sizes.

@@ -110,7 +110,7 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = await matchModel(matches[0])
         await assertSnapshots(
             of: { H2HMatchView(model: model) }, named: "inviteAX5",
-            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 351)], layout: .screen)
+            configs: [phone("se-de-ax5", language: .de, size: ax5, height: 392)], layout: .screen)
     }
 
     // MARK: Boards
@@ -130,6 +130,8 @@ final class PlayH2HSnapshotTests: XCTestCase {
         let model = BoardModel(env: env(fakes), track: { _ in })
         await model.select(scope: scope)
         if week == .previous { await model.select(week: .previous) }
+        // `select` is a no-op for the default scope, so load explicitly: never snapshot the spinner.
+        if model.phase != .loaded { await model.load() }
         return model
     }
 
