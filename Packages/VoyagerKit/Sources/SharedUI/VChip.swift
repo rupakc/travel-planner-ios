@@ -8,6 +8,9 @@ public struct VChip: View {
     private let tid: String
     private let selected: Bool
     private let action: () -> Void
+    /// Radius fixed at half the minimum height (a pill for one line, a rounded rectangle when the title wraps): a
+    /// true `Capsule` has a zero-length straight edge that the renderer fringes with faint ticks at both ends.
+    private static let shape = RoundedRectangle(cornerRadius: 22, style: .circular)
     @Environment(\.telemetryRoute) private var route
 
     public init(title: String, tid: String, selected: Bool, action: @escaping () -> Void) {
@@ -30,9 +33,9 @@ public struct VChip: View {
                 .padding(.vertical, Spacing.xs)
                 .frame(minHeight: 44)
                 .borderedSurface(
-                    Capsule(), fill: selected ? SemanticColor.primary : SemanticColor.surfaceRaised,
+                    Self.shape, fill: selected ? SemanticColor.primary : SemanticColor.surfaceRaised,
                     border: selected ? nil : SemanticColor.border)
-                .contentShape(Capsule())
+                .contentShape(Self.shape)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(selected ? .isSelected : [])
