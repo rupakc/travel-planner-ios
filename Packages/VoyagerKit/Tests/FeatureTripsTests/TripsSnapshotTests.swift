@@ -37,18 +37,42 @@ final class TripsSnapshotTests: XCTestCase {
 
     func test_detail() async {
         let (env, _) = env(plans: TripsFixtures.all)
-        let detail = PlanDetailModel(env: env, planID: 2, files: MemoryFileStore())
+        let detail = PlanDetailModel(
+            env: env, planID: 2, files: MemoryFileStore(), now: { TripsFixtures.now }, calendar: TripsFixtures.calendar)
         await detail.load()
         await assertSnapshots(
             of: { NavigationStack { PlanDetailView(env: env, model: detail) } },
             named: "detail", configs: Self.configs, layout: .screen)
     }
 
+    /// The trip is under way (2026-11-12 sits inside it) and the server has Sharing 2.0: "Share status" shows (R15).
+    /// iPad canvas = content height (~708 pt) + 16 pt, so the capture has no blank tail.
+    private static let statusShareConfigs: [SnapshotConfig] = {
+        var pad = [SnapshotConfig.padLight, .padDark]
+        for index in pad.indices { pad[index].canvas = CGSize(width: 834, height: 724) }
+        var phone = [SnapshotConfig.phoneLight, .phoneDark]
+        for index in phone.indices { phone[index].canvas = CGSize(width: 320, height: 740) }
+        return phone + pad
+    }()
+
+    func test_statusShareEntry() async {
+        let fakes = FakeRepositories()
+        fakes.plans.onGet.returns(TripsFixtures.activePlan)
+        let env = AppEnvironment.fake(fakes: fakes, clientConfig: ClientConfig(features: ["sharing": .number(1)]))
+        let detail = PlanDetailModel(
+            env: env, planID: 2, files: MemoryFileStore(), now: { TripsFixtures.now }, calendar: TripsFixtures.calendar)
+        await detail.load()
+        await assertSnapshots(
+            of: { NavigationStack { PlanDetailView(env: env, model: detail) } },
+            named: "statusShare", configs: Self.statusShareConfigs, layout: .screen)
+    }
+
     func test_splitWithSelectedPlan() async {
         let (env, _) = env(plans: TripsFixtures.all)
         let model = TripsFixtures.model(env)
         await model.load()
-        let detail = PlanDetailModel(env: env, planID: 2, files: MemoryFileStore())
+        let detail = PlanDetailModel(
+            env: env, planID: 2, files: MemoryFileStore(), now: { TripsFixtures.now }, calendar: TripsFixtures.calendar)
         await detail.load()
         await assertSnapshots(
             of: { TripsRootView(env: env, model: model, selectedID: 2, detailModel: { _ in detail }) },

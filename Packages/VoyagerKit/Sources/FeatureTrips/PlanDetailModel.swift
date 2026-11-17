@@ -40,11 +40,18 @@ final class PlanDetailModel {
     let planID: Int
     private let env: AppEnvironment
     private let files: any FileStore
+    private let now: @Sendable () -> Date
+    private let calendar: Calendar
 
-    init(env: AppEnvironment, planID: Int, files: (any FileStore)? = nil) {
+    init(
+        env: AppEnvironment, planID: Int, files: (any FileStore)? = nil, now: @escaping @Sendable () -> Date = { Date() },
+        calendar: Calendar = .current
+    ) {
         self.env = env
         self.planID = planID
         self.files = files ?? DiskFileStore.applicationSupport()
+        self.now = now
+        self.calendar = calendar
     }
 
     private var username: String? { env.auth.session?.user.username }
@@ -187,6 +194,27 @@ final class PlanDetailModel {
     }
 
     func clearShareFailure() { shareFailed = false }
+
+    /// The trip is under way: today falls between its first and last day (a plan with one date counts that day only).
+    var isActiveTrip: Bool {
+        guard let plan else { return false }
+        let search = plan.searchData
+        guard let start = TripDates.date(search["departure_date"].string, calendar) else { return false }
+        let end = TripDates.date(search["return_date"].string, calendar) ?? start
+        let today = calendar.startOfDay(for: now())
+        return start <= today && today <= end
+    }
+
+    /// "Share status" (R15): only for an active trip, and only with Sharing 2.0 (the server answers `422 no_active_trip`
+    /// otherwise, which the sheet translates).
+    var canShareStatus: Bool { isActiveTrip && env.shares.isAvailable }
+
+    /// Opens the share sheet for this trip's status card ("Day N in Place", made by the server; the name stays hidden
+    /// unless the sharer turns it on in the sheet).
+    func shareStatus() {
+        guard canShareStatus else { return }
+        env.router.open(.shareSheet(.status(planID: planID)))
+    }
 
     func requestDelete() { confirmingDelete = true }
 

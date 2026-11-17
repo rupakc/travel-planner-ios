@@ -4,12 +4,13 @@ import VoyagerModel
 /// A notification tap becomes a `Route`. The payload is the notification's `userInfo`: our local notifications
 /// set `route` (`alerts`, `trip`, `nearby`), alert rows carry the server's `data` (`watch_id`, `kind`).
 public enum NotificationRouting {
+    /// `playAvailable` false never opens Play for a quiz kind (it lands in the inbox).
     /// `todayAvailable` false (the journey screens are off on this server) sends a trip tap to the trip detail instead.
-    public static func route(userInfo: [AnyHashable: Any], todayAvailable: Bool = true) -> Route {
+    public static func route(userInfo: [AnyHashable: Any], todayAvailable: Bool = true, playAvailable: Bool = true) -> Route {
         if userInfo["route"] == nil {
             // A server push (no local `route`): trip kinds open Today, other kinds follow their allow-listed link.
             let push = PushPayload(userInfo: userInfo)
-            if let route = push.route(todayAvailable: todayAvailable) { return route }
+            if let route = push.route(todayAvailable: todayAvailable, playAvailable: playAvailable) { return route }
         }
         var flat: [String: String] = [:]
         for (key, value) in userInfo {

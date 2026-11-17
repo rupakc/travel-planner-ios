@@ -32,7 +32,22 @@ public enum NotificationLinks {
 /// follows its allow-listed `link`; an unresolved social link opens the Ideas tab. Nil means "no opinion": the caller
 /// keeps its own default (price rows open their watch).
 public enum NotificationTarget {
-    public static func route(kind: String?, planID: Int?, link: String?, todayAvailable: Bool = true) -> Route? {
+    /// `playAvailable` false (the account hides the game, or Play is off) keeps quiz kinds, and any link into Play, out
+    /// of the app: the tap lands in the inbox instead (the server never sends them to hidden-game users; this covers a
+    /// stale row or push).
+    public static func route(
+        kind: String?, planID: Int?, link: String?, todayAvailable: Bool = true, playAvailable: Bool = true
+    ) -> Route? {
+        let route = resolve(kind: kind, planID: planID, link: link, todayAvailable: todayAvailable)
+        guard !playAvailable else { return route }
+        if let kind, NotificationCategory.of(kind: kind) == .quiz { return .notifications }
+        switch route {
+        case .play, .h2h, .quiz: return .notifications
+        default: return route
+        }
+    }
+
+    private static func resolve(kind: String?, planID: Int?, link: String?, todayAvailable: Bool) -> Route? {
         guard let kind else { return linkRoute(link) }
         if isTripKind(kind) {
             guard let planID, planID > 0 else { return .notifications }

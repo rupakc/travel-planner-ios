@@ -53,8 +53,9 @@ public struct PushPayload: Sendable, Equatable {
     }
 
     /// Where a tap goes; nil leaves the choice to the caller (a price push opens its watch).
-    public func route(todayAvailable: Bool = true) -> Route? {
-        NotificationTarget.route(kind: kind, planID: planID, link: link, todayAvailable: todayAvailable)
+    public func route(todayAvailable: Bool = true, playAvailable: Bool = true) -> Route? {
+        NotificationTarget.route(
+            kind: kind, planID: planID, link: link, todayAvailable: todayAvailable, playAvailable: playAvailable)
     }
 
     private static func text(_ value: Any?, limit: Int) -> String? {
