@@ -189,14 +189,16 @@ public func assertSnapshots<V: View>(
     await FontRegistry.ready()
     for config in configs {
         LanguageController.withLanguage(config.language) {
-            let content = hosted(view(), layout: layout)
+            let built = view()
+            let content = hosted(built, layout: layout)
             let traits = UITraitCollection { mutable in
                 mutable.userInterfaceStyle = config.dark ? .dark : .light
                 mutable.preferredContentSizeCategory = config.size
             }
+            let canvas = fittedCanvas(of: built, layout: layout, config: config)
             let image = Snapshotting<UIViewController, UIImage>.image(
                 on: config.device, precision: SnapshotSetup.precision,
-                perceptualPrecision: SnapshotSetup.perceptualPrecision, size: config.canvas, traits: traits)
+                perceptualPrecision: SnapshotSetup.perceptualPrecision, size: canvas, traits: traits)
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
@@ -205,6 +207,26 @@ public func assertSnapshots<V: View>(
             }
         }
     }
+}
+
+/// The canvas a snapshot is taken on. A component (a padded `ScrollView`) or a view on an explicit canvas is fitted to its
+/// measured natural height plus the device safe area and a small tail, so a PNG never carries a blank tail and never cuts
+/// content. A view that fills whatever height it is offered (a `ScrollView`, a `Spacer`) cannot be measured and keeps the
+/// configured canvas (or the device screen).
+@MainActor
+private func fittedCanvas(of view: some View, layout: SnapshotLayout, config: SnapshotConfig) -> CGSize? {
+    guard layout == .component || config.canvas != nil else { return config.canvas }
+    guard let width = config.canvas?.width ?? config.device.size?.width else { return config.canvas }
+    let probeHeight: CGFloat = 20_000
+    let sized = layout == .component ? AnyView(view.padding(16)) : AnyView(view)
+    let category = DynamicTypeSize(config.size) ?? .large
+    let scheme: ColorScheme = config.dark ? .dark : .light
+    let host = UIHostingController(rootView: sized.dynamicTypeSize(category).environment(\.colorScheme, scheme))
+    let fit = host.sizeThatFits(in: CGSize(width: width, height: probeHeight))
+    guard fit.height > 1, fit.height < probeHeight - 1 else { return config.canvas }
+    let safe = config.device.safeArea
+    let tail: CGFloat = layout == .component ? 4 : 16
+    return CGSize(width: width, height: ceil(fit.height + safe.top + safe.bottom + tail))
 }
 
 @MainActor

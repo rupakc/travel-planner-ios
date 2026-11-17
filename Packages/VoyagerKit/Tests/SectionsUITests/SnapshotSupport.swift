@@ -58,12 +58,30 @@ func assertSnapshots<V: View>(
                 mutable.userInterfaceStyle = config.dark ? .dark : .light
                 mutable.preferredContentSizeCategory = config.size
             }
+            let canvas = fittedCanvas(of: view(), config: config)
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
-                    as: .image(on: config.device, precision: SnapshotSetup.precision, perceptualPrecision: SnapshotSetup.perceptualPrecision, size: config.canvas, traits: traits),
+                    as: .image(
+                        on: config.device, precision: SnapshotSetup.precision,
+                        perceptualPrecision: SnapshotSetup.perceptualPrecision, size: canvas, traits: traits),
                     named: "\(name)-\(config.name)", file: file, testName: testName, line: line)
             }
         }
     }
+}
+
+/// Fits the canvas to the measured natural height of the padded component (plus safe area and a small tail), so a PNG
+/// has no blank tail; falls back to the configured canvas when the view cannot be measured.
+@MainActor
+private func fittedCanvas(of view: some View, config: SnapshotConfig) -> CGSize? {
+    guard let width = config.canvas?.width ?? config.device.size?.width else { return config.canvas }
+    let probeHeight: CGFloat = 20_000
+    let scheme: ColorScheme = config.dark ? .dark : .light
+    let host = UIHostingController(
+        rootView: view.padding(16).dynamicTypeSize(DynamicTypeSize(config.size) ?? .large).environment(\.colorScheme, scheme))
+    let fit = host.sizeThatFits(in: CGSize(width: width, height: probeHeight))
+    guard fit.height > 1, fit.height < probeHeight - 1 else { return config.canvas }
+    let safe = config.device.safeArea
+    return CGSize(width: width, height: ceil(fit.height + safe.top + safe.bottom + 4))
 }

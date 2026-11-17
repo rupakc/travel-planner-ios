@@ -68,7 +68,8 @@ public struct VButton: View {
             // size (so a long word never breaks mid-word); only then wrapped at a size where the longest
             // word still fits on a line. The icon and label are one centred group in every variant.
             ViewThatFits(in: .horizontal) {
-                singleLine
+                // Capped at accessibility1 even when it fits larger, so buttons side by side at AX5 share one label size
+                // instead of each picking the largest size its own word fits.
                 singleLine.dynamicTypeSize(...DynamicTypeSize.accessibility1)
                 singleLine.dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                 wrappedKeepingWords.dynamicTypeSize(...DynamicTypeSize.accessibility1)
