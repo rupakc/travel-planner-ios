@@ -1,6 +1,8 @@
 import SwiftUI
 
-/// Shared look of the four button styles: 44 pt minimum height, pill shape, Inter semibold.
+/// Shared look of the four button styles: 44 pt minimum height, Inter semibold. The shape is a rounded rectangle
+/// whose radius is fixed at half the minimum height: exactly a pill for one line, and a rounded rectangle (not a
+/// giant oval) once a long label wraps at AX5.
 private struct VButtonBody: View {
     let configuration: ButtonStyleConfiguration
     let foreground: Color
@@ -8,16 +10,21 @@ private struct VButtonBody: View {
     let stroke: Color?
     @Environment(\.isEnabled) private var isEnabled
 
+    private static let minHeight: CGFloat = 44
+    private var shape: RoundedRectangle { RoundedRectangle(cornerRadius: Self.minHeight / 2, style: .circular) }
+
     var body: some View {
         configuration.label
             .font(VFont.body(.headline, weight: .semibold))
             .foregroundStyle(isEnabled ? foreground : SemanticColor.disabledText)
+            .multilineTextAlignment(.center)
             .padding(.horizontal, Spacing.lg)
-            .frame(minHeight: 44)
+            .padding(.vertical, Spacing.sm)
+            .frame(minHeight: Self.minHeight)
             .frame(maxWidth: .infinity)
-            .borderedSurface(Capsule(), fill: isEnabled ? background : SemanticColor.disabledFill, border: isEnabled ? stroke : nil)
+            .borderedSurface(shape, fill: isEnabled ? background : SemanticColor.disabledFill, border: isEnabled ? stroke : nil)
             .opacity(isEnabled ? (configuration.isPressed ? 0.85 : 1) : 1)
-            .contentShape(Capsule())
+            .contentShape(shape)
     }
 }
 
