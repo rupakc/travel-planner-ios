@@ -24,7 +24,7 @@ struct ChallengeCard: View {
                         .foregroundStyle(SemanticColor.primary).fixedSize(horizontal: false, vertical: true)
                         .accessibilityIdentifier("play.challenge.done")
                 } else {
-                    PlayButton(L10n.text(K.play.challenge.start), tid: "play.challenge.start", systemImage: "flag.checkered") {
+                    VButton(L10n.text(K.play.challenge.start), tid: "play.challenge.start", systemImage: "flag.checkered") {
                         start()
                     }
                     .disabled(busy)

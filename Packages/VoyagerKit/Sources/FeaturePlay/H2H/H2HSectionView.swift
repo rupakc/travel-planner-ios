@@ -33,7 +33,7 @@ struct H2HSectionView: View {
             Text(verbatim: L10n.text(K.errors.generic)).font(VFont.body(.subheadline))
                 .foregroundStyle(SemanticColor.destructive).fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("play.h2h.failed")
-            PlayButton(L10n.text(K.social.feed.retry), tid: "play.h2h.retry", role: .secondary) { Task { await model.load() } }
+            VButton(L10n.text(K.social.feed.retry), tid: "play.h2h.retry", role: .secondary) { Task { await model.load() } }
         } else if model.matches.isEmpty {
             Text(verbatim: L10n.text(K.play.h2h.empty)).font(VFont.body(.subheadline))
                 .foregroundStyle(SemanticColor.textMuted).fixedSize(horizontal: false, vertical: true)
@@ -88,7 +88,7 @@ struct H2HSectionView: View {
                 Text(verbatim: text).font(VFont.body(.footnote, weight: .semibold)).foregroundStyle(SemanticColor.destructive)
                     .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.h2h.error")
             }
-            PlayButton(L10n.text(K.play.h2h.create), tid: "play.h2h.create") { Task { await model.create() } }
+            VButton(L10n.text(K.play.h2h.create), tid: "play.h2h.create") { Task { await model.create() } }
                 .disabled(!model.canCreate)
         }
         // The field, its labels and the picker hold a handle or a pack name: capped so a word never breaks mid-word.
@@ -133,7 +133,7 @@ private struct MatchRow: View {
     }
 
     private var openButton: some View {
-        PlayButton(L10n.text(K.play.h2h.open), tid: "play.h2h.open", role: .secondary, action: open)
+        VButton(L10n.text(K.play.h2h.open), tid: "play.h2h.open", role: .secondary, action: open)
             .fixedSize(horizontal: true, vertical: false)
     }
 }

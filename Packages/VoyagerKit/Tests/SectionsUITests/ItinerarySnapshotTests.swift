@@ -71,7 +71,11 @@ final class ItinerarySnapshotTests: XCTestCase {
             of: {
                 StressTestSectionView(data: ItineraryFixture.findings, ctx: .inert)
                     .environment(\.itineraryHost, host(selections))
-            }, named: "moved", configs: [.phoneLight, .phoneDark])
+            }, named: "moved",
+            configs: [
+                SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 680)),
+                SnapshotConfig(name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 680)),
+            ])
     }
 
     func test_mapCollapsed() {

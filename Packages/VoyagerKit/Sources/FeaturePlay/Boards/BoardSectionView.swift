@@ -102,10 +102,10 @@ struct BoardSectionView: View {
                         .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.board.error")
                 }
                 if model.optIn == .join {
-                    PlayButton(L10n.text(K.play.board.join), tid: "play.board.join") { Task { await model.join() } }
+                    VButton(L10n.text(K.play.board.join), tid: "play.board.join") { Task { await model.join() } }
                         .disabled(model.joining)
                 } else {
-                    PlayButton(L10n.text(K.social.feed.createProfile), tid: "play.board.createProfile") {
+                    VButton(L10n.text(K.social.feed.createProfile), tid: "play.board.createProfile") {
                         model.createProfile()
                     }
                 }

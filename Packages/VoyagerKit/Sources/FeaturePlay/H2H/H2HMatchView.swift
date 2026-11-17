@@ -52,7 +52,7 @@ public struct H2HMatchView: View {
         case .failed(let message):
             Text(verbatim: message).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.destructive)
                 .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.h2h.failed")
-            PlayButton(L10n.text(K.social.feed.retry), tid: "play.h2h.retry", role: .secondary) { Task { await model.load() } }
+            VButton(L10n.text(K.social.feed.retry), tid: "play.h2h.retry", role: .secondary) { Task { await model.load() } }
             back
         case .loaded:
             if let match = model.match { matchCard(match) }
@@ -60,7 +60,7 @@ public struct H2HMatchView: View {
     }
 
     private var back: some View {
-        PlayButton(L10n.text(K.play.h2h.back), tid: "play.h2h.back", role: .secondary) { dismiss() }
+        VButton(L10n.text(K.play.h2h.back), tid: "play.h2h.back", role: .secondary) { dismiss() }
     }
 
     private func matchCard(_ match: H2HMatch) -> some View {
@@ -87,9 +87,9 @@ public struct H2HMatchView: View {
                         .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.h2h.error")
                 }
                 if match.state == .waitingYou {
-                    PlayButton(L10n.text(K.play.h2h.accept), tid: "play.h2h.accept") { Task { await model.accept() } }
+                    VButton(L10n.text(K.play.h2h.accept), tid: "play.h2h.accept") { Task { await model.accept() } }
                         .disabled(model.busy)
-                    PlayButton(L10n.text(K.play.h2h.decline), tid: "play.h2h.decline", role: .secondary) {
+                    VButton(L10n.text(K.play.h2h.decline), tid: "play.h2h.decline", role: .secondary) {
                         Task { await model.decline() }
                     }
                     .disabled(model.busy)

@@ -52,7 +52,7 @@ public struct PlayHomeView: View {
             VStack(alignment: .leading, spacing: Spacing.md) {
                 Text(verbatim: ErrorCopy.message(kind: kind, detail: detail)).font(VFont.body(.subheadline))
                     .foregroundStyle(SemanticColor.destructive).fixedSize(horizontal: false, vertical: true)
-                PlayButton(L10n.text(K.social.feed.retry), tid: "play.retry", role: .secondary) { Task { await model.load() } }
+                VButton(L10n.text(K.social.feed.retry), tid: "play.retry", role: .secondary) { Task { await model.load() } }
             }
         case .loaded:
             loaded
@@ -99,7 +99,7 @@ public struct PlayHomeView: View {
                         .font(VFont.body(.body, weight: .semibold)).foregroundStyle(SemanticColor.primary)
                         .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.daily.done")
                 } else {
-                    PlayButton(L10n.text(K.play.daily.start), tid: "play.daily.start", systemImage: "play.fill") {
+                    VButton(L10n.text(K.play.daily.start), tid: "play.daily.start", systemImage: "play.fill") {
                         Task { await model.startDaily() }
                     }
                     .disabled(model.isBusy || !model.daily.available)
