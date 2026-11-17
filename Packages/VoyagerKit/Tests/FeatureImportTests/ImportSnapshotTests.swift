@@ -21,7 +21,7 @@ final class ImportSnapshotTests: XCTestCase {
     func test_input() async {
         await assertSnapshots(
             of: { ImportView(model: ImportModel(env: AppEnvironment.fake(), track: { _ in })) },
-            named: "input", configs: configs(se: 490, ipad: 430), layout: .screen)
+            named: "input", configs: configs(se: 570, ipad: 500), layout: .screen)
     }
 
     func test_review() async {

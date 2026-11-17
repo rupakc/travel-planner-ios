@@ -56,7 +56,7 @@ final class SectionCardSnapshotTests: XCTestCase {
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
-                    as: .image(on: .iPhoneSe(.portrait), precision: 0.9998, perceptualPrecision: 0.99, size: CGSize(width: 320, height: 110), traits: traits),
+                    as: .image(on: .iPhoneSe(.portrait), precision: 0.9998, perceptualPrecision: 0.99, size: CGSize(width: 320, height: 195), traits: traits),
                     named: "accent-edge-\(dark ? "dark" : "light")")
             }
         }
