@@ -169,7 +169,7 @@ public struct QuizView: View {
                         .accessibilityIdentifier("play.result.streak")
                 }
                 if model.canShare {
-                    PlayButton(
+                    VButton(
                         L10n.text(K.share.quizCta), tid: "play.quiz.share", role: .tonal, systemImage: "square.and.arrow.up"
                     ) { model.share() }
                 }
