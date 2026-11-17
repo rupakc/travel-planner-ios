@@ -19,6 +19,16 @@ final class SearchSnapshotTests: XCTestCase {
         SnapshotConfig(name: "ipad-dark", device: .iPadPro11(.portrait), dark: true, canvas: CGSize(width: 834, height: 1700)),
     ]
 
+    /// The filled form is taller than the empty one (recent searches): its own canvases, measured to the content.
+    private let filledConfigs = [
+        SnapshotConfig(
+            name: "se-de", device: .iPhoneSe(.portrait), dark: false, language: .de, canvas: CGSize(width: 320, height: 2362)),
+        SnapshotConfig(
+            name: "se-dark", device: .iPhoneSe(.portrait), dark: true, canvas: CGSize(width: 320, height: 2310)),
+        SnapshotConfig(name: "ipad-light", device: .iPadPro11(.portrait), dark: false, canvas: CGSize(width: 834, height: 1700)),
+        SnapshotConfig(name: "ipad-dark", device: .iPadPro11(.portrait), dark: true, canvas: CGSize(width: 834, height: 1700)),
+    ]
+
     private static let fixedNow = Date(timeIntervalSince1970: 1_800_000_000)
 
     private func filled(env: AppEnvironment) -> SearchFormModel {
@@ -63,6 +73,6 @@ final class SearchSnapshotTests: XCTestCase {
                 let model = filled(env: env)
                 model.recents = recents
                 return SearchFormView(env: env, model: model)
-            }, named: "filled", configs: configs, layout: .screen)
+            }, named: "filled", configs: filledConfigs, layout: .screen)
     }
 }
