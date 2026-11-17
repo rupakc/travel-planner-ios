@@ -200,6 +200,25 @@ final class PlaySnapshotTests: XCTestCase {
             configs: [phone("se-light", height: 316), phone("se-dark", dark: true, height: 316)], layout: .screen)
     }
 
+    /// A finished quiz on a server with Sharing 2.0: "Share result" sits above "Back to Play" (R15).
+    func test_quizShareEntry() async {
+        let fakes = FakeRepositories()
+        fakes.play.onSession.returns(
+            QuizSession(
+                sessionID: "s1", questions: [flagQuestion], done: true,
+                summary: QuizSummary(
+                    score: 640, correct: 4, total: 5, xp: GameDelta(xp: 120, awards: [.init(rule: "quiz_daily", points: 10)]),
+                    streak: QuizStreak(current: 5, longest: 9))))
+        let sharing = AppEnvironment.fake(
+            user: User(username: "sam"), fakes: fakes,
+            clientConfig: ClientConfig(features: ["play": .number(1), "game": .number(1), "sharing": .number(1)]))
+        let model = QuizModel(env: sharing, sessionID: "s1", sleep: sleepForever, track: { _ in })
+        await model.load()
+        await assertSnapshots(
+            of: { QuizView(model: model) }, named: "shareEntry",
+            configs: [phone("se-light", height: 372), phone("se-dark", dark: true, height: 372)], layout: .screen)
+    }
+
     func test_summaryGermanAX5() async {
         let model = await summaryModel()
         await assertSnapshots(

@@ -134,6 +134,22 @@ struct PlayModelTests {
         model.stopTimer()
     }
 
+    @Test func test_summaryOffersShareOnlyWithSharingAndOpensTheQuizSheet() async {
+        let fakes = FakeRepositories()
+        fakes.play.onSession.returns(session(done: true, summary: QuizSummary(score: 430, correct: 4, total: 5)))
+        let off = quiz(fakes)
+        await off.load()
+        #expect(off.phase == .summary && !off.canShare)  // no Sharing 2.0 on this server
+        let sharing = AppEnvironment.fake(
+            user: User(username: "sam"), fakes: fakes,
+            clientConfig: ClientConfig(features: ["play": .number(1), "game": .number(1), "sharing": .number(1)]))
+        let on = QuizModel(env: sharing, sessionID: "s1", sleep: { _ in try await Task.sleep(for: .seconds(3600)) }, track: { _ in })
+        await on.load()
+        #expect(on.canShare)
+        on.share()
+        #expect(sharing.recordedRoutes == [.shareSheet(.quiz(sessionID: "s1"))])
+    }
+
     @Test func test_loadOfAFinishedSessionShowsItsSummary() async {
         let fakes = FakeRepositories()
         fakes.play.onSession.returns(session(done: true, summary: QuizSummary(score: 430, correct: 4, total: 5)))

@@ -168,6 +168,11 @@ public struct QuizView: View {
                         .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.textMuted)
                         .accessibilityIdentifier("play.result.streak")
                 }
+                if model.canShare {
+                    PlayButton(
+                        L10n.text(K.share.quizCta), tid: "play.quiz.share", role: .tonal, systemImage: "square.and.arrow.up"
+                    ) { model.share() }
+                }
                 backButton
             }
         }

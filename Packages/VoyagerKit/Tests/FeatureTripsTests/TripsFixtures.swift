@@ -40,6 +40,11 @@ enum TripsFixtures {
             "tips": [["title": "Get a Suica card"]],
         ])
 
+    /// The saved Tokyo plan, dated around `now` (2026-11-10 to 2026-11-14): an active trip.
+    static let activePlan = SavedPlan(
+        id: 2, name: "Tokyo food trip", searchData: plan(2, "Tokyo food trip", from: "2026-11-10", to: "2026-11-14").searchData,
+        selections: savedPlan.selections)
+
     @MainActor
     static func model(_ env: AppEnvironment, files: MemoryFileStore = MemoryFileStore()) -> TripsModel {
         TripsModel(env: env, files: files, now: { now }, calendar: calendar)
