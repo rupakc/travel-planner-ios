@@ -114,9 +114,8 @@ public final class NotificationsModel {
         if let category = NotificationCategory.of(kind: notification.kind) {
             track(.notifOpen(category: category.rawValue, source: "inapp"))
         }
-        if let route = Self.serverRoute(
-            of: notification, todayAvailable: env.clientConfig?.journeyAvailable ?? false, playAvailable: env.play.isAvailable)
-        {
+        let today = env.clientConfig?.journeyAvailable ?? false
+        if let route = Self.serverRoute(of: notification, todayAvailable: today, playAvailable: env.play.isAvailable) {
             // Trip, weather, social and quiz rows: Today by `plan_id`, or the row's allow-listed `link` (R8).
             env.router.open(route)
         } else if notification.isPriceDigest {
