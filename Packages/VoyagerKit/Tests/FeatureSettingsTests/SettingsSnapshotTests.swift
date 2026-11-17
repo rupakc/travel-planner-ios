@@ -10,11 +10,11 @@ import XCTest
 
 @MainActor
 final class SettingsSnapshotTests: XCTestCase {
-    private func canvas(_ name: String, _ device: SnapshotDevice, dark: Bool, language: AppLanguage = .en) -> SnapshotConfig {
+    private func canvas(_ name: String, _ device: SnapshotDevice, dark: Bool, language: AppLanguage = .en, height: CGFloat = 2900) -> SnapshotConfig {
         let isPad = device == .iPadPro11
         return SnapshotConfig(
             name: name, device: device.config, dark: dark, language: language,
-            canvas: CGSize(width: isPad ? 834 : 320, height: isPad ? 3200 : 4300))
+            canvas: CGSize(width: isPad ? 834 : 320, height: isPad ? 3200 : height))
     }
 
     private func screen(admin: Bool = false) -> SettingsRootView {
@@ -35,22 +35,23 @@ final class SettingsSnapshotTests: XCTestCase {
     func test_settingsAdmin() async {
         await assertSnapshots(
             of: { screen(admin: true) }, named: "admin",
-            configs: [canvas("se-light", .iPhoneSE, dark: false)], layout: .screen)
+            configs: [canvas("se-light", .iPhoneSE, dark: false, height: 2985)], layout: .screen)
     }
 
     func test_settingsHindiChineseBengali() async {
         await assertSnapshots(
             of: { screen() }, named: "lang",
             configs: [
-                canvas("hi", .iPhoneSE, dark: false, language: .hi), canvas("zh", .iPhoneSE, dark: false, language: .zh),
-                canvas("bn", .iPhoneSE, dark: false, language: .bn),
+                canvas("hi", .iPhoneSE, dark: false, language: .hi, height: 2905),
+                canvas("zh", .iPhoneSE, dark: false, language: .zh, height: 2870),
+                canvas("bn", .iPhoneSE, dark: false, language: .bn, height: 2920),
             ], layout: .screen)
     }
 
     func test_feedbackSheet() async {
         await assertSnapshots(
             of: { FeedbackSheet(env: AppEnvironment.fake()) {} }, named: "feedback",
-            configs: [SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 600))],
+            configs: [SnapshotConfig(name: "se-light", device: .iPhoneSe(.portrait), dark: false, canvas: CGSize(width: 320, height: 560))],
             layout: .screen)
     }
 }

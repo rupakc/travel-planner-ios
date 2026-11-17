@@ -118,7 +118,7 @@ public struct PackingListSectionView: View {
                 text: Binding(get: { drafts[category] ?? "" }, set: { drafts[category] = $0 })
             )
             .font(VFont.body(.subheadline))
-            .textFieldStyle(.roundedBorder)
+            .themedTextField()
             .submitLabel(.done)
             .onSubmit { addItem(category: category) }
             .accessibilityIdentifier("results.packing.add")

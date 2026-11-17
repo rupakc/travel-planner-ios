@@ -73,7 +73,7 @@ final class AdminSnapshotTests: XCTestCase {
         let model = await started()
         await assertSnapshots(
             of: { CreateUserSheet(model: model.users) {} }, named: "create",
-            configs: [canvas("se-light", .iPhoneSE, dark: false, height: 700)], layout: .screen)
+            configs: [canvas("se-light", .iPhoneSE, dark: false, height: 450)], layout: .screen)
     }
 
     func test_nonAdminIsBlank() async {

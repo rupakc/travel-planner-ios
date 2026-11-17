@@ -76,7 +76,7 @@ struct BudgetPlannerView: View {
                 .keyboardType(.numberPad)
                 #endif
                 .font(VFont.body(.subheadline, weight: .semibold))
-                .textFieldStyle(.roundedBorder)
+                .themedTextField()
                 .frame(maxWidth: 120)
                 .focused($totalFocused)
                 .onSubmit(commitTotal)

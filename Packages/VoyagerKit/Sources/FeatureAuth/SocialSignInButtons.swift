@@ -76,8 +76,7 @@ public struct SocialSignInButtons: View {
                     .padding(.horizontal, Spacing.lg)
                     .frame(minHeight: 44)
                     .frame(maxWidth: .infinity)
-                    .background(style.background, in: Capsule())
-                    .overlay { if let border = style.border { Capsule().strokeBorder(border, lineWidth: 1) } }
+                    .borderedSurface(Capsule(), fill: style.background, border: style.border)
                     .contentShape(Capsule())
                 }
                 .buttonStyle(.plain)

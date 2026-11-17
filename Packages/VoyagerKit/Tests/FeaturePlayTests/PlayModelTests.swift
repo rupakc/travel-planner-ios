@@ -59,7 +59,7 @@ struct PlayModelTests {
         #expect(model.phase == .loaded)
         #expect(model.daily.streak.current == 3 && model.packs.count == 1 && model.openMatches == 2)
         #expect(model.history.count == 1)
-        #expect(events.names == ["play_state_view"])
+        #expect(events.names == ["play_state_view", "play_board_view"])
     }
 
     @Test func test_flagOffCallsNothing() async {

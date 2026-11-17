@@ -1,6 +1,7 @@
 import DesignSystem
 import SnapshotTesting
 import SwiftUI
+import UIKit
 import VoyagerModel
 import XCTest
 
@@ -43,6 +44,22 @@ final class SectionCardSnapshotTests: XCTestCase {
 
     func test_error() {
         assertSnapshots(of: { Host(id: .visa, status: .error("")) { EmptyView() } }, named: "error", configs: fit(se: 175, pad: 160))
+    }
+
+    /// The 4 pt accent edge follows the card's corner curve. Tight tolerance: the shared helper's 1 % pixel budget hides it.
+    func test_accentEdge() {
+        FontRegistry.registerOnce()
+        for dark in [false, true] {
+            let content = ScrollView { Host(id: .flights, status: .loading) { EmptyView() }.padding(16) }
+                .background(SemanticColor.surface)
+            let traits = UITraitCollection { $0.userInterfaceStyle = dark ? .dark : .light }
+            withSnapshotTesting(record: SnapshotSetup.record) {
+                assertSnapshot(
+                    of: UIHostingController(rootView: content),
+                    as: .image(on: .iPhoneSe(.portrait), precision: 0.9998, perceptualPrecision: 0.99, size: CGSize(width: 320, height: 195), traits: traits),
+                    named: "accent-edge-\(dark ? "dark" : "light")")
+            }
+        }
     }
 
     /// Phone and pad, light and dark, on canvases cut to the content (no blank tail): `se` and `pad` are heights in points.
