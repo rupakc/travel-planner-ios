@@ -51,7 +51,7 @@ final class TripsSnapshotTests: XCTestCase {
         var pad = [SnapshotConfig.padLight, .padDark]
         for index in pad.indices { pad[index].canvas = CGSize(width: 834, height: 724) }
         var phone = [SnapshotConfig.phoneLight, .phoneDark]
-        for index in phone.indices { phone[index].canvas = CGSize(width: 320, height: 780) }
+        for index in phone.indices { phone[index].canvas = CGSize(width: 320, height: 740) }
         return phone + pad
     }()
 
