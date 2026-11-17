@@ -44,8 +44,15 @@ enum Smoke {
             "-AppleLanguages", "(en)", "-AppleLocale", "en_US",
         ]
         app.launch()
+        // Signed in already (the Keychain keeps the session between flows) when a tab bar or the sidebar shows first.
         let username = app.textFields["login.username"]
-        if username.waitForExistence(timeout: 40) {
+        let shell = app.tabBars.firstMatch
+        let sidebar = element(app, "shell.sidebar")
+        let deadline = Date().addingTimeInterval(60)
+        while Date() < deadline, !username.exists, !shell.exists, !sidebar.exists {
+            RunLoop.current.run(until: Date().addingTimeInterval(0.5))
+        }
+        if username.exists {
             username.tap()
             username.typeText("smoke")
             let password = app.secureTextFields["login.password"]
@@ -64,13 +71,22 @@ enum Smoke {
     static func tap(_ element: XCUIElement, timeout: TimeInterval = 30, file: StaticString = #filePath, line: UInt = #line) {
         guard element.waitForExistence(timeout: timeout) else {
             XCTFail("not found: \(element)", file: file, line: line)
+            dump()
             return
         }
         element.tap()
     }
 
     static func expect(_ element: XCUIElement, timeout: TimeInterval = 30, file: StaticString = #filePath, line: UInt = #line) {
-        XCTAssertTrue(element.waitForExistence(timeout: timeout), "not found: \(element)", file: file, line: line)
+        let found = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(found, "not found: \(element)", file: file, line: line)
+        if !found { dump() }
+    }
+
+    /// What the app showed and what the stub saw, printed when a step fails (the CI log is the only evidence).
+    static func dump() {
+        print("SMOKE stub calls: \(stubCalls())")
+        print("SMOKE hierarchy: \(XCUIApplication().debugDescription)")
     }
 
     /// Opens a tab: the tab bar on iPhone, the sidebar row on iPad.

@@ -11,10 +11,12 @@ final class Phase3Smoke: XCTestCase {
 
         Smoke.expect(Smoke.element(app, "alerts.watch.flight-7"))
         // The story (verdict, advice, chart) loads from /alerts/watches/flight/7/story.
+        XCTAssertTrue(
+            Smoke.eventually(timeout: 30) { Smoke.stubSaw(prefix: "GET /api/alerts/watches/flight/7/story") },
+            "the card asks for its story")
         Smoke.expect(Smoke.element(app, "alerts.story.flight-7"))
         Smoke.expect(Smoke.element(app, "alerts.story.verdict"))
         // The tally of observed drops: the stub reports $43 caught.
         Smoke.expect(Smoke.element(app, "alerts.savings.total"))
-        XCTAssertTrue(Smoke.stubSaw(prefix: "GET /api/alerts/watches/flight/7/story"))
     }
 }

@@ -16,7 +16,7 @@ final class Phase5Smoke: XCTestCase {
 
         let handle = Smoke.element(app, "profile.handle")
         Smoke.tap(handle)
-        handle.typeText("smokey_traveler")
+        handle.typeText("smokey_traveler\n")
         let save = Smoke.element(app, "profile.save")
         // The save button enables once the live handle check answered "available".
         let enabled = NSPredicate(format: "isEnabled == true")
@@ -24,7 +24,9 @@ final class Phase5Smoke: XCTestCase {
         XCTAssertEqual(XCTWaiter().wait(for: [wait], timeout: 30), .completed, "the handle check enables Save")
         save.tap()
         // The community rules show once before the first save.
-        Smoke.tap(Smoke.element(app, "profile.rules.accept"))
+        let accept = Smoke.element(app, "profile.rules.accept")
+        let agree = app.buttons["I agree"]
+        if !accept.waitForExistence(timeout: 20) { Smoke.tap(agree) } else { accept.tap() }
         Smoke.expect(Smoke.element(app, "profile.followers"))
         XCTAssertTrue(Smoke.eventually { Smoke.stubSaw(prefix: "PUT /api/social/profile") })
 
