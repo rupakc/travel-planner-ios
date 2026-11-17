@@ -3,7 +3,8 @@
 #
 #   scripts/ci/test-ui.sh iphone [ipad]
 #
-# Until Task 38 adds the stub backend and the smoke flow, this runs the launch-only test.
+# Runs LaunchTests and the Phase 3-6 smoke flows (UITests/Phase*Smoke.swift) against the stub backend
+# (tools/stub_backend, started here on 127.0.0.1:8765; the tests launch the app with `-VoyagerBaseURL`).
 # Writes build/ui-<device>.xcresult per device. Needs scripts/ci/generate.sh first.
 #
 # The simulators boot one after another BEFORE the build (scripts/ci/sim-boot.sh: bounded attempts, erase + one
@@ -57,6 +58,18 @@ run_limited() {
   if [[ -e "$flag" ]]; then status=124; rm -f "$flag"; fi
   return "$status"
 }
+
+# The stub backend (stdlib python, canned data, no network) for the smoke flows; stopped when the script ends.
+stub_port=8765
+python3 "$ROOT/tools/stub_backend/server.py" --port "$stub_port" > "$ROOT/build/stub-backend.log" 2>&1 &
+stub_pid=$!
+trap 'kill "$stub_pid" 2>/dev/null || true' EXIT
+stub_up=0
+for _ in $(seq 1 40); do
+  if curl -sf "http://127.0.0.1:$stub_port/api/config" >/dev/null 2>&1; then stub_up=1; break; fi
+  sleep 0.5
+done
+[[ $stub_up -eq 1 ]] || { echo "::error::test-ui: the stub backend did not start"; cat "$ROOT/build/stub-backend.log" || true; exit 1; }
 
 declare -a devices destinations
 for device in "$@"; do
