@@ -195,7 +195,8 @@ public func assertSnapshots<V: View>(
                 mutable.preferredContentSizeCategory = config.size
             }
             let image = Snapshotting<UIViewController, UIImage>.image(
-                on: config.device, precision: SnapshotSetup.precision, perceptualPrecision: SnapshotSetup.perceptualPrecision, size: config.canvas, traits: traits)
+                on: config.device, precision: SnapshotSetup.precision,
+                perceptualPrecision: SnapshotSetup.perceptualPrecision, size: config.canvas, traits: traits)
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
