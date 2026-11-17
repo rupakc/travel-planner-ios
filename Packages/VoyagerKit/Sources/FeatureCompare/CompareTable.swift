@@ -18,7 +18,7 @@ struct CompareTable: View {
 
     static let rowKeys = ["estimate", "flight", "hotel", "weather", "visa", "ease", "safety", "english", "daily"]
     private let labelWidth: CGFloat = 112
-    private let compactColumnWidth: CGFloat = 168
+    private let compactColumnWidth: CGFloat = 156
 
     private var regular: Bool { AdaptiveLayout.isRegular(sizeClass) }
 

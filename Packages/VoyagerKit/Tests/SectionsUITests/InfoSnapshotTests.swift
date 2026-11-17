@@ -114,6 +114,13 @@ final class InfoSnapshotTests: XCTestCase {
         assertSnapshots(of: { EmergencyCardSectionView(data: data, ctx: .inert) }, named: "emergency", configs: lean)
     }
 
+    /// A standard config on a canvas cut to the content (height in points), so there is no blank tail.
+    private static func sized(_ config: SnapshotConfig, _ height: CGFloat, width: CGFloat = 320) -> SnapshotConfig {
+        var copy = config
+        copy.canvas = CGSize(width: width, height: height)
+        return copy
+    }
+
     func test_packing() {
         let data: JSONValue = [
             "categories": [
@@ -122,7 +129,10 @@ final class InfoSnapshotTests: XCTestCase {
             "luggage_note": "Carry-on is enough", "total_items": 2,
             "checked_items": ["Clothes::Jacket": true],
         ]
-        assertSnapshots(of: { PackingListSectionView(data: data, ctx: .inert) }, named: "packing", configs: lean)
+        assertSnapshots(of: { PackingListSectionView(data: data, ctx: .inert) }, named: "packing",
+            configs: [
+                Self.sized(.phoneLight, 345), Self.sized(.phoneDark, 345), Self.sized(.padLight, 346, width: 834), Self.sized(.padDark, 346, width: 834),
+            ])
     }
 
     func test_confidence() {

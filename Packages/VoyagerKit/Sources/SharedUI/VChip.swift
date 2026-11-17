@@ -27,6 +27,7 @@ public struct VChip: View {
                 .foregroundStyle(selected ? SemanticColor.onPrimary : SemanticColor.text)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, Spacing.md)
+                .padding(.vertical, Spacing.xs)
                 .frame(minHeight: 44)
                 .borderedSurface(
                     Capsule(), fill: selected ? SemanticColor.primary : SemanticColor.surfaceRaised,
