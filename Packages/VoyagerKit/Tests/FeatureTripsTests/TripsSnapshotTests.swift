@@ -50,7 +50,9 @@ final class TripsSnapshotTests: XCTestCase {
     private static let statusShareConfigs: [SnapshotConfig] = {
         var pad = [SnapshotConfig.padLight, .padDark]
         for index in pad.indices { pad[index].canvas = CGSize(width: 834, height: 724) }
-        return [.phoneLight, .phoneDark] + pad
+        var phone = [SnapshotConfig.phoneLight, .phoneDark]
+        for index in phone.indices { phone[index].canvas = CGSize(width: 320, height: 780) }
+        return phone + pad
     }()
 
     func test_statusShareEntry() async {
