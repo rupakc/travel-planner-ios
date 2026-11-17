@@ -116,7 +116,9 @@ public struct PublicProfileView: View {
     private func detail(_ title: String, _ value: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(verbatim: title).font(VFont.body(.footnote, weight: .semibold)).foregroundStyle(SemanticColor.textMuted)
+            // Capped at accessibility2 so a long German compound ("Passstempel") never breaks mid-word at AX5.
             Text(verbatim: value).font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)
+                .dynamicTypeSize(...DynamicTypeSize.accessibility2)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }

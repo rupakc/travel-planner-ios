@@ -38,7 +38,7 @@ struct PlanActionLabel: View {
         .foregroundStyle(isEnabled ? foreground : SemanticColor.disabledText)
         .padding(.horizontal, Spacing.lg)
         .padding(.vertical, Spacing.sm)
-        .frame(maxWidth: .infinity, minHeight: 44)
+        .frame(maxWidth: .infinity, minHeight: 44, maxHeight: .infinity)
         .borderedSurface(
             RoundedRectangle(cornerRadius: Radius.largeCard), fill: isEnabled ? fill : SemanticColor.disabledFill,
             border: isEnabled && style == .outline ? SemanticColor.border : nil)

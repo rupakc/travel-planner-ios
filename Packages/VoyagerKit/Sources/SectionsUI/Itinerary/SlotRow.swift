@@ -64,6 +64,8 @@ struct SlotRow: View {
                     if let range = Schedule.timeRange(slot) {
                         Text(verbatim: range).font(VFont.body(.caption)).monospacedDigit()
                             .foregroundStyle(SemanticColor.textMuted)
+                            // One line: the range never breaks at its en dash.
+                            .lineLimit(1).fixedSize(horizontal: true, vertical: false).layoutPriority(1)
                     }
                 }
                 Text(verbatim: name)
