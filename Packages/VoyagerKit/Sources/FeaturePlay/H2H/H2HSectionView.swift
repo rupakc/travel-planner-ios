@@ -100,6 +100,7 @@ struct H2HSectionView: View {
 private struct MatchRow: View {
     let match: H2HMatch
     let open: () -> Void
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
         // One layout for every row: decided by the size category, not per row, so the buttons line up.
