@@ -10,6 +10,12 @@ import VoyagerModel
 /// churns unchanged references); otherwise a missing PNG is recorded and fails the test, and a changed one fails.
 /// Record and compare only on the pinned simulator (scripts/ci/sim-destination.sh).
 public enum SnapshotSetup {
+    /// Strict compare so a changed label, curve or border fails: at most 0.005 % of pixels (about 24 on an iPhone SE
+    /// 320x1500 canvas) may differ, and a pixel counts as equal only within CIE76 delta-E 1 (perceptualPrecision 0.99).
+    /// Same-sim renders are deterministic, so this only absorbs sub-visible noise; a text edit moves hundreds of pixels.
+    public static let precision: Float = 0.99995
+    public static let perceptualPrecision: Float = 0.99
+
     public static var record: SnapshotTestingConfiguration.Record {
         ProcessInfo.processInfo.environment["SNAPSHOT_RECORD"] == "1" ? .failed : .missing
     }
@@ -189,7 +195,7 @@ public func assertSnapshots<V: View>(
                 mutable.preferredContentSizeCategory = config.size
             }
             let image = Snapshotting<UIViewController, UIImage>.image(
-                on: config.device, precision: 0.99, perceptualPrecision: 0.98, size: config.canvas, traits: traits)
+                on: config.device, precision: SnapshotSetup.precision, perceptualPrecision: SnapshotSetup.perceptualPrecision, size: config.canvas, traits: traits)
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),

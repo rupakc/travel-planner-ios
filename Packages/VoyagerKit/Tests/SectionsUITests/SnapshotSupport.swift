@@ -8,6 +8,9 @@ import VoyagerModel
 import XCTest
 
 enum SnapshotSetup {
+    /// Same strict values as TestSupport.SnapshotSetup.
+    static let precision: Float = 0.99995
+    static let perceptualPrecision: Float = 0.99
     /// `TEST_RUNNER_SNAPSHOT_RECORD=1` (CI `record_snapshots`) records missing and changed PNGs; otherwise a missing PNG fails.
     static var record: SnapshotTestingConfiguration.Record {
         ProcessInfo.processInfo.environment["SNAPSHOT_RECORD"] == "1" ? .failed : .missing
@@ -58,7 +61,7 @@ func assertSnapshots<V: View>(
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
-                    as: .image(on: config.device, precision: 0.99, perceptualPrecision: 0.98, size: config.canvas, traits: traits),
+                    as: .image(on: config.device, precision: SnapshotSetup.precision, perceptualPrecision: SnapshotSetup.perceptualPrecision, size: config.canvas, traits: traits),
                     named: "\(name)-\(config.name)", file: file, testName: testName, line: line)
             }
         }
