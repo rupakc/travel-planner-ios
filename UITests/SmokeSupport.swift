@@ -5,19 +5,31 @@ import os
 /// `scripts/ci/test-ui.sh` on `127.0.0.1:8765`): no real network, no push, canned data. The stub signs in any password.
 /// Last step a flow reached, and a watchdog that reports it when the flow hangs (a hung test leaves no other evidence).
 enum Progress {
-    private struct State { var last = "start"; var generation = 0 }
+    private struct State { var last = "start"; var stamp = Date(); var generation = 0 }
     private static let state = OSAllocatedUnfairLock(initialState: State())
 
-    static func mark(_ step: String) { state.withLock { $0.last = step } }
+    static func mark(_ step: String) { state.withLock { $0.last = step; $0.stamp = Date() } }
 
+    /// Starts a flow's watchdog: when no step was reached for 100 s the flow is stuck; it reports the last step, the stub's
+    /// calls and what the app shows (a hung test leaves no other evidence). A slow but moving flow is left alone.
     static func reset() {
-        let mine = state.withLock { value -> Int in value.generation += 1; value.last = "launch"; return value.generation }
-        // Fires only when the flow is still on the same run after 170 s.
-        DispatchQueue.global().asyncAfter(deadline: .now() + 170) {
-            let (same, step) = state.withLock { ($0.generation == mine, $0.last) }
-            guard same else { return }
-            XCTFail("SMOKE still running after 170 s; last step: \(step); stub calls: \(Smoke.stubCallsOffMain().suffix(15))")
+        let mine = state.withLock { value -> Int in
+            value.generation += 1; value.last = "launch"; value.stamp = Date(); return value.generation
         }
+        func check() {
+            let (same, step, idle) = state.withLock { ($0.generation == mine, $0.last, Date().timeIntervalSince($0.stamp)) }
+            guard same else { return }
+            if idle < 100 { DispatchQueue.global().asyncAfter(deadline: .now() + 20, execute: check); return }
+            DispatchQueue.main.async {
+                MainActor.assumeIsolated {
+                    let app = XCUIApplication()
+                    let ids = app.descendants(matching: .any).allElementsBoundByIndex.prefix(200).map(\.identifier)
+                        .filter { !$0.isEmpty }
+                    XCTFail(String("SMOKE stuck 100 s at: \(step); stub calls: \(Smoke.stubCallsOffMain().suffix(12)); on screen: \(ids.joined(separator: ", "))".prefix(3500)))
+                }
+            }
+        }
+        DispatchQueue.global().asyncAfter(deadline: .now() + 20, execute: check)
     }
 }
 
@@ -123,8 +135,8 @@ enum Smoke {
     static func expect(_ element: XCUIElement, timeout: TimeInterval = 30, file: StaticString = #filePath, line: UInt = #line) {
         Progress.mark("expect \(element)")
         let found = element.waitForExistence(timeout: timeout)
-        XCTAssertTrue(found, "not found: \(element)", file: file, line: line)
         if !found { dump() }
+        XCTAssertTrue(found, "not found: \(element)", file: file, line: line)
     }
 
     /// What the app showed and what the stub saw, printed when a step fails (the CI log is the only evidence).
@@ -175,8 +187,8 @@ enum Smoke {
             swipes += 1
             Progress.mark("scrollTo \(element) swipe \(swipes)")
         }
-        XCTAssertTrue(element.exists, "not found after scrolling: \(element)", file: file, line: line)
         if !element.exists { dump() }
+        XCTAssertTrue(element.exists, "not found after scrolling: \(element)", file: file, line: line)
     }
 
     /// Pops one screen on iPhone (the nav bar's back button); on iPad the previous screen is still in view.
