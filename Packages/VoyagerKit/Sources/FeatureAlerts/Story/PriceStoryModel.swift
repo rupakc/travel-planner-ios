@@ -43,6 +43,7 @@ public final class PriceStoryModel {
     @ObservationIgnored private let now: @MainActor () -> Date
     @ObservationIgnored private var viewTracked = false
     @ObservationIgnored private var loadRun = 0
+    @ObservationIgnored private var watchingConfig = false
 
     public init(
         env: AppEnvironment, kind: WatchKind, watchID: Int, track: @escaping @MainActor (TelemetryEvent) -> Void,
@@ -71,7 +72,27 @@ public final class PriceStoryModel {
 
     /// Loads (or refreshes) the story. A refresh keeps the old story on screen until the new one arrives, and a failed
     /// refresh keeps it too. `alert_story_view` is sent once, with the first story shown.
+    /// `/api/config` has not loaded (a cold launch from a notification, or offline): wait for it instead of hiding.
+    private func reloadWhenConfigArrives() {
+        guard !watchingConfig else { return }
+        watchingConfig = true
+        withObservationTracking {
+            _ = env.clientConfig
+        } onChange: { [weak self] in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.watchingConfig = false
+                await self.load()
+            }
+        }
+    }
+
     public func load() async {
+        guard env.clientConfig != nil else {
+            if story == nil { phase = .idle }
+            reloadWhenConfigArrives()
+            return
+        }
         guard env.alertsV2.isAvailable(.stored) else {
             phase = .unavailable
             return
@@ -82,6 +103,7 @@ public final class PriceStoryModel {
         do {
             let fetched = try await env.alertsV2.story(kind: kind, id: watchID)
             guard run == loadRun else { return }
+            if story?.latest != fetched.latest { tip = .idle }
             phase = .loaded(fetched)
             if let selected, !fetched.points.contains(selected) { self.selected = nil }
             if !viewTracked {
