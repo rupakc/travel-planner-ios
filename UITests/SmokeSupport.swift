@@ -97,8 +97,10 @@ enum Smoke {
 
     /// What the app showed and what the stub saw, printed when a step fails (the CI log is the only evidence).
     static func dump() {
-        print("SMOKE stub calls: \(stubCalls())")
-        print("SMOKE hierarchy: \(XCUIApplication().debugDescription)")
+        let app = XCUIApplication()
+        let ids = app.descendants(matching: .any).allElementsBoundByIndex.prefix(400).map(\.identifier).filter { !$0.isEmpty }
+        let text = "SMOKE stub calls: \(stubCalls().suffix(25)); identifiers on screen: \(ids.joined(separator: ", "))"
+        XCTFail(String(text.prefix(3500)))
     }
 
     /// Opens a tab: the tab bar on iPhone, the sidebar row on iPad.
