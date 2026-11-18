@@ -23,9 +23,16 @@ final class Phase4Smoke: XCTestCase {
 
         Smoke.expect(Smoke.element(app, "shares.root"))
         Smoke.expect(Smoke.element(app, "shares.row"))
-        Smoke.scrollAndTap(app, Smoke.element(app, "shares.revoke"))
+        let revoke = Smoke.element(app, "shares.revoke")
         let yes = Smoke.element(app, "shares.revoke-yes")
-        if !yes.waitForExistence(timeout: 6) { Smoke.scrollAndTap(app, Smoke.element(app, "shares.revoke")) }
+        for _ in 0..<3 where !yes.exists {
+            // A popover left over from the share sheet swallows the first tap on iPad: dismiss it.
+            let popover = app.otherElements["PopoverDismissRegion"]
+            if popover.exists { popover.coordinate(withNormalizedOffset: CGVector(dx: 0.05, dy: 0.05)).tap() }
+            Smoke.scrollAndTap(app, revoke)
+            _ = yes.waitForExistence(timeout: 6)
+        }
+        if !yes.exists { Smoke.frames(app, "shares.revoke") }
         Smoke.expect(yes)
         Smoke.scrollAndTap(app, yes)
 

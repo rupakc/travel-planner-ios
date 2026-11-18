@@ -107,13 +107,15 @@ enum Smoke {
     static func type(_ app: XCUIApplication, _ id: String, _ text: String) {
         for _ in 0..<5 {
             let field = element(app, id)
-            _ = field.waitForExistence(timeout: 20)
+            guard field.waitForExistence(timeout: 20) else { continue }
             RunLoop.current.run(until: Date().addingTimeInterval(1))
+            // The screen may have re-rendered during the pause: look the field up afresh and skip the try when it is gone.
+            guard field.exists, !field.frame.isEmpty else { continue }
             field.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.5)).tap()
-            let focused = XCTNSPredicateExpectation(
-                predicate: NSPredicate(format: "hasKeyboardFocus == true"), object: element(app, id))
-            if XCTWaiter().wait(for: [focused], timeout: 4) == .completed { break }
+            // The keyboard showing is the focus signal (asking a field for hasKeyboardFocus fails the test when it is gone).
+            if eventually(timeout: 4, { app.keyboards.firstMatch.exists }) { break }
         }
+        if !element(app, id).exists { frames(app, id) }
         Progress.mark("type \(id)")
         if !element(app, id).exists { dump() }
         element(app, id).typeText(text)
@@ -142,6 +144,14 @@ enum Smoke {
     }
 
     /// What the app showed and what the stub saw, printed when a step fails (the CI log is the only evidence).
+    /// Frames of an element and of any popover over the screen, for a failed step on iPad.
+    static func frames(_ app: XCUIApplication, _ id: String) {
+        let target = element(app, id)
+        let popover = app.otherElements["PopoverDismissRegion"]
+        let window = app.windows.firstMatch.frame
+        XCTFail("SMOKE frames: \(id) exists \(target.exists) frame \(target.frame); popover \(popover.exists); window \(window)")
+    }
+
     static func dump() {
         let app = XCUIApplication()
         let ids = app.descendants(matching: .any).allElementsBoundByIndex.prefix(400).map(\.identifier).filter { !$0.isEmpty }
