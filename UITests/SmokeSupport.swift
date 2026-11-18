@@ -1,22 +1,20 @@
 import XCTest
+import os
 
 /// Shared helpers of the Phase 3-6 smoke flows. Every flow runs against the stub backend (`tools/stub_backend`, started by
 /// `scripts/ci/test-ui.sh` on `127.0.0.1:8765`): no real network, no push, canned data. The stub signs in any password.
 /// Last step a flow reached, and a watchdog that reports it when the flow hangs (a hung test leaves no other evidence).
-final class Progress: @unchecked Sendable {
-    private static let lock = NSLock()
-    private static var last = "start"
-    private static var generation = 0
+enum Progress {
+    private struct State { var last = "start"; var generation = 0 }
+    private static let state = OSAllocatedUnfairLock(initialState: State())
 
-    static func mark(_ step: String) {
-        lock.lock(); last = step; lock.unlock()
-    }
+    static func mark(_ step: String) { state.withLock { $0.last = step } }
 
     static func reset() {
-        lock.lock(); generation += 1; last = "launch"; let mine = generation; lock.unlock()
+        let mine = state.withLock { s -> Int in s.generation += 1; s.last = "launch"; return s.generation }
         // Fires only when the flow is still on the same run after 170 s.
         DispatchQueue.global().asyncAfter(deadline: .now() + 170) {
-            lock.lock(); let same = mine == generation; let step = last; lock.unlock()
+            let (same, step) = state.withLock { ($0.generation == mine, $0.last) }
             guard same else { return }
             XCTFail("SMOKE still running after 170 s; last step: \(step); stub calls: \(Smoke.stubCallsOffMain().suffix(15))")
         }
