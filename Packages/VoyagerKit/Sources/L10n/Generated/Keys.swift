@@ -330,6 +330,13 @@ public enum K {
         public static let tab = LKey("adminTelemetry:tab", placeholders: [], plural: false)
         public static let topEvents = LKey("adminTelemetry:topEvents", placeholders: [], plural: false)
         public static let topScreens = LKey("adminTelemetry:topScreens", placeholders: [], plural: false)
+        public enum tripadvisor {
+            public static let off = LKey("adminTelemetry:tripadvisor.off", placeholders: [], plural: false)
+            public static let paused = LKey("adminTelemetry:tripadvisor.paused", placeholders: [], plural: false)
+            public static let title = LKey("adminTelemetry:tripadvisor.title", placeholders: [], plural: false)
+            public static let used = LKey("adminTelemetry:tripadvisor.used", placeholders: ["cap", "used"], plural: false)
+            public static let warn = LKey("adminTelemetry:tripadvisor.warn", placeholders: [], plural: false)
+        }
         public static let userDays7 = LKey("adminTelemetry:userDays7", placeholders: [], plural: false)
         public static let users7d = LKey("adminTelemetry:users7d", placeholders: [], plural: false)
         public static let usersToday = LKey("adminTelemetry:usersToday", placeholders: [], plural: false)
@@ -2171,6 +2178,7 @@ public enum K {
                 public static let police = LKey("offlinePack:emergency.kinds.police", placeholders: [], plural: false)
                 public static let tourist_police = LKey("offlinePack:emergency.kinds.tourist_police", placeholders: [], plural: false)
             }
+            public static let phoneUnverified = LKey("offlinePack:emergency.phoneUnverified", placeholders: [], plural: false)
             public static let reference = LKey("offlinePack:emergency.reference", placeholders: [], plural: false)
             public static let title = LKey("offlinePack:emergency.title", placeholders: [], plural: false)
         }
@@ -3336,6 +3344,32 @@ public enum K {
                 public static let m3 = LKey("results:loading.weather.m3", placeholders: [], plural: false)
             }
         }
+        public enum official {
+            public static let advice = LKey("results:official.advice", placeholders: [], plural: false)
+            public static let apply = LKey("results:official.apply", placeholders: [], plural: false)
+            public static let asOf = LKey("results:official.asOf", placeholders: ["date"], plural: false)
+            public static let crossAgrees = LKey("results:official.crossAgrees", placeholders: [], plural: false)
+            public static let crossCheck = LKey("results:official.crossCheck", placeholders: [], plural: false)
+            public static let crossDiffers = LKey("results:official.crossDiffers", placeholders: [], plural: false)
+            public static let disagree = LKey("results:official.disagree", placeholders: [], plural: false)
+            public static let entryFor = LKey("results:official.entryFor", placeholders: ["country"], plural: false)
+            public static let entryTitle = LKey("results:official.entryTitle", placeholders: [], plural: false)
+            public static let holidaysNote = LKey("results:official.holidaysNote", placeholders: [], plural: false)
+            public static let holidaysTitle = LKey("results:official.holidaysTitle", placeholders: [], plural: false)
+            public static let level = LKey("results:official.level", placeholders: ["level", "max"], plural: false)
+            public static let listUpdated = LKey("results:official.listUpdated", placeholders: ["date"], plural: false)
+            public static let medicalElsewhere = LKey("results:official.medicalElsewhere", placeholders: [], plural: false)
+            public static let medicalTitle = LKey("results:official.medicalTitle", placeholders: [], plural: false)
+            public static let officialContact = LKey("results:official.officialContact", placeholders: [], plural: false)
+            public static let otherOffices = LKey("results:official.otherOffices", placeholders: [], plural: false)
+            public static let passportValidity = LKey("results:official.passportValidity", placeholders: ["months"], plural: false)
+            public static let phoneUnverified = LKey("results:official.phoneUnverified", placeholders: [], plural: false)
+            public static let referenceNumbers = LKey("results:official.referenceNumbers", placeholders: [], plural: false)
+            public static let regional = LKey("results:official.regional", placeholders: [], plural: false)
+            public static let source = LKey("results:official.source", placeholders: ["name"], plural: false)
+            public static let typicalFare = LKey("results:official.typicalFare", placeholders: ["month", "price"], plural: false)
+            public static let via = LKey("results:official.via", placeholders: ["currency"], plural: false)
+        }
         public enum places {
             public static let approxHours = LKey("results:places.approxHours", placeholders: ["h"], plural: false)
             public static let freeEntry = LKey("results:places.freeEntry", placeholders: [], plural: false)
@@ -3397,6 +3431,21 @@ public enum K {
             public static let other = LKey("results:transport.other", placeholders: [], plural: false)
             public static let price = LKey("results:transport.price", placeholders: [], plural: false)
             public static let touristPass = LKey("results:transport.touristPass", placeholders: [], plural: false)
+        }
+        public enum tripadvisor {
+            public static let empty = LKey("results:tripadvisor.empty", placeholders: [], plural: false)
+            public static let error = LKey("results:tripadvisor.error", placeholders: [], plural: false)
+            public static let hide = LKey("results:tripadvisor.hide", placeholders: [], plural: false)
+            public static let loading = LKey("results:tripadvisor.loading", placeholders: [], plural: false)
+            public static let logoAlt = LKey("results:tripadvisor.logoAlt", placeholders: [], plural: false)
+            public static let note = LKey("results:tripadvisor.note", placeholders: [], plural: false)
+            public static let paused = LKey("results:tripadvisor.paused", placeholders: [], plural: false)
+            public static let ratingAlt = LKey("results:tripadvisor.ratingAlt", placeholders: ["rating"], plural: false)
+            public static let retry = LKey("results:tripadvisor.retry", placeholders: [], plural: false)
+            public static let reviews = LKey("results:tripadvisor.reviews", placeholders: ["n"], plural: true)
+            public static let show = LKey("results:tripadvisor.show", placeholders: [], plural: false)
+            public static let showFor = LKey("results:tripadvisor.showFor", placeholders: ["city"], plural: false)
+            public static let title = LKey("results:tripadvisor.title", placeholders: [], plural: false)
         }
         public enum visa {
             public static let confidence = LKey("results:visa.confidence", placeholders: ["level"], plural: false)

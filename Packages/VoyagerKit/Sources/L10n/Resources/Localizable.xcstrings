@@ -4773,13 +4773,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "That email address is already used by another account."
+            "value" : "এই ইমেল ঠিকানা অন্য একটি অ্যাকাউন্টে আগে থেকেই ব্যবহৃত হচ্ছে।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "That email address is already used by another account."
+            "value" : "Diese E-Mail-Adresse wird bereits von einem anderen Konto verwendet."
           }
         },
         "en" : {
@@ -4791,25 +4791,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "That email address is already used by another account."
+            "value" : "Esa dirección de correo ya la usa otra cuenta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "That email address is already used by another account."
+            "value" : "Cette adresse e-mail est déjà utilisée par un autre compte."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "That email address is already used by another account."
+            "value" : "यह ईमेल पता किसी दूसरे खाते में पहले से इस्तेमाल हो रहा है।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "That email address is already used by another account."
+            "value" : "该邮箱地址已被另一个账户使用。"
           }
         }
       }
@@ -5619,13 +5619,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your preferences."
+            "value" : "আপনার পছন্দগুলো লোড করা যায়নি।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your preferences."
+            "value" : "Deine Einstellungen konnten nicht geladen werden."
           }
         },
         "en" : {
@@ -5637,25 +5637,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your preferences."
+            "value" : "No se pudieron cargar tus preferencias."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your preferences."
+            "value" : "Impossible de charger vos préférences."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your preferences."
+            "value" : "आपकी प्राथमिकताएं लोड नहीं हो सकीं।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your preferences."
+            "value" : "无法加载你的偏好设置。"
           }
         }
       }
@@ -6766,13 +6766,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your taste profile."
+            "value" : "আপনার রুচির প্রোফাইল লোড করা যায়নি।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your taste profile."
+            "value" : "Dein Geschmacksprofil konnte nicht geladen werden."
           }
         },
         "en" : {
@@ -6784,25 +6784,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your taste profile."
+            "value" : "No se pudo cargar tu perfil de gustos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your taste profile."
+            "value" : "Impossible de charger votre profil de goûts."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your taste profile."
+            "value" : "आपकी पसंद की प्रोफ़ाइल लोड नहीं हो सकी।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t load your taste profile."
+            "value" : "无法加载你的口味档案。"
           }
         }
       }
@@ -6907,13 +6907,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t reset your taste profile. Try again."
+            "value" : "আপনার রুচির প্রোফাইল রিসেট করা যায়নি। আবার চেষ্টা করুন।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t reset your taste profile. Try again."
+            "value" : "Dein Geschmacksprofil konnte nicht zurückgesetzt werden. Versuche es erneut."
           }
         },
         "en" : {
@@ -6925,25 +6925,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t reset your taste profile. Try again."
+            "value" : "No se pudo restablecer tu perfil de gustos. Inténtalo de nuevo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t reset your taste profile. Try again."
+            "value" : "Impossible de réinitialiser votre profil de goûts. Réessayez."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t reset your taste profile. Try again."
+            "value" : "आपकी पसंद की प्रोफ़ाइल रीसेट नहीं हो सकी। फिर कोशिश करें।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn’t reset your taste profile. Try again."
+            "value" : "无法重置你的口味档案。请重试。"
           }
         }
       }
@@ -11785,6 +11785,241 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "热门页面"
+          }
+        }
+      }
+    },
+    "adminTelemetry:tripadvisor.off" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor রেটিং বন্ধ (TRIPADVISOR_ENABLED বা API কী সেট করা নেই)।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor-Bewertungen sind aus (TRIPADVISOR_ENABLED oder der API-Schlüssel fehlt)."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor ratings are off (TRIPADVISOR_ENABLED or the API key is not set)."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las valoraciones de Tripadvisor están desactivadas (TRIPADVISOR_ENABLED o la clave de la API no están configuradas)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les notes Tripadvisor sont désactivées (TRIPADVISOR_ENABLED ou la clé d'API n'est pas défini)."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor रेटिंग बंद है (TRIPADVISOR_ENABLED या API कुंजी सेट नहीं है)।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor 评分已关闭（未设置 TRIPADVISOR_ENABLED 或 API 密钥）。"
+          }
+        }
+      }
+    },
+    "adminTelemetry:tripadvisor.paused" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "সীমায় পৌঁছে বিরতি। Tripadvisor Terra ড্যাশবোর্ডে পেমেন্টের তথ্য যোগ করুন, তারপর TRIPADVISOR_BUDGET_CAP বাড়ান।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Am Limit pausiert. Zahlungsdaten im Tripadvisor-Terra-Dashboard hinterlegen, dann TRIPADVISOR_BUDGET_CAP erhöhen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paused at the cap. Add payment details in the Tripadvisor Terra dashboard, then raise TRIPADVISOR_BUDGET_CAP."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En pausa al llegar al límite. Añade un método de pago en el panel de Tripadvisor Terra y sube TRIPADVISOR_BUDGET_CAP."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En pause à la limite. Ajoutez un moyen de paiement dans le tableau de bord Tripadvisor Terra, puis augmentez TRIPADVISOR_BUDGET_CAP."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सीमा पर रोका गया। Tripadvisor Terra डैशबोर्ड में भुगतान विवरण जोड़ें, फिर TRIPADVISOR_BUDGET_CAP बढ़ाएँ।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已达上限并暂停。请在 Tripadvisor Terra 控制台添加付款信息，然后调高 TRIPADVISOR_BUDGET_CAP。"
+          }
+        }
+      }
+    },
+    "adminTelemetry:tripadvisor.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor API বাজেট"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor-API-Budget"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor API budget"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presupuesto de la API de Tripadvisor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget de l'API Tripadvisor"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor API बजट"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor API 预算"
+          }
+        }
+      }
+    },
+    "adminTelemetry:tripadvisor.used" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{cap}}-এর মধ্যে {{used}}টি বিলযোগ্য একক ব্যবহৃত"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{used}} von {{cap}} abrechenbaren Einheiten verbraucht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{used}} of {{cap}} billable entities used"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{used}} de {{cap}} entidades facturables usadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{used}} sur {{cap}} entités facturables utilisées"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{cap}} में से {{used}} बिल योग्य इकाइयाँ इस्तेमाल हुईं"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已使用 {{used}} / {{cap}} 个计费实体"
+          }
+        }
+      }
+    },
+    "adminTelemetry:tripadvisor.warn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "বাজেটের ৮০%-এর বেশি ব্যবহৃত হয়েছে।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Über 80 % des Budgets sind verbraucht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over 80% of the budget is used."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ha usado más del 80% del presupuesto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus de 80 % du budget est utilisé."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बजट का 80% से ज़्यादा इस्तेमाल हो चुका है।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预算已使用超过 80%。"
           }
         }
       }
@@ -43911,13 +44146,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Can't reach the server. Check your connection and try again."
+            "value" : "সার্ভারের সঙ্গে যোগাযোগ করা যাচ্ছে না। আপনার সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Can't reach the server. Check your connection and try again."
+            "value" : "Der Server ist nicht erreichbar. Prüfe deine Verbindung und versuche es erneut."
           }
         },
         "en" : {
@@ -43929,25 +44164,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Can't reach the server. Check your connection and try again."
+            "value" : "No se puede conectar con el servidor. Comprueba tu conexión e inténtalo de nuevo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Can't reach the server. Check your connection and try again."
+            "value" : "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Can't reach the server. Check your connection and try again."
+            "value" : "सर्वर से कनेक्ट नहीं हो पा रहा। अपना कनेक्शन जांचें और फिर कोशिश करें।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Can't reach the server. Check your connection and try again."
+            "value" : "无法连接到服务器。请检查网络连接后重试。"
           }
         }
       }
@@ -75519,13 +75754,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily events, last 30 days"
+            "value" : "দৈনিক ইভেন্ট, গত ৩০ দিন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily events, last 30 days"
+            "value" : "Tägliche Ereignisse, letzte 30 Tage"
           }
         },
         "en" : {
@@ -75537,25 +75772,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily events, last 30 days"
+            "value" : "Eventos diarios, últimos 30 días"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily events, last 30 days"
+            "value" : "Événements quotidiens, 30 derniers jours"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily events, last 30 days"
+            "value" : "दैनिक इवेंट, पिछले 30 दिन"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily events, last 30 days"
+            "value" : "每日事件数，最近 30 天"
           }
         }
       }
@@ -75566,13 +75801,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily sessions, last 30 days"
+            "value" : "দৈনিক সেশন, গত ৩০ দিন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily sessions, last 30 days"
+            "value" : "Tägliche Sitzungen, letzte 30 Tage"
           }
         },
         "en" : {
@@ -75584,25 +75819,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily sessions, last 30 days"
+            "value" : "Sesiones diarias, últimos 30 días"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily sessions, last 30 days"
+            "value" : "Sessions quotidiennes, 30 derniers jours"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily sessions, last 30 days"
+            "value" : "दैनिक सत्र, पिछले 30 दिन"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily sessions, last 30 days"
+            "value" : "每日会话数，最近 30 天"
           }
         }
       }
@@ -75613,13 +75848,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deactivate {{name}}?"
+            "value" : "{{name}}-কে নিষ্ক্রিয় করবেন?"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deactivate {{name}}?"
+            "value" : "{{name}} deaktivieren?"
           }
         },
         "en" : {
@@ -75631,25 +75866,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deactivate {{name}}?"
+            "value" : "¿Desactivar a {{name}}?"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deactivate {{name}}?"
+            "value" : "Désactiver {{name}} ?"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deactivate {{name}}?"
+            "value" : "{{name}} को निष्क्रिय करें?"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deactivate {{name}}?"
+            "value" : "要停用 {{name}} 吗？"
           }
         }
       }
@@ -75660,13 +75895,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a user to see their details"
+            "value" : "বিবরণ দেখতে একজন ব্যবহারকারী বেছে নিন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a user to see their details"
+            "value" : "Wähle einen Nutzer aus, um seine Details zu sehen"
           }
         },
         "en" : {
@@ -75678,25 +75913,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a user to see their details"
+            "value" : "Selecciona un usuario para ver sus detalles"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a user to see their details"
+            "value" : "Sélectionnez un utilisateur pour voir ses détails"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a user to see their details"
+            "value" : "विवरण देखने के लिए किसी उपयोगकर्ता को चुनें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a user to see their details"
+            "value" : "选择一位用户以查看详情"
           }
         }
       }
@@ -76365,7 +76600,7 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export"
+            "value" : "এক্সপোর্ট করুন"
           }
         },
         "de" : {
@@ -76383,25 +76618,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export"
+            "value" : "Exportar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export"
+            "value" : "Exporter"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export"
+            "value" : "एक्सपोर्ट करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export"
+            "value" : "导出"
           }
         }
       }
@@ -76412,13 +76647,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save and share this plan."
+            "value" : "এই প্ল্যান সেভ ও শেয়ার করতে সাইন ইন করুন।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save and share this plan."
+            "value" : "Melde dich an, um diesen Plan zu speichern und zu teilen."
           }
         },
         "en" : {
@@ -76430,25 +76665,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save and share this plan."
+            "value" : "Inicia sesión para guardar y compartir este plan."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save and share this plan."
+            "value" : "Connectez-vous pour enregistrer et partager ce plan."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save and share this plan."
+            "value" : "इस प्लान को सेव और साझा करने के लिए साइन इन करें।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to save and share this plan."
+            "value" : "登录后即可保存并分享此计划。"
           }
         }
       }
@@ -77352,13 +77587,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About"
+            "value" : "সম্পর্কে"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About"
+            "value" : "Info"
           }
         },
         "en" : {
@@ -77370,25 +77605,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About"
+            "value" : "Acerca de"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About"
+            "value" : "À propos"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About"
+            "value" : "बारे में"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About"
+            "value" : "关于"
           }
         }
       }
@@ -77399,13 +77634,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Account"
+            "value" : "অ্যাকাউন্ট"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Account"
+            "value" : "Konto"
           }
         },
         "en" : {
@@ -77417,25 +77652,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Account"
+            "value" : "Cuenta"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Account"
+            "value" : "Compte"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Account"
+            "value" : "खाता"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Account"
+            "value" : "账户"
           }
         }
       }
@@ -77446,13 +77681,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check for new alerts"
+            "value" : "নতুন অ্যালার্ট খুঁজুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check for new alerts"
+            "value" : "Nach neuen Alarmen suchen"
           }
         },
         "en" : {
@@ -77464,25 +77699,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check for new alerts"
+            "value" : "Buscar alertas nuevas"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check for new alerts"
+            "value" : "Rechercher de nouvelles alertes"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check for new alerts"
+            "value" : "नए अलर्ट जांचें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check for new alerts"
+            "value" : "检查新提醒"
           }
         }
       }
@@ -77493,13 +77728,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Looks for new price alerts every minute while the app is open."
+            "value" : "অ্যাপ খোলা থাকলে প্রতি মিনিটে নতুন দামের অ্যালার্ট খোঁজে।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Looks for new price alerts every minute while the app is open."
+            "value" : "Sucht jede Minute nach neuen Preisalarmen, solange die App geöffnet ist."
           }
         },
         "en" : {
@@ -77511,25 +77746,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Looks for new price alerts every minute while the app is open."
+            "value" : "Busca nuevas alertas de precio cada minuto mientras la app está abierta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Looks for new price alerts every minute while the app is open."
+            "value" : "Recherche de nouvelles alertes de prix chaque minute tant que l'app est ouverte."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Looks for new price alerts every minute while the app is open."
+            "value" : "ऐप खुला रहने पर हर मिनट नए प्राइस अलर्ट खोजता है।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Looks for new price alerts every minute while the app is open."
+            "value" : "应用打开期间，每分钟检查一次新的价格提醒。"
           }
         }
       }
@@ -77540,13 +77775,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Features"
+            "value" : "ফিচার"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Features"
+            "value" : "Funktionen"
           }
         },
         "en" : {
@@ -77558,25 +77793,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Features"
+            "value" : "Funciones"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Features"
+            "value" : "Fonctionnalités"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Features"
+            "value" : "सुविधाएं"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Features"
+            "value" : "功能"
           }
         }
       }
@@ -77587,13 +77822,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose which tools appear on your Trips tab."
+            "value" : "আপনার ট্রিপ ট্যাবে কোন টুলগুলো দেখাবে তা বেছে নিন।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose which tools appear on your Trips tab."
+            "value" : "Wähle, welche Werkzeuge in deinem Tab „Reisen“ erscheinen."
           }
         },
         "en" : {
@@ -77605,25 +77840,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose which tools appear on your Trips tab."
+            "value" : "Elige qué herramientas aparecen en tu pestaña Viajes."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose which tools appear on your Trips tab."
+            "value" : "Choisissez les outils qui apparaissent dans votre onglet Voyages."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose which tools appear on your Trips tab."
+            "value" : "चुनें कि आपके यात्रा टैब में कौन से टूल दिखें।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose which tools appear on your Trips tab."
+            "value" : "选择哪些工具显示在“旅行”标签页中。"
           }
         }
       }
@@ -77634,13 +77869,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open-source licences"
+            "value" : "ওপেন-সোর্স লাইসেন্স"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open-source licences"
+            "value" : "Open-Source-Lizenzen"
           }
         },
         "en" : {
@@ -77652,25 +77887,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open-source licences"
+            "value" : "Licencias de código abierto"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open-source licences"
+            "value" : "Licences open source"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open-source licences"
+            "value" : "ओपन-सोर्स लाइसेंस"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open-source licences"
+            "value" : "开源许可"
           }
         }
       }
@@ -77681,13 +77916,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Near me suggestions"
+            "value" : "আমার কাছাকাছি পরামর্শ"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Near me suggestions"
+            "value" : "Vorschläge in meiner Nähe"
           }
         },
         "en" : {
@@ -77699,25 +77934,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Near me suggestions"
+            "value" : "Sugerencias cerca de mí"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Near me suggestions"
+            "value" : "Suggestions près de moi"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Near me suggestions"
+            "value" : "मेरे आस-पास के सुझाव"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Near me suggestions"
+            "value" : "附近推荐"
           }
         }
       }
@@ -77728,13 +77963,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Offer places nearby when you are travelling."
+            "value" : "ভ্রমণের সময় কাছাকাছি জায়গার পরামর্শ দেয়।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Offer places nearby when you are travelling."
+            "value" : "Zeigt Orte in der Nähe, wenn du unterwegs bist."
           }
         },
         "en" : {
@@ -77746,25 +77981,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Offer places nearby when you are travelling."
+            "value" : "Ofrece lugares cercanos cuando estés de viaje."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Offer places nearby when you are travelling."
+            "value" : "Propose des lieux à proximité quand vous voyagez."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Offer places nearby when you are travelling."
+            "value" : "यात्रा के दौरान आस-पास की जगहें सुझाता है।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Offer places nearby when you are travelling."
+            "value" : "旅行时为你推荐附近的地点。"
           }
         }
       }
@@ -77775,13 +78010,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications"
+            "value" : "বিজ্ঞপ্তি"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications"
+            "value" : "Benachrichtigungen"
           }
         },
         "en" : {
@@ -77793,7 +78028,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications"
+            "value" : "Notificaciones"
           }
         },
         "fr" : {
@@ -77805,13 +78040,13 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications"
+            "value" : "सूचनाएं"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications"
+            "value" : "通知"
           }
         }
       }
@@ -77822,13 +78057,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip reminders"
+            "value" : "ট্রিপের রিমাইন্ডার"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip reminders"
+            "value" : "Reiseerinnerungen"
           }
         },
         "en" : {
@@ -77840,25 +78075,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip reminders"
+            "value" : "Recordatorios de viaje"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip reminders"
+            "value" : "Rappels de voyage"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip reminders"
+            "value" : "यात्रा रिमाइंडर"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip reminders"
+            "value" : "行程提醒"
           }
         }
       }
@@ -77869,13 +78104,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reminders on this device before and during your trips."
+            "value" : "আপনার ট্রিপের আগে ও চলাকালীন এই ডিভাইসে রিমাইন্ডার।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reminders on this device before and during your trips."
+            "value" : "Erinnerungen auf diesem Gerät vor und während deiner Reisen."
           }
         },
         "en" : {
@@ -77887,25 +78122,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reminders on this device before and during your trips."
+            "value" : "Recordatorios en este dispositivo antes y durante tus viajes."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reminders on this device before and during your trips."
+            "value" : "Rappels sur cet appareil avant et pendant vos voyages."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reminders on this device before and during your trips."
+            "value" : "आपकी यात्राओं से पहले और उनके दौरान इस डिवाइस पर रिमाइंडर।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reminders on this device before and during your trips."
+            "value" : "在出行前及旅途中于此设备上提醒你。"
           }
         }
       }
@@ -77916,13 +78151,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Retake the welcome quiz"
+            "value" : "স্বাগত কুইজ আবার দিন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Retake the welcome quiz"
+            "value" : "Willkommensquiz wiederholen"
           }
         },
         "en" : {
@@ -77934,25 +78169,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Retake the welcome quiz"
+            "value" : "Repetir el cuestionario de bienvenida"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Retake the welcome quiz"
+            "value" : "Refaire le quiz de bienvenue"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Retake the welcome quiz"
+            "value" : "वेलकम क्विज़ फिर से लें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Retake the welcome quiz"
+            "value" : "重新进行欢迎问卷"
           }
         }
       }
@@ -77963,13 +78198,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Signed in as {{name}}"
+            "value" : "{{name}} হিসেবে সাইন ইন করা আছে"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Signed in as {{name}}"
+            "value" : "Angemeldet als {{name}}"
           }
         },
         "en" : {
@@ -77981,25 +78216,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Signed in as {{name}}"
+            "value" : "Sesión iniciada como {{name}}"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Signed in as {{name}}"
+            "value" : "Connecté en tant que {{name}}"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Signed in as {{name}}"
+            "value" : "{{name}} के रूप में साइन इन हैं"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Signed in as {{name}}"
+            "value" : "已登录为 {{name}}"
           }
         }
       }
@@ -78010,7 +78245,7 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Version {{version}}"
+            "value" : "সংস্করণ {{version}}"
           }
         },
         "de" : {
@@ -78028,7 +78263,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Version {{version}}"
+            "value" : "Versión {{version}}"
           }
         },
         "fr" : {
@@ -78040,13 +78275,13 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Version {{version}}"
+            "value" : "संस्करण {{version}}"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Version {{version}}"
+            "value" : "版本 {{version}}"
           }
         }
       }
@@ -78057,13 +78292,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shared by {{name}}"
+            "value" : "{{name}} শেয়ার করেছেন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shared by {{name}}"
+            "value" : "Geteilt von {{name}}"
           }
         },
         "en" : {
@@ -78075,25 +78310,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shared by {{name}}"
+            "value" : "Compartido por {{name}}"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shared by {{name}}"
+            "value" : "Partagé par {{name}}"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shared by {{name}}"
+            "value" : "{{name}} ने साझा किया"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shared by {{name}}"
+            "value" : "由 {{name}} 分享"
           }
         }
       }
@@ -78339,13 +78574,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip recap"
+            "value" : "ভ্রমণের রিক্যাপ"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip recap"
+            "value" : "Reiserückblick"
           }
         },
         "en" : {
@@ -78357,25 +78592,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip recap"
+            "value" : "Resumen del viaje"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip recap"
+            "value" : "Récap du voyage"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip recap"
+            "value" : "यात्रा का रीकैप"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip recap"
+            "value" : "旅行回顾"
           }
         }
       }
@@ -78386,13 +78621,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remix into my trips"
+            "value" : "আমার ট্রিপে রিমিক্স করুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remix into my trips"
+            "value" : "In meine Reisen übernehmen"
           }
         },
         "en" : {
@@ -78404,25 +78639,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remix into my trips"
+            "value" : "Remezclar en mis viajes"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remix into my trips"
+            "value" : "Remixer dans mes voyages"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remix into my trips"
+            "value" : "मेरी यात्राओं में रीमिक्स करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remix into my trips"
+            "value" : "改编到我的行程"
           }
         }
       }
@@ -78433,13 +78668,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Price drops caught"
+            "value" : "ধরা পড়া দামের পতন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Price drops caught"
+            "value" : "Erwischte Preisrückgänge"
           }
         },
         "en" : {
@@ -78451,25 +78686,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Price drops caught"
+            "value" : "Bajadas de precio detectadas"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Price drops caught"
+            "value" : "Baisses de prix repérées"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Price drops caught"
+            "value" : "पकड़ी गई कीमतों की गिरावट"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Price drops caught"
+            "value" : "捕捉到的降价"
           }
         }
       }
@@ -78480,13 +78715,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in"
+            "value" : "সাইন ইন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in"
+            "value" : "Anmelden"
           }
         },
         "en" : {
@@ -78498,25 +78733,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in"
+            "value" : "Iniciar sesión"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in"
+            "value" : "Se connecter"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in"
+            "value" : "साइन इन करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in"
+            "value" : "登录"
           }
         }
       }
@@ -78527,13 +78762,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to remix this trip"
+            "value" : "এই ট্রিপ রিমিক্স করতে সাইন ইন করুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to remix this trip"
+            "value" : "Melde dich an, um diese Reise zu übernehmen"
           }
         },
         "en" : {
@@ -78545,25 +78780,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to remix this trip"
+            "value" : "Inicia sesión para remezclar este viaje"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to remix this trip"
+            "value" : "Connectez-vous pour remixer ce voyage"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to remix this trip"
+            "value" : "इस यात्रा को रीमिक्स करने के लिए साइन इन करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to remix this trip"
+            "value" : "登录后即可改编此行程"
           }
         }
       }
@@ -79044,13 +79279,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accessibility info"
+            "value" : "অ্যাক্সেসিবিলিটি তথ্য"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accessibility info"
+            "value" : "Informationen zur Barrierefreiheit"
           }
         },
         "en" : {
@@ -79062,25 +79297,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accessibility info"
+            "value" : "Información de accesibilidad"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accessibility info"
+            "value" : "Infos d'accessibilité"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accessibility info"
+            "value" : "सुगम्यता की जानकारी"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accessibility info"
+            "value" : "无障碍信息"
           }
         }
       }
@@ -79091,13 +79326,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Best value"
+            "value" : "সেরা মূল্য"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Best value"
+            "value" : "Bestes Preis-Leistungs-Verhältnis"
           }
         },
         "en" : {
@@ -79109,25 +79344,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Best value"
+            "value" : "Mejor relación calidad-precio"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Best value"
+            "value" : "Meilleur rapport qualité-prix"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Best value"
+            "value" : "सबसे बढ़िया वैल्यू"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Best value"
+            "value" : "最超值"
           }
         }
       }
@@ -79138,13 +79373,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget planner"
+            "value" : "বাজেট প্ল্যানার"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget planner"
+            "value" : "Budgetplaner"
           }
         },
         "en" : {
@@ -79156,25 +79391,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget planner"
+            "value" : "Planificador de presupuesto"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget planner"
+            "value" : "Planificateur de budget"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget planner"
+            "value" : "बजट प्लानर"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget planner"
+            "value" : "预算规划"
           }
         }
       }
@@ -79185,13 +79420,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Departs {{date}}"
+            "value" : "যাত্রা {{date}}"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Departs {{date}}"
+            "value" : "Abreise am {{date}}"
           }
         },
         "en" : {
@@ -79203,25 +79438,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Departs {{date}}"
+            "value" : "Sale el {{date}}"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Departs {{date}}"
+            "value" : "Départ le {{date}}"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Departs {{date}}"
+            "value" : "प्रस्थान {{date}}"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Departs {{date}}"
+            "value" : "出发日期 {{date}}"
           }
         }
       }
@@ -79232,13 +79467,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Explore"
+            "value" : "এক্সপ্লোর করুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Explore"
+            "value" : "Entdecken"
           }
         },
         "en" : {
@@ -79250,25 +79485,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Explore"
+            "value" : "Explorar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Explore"
+            "value" : "Explorer"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Explore"
+            "value" : "एक्सप्लोर करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Explore"
+            "value" : "探索"
           }
         }
       }
@@ -79279,13 +79514,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All"
+            "value" : "সব"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All"
+            "value" : "Alle"
           }
         },
         "en" : {
@@ -79297,25 +79532,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All"
+            "value" : "Todos"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All"
+            "value" : "Tous"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All"
+            "value" : "सभी"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All"
+            "value" : "全部"
           }
         }
       }
@@ -79326,13 +79561,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Past"
+            "value" : "অতীত"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Past"
+            "value" : "Vergangen"
           }
         },
         "en" : {
@@ -79344,25 +79579,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Past"
+            "value" : "Pasados"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Past"
+            "value" : "Passés"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Past"
+            "value" : "बीते"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Past"
+            "value" : "已结束"
           }
         }
       }
@@ -79373,13 +79608,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upcoming"
+            "value" : "আসন্ন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upcoming"
+            "value" : "Bevorstehend"
           }
         },
         "en" : {
@@ -79391,25 +79626,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upcoming"
+            "value" : "Próximos"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upcoming"
+            "value" : "À venir"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upcoming"
+            "value" : "आने वाले"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upcoming"
+            "value" : "即将出发"
           }
         }
       }
@@ -79420,13 +79655,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New search"
+            "value" : "নতুন অনুসন্ধান"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New search"
+            "value" : "Neue Suche"
           }
         },
         "en" : {
@@ -79438,25 +79673,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New search"
+            "value" : "Nueva búsqueda"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New search"
+            "value" : "Nouvelle recherche"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New search"
+            "value" : "नई खोज"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New search"
+            "value" : "新搜索"
           }
         }
       }
@@ -79467,13 +79702,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next trip"
+            "value" : "পরের ট্রিপ"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next trip"
+            "value" : "Nächste Reise"
           }
         },
         "en" : {
@@ -79485,25 +79720,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next trip"
+            "value" : "Próximo viaje"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next trip"
+            "value" : "Prochain voyage"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next trip"
+            "value" : "अगली यात्रा"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next trip"
+            "value" : "下一次旅行"
           }
         }
       }
@@ -79514,13 +79749,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No plans match your search."
+            "value" : "আপনার অনুসন্ধানের সঙ্গে কোনো প্ল্যান মেলেনি।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No plans match your search."
+            "value" : "Keine Pläne passen zu deiner Suche."
           }
         },
         "en" : {
@@ -79532,25 +79767,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No plans match your search."
+            "value" : "Ningún plan coincide con tu búsqueda."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No plans match your search."
+            "value" : "Aucun plan ne correspond à votre recherche."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No plans match your search."
+            "value" : "आपकी खोज से कोई प्लान मेल नहीं खाता।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No plans match your search."
+            "value" : "没有符合搜索条件的计划。"
           }
         }
       }
@@ -79561,13 +79796,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plans you save from Results or Chat show up here."
+            "value" : "ফলাফল বা চ্যাট থেকে সেভ করা প্ল্যান এখানে দেখা যাবে।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plans you save from Results or Chat show up here."
+            "value" : "Pläne, die du aus den Ergebnissen oder dem Chat speicherst, erscheinen hier."
           }
         },
         "en" : {
@@ -79579,25 +79814,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plans you save from Results or Chat show up here."
+            "value" : "Los planes que guardes desde Resultados o Chat aparecerán aquí."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plans you save from Results or Chat show up here."
+            "value" : "Les plans que vous enregistrez depuis les résultats ou le chat apparaissent ici."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plans you save from Results or Chat show up here."
+            "value" : "परिणाम या चैट से सेव किए गए प्लान यहां दिखेंगे।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plans you save from Results or Chat show up here."
+            "value" : "你从结果页或聊天中保存的计划会显示在这里。"
           }
         }
       }
@@ -79608,13 +79843,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No saved plans yet"
+            "value" : "এখনও কোনো সেভ করা প্ল্যান নেই"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No saved plans yet"
+            "value" : "Noch keine gespeicherten Pläne"
           }
         },
         "en" : {
@@ -79626,25 +79861,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No saved plans yet"
+            "value" : "Aún no hay planes guardados"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No saved plans yet"
+            "value" : "Aucun plan enregistré"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No saved plans yet"
+            "value" : "अभी तक कोई सेव किया प्लान नहीं"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No saved plans yet"
+            "value" : "还没有保存的计划"
           }
         }
       }
@@ -79655,13 +79890,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open in My Plan"
+            "value" : "আমার প্ল্যানে খুলুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open in My Plan"
+            "value" : "In Mein Plan öffnen"
           }
         },
         "en" : {
@@ -79673,25 +79908,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open in My Plan"
+            "value" : "Abrir en Mi plan"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open in My Plan"
+            "value" : "Ouvrir dans Mon plan"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open in My Plan"
+            "value" : "मेरे प्लान में खोलें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open in My Plan"
+            "value" : "在“我的计划”中打开"
           }
         }
       }
@@ -79702,13 +79937,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saved plans"
+            "value" : "সেভ করা প্ল্যান"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saved plans"
+            "value" : "Gespeicherte Pläne"
           }
         },
         "en" : {
@@ -79720,25 +79955,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saved plans"
+            "value" : "Planes guardados"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saved plans"
+            "value" : "Plans enregistrés"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saved plans"
+            "value" : "सेव किए गए प्लान"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saved plans"
+            "value" : "已保存的计划"
           }
         }
       }
@@ -79749,13 +79984,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search plans"
+            "value" : "প্ল্যান খুঁজুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search plans"
+            "value" : "Pläne durchsuchen"
           }
         },
         "en" : {
@@ -79767,25 +80002,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search plans"
+            "value" : "Buscar planes"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search plans"
+            "value" : "Rechercher des plans"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search plans"
+            "value" : "प्लान खोजें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search plans"
+            "value" : "搜索计划"
           }
         }
       }
@@ -79796,13 +80031,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a plan"
+            "value" : "একটি প্ল্যান বেছে নিন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a plan"
+            "value" : "Wähle einen Plan aus"
           }
         },
         "en" : {
@@ -79814,25 +80049,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a plan"
+            "value" : "Selecciona un plan"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a plan"
+            "value" : "Sélectionnez un plan"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a plan"
+            "value" : "कोई प्लान चुनें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select a plan"
+            "value" : "选择一个计划"
           }
         }
       }
@@ -79843,13 +80078,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to see your saved plans."
+            "value" : "আপনার সেভ করা প্ল্যান দেখতে সাইন ইন করুন।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to see your saved plans."
+            "value" : "Melde dich an, um deine gespeicherten Pläne zu sehen."
           }
         },
         "en" : {
@@ -79861,25 +80096,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to see your saved plans."
+            "value" : "Inicia sesión para ver tus planes guardados."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to see your saved plans."
+            "value" : "Connectez-vous pour voir vos plans enregistrés."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to see your saved plans."
+            "value" : "अपने सेव किए प्लान देखने के लिए साइन इन करें।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to see your saved plans."
+            "value" : "登录后即可查看你保存的计划。"
           }
         }
       }
@@ -79890,13 +80125,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your trips"
+            "value" : "আপনার ট্রিপ"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your trips"
+            "value" : "Deine Reisen"
           }
         },
         "en" : {
@@ -79908,25 +80143,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your trips"
+            "value" : "Tus viajes"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your trips"
+            "value" : "Vos voyages"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your trips"
+            "value" : "आपकी यात्राएं"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your trips"
+            "value" : "你的旅行"
           }
         }
       }
@@ -83471,6 +83706,53 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "旅游警察"
+          }
+        }
+      }
+    },
+    "offlinePack:emergency.phoneUnverified" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ফোন নম্বর যাচাই করা হয়নি — অফিসিয়াল ওয়েবসাইট দেখুন।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telefonnummer nicht geprüft – bitte auf der offiziellen Website nachsehen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phone number not verified — check the official website."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teléfono no verificado: consulta el sitio web oficial."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéro non vérifié : consultez le site officiel."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोन नंबर सत्यापित नहीं — आधिकारिक वेबसाइट देखें।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电话号码未经核实，请查看官方网站。"
           }
         }
       }
@@ -88059,13 +88341,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Also like: {{types}}"
+            "value" : "আপনার আরও পছন্দ: {{types}}"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Also like: {{types}}"
+            "value" : "Dir gefällt auch: {{types}}"
           }
         },
         "en" : {
@@ -88077,25 +88359,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Also like: {{types}}"
+            "value" : "También te gusta: {{types}}"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Also like: {{types}}"
+            "value" : "Vous aimez aussi : {{types}}"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Also like: {{types}}"
+            "value" : "आपको ये भी पसंद है: {{types}}"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Also like: {{types}}"
+            "value" : "你还喜欢：{{types}}"
           }
         }
       }
@@ -88106,13 +88388,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Close"
+            "value" : "বন্ধ করুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Close"
+            "value" : "Schließen"
           }
         },
         "en" : {
@@ -88124,25 +88406,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Close"
+            "value" : "Cerrar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Close"
+            "value" : "Fermer"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Close"
+            "value" : "बंद करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Close"
+            "value" : "关闭"
           }
         }
       }
@@ -88153,13 +88435,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue without syncing"
+            "value" : "সিঙ্ক ছাড়াই চালিয়ে যান"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue without syncing"
+            "value" : "Ohne Synchronisierung fortfahren"
           }
         },
         "en" : {
@@ -88171,25 +88453,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue without syncing"
+            "value" : "Continuar sin sincronizar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue without syncing"
+            "value" : "Continuer sans synchroniser"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue without syncing"
+            "value" : "सिंक किए बिना जारी रखें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue without syncing"
+            "value" : "不同步，继续"
           }
         }
       }
@@ -88200,13 +88482,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Just explore"
+            "value" : "শুধু ঘুরে দেখুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Just explore"
+            "value" : "Erst mal umschauen"
           }
         },
         "en" : {
@@ -88218,25 +88500,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Just explore"
+            "value" : "Solo explorar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Just explore"
+            "value" : "Juste explorer"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Just explore"
+            "value" : "बस एक्सप्लोर करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Just explore"
+            "value" : "先随便看看"
           }
         }
       }
@@ -88247,13 +88529,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plan a trip"
+            "value" : "ট্রিপ প্ল্যান করুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plan a trip"
+            "value" : "Reise planen"
           }
         },
         "en" : {
@@ -88265,25 +88547,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plan a trip"
+            "value" : "Planificar un viaje"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plan a trip"
+            "value" : "Planifier un voyage"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plan a trip"
+            "value" : "यात्रा प्लान करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plan a trip"
+            "value" : "规划行程"
           }
         }
       }
@@ -88294,13 +88576,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save changes"
+            "value" : "পরিবর্তন সেভ করুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save changes"
+            "value" : "Änderungen speichern"
           }
         },
         "en" : {
@@ -88312,25 +88594,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save changes"
+            "value" : "Guardar cambios"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save changes"
+            "value" : "Enregistrer les modifications"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save changes"
+            "value" : "बदलाव सेव करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save changes"
+            "value" : "保存更改"
           }
         }
       }
@@ -88341,13 +88623,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn't save to your account. Your answers are kept on this device."
+            "value" : "আপনার অ্যাকাউন্টে সেভ করা যায়নি। আপনার উত্তর এই ডিভাইসে রাখা আছে।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn't save to your account. Your answers are kept on this device."
+            "value" : "Das Speichern in deinem Konto ist fehlgeschlagen. Deine Antworten bleiben auf diesem Gerät erhalten."
           }
         },
         "en" : {
@@ -88359,25 +88641,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn't save to your account. Your answers are kept on this device."
+            "value" : "No se pudo guardar en tu cuenta. Tus respuestas se conservan en este dispositivo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn't save to your account. Your answers are kept on this device."
+            "value" : "Impossible d'enregistrer dans votre compte. Vos réponses sont conservées sur cet appareil."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn't save to your account. Your answers are kept on this device."
+            "value" : "आपके खाते में सेव नहीं हो सका। आपके जवाब इस डिवाइस पर सुरक्षित हैं।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn't save to your account. Your answers are kept on this device."
+            "value" : "无法保存到你的账户。你的回答已保留在此设备上。"
           }
         }
       }
@@ -88388,13 +88670,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saving…"
+            "value" : "সেভ হচ্ছে…"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saving…"
+            "value" : "Wird gespeichert…"
           }
         },
         "en" : {
@@ -88406,25 +88688,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saving…"
+            "value" : "Guardando…"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saving…"
+            "value" : "Enregistrement…"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saving…"
+            "value" : "सेव हो रहा है…"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saving…"
+            "value" : "正在保存…"
           }
         }
       }
@@ -88435,13 +88717,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your traveller type"
+            "value" : "আপনার ভ্রমণকারীর ধরন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your traveller type"
+            "value" : "Dein Reisetyp"
           }
         },
         "en" : {
@@ -88453,25 +88735,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your traveller type"
+            "value" : "Tu tipo de viajero"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your traveller type"
+            "value" : "Votre profil de voyageur"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your traveller type"
+            "value" : "आपका यात्री प्रकार"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your traveller type"
+            "value" : "你的旅行者类型"
           }
         }
       }
@@ -100319,13 +100601,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue your quiz"
+            "value" : "আপনার কুইজ চালিয়ে যান"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue your quiz"
+            "value" : "Quiz fortsetzen"
           }
         },
         "en" : {
@@ -100337,25 +100619,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue your quiz"
+            "value" : "Continúa tu quiz"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue your quiz"
+            "value" : "Reprendre votre quiz"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue your quiz"
+            "value" : "अपना क्विज़ जारी रखें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Continue your quiz"
+            "value" : "继续你的测验"
           }
         }
       }
@@ -100883,13 +101165,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A streak freeze is ready. One missed day will not break your streak."
+            "value" : "স্ট্রিক ফ্রিজ তৈরি আছে। একদিন বাদ গেলেও আপনার স্ট্রিক ভাঙবে না।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A streak freeze is ready. One missed day will not break your streak."
+            "value" : "Ein Serien-Schutz ist bereit. Ein verpasster Tag unterbricht deine Serie nicht."
           }
         },
         "en" : {
@@ -100901,25 +101183,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A streak freeze is ready. One missed day will not break your streak."
+            "value" : "Tienes un congelador de racha listo. Un día sin jugar no romperá tu racha."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A streak freeze is ready. One missed day will not break your streak."
+            "value" : "Un gel de série est prêt. Un jour manqué ne brisera pas votre série."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A streak freeze is ready. One missed day will not break your streak."
+            "value" : "स्ट्रीक फ़्रीज़ तैयार है। एक दिन छूटने पर आपकी स्ट्रीक नहीं टूटेगी।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A streak freeze is ready. One missed day will not break your streak."
+            "value" : "连续记录保护已就绪。漏掉一天不会中断你的连续记录。"
           }
         }
       }
@@ -100930,13 +101212,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recent games"
+            "value" : "সাম্প্রতিক খেলা"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recent games"
+            "value" : "Letzte Spiele"
           }
         },
         "en" : {
@@ -100948,25 +101230,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recent games"
+            "value" : "Partidas recientes"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recent games"
+            "value" : "Parties récentes"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recent games"
+            "value" : "हाल के गेम"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recent games"
+            "value" : "最近的游戏"
           }
         }
       }
@@ -100988,13 +101270,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head match is waiting for you"
+                      "value" : "%argটি মুখোমুখি ম্যাচ আপনার অপেক্ষায়"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head matches are waiting for you"
+                      "value" : "%argটি মুখোমুখি ম্যাচ আপনার অপেক্ষায়"
                     }
                   }
                 }
@@ -101016,13 +101298,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head match is waiting for you"
+                      "value" : "%arg Duell wartet auf dich"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head matches are waiting for you"
+                      "value" : "%arg Duelle warten auf dich"
                     }
                   }
                 }
@@ -101069,16 +101351,22 @@
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "Te esperan %arg duelos"
+                    }
+                  },
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head match is waiting for you"
+                      "value" : "Te espera %arg duelo"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head matches are waiting for you"
+                      "value" : "Te esperan %arg duelos"
                     }
                   }
                 }
@@ -101097,16 +101385,22 @@
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg duels vous attendent"
+                    }
+                  },
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head match is waiting for you"
+                      "value" : "%arg duel vous attend"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head matches are waiting for you"
+                      "value" : "%arg duels vous attendent"
                     }
                   }
                 }
@@ -101128,13 +101422,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head match is waiting for you"
+                      "value" : "%arg आमने-सामने का मुकाबला आपका इंतज़ार कर रहा है"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head matches are waiting for you"
+                      "value" : "%arg आमने-सामने के मुकाबले आपका इंतज़ार कर रहे हैं"
                     }
                   }
                 }
@@ -101153,16 +101447,10 @@
               "formatSpecifier" : "lld",
               "variations" : {
                 "plural" : {
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "translated",
-                      "value" : "%arg head-to-head match is waiting for you"
-                    }
-                  },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg head-to-head matches are waiting for you"
+                      "value" : "有 %arg 场对决在等你"
                     }
                   }
                 }
@@ -101178,13 +101466,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Play is not available right now."
+            "value" : "Play এই মুহূর্তে উপলব্ধ নয়।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Play is not available right now."
+            "value" : "Play ist gerade nicht verfügbar."
           }
         },
         "en" : {
@@ -101196,25 +101484,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Play is not available right now."
+            "value" : "Play no está disponible en este momento."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Play is not available right now."
+            "value" : "Play n'est pas disponible pour le moment."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Play is not available right now."
+            "value" : "Play अभी उपलब्ध नहीं है।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Play is not available right now."
+            "value" : "“玩”功能暂时不可用。"
           }
         }
       }
@@ -101507,13 +101795,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You already played today's quiz. Come back tomorrow."
+            "value" : "আপনি আজকের কুইজ খেলে ফেলেছেন। কাল আবার আসুন।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You already played today's quiz. Come back tomorrow."
+            "value" : "Du hast das heutige Quiz schon gespielt. Komm morgen wieder."
           }
         },
         "en" : {
@@ -101525,25 +101813,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You already played today's quiz. Come back tomorrow."
+            "value" : "Ya jugaste el quiz de hoy. Vuelve mañana."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You already played today's quiz. Come back tomorrow."
+            "value" : "Vous avez déjà joué au quiz du jour. Revenez demain."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You already played today's quiz. Come back tomorrow."
+            "value" : "आप आज का क्विज़ खेल चुके हैं। कल फिर आइए।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You already played today's quiz. Come back tomorrow."
+            "value" : "你已经玩过今天的测验了，明天再来吧。"
           }
         }
       }
@@ -101808,13 +102096,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This quiz timed out. Start a new one from Play."
+            "value" : "এই কুইজের সময় শেষ। Play থেকে নতুন একটি শুরু করুন।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This quiz timed out. Start a new one from Play."
+            "value" : "Dieses Quiz ist abgelaufen. Starte ein neues über Play."
           }
         },
         "en" : {
@@ -101826,25 +102114,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This quiz timed out. Start a new one from Play."
+            "value" : "Este quiz ha caducado. Empieza uno nuevo desde Play."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This quiz timed out. Start a new one from Play."
+            "value" : "Ce quiz a expiré. Lancez-en un nouveau depuis Play."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This quiz timed out. Start a new one from Play."
+            "value" : "इस क्विज़ का समय समाप्त हो गया। Play से नया शुरू करें।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This quiz timed out. Start a new one from Play."
+            "value" : "此测验已超时。请从“玩”中开始新的测验。"
           }
         }
       }
@@ -127045,6 +127333,1134 @@
         }
       }
     },
+    "results:official.advice" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ভ্রমণ পরামর্শ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reisehinweise"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Travel advice"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recomendaciones de viaje"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conseils aux voyageurs"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "यात्रा सलाह"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "旅行建议"
+          }
+        }
+      }
+    },
+    "results:official.apply" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "অফিসিয়াল আবেদন পাতা"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offizielle Antragsseite"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Official application page"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Página oficial de solicitud"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Page officielle de demande"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आधिकारिक आवेदन पेज"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "官方申请页面"
+          }
+        }
+      }
+    },
+    "results:official.asOf" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{date}} অনুযায়ী"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stand {{date}}"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "as of {{date}}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "a {{date}}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "au {{date}}"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{date}} तक"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截至 {{date}}"
+          }
+        }
+      }
+    },
+    "results:official.crossAgrees" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "উপরের উত্তরের সঙ্গে মেলে।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stimmt mit der Antwort oben überein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrees with the answer above."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coincide con la respuesta de arriba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concorde avec la réponse ci-dessus."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ऊपर दिए उत्तर से मेल खाता है।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与上方答案一致。"
+          }
+        }
+      }
+    },
+    "results:official.crossCheck" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ক্রস-চেক (Wikipedia, অফিসিয়াল উৎস নয়)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegenprüfung (Wikipedia, keine offizielle Quelle)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cross-check (Wikipedia, not an official source)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprobación cruzada (Wikipedia, no es una fuente oficial)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contre-vérification (Wikipédia, pas une source officielle)"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "क्रॉस-चेक (Wikipedia, आधिकारिक स्रोत नहीं)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "交叉核对（维基百科，非官方来源）"
+          }
+        }
+      }
+    },
+    "results:official.crossDiffers" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "উপরের উত্তর থেকে আলাদা — অফিসিয়াল সাইটে নিশ্চিত করুন।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weicht von der Antwort oben ab – bitte auf der offiziellen Website bestätigen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Differs from the answer above — confirm on the official site."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No coincide con la respuesta de arriba: confírmalo en el sitio oficial."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diffère de la réponse ci-dessus : confirmez sur le site officiel."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ऊपर दिए उत्तर से अलग है — आधिकारिक साइट पर पुष्टि करें।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与上方答案不同，请在官方网站确认。"
+          }
+        }
+      }
+    },
+    "results:official.disagree" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "উৎসগুলোর মধ্যে মতভেদ আছে — অফিসিয়াল সাইটে যাচাই করুন।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Quellen widersprechen sich – bitte auf der offiziellen Website prüfen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sources disagree on this — check the official site."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las fuentes no coinciden: consulta el sitio oficial."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les sources ne concordent pas : vérifiez sur le site officiel."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्रोतों में मतभेद है — आधिकारिक साइट पर जाँचें।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各来源说法不一，请查看官方网站。"
+          }
+        }
+      }
+    },
+    "results:official.entryFor" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "অফিসিয়াল প্রবেশ তথ্য: {{country}}"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offizielle Einreiseinformationen: {{country}}"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Official entry information: {{country}}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información oficial de entrada: {{country}}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informations officielles d'entrée : {{country}}"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आधिकारिक प्रवेश जानकारी: {{country}}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "官方入境信息：{{country}}"
+          }
+        }
+      }
+    },
+    "results:official.entryTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "অফিসিয়াল প্রবেশ তথ্য"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offizielle Einreiseinformationen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Official entry information"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información oficial de entrada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informations officielles d'entrée"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आधिकारिक प्रवेश जानकारी"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "官方入境信息"
+          }
+        }
+      }
+    },
+    "results:official.holidaysNote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "দোকান, জাদুঘর ও যানবাহন বন্ধ থাকতে পারে বা কম সময় চলতে পারে।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschäfte, Museen und Verkehrsmittel können geschlossen sein oder eingeschränkt fahren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shops, museums and transport may close or run reduced hours."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiendas, museos y transporte pueden cerrar o tener horario reducido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commerces, musées et transports peuvent fermer ou fonctionner en horaires réduits."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "दुकानें, संग्रहालय और परिवहन बंद हो सकते हैं या कम समय चल सकते हैं।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "商店、博物馆和交通可能关闭或缩短营业时间。"
+          }
+        }
+      }
+    },
+    "results:official.holidaysTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "আপনার ভ্রমণের সময় সরকারি ছুটি"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feiertage während deiner Reise"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Public holidays during your trip"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Días festivos durante tu viaje"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jours fériés pendant votre voyage"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आपकी यात्रा के दौरान सार्वजनिक छुट्टियाँ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "旅行期间的公共假日"
+          }
+        }
+      }
+    },
+    "results:official.level" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "স্তর {{level}} / {{max}}"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stufe {{level}} von {{max}}"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Level {{level}} of {{max}}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nivel {{level}} de {{max}}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niveau {{level}} sur {{max}}"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्तर {{level}} / {{max}}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 {{level}} 级（共 {{max}} 级）"
+          }
+        }
+      }
+    },
+    "results:official.listUpdated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "তালিকা হালনাগাদ {{date}}"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste aktualisiert am {{date}}"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List updated {{date}}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista actualizada el {{date}}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste mise à jour le {{date}}"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सूची {{date}} को अपडेट हुई"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名单更新于 {{date}}"
+          }
+        }
+      }
+    },
+    "results:official.medicalElsewhere" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "এই শহরে কোনোটি তালিকাভুক্ত নেই — এগুলো দেশের অন্য জায়গায়।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In dieser Stadt ist keine aufgeführt – diese liegen anderswo im Land."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None listed in this city — these are elsewhere in the country."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay ninguno en esta ciudad; estos están en otras partes del país."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun dans cette ville : ceux-ci sont ailleurs dans le pays."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इस शहर में कोई सूचीबद्ध नहीं — ये देश में अन्य जगह हैं।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本市没有列出的机构，以下位于该国其他地方。"
+          }
+        }
+      }
+    },
+    "results:official.medicalTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "চিকিৎসা কেন্দ্র (অফিসিয়াল তালিকা)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medizinische Einrichtungen (offizielle Liste)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medical facilities (official list)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Centros médicos (lista oficial)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Établissements médicaux (liste officielle)"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "चिकित्सा सुविधाएँ (आधिकारिक सूची)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "医疗机构（官方名单）"
+          }
+        }
+      }
+    },
+    "results:official.officialContact" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "অফিসিয়াল যোগাযোগের তথ্য"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offizielle Kontaktdaten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Official contact details"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datos de contacto oficiales"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coordonnées officielles"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आधिकारिक संपर्क विवरण"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "官方联系方式"
+          }
+        }
+      }
+    },
+    "results:official.otherOffices" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "অন্যান্য অফিস"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weitere Vertretungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other offices"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otras oficinas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autres bureaux"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अन्य कार्यालय"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他办事处"
+          }
+        }
+      }
+    },
+    "results:official.passportValidity" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "থাকার পরেও পাসপোর্ট {{months}} মাস বৈধ থাকতে হবে"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reisepass muss {{months}} Monate über den Aufenthalt hinaus gültig sein"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passport valid {{months}} months beyond your stay"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pasaporte válido {{months}} meses después de tu estancia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passeport valide {{months}} mois après votre séjour"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पासपोर्ट आपके प्रवास के बाद {{months}} महीने वैध हो"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "护照有效期需超出停留期 {{months}} 个月"
+          }
+        }
+      }
+    },
+    "results:official.phoneUnverified" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ফোন নম্বর যাচাই করা হয়নি — অফিসিয়াল ওয়েবসাইট দেখুন।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telefonnummer nicht geprüft – bitte auf der offiziellen Website nachsehen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phone number not verified — check the official website."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teléfono no verificado: consulta el sitio web oficial."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéro non vérifié : consultez le site officiel."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोन नंबर सत्यापित नहीं — आधिकारिक वेबसाइट देखें।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电话号码未经核实，请查看官方网站。"
+          }
+        }
+      }
+    },
+    "results:official.referenceNumbers" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "জরুরি নম্বর (রেফারেন্স)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notrufnummern (Referenz)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emergency numbers (reference)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Números de emergencia (referencia)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéros d'urgence (référence)"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आपातकालीन नंबर (संदर्भ)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紧急电话（参考）"
+          }
+        }
+      }
+    },
+    "results:official.regional" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "আঞ্চলিক"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "regional"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "regional"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "regional"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "régional"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "क्षेत्रीय"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地区性"
+          }
+        }
+      }
+    },
+    "results:official.source" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "উৎস: {{name}}"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quelle: {{name}}"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source: {{name}}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fuente: {{name}}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source : {{name}}"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्रोत: {{name}}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来源：{{name}}"
+          }
+        }
+      }
+    },
+    "results:official.typicalFare" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{month}}-এর সাধারণ ক্যাশ করা ভাড়া: {{price}} — লাইভ দাম নয়"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typischer zwischengespeicherter Preis für {{month}}: {{price}} – kein Live-Preis"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typical cached fare for {{month}}: {{price}} — not a live price"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarifa típica en caché para {{month}}: {{price}}; no es un precio en vivo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarif type en cache pour {{month}} : {{price}}, pas un prix en direct"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{month}} का सामान्य कैश्ड किराया: {{price}} — लाइव कीमत नहीं"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{month}} 的典型缓存票价：{{price}}，并非实时价格"
+          }
+        }
+      }
+    },
+    "results:official.via" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{currency}}-এর মাধ্যমে"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "über {{currency}}"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "via {{currency}}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vía {{currency}}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "via {{currency}}"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{currency}} के ज़रिए"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "经由 {{currency}}"
+          }
+        }
+      }
+    },
     "results:places.approxHours" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -129269,6 +130685,777 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "旅游通票："
+          }
+        }
+      }
+    },
+    "results:tripadvisor.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "এই এলাকার জন্য Tripadvisor-এ কোনো রেটিং নেই।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor hat für diese Gegend keine Bewertungen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor has no ratings for this area."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor no tiene valoraciones para esta zona."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor n'a pas de notes pour ce secteur."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इस क्षेत्र के लिए Tripadvisor पर कोई रेटिंग नहीं है।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor 暂无此地区的评分。"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor রেটিং লোড করা যায়নি। আবার চেষ্টা করুন।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor-Bewertungen konnten nicht geladen werden. Bitte erneut versuchen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't load Tripadvisor ratings. Try again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudieron cargar las valoraciones de Tripadvisor. Inténtalo de nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger les notes Tripadvisor. Réessayez."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor रेटिंग लोड नहीं हो सकी। फिर से कोशिश करें।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法加载 Tripadvisor 评分，请重试。"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.hide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "লুকান"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausblenden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "छिपाएँ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor রেটিং লোড হচ্ছে…"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor-Bewertungen werden geladen…"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading Tripadvisor ratings…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargando valoraciones de Tripadvisor…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement des notes Tripadvisor…"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor रेटिंग लोड हो रही है…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在加载 Tripadvisor 评分…"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.logoAlt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.note" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor থেকে সরাসরি, যেমন পাওয়া গেছে তেমন দেখানো, আমরা সংরক্ষণ করি না।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live von Tripadvisor, unverändert angezeigt und nicht von uns gespeichert."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live from Tripadvisor, shown as provided and not stored by us."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En directo desde Tripadvisor, tal como lo ofrece y sin guardarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En direct de Tripadvisor, affiché tel quel et non conservé par nous."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor से लाइव, जैसी मिली वैसी दिखाई गई, हम इसे सहेजते नहीं।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实时来自 Tripadvisor，按原样显示，我们不保存。"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.paused" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor রেটিং এখন বিরতিতে আছে।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor-Bewertungen sind gerade pausiert."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor ratings are paused right now."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las valoraciones de Tripadvisor están en pausa ahora mismo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les notes Tripadvisor sont en pause pour le moment."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor रेटिंग अभी रोकी गई है।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor 评分目前已暂停。"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.ratingAlt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor রেটিং: ৫-এর মধ্যে {{rating}}"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor-Bewertung: {{rating}} von 5"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor bubble rating: {{rating}} of 5"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valoración de Tripadvisor: {{rating}} de 5"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note Tripadvisor : {{rating}} sur 5"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor रेटिंग: 5 में से {{rating}}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor 评分：{{rating}} / 5"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.retry" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "আবার চেষ্টা করুন"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erneut versuchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reintentar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réessayer"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फिर से कोशिश करें"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重试"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.reviews" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}}টি রিভিউ"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}}টি রিভিউ"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} Bewertung"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} Bewertungen"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} review"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} reviews"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} opiniones"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} opinión"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} opiniones"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} avis"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} avis"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} avis"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} समीक्षा"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} समीक्षाएँ"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@count@"
+          },
+          "substitutions" : {
+            "count" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "{{n}} 条点评"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "results:tripadvisor.show" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor রেটিং দেখান"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor-Bewertungen anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Tripadvisor ratings"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver valoraciones de Tripadvisor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les notes Tripadvisor"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor रेटिंग दिखाएँ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示 Tripadvisor 评分"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.showFor" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{city}}-এর জন্য Tripadvisor রেটিং দেখান"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor-Bewertungen für {{city}} anzeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Tripadvisor ratings for {{city}}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver valoraciones de Tripadvisor para {{city}}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les notes Tripadvisor pour {{city}}"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{{city}} के लिए Tripadvisor रेटिंग दिखाएँ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示 {{city}} 的 Tripadvisor 评分"
+          }
+        }
+      }
+    },
+    "results:tripadvisor.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor-এর রেটিং"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewertungen von Tripadvisor"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ratings from Tripadvisor"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valoraciones de Tripadvisor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notes Tripadvisor"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor की रेटिंग"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tripadvisor 评分"
           }
         }
       }
@@ -139799,13 +141986,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip pace"
+            "value" : "ট্রিপের গতি"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip pace"
+            "value" : "Reisetempo"
           }
         },
         "en" : {
@@ -139817,25 +142004,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip pace"
+            "value" : "Ritmo del viaje"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip pace"
+            "value" : "Rythme du voyage"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip pace"
+            "value" : "यात्रा की गति"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip pace"
+            "value" : "行程节奏"
           }
         }
       }
@@ -145807,13 +147994,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose where you fly from and to, and your nationality, then plan your trip."
+            "value" : "কোথা থেকে কোথায় উড়বেন এবং আপনার জাতীয়তা বেছে নিন, তারপর ট্রিপ প্ল্যান করুন।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose where you fly from and to, and your nationality, then plan your trip."
+            "value" : "Wähle, von wo und wohin du fliegst, und deine Nationalität, und plane dann deine Reise."
           }
         },
         "en" : {
@@ -145825,25 +148012,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose where you fly from and to, and your nationality, then plan your trip."
+            "value" : "Elige desde dónde y hacia dónde vuelas, y tu nacionalidad; después planifica tu viaje."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose where you fly from and to, and your nationality, then plan your trip."
+            "value" : "Choisissez d'où et vers où vous volez, ainsi que votre nationalité, puis planifiez votre voyage."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose where you fly from and to, and your nationality, then plan your trip."
+            "value" : "चुनें कि आप कहां से कहां उड़ान भरेंगे और आपकी राष्ट्रीयता क्या है, फिर अपनी यात्रा प्लान करें।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose where you fly from and to, and your nationality, then plan your trip."
+            "value" : "请选择出发地、目的地和国籍，然后规划你的行程。"
           }
         }
       }
@@ -145854,13 +148041,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The return date can't be before the departure date."
+            "value" : "ফেরার তারিখ যাত্রার তারিখের আগে হতে পারে না।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The return date can't be before the departure date."
+            "value" : "Das Rückreisedatum darf nicht vor dem Abreisedatum liegen."
           }
         },
         "en" : {
@@ -145872,25 +148059,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The return date can't be before the departure date."
+            "value" : "La fecha de regreso no puede ser anterior a la de salida."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The return date can't be before the departure date."
+            "value" : "La date de retour ne peut pas précéder la date de départ."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The return date can't be before the departure date."
+            "value" : "वापसी की तारीख प्रस्थान की तारीख से पहले नहीं हो सकती।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The return date can't be before the departure date."
+            "value" : "返程日期不能早于出发日期。"
           }
         }
       }
@@ -145901,13 +148088,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Collapsed"
+            "value" : "সংকুচিত"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Collapsed"
+            "value" : "Eingeklappt"
           }
         },
         "en" : {
@@ -145919,25 +148106,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Collapsed"
+            "value" : "Contraído"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Collapsed"
+            "value" : "Réduit"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Collapsed"
+            "value" : "संक्षिप्त"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Collapsed"
+            "value" : "已收起"
           }
         }
       }
@@ -145948,13 +148135,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expanded"
+            "value" : "প্রসারিত"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expanded"
+            "value" : "Ausgeklappt"
           }
         },
         "en" : {
@@ -145966,25 +148153,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expanded"
+            "value" : "Expandido"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expanded"
+            "value" : "Développé"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expanded"
+            "value" : "विस्तृत"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Expanded"
+            "value" : "已展开"
           }
         }
       }
@@ -146982,13 +149169,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Minimum stars"
+            "value" : "ন্যূনতম স্টার"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Minimum stars"
+            "value" : "Mindeststerne"
           }
         },
         "en" : {
@@ -147000,25 +149187,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Minimum stars"
+            "value" : "Estrellas mínimas"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Minimum stars"
+            "value" : "Étoiles minimum"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Minimum stars"
+            "value" : "न्यूनतम स्टार"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Minimum stars"
+            "value" : "最低星级"
           }
         }
       }
@@ -147029,7 +149216,7 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget"
+            "value" : "বাজেট"
           }
         },
         "de" : {
@@ -147047,25 +149234,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget"
+            "value" : "Económico"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget"
+            "value" : "Économique"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget"
+            "value" : "बजट"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Budget"
+            "value" : "经济型"
           }
         }
       }
@@ -147076,13 +149263,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Luxury"
+            "value" : "বিলাসবহুল"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Luxury"
+            "value" : "Luxus"
           }
         },
         "en" : {
@@ -147094,25 +149281,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Luxury"
+            "value" : "Lujo"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Luxury"
+            "value" : "Luxe"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Luxury"
+            "value" : "लक्ज़री"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Luxury"
+            "value" : "奢华"
           }
         }
       }
@@ -147123,13 +149310,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mid-range"
+            "value" : "মাঝারি মানের"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mid-range"
+            "value" : "Mittelklasse"
           }
         },
         "en" : {
@@ -147141,25 +149328,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mid-range"
+            "value" : "Gama media"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mid-range"
+            "value" : "Milieu de gamme"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mid-range"
+            "value" : "मध्यम श्रेणी"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mid-range"
+            "value" : "中档"
           }
         }
       }
@@ -147170,13 +149357,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Other stays"
+            "value" : "অন্যান্য থাকার জায়গা"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Other stays"
+            "value" : "Weitere Unterkünfte"
           }
         },
         "en" : {
@@ -147188,25 +149375,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Other stays"
+            "value" : "Otros alojamientos"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Other stays"
+            "value" : "Autres hébergements"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Other stays"
+            "value" : "अन्य ठहरने की जगहें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Other stays"
+            "value" : "其他住宿"
           }
         }
       }
@@ -147217,7 +149404,7 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Premium"
+            "value" : "প্রিমিয়াম"
           }
         },
         "de" : {
@@ -147247,13 +149434,13 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Premium"
+            "value" : "प्रीमियम"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Premium"
+            "value" : "高端"
           }
         }
       }
@@ -160190,13 +162377,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Share again"
+            "value" : "আবার শেয়ার করুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Share again"
+            "value" : "Erneut teilen"
           }
         },
         "en" : {
@@ -160208,25 +162395,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Share again"
+            "value" : "Compartir de nuevo"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Share again"
+            "value" : "Partager à nouveau"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Share again"
+            "value" : "फिर से साझा करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Share again"
+            "value" : "再次分享"
           }
         }
       }
@@ -161459,13 +163646,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+            "value" : "এটি আবার শেয়ার করলে একই লিংক আপডেট হয়: আপনার নতুন পছন্দ আগেরগুলোর জায়গা নেয়।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+            "value" : "Wenn du das erneut teilst, wird derselbe Link aktualisiert: Deine neuen Einstellungen ersetzen die früheren."
           }
         },
         "en" : {
@@ -161477,25 +163664,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+            "value" : "Si lo vuelves a compartir, se actualiza el mismo enlace: tus nuevas opciones sustituyen a las anteriores."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+            "value" : "Partager à nouveau met à jour le même lien : vos nouveaux choix remplacent les précédents."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+            "value" : "इसे दोबारा साझा करने पर वही लिंक अपडेट होता है: आपके नए विकल्प पुराने विकल्पों की जगह ले लेते हैं।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+            "value" : "再次分享会更新同一个链接：你的新选择将替换之前的选择。"
           }
         }
       }
@@ -161506,13 +163693,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+            "value" : "আগে লিংকটি আপডেট করুন। এখন শেয়ার বা কপি করলে আপনার পরিবর্তনের আগের লিংকটিই যাবে।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+            "value" : "Aktualisiere zuerst den Link. Wenn du ihn jetzt teilst oder kopierst, wird er so gesendet, wie er vor deinen Änderungen war."
           }
         },
         "en" : {
@@ -161524,25 +163711,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+            "value" : "Actualiza primero el enlace. Compartirlo o copiarlo ahora enviaría el enlace tal como estaba antes de tus cambios."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+            "value" : "Mettez d'abord le lien à jour. Le partager ou le copier maintenant enverrait le lien tel qu'il était avant vos modifications."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+            "value" : "पहले लिंक अपडेट करें। अभी शेयर या कॉपी करने पर लिंक वैसा ही जाएगा जैसा आपके बदलावों से पहले था।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+            "value" : "请先更新链接。现在分享或复制，发送的仍是你修改之前的链接。"
           }
         }
       }
@@ -169637,13 +171824,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You have not blocked anyone."
+            "value" : "আপনি কাউকে ব্লক করেননি।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You have not blocked anyone."
+            "value" : "Du hast niemanden blockiert."
           }
         },
         "en" : {
@@ -169655,25 +171842,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You have not blocked anyone."
+            "value" : "No has bloqueado a nadie."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You have not blocked anyone."
+            "value" : "Vous n'avez bloqué personne."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You have not blocked anyone."
+            "value" : "आपने किसी को ब्लॉक नहीं किया है।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You have not blocked anyone."
+            "value" : "你还没有屏蔽任何人。"
           }
         }
       }
@@ -169684,13 +171871,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No followers yet."
+            "value" : "এখনও কোনো ফলোয়ার নেই।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No followers yet."
+            "value" : "Noch keine Follower."
           }
         },
         "en" : {
@@ -169702,25 +171889,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No followers yet."
+            "value" : "Aún no tienes seguidores."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No followers yet."
+            "value" : "Aucun abonné pour l'instant."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No followers yet."
+            "value" : "अभी तक कोई फ़ॉलोअर नहीं।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No followers yet."
+            "value" : "还没有关注者。"
           }
         }
       }
@@ -169731,13 +171918,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are not following anyone yet."
+            "value" : "আপনি এখনও কাউকে ফলো করছেন না।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are not following anyone yet."
+            "value" : "Du folgst noch niemandem."
           }
         },
         "en" : {
@@ -169749,25 +171936,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are not following anyone yet."
+            "value" : "Todavía no sigues a nadie."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are not following anyone yet."
+            "value" : "Vous ne suivez encore personne."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are not following anyone yet."
+            "value" : "आप अभी तक किसी को फ़ॉलो नहीं कर रहे हैं।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You are not following anyone yet."
+            "value" : "你还没有关注任何人。"
           }
         }
       }
@@ -169778,13 +171965,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No follow requests."
+            "value" : "কোনো ফলো অনুরোধ নেই।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No follow requests."
+            "value" : "Keine Folgeanfragen."
           }
         },
         "en" : {
@@ -169796,25 +171983,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No follow requests."
+            "value" : "No hay solicitudes de seguimiento."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No follow requests."
+            "value" : "Aucune demande d'abonnement."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No follow requests."
+            "value" : "कोई फ़ॉलो अनुरोध नहीं।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No follow requests."
+            "value" : "没有关注请求。"
           }
         }
       }
@@ -169872,13 +172059,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cancel follow request"
+            "value" : "ফলো অনুরোধ বাতিল করুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cancel follow request"
+            "value" : "Folgeanfrage zurückziehen"
           }
         },
         "en" : {
@@ -169890,25 +172077,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cancel follow request"
+            "value" : "Cancelar solicitud de seguimiento"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cancel follow request"
+            "value" : "Annuler la demande d'abonnement"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cancel follow request"
+            "value" : "फ़ॉलो अनुरोध रद्द करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cancel follow request"
+            "value" : "取消关注请求"
           }
         }
       }
@@ -169919,13 +172106,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create your profile to follow people."
+            "value" : "মানুষকে ফলো করতে আপনার প্রোফাইল তৈরি করুন।"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create your profile to follow people."
+            "value" : "Erstelle dein Profil, um anderen zu folgen."
           }
         },
         "en" : {
@@ -169937,25 +172124,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create your profile to follow people."
+            "value" : "Crea tu perfil para seguir a otras personas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create your profile to follow people."
+            "value" : "Créez votre profil pour suivre d'autres personnes."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create your profile to follow people."
+            "value" : "लोगों को फ़ॉलो करने के लिए अपनी प्रोफ़ाइल बनाएं।"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create your profile to follow people."
+            "value" : "创建你的个人资料后即可关注他人。"
           }
         }
       }
@@ -170577,13 +172764,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop following"
+            "value" : "ফলো করা বন্ধ করুন"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop following"
+            "value" : "Nicht mehr folgen"
           }
         },
         "en" : {
@@ -170595,25 +172782,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop following"
+            "value" : "Dejar de seguir"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop following"
+            "value" : "Ne plus suivre"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop following"
+            "value" : "फ़ॉलो करना बंद करें"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop following"
+            "value" : "取消关注"
           }
         }
       }
@@ -170624,13 +172811,13 @@
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "See how others see your profile"
+            "value" : "দেখুন অন্যরা আপনার প্রোফাইল কেমন দেখে"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "See how others see your profile"
+            "value" : "So sehen andere dein Profil"
           }
         },
         "en" : {
@@ -170642,25 +172829,25 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "See how others see your profile"
+            "value" : "Ver cómo ven otros tu perfil"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "See how others see your profile"
+            "value" : "Voir comment les autres voient votre profil"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "See how others see your profile"
+            "value" : "देखें कि दूसरों को आपकी प्रोफ़ाइल कैसी दिखती है"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "See how others see your profile"
+            "value" : "查看他人眼中的你的个人资料"
           }
         }
       }
