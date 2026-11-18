@@ -222,7 +222,8 @@ private func snapshotKey(file: StaticString, testName: String, name: String) -> 
 /// configured canvas (or the device screen).
 @MainActor
 private func fittedCanvas(of view: some View, layout: SnapshotLayout, config: SnapshotConfig, key: String) -> CGSize? {
-    guard layout == .component || config.canvas != nil else { return config.canvas }
+    let override = SnapshotCanvasOverrides.heights[key]
+    guard layout == .component || config.canvas != nil || override != nil else { return config.canvas }
     guard let width = config.canvas?.width ?? config.device.size?.width else { return config.canvas }
     let probeHeight: CGFloat = 20_000
     let sized = layout == .component ? AnyView(view.padding(16)) : AnyView(view)
@@ -231,7 +232,7 @@ private func fittedCanvas(of view: some View, layout: SnapshotLayout, config: Sn
     let host = UIHostingController(rootView: sized.dynamicTypeSize(category).environment(\.colorScheme, scheme))
     let fit = host.sizeThatFits(in: CGSize(width: width, height: probeHeight))
     guard fit.height > 1, fit.height < probeHeight - 1 else {
-        guard let height = SnapshotCanvasOverrides.heights[key] else { return config.canvas }
+        guard let height = override else { return config.canvas }
         return CGSize(width: width, height: height)
     }
     let safe = config.device.safeArea
