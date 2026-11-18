@@ -115,7 +115,12 @@ enum Smoke {
             // The keyboard showing is the focus signal (asking a field for hasKeyboardFocus fails the test when it is gone).
             if eventually(timeout: 4, { app.keyboards.firstMatch.exists }) { break }
         }
-        if !element(app, id).exists { frames(app, id) }
+        if !element(app, id).exists {
+            // The field left the tree after the tap (iPad): the keyboard still types into the focused field.
+            if app.keyboards.firstMatch.exists { app.typeText(text); return }
+            frames(app, id)
+            return
+        }
         Progress.mark("type \(id)")
         if !element(app, id).exists { dump() }
         element(app, id).typeText(text)
@@ -144,12 +149,13 @@ enum Smoke {
     }
 
     /// What the app showed and what the stub saw, printed when a step fails (the CI log is the only evidence).
-    /// Frames of an element and of any popover over the screen, for a failed step on iPad.
+    /// Why an element is missing, for a failed step on iPad: the popover, the keyboard and the screen's text fields and buttons.
     static func frames(_ app: XCUIApplication, _ id: String) {
-        let target = element(app, id)
-        let popover = app.otherElements["PopoverDismissRegion"]
-        let window = app.windows.firstMatch.frame
-        XCTFail("SMOKE frames: \(id) exists \(target.exists) frame \(target.frame); popover \(popover.exists); window \(window)")
+        let popover = app.otherElements["PopoverDismissRegion"].exists
+        let keyboard = app.keyboards.firstMatch.exists
+        let fields = app.textFields.allElementsBoundByIndex.prefix(10).map { "\($0.identifier)|\($0.label)" }
+        let ids = app.descendants(matching: .any).allElementsBoundByIndex.prefix(250).map(\.identifier).filter { !$0.isEmpty }
+        XCTFail(String("SMOKE missing \(id): popover \(popover) keyboard \(keyboard) textFields \(fields) ids \(ids)".prefix(3500)))
     }
 
     static func dump() {
