@@ -126,18 +126,6 @@ enum Smoke {
         element(app, id).typeText(text)
     }
 
-    /// Dismisses a popover left over the screen (iPad: it swallows the next tap and navigates nowhere). Reports how many it
-    /// closed on stderr so a CI log shows it happened.
-    @discardableResult
-    static func dismissPopover(_ app: XCUIApplication) -> Bool {
-        let region = app.otherElements["PopoverDismissRegion"]
-        guard region.exists else { return false }
-        // Far from the sidebar's edge: on iPad the region is the dimmed content next to a slid-over sidebar.
-        region.coordinate(withNormalizedOffset: CGVector(dx: 0.98, dy: 0.5)).tap()
-        RunLoop.current.run(until: Date().addingTimeInterval(1))
-        return true
-    }
-
     static func element(_ app: XCUIApplication, _ id: String) -> XCUIElement {
         app.descendants(matching: .any).matching(identifier: id).firstMatch
     }
@@ -196,9 +184,6 @@ enum Smoke {
         }
         let row = sidebar.staticTexts[title].firstMatch
         if row.exists { row.tap() } else { sidebar.buttons[title].firstMatch.tap() }
-        // A slid-over sidebar (iPad) stays open over the screen after a pick and swallows the next tap: close it.
-        RunLoop.current.run(until: Date().addingTimeInterval(1))
-        dismissPopover(app)
     }
 
     /// True when `element` has a real frame inside the window (cheaper than `isHittable`, which on iPad can stay false for a
