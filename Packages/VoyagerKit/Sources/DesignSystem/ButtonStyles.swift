@@ -58,8 +58,10 @@ public struct TonalButtonStyle: ButtonStyle {
 public struct DestructiveButtonStyle: ButtonStyle {
     public init() {}
     public func makeBody(configuration: Configuration) -> some View {
+        // The danger family's tinted pairing (100 fill, 800 label, 200 edge): readable in both schemes, unlike white on the
+        // light coral that red-600 becomes in dark.
         VButtonBody(
-            configuration: configuration, foreground: SemanticColor.onPrimary,
-            background: SemanticColor.destructive, stroke: nil)
+            configuration: configuration, foreground: Palette.color(.red, .s800),
+            background: Palette.color(.red, .s100), stroke: Palette.color(.red, .s200))
     }
 }

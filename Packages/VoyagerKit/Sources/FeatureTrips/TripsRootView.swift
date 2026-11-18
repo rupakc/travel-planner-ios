@@ -51,7 +51,9 @@ public struct TripsRootView: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
+                .background(SemanticColor.surface)
             }
+            .background(SemanticColor.surface)
         }
         .task(id: env.auth.session?.user.username) { await model.load() }
         .telemetryScreen("/trips")
