@@ -79,7 +79,20 @@ final class H2HMatchModel {
         await load()
     }
 
-    var canAnswer: Bool { match?.state == .waitingYou && !busy }
+    /// The caller already has a session for this match (the creator, who plays at once, or an opponent who accepted):
+    /// the backend reports `waiting_you` until it is finished, and accept or decline would answer 404 / 409.
+    var canContinue: Bool { match?.state == .waitingYou && match?.sessionID?.isEmpty == false && !busy }
+
+    /// An invitation the caller has not accepted: no session yet.
+    var canAnswer: Bool { match?.state == .waitingYou && match?.sessionID?.isEmpty != false && !busy }
+
+    /// Resumes the caller's own unfinished session.
+    func resume() {
+        guard canContinue, let match, let session = match.sessionID else { return }
+        emit(.playQuizStart(mode: "h2h", pack: Self.knownPack(match.pack)))
+        needsRefresh = true
+        env.router.open(.quiz(sessionID: session))
+    }
 
     func accept() async {
         guard canAnswer, let match else { return }

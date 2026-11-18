@@ -22,16 +22,23 @@ final class IdeaDetailModel {
     private(set) var savedNote = false
     private(set) var isDeleted = false
     var commentsOpen = true
+    /// The comments below the idea. Built once here, never in a view body: it learns whether the viewer wrote the idea
+    /// when the idea loads, and always reports count changes back to the idea.
+    let comments: CommentsModel
 
     @ObservationIgnored private let env: AppEnvironment
     @ObservationIgnored private let actions: IdeaActions
     @ObservationIgnored private var busy = false
     @ObservationIgnored private var didStart = false
 
-    init(env: AppEnvironment, ideaID: String, track: (@MainActor (TelemetryEvent) -> Void)? = nil) {
+    init(
+        env: AppEnvironment, ideaID: String, comments: CommentsModel? = nil, track: (@MainActor (TelemetryEvent) -> Void)? = nil
+    ) {
         self.env = env
         self.ideaID = ideaID
         self.actions = IdeaActions(env: env, track: track)
+        self.comments = comments ?? CommentsModel(env: env, ideaID: ideaID, ideaMine: false, track: track)
+        self.comments.onCount = { [weak self] in self?.commentCountChanged($0) }
     }
 
     /// First load of the screen (once).
@@ -48,6 +55,7 @@ final class IdeaDetailModel {
             // Held shows only to its author; anything else not published is gone for the viewer.
             if loaded.status.isPublished || (loaded.status == .held && loaded.mine) {
                 idea = loaded
+                comments.ideaMine = loaded.mine
                 phase = .loaded
             } else {
                 idea = nil

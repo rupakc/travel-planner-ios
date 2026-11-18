@@ -148,6 +148,10 @@ final class ShareSheetModel {
     /// Choices changed since the link was made.
     var isDirty: Bool { appliedOptions != nil && appliedOptions != options }
 
+    /// Share link, Share image and Copy send the link as the server has it, so they wait while the sheet shows choices the
+    /// link was not made with ("Update link" first).
+    var canShare: Bool { hasLink && !isDirty }
+
     var primaryTitle: String {
         if phase == .creating { return L10n.text(K.share.working) }
         return L10n.text(hasLink ? K.share.update : K.share.create)
@@ -216,13 +220,14 @@ final class ShareSheetModel {
     }
 
     func copyLink() {
-        guard let url = linkURL else { return }
+        guard let url = linkURL, canShare else { return }
         outcome = pasteboard(url.absoluteString) ? .copied : .copyFailed
         track(target: "copy")
     }
 
     /// The system share sheet was opened for the link or the image (`native`); `tid` names the control.
     func didShareNatively(tid: String) {
+        guard canShare else { return }
         emit(.uiTap(tid: tid, route: TelemetryRouteName.template(for: .shareSheet(target))))
         track(target: "native")
     }

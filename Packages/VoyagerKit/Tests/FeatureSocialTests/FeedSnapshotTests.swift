@@ -128,12 +128,12 @@ final class FeedSnapshotTests: XCTestCase {
                 IdeaComment(id: "c2", authorHandle: "me_myself", text: "Love this.", mine: true, status: .held),
             ]))
         let env = AppEnvironment.fake(fakes: fakes, clientConfig: ClientConfig(features: ["social": .number(1)]))
-        let detail = IdeaDetailModel(env: env, ideaID: "1", track: { _ in })
-        await detail.start()
         let comments = CommentsModel(env: env, ideaID: "1", ideaMine: false, track: { _ in })
+        let detail = IdeaDetailModel(env: env, ideaID: "1", comments: comments, track: { _ in })
+        await detail.start()
         await comments.start()
         await assertSnapshots(
-            of: { IdeaDetailView(model: detail, comments: comments, env: env) }, named: "detail",
+            of: { IdeaDetailView(model: detail) }, named: "detail",
             configs: [phone("se-light", height: 1102), phone("se-dark", dark: true, height: 1102)], layout: .screen)
     }
 
@@ -143,9 +143,8 @@ final class FeedSnapshotTests: XCTestCase {
         let env = AppEnvironment.fake(fakes: fakes, clientConfig: ClientConfig(features: ["social": .number(1)]))
         let detail = IdeaDetailModel(env: env, ideaID: "1", track: { _ in })
         await detail.start()
-        let comments = CommentsModel(env: env, ideaID: "1", ideaMine: false, track: { _ in })
         await assertSnapshots(
-            of: { IdeaDetailView(model: detail, comments: comments, env: env) }, named: "gone",
+            of: { IdeaDetailView(model: detail) }, named: "gone",
             configs: [phone("se-light", height: 200)], layout: .screen)
     }
 
