@@ -279,7 +279,7 @@ public final class AlertsModel {
             rows.removeAll { $0.id == row.id }
             if focusedID == row.id { focusedID = nil }
             track(.alertEvent(action: "watch_delete", kind: row.kind.rawValue))
-            await env.watchesChanged()
+            await env.watchesChanged(removed: (row.kind, row.watchID))
         } catch {
             toast = ToastMessage(Self.failureText(error, fallback: L10n.text(K.alerts.checks.deleteFailed)))
         }
