@@ -58,7 +58,9 @@ func assertSnapshots<V: View>(
                 mutable.userInterfaceStyle = config.dark ? .dark : .light
                 mutable.preferredContentSizeCategory = config.size
             }
-            let canvas = fittedCanvas(of: view(), config: config)
+            let canvas = fittedCanvas(
+                of: view(), config: config,
+                key: "\(testName.replacingOccurrences(of: "()", with: "")).\(name)-\(config.name)")
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
@@ -74,14 +76,21 @@ func assertSnapshots<V: View>(
 /// Fits the canvas to the measured natural height of the padded component (plus safe area and a small tail), so a PNG
 /// has no blank tail; falls back to the configured canvas when the view cannot be measured.
 @MainActor
-private func fittedCanvas(of view: some View, config: SnapshotConfig) -> CGSize? {
+private func fittedCanvas(of view: some View, config: SnapshotConfig, key: String) -> CGSize? {
     guard let width = config.canvas?.width ?? config.device.size?.width else { return config.canvas }
     let probeHeight: CGFloat = 20_000
     let scheme: ColorScheme = config.dark ? .dark : .light
     let host = UIHostingController(
         rootView: view.padding(16).dynamicTypeSize(DynamicTypeSize(config.size) ?? .large).environment(\.colorScheme, scheme))
     let fit = host.sizeThatFits(in: CGSize(width: width, height: probeHeight))
-    guard fit.height > 1, fit.height < probeHeight - 1 else { return config.canvas }
+    guard fit.height > 1, fit.height < probeHeight - 1 else {
+        // Views that fill whatever height they are offered: measured from a record run (content height + 16 pt tail).
+        let overrides: [String: CGFloat] = [
+            "test_itinerary.plain-ipad-light": 866, "test_itinerary.plain-ipad-dark": 866,
+        ]
+        guard let height = overrides[key] else { return config.canvas }
+        return CGSize(width: width, height: height)
+    }
     let safe = config.device.safeArea
     return CGSize(width: width, height: ceil(fit.height + safe.top + safe.bottom + 4))
 }
