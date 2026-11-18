@@ -35,7 +35,15 @@ final class Phase5Smoke: XCTestCase {
         Smoke.scrollTo(app, play)
         play.tap()
         Smoke.expect(Smoke.element(app, "play.home"))
-        Smoke.tap(Smoke.element(app, "play.daily.start"))
+        // The screen is still sliding in over the Settings column on iPad: wait until the button has a hit point (a tap
+        // during the transition computed {-1, -1} and did nothing), and tap again when the quiz did not open.
+        let start = Smoke.element(app, "play.daily.start")
+        _ = start.waitForExistence(timeout: 30)
+        _ = Smoke.eventually(timeout: 15) { start.exists && start.isEnabled && start.isHittable }
+        for _ in 0..<3 {
+            Smoke.tap(start)
+            if Smoke.element(app, "play.quiz").waitForExistence(timeout: 8) { break }
+        }
         Smoke.expect(Smoke.element(app, "play.quiz"))
 
         for _ in 0..<5 {
