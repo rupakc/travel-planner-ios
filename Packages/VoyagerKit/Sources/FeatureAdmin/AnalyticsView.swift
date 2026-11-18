@@ -98,8 +98,11 @@ struct StatTiles: View {
                                     .font(VFont.display(.title2)).foregroundStyle(SemanticColor.text)
                             }
                         }
+                        // Both tiles of a row take the taller one's height when a label wraps.
+                        .environment(\.vCardFillsHeight, true)
                     }
                 }
+                .fixedSize(horizontal: false, vertical: true)
             }
         }
     }

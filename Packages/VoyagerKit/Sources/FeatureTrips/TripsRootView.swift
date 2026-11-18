@@ -44,11 +44,16 @@ public struct TripsRootView: View {
                     .frame(width: 400)
                 Divider()
                 NavigationStack {
-                    if let selectedID {
-                        detail(selectedID)
-                    } else {
-                        EmptyState(icon: "suitcase", title: L10n.text(K.mobile.trips.selectPlan))
+                    Group {
+                        if let selectedID {
+                            detail(selectedID)
+                        } else {
+                            EmptyState(icon: "suitcase", title: L10n.text(K.mobile.trips.selectPlan))
+                        }
                     }
+                    // The stack's own backdrop is system black in dark mode; the themed surface has to sit inside it.
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(SemanticColor.surface.ignoresSafeArea())
                 }
                 .frame(maxWidth: .infinity)
                 .background(SemanticColor.surface)
