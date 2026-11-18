@@ -2,6 +2,27 @@ import XCTest
 
 /// Shared helpers of the Phase 3-6 smoke flows. Every flow runs against the stub backend (`tools/stub_backend`, started by
 /// `scripts/ci/test-ui.sh` on `127.0.0.1:8765`): no real network, no push, canned data. The stub signs in any password.
+/// Last step a flow reached, and a watchdog that reports it when the flow hangs (a hung test leaves no other evidence).
+final class Progress: @unchecked Sendable {
+    private static let lock = NSLock()
+    private static var last = "start"
+    private static var generation = 0
+
+    static func mark(_ step: String) {
+        lock.lock(); last = step; lock.unlock()
+    }
+
+    static func reset() {
+        lock.lock(); generation += 1; last = "launch"; let mine = generation; lock.unlock()
+        // Fires only when the flow is still on the same run after 170 s.
+        DispatchQueue.global().asyncAfter(deadline: .now() + 170) {
+            lock.lock(); let same = mine == generation; let step = last; lock.unlock()
+            guard same else { return }
+            XCTFail("SMOKE still running after 170 s; last step: \(step); stub calls: \(Smoke.stubCallsOffMain().suffix(15))")
+        }
+    }
+}
+
 @MainActor
 enum Smoke {
     static let port = 8765
@@ -11,6 +32,7 @@ enum Smoke {
 
     /// Clears the stub's state and its call log, so a flow starts from the canned data.
     static func resetStub() {
+        Progress.reset()
         guard let url = URL(string: base + "/__reset") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -23,6 +45,14 @@ enum Smoke {
     /// `"METHOD /path"` of every request the stub has seen since the last reset.
     static func stubCalls() -> [String] {
         guard let url = URL(string: base + "/__calls"), let data = try? Data(contentsOf: url),
+            let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+            let calls = object["calls"] as? [String]
+        else { return [] }
+        return calls
+    }
+
+    nonisolated static func stubCallsOffMain() -> [String] {
+        guard let url = URL(string: "http://127.0.0.1:8765/__calls"), let data = try? Data(contentsOf: url),
             let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
             let calls = object["calls"] as? [String]
         else { return [] }
@@ -72,6 +102,8 @@ enum Smoke {
                 predicate: NSPredicate(format: "hasKeyboardFocus == true"), object: element(app, id))
             if XCTWaiter().wait(for: [focused], timeout: 4) == .completed { break }
         }
+        Progress.mark("type \(id)")
+        if !element(app, id).exists { dump() }
         element(app, id).typeText(text)
     }
 
@@ -81,6 +113,7 @@ enum Smoke {
 
     /// Waits for `element` and taps it.
     static func tap(_ element: XCUIElement, timeout: TimeInterval = 30, file: StaticString = #filePath, line: UInt = #line) {
+        Progress.mark("tap \(element)")
         guard element.waitForExistence(timeout: timeout) else {
             XCTFail("not found: \(element)", file: file, line: line)
             dump()
@@ -90,6 +123,7 @@ enum Smoke {
     }
 
     static func expect(_ element: XCUIElement, timeout: TimeInterval = 30, file: StaticString = #filePath, line: UInt = #line) {
+        Progress.mark("expect \(element)")
         let found = element.waitForExistence(timeout: timeout)
         XCTAssertTrue(found, "not found: \(element)", file: file, line: line)
         if !found { dump() }
@@ -126,6 +160,7 @@ enum Smoke {
 
     /// Scrolls the screen until `element` is on it (the screens are scroll views).
     static func scrollTo(_ app: XCUIApplication, _ element: XCUIElement, file: StaticString = #filePath, line: UInt = #line) {
+        Progress.mark("scrollTo \(element)")
         _ = element.waitForExistence(timeout: 30)
         var swipes = 0
         while !element.isHittable && swipes < 12 {
@@ -133,6 +168,7 @@ enum Smoke {
             swipes += 1
         }
         XCTAssertTrue(element.exists, "not found after scrolling: \(element)", file: file, line: line)
+        if !element.exists { dump() }
     }
 
     /// Pops one screen on iPhone (the nav bar's back button); on iPad the previous screen is still in view.
@@ -148,11 +184,21 @@ enum Smoke {
         element.tap()
     }
 
-    /// A switch's own control sits at the trailing edge of its row.
+    /// Flips a switch and checks its value changed: its own control sits at the trailing edge of its row, which on iPad
+    /// can be a different place than on iPhone, so the other ways of hitting it are tried when the value stays.
     static func flip(_ toggle: XCUIElement) {
-        // 36 points in from the trailing edge, on any row width.
+        Progress.mark("flip \(toggle)")
+        let before = toggle.value as? String
+        func changed() -> Bool { eventually(timeout: 3) { (toggle.value as? String) != before } }
         let width = max(toggle.frame.width, 80)
         toggle.coordinate(withNormalizedOffset: CGVector(dx: (width - 36) / width, dy: 0.5)).tap()
+        if changed() { return }
+        let inner = toggle.switches.firstMatch
+        if inner.exists { inner.tap(); if changed() { return } }
+        toggle.tap()
+        if changed() { return }
+        toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.97, dy: 0.5)).tap()
+        _ = changed()
     }
 
     /// Polls `condition` for up to `timeout` seconds.
