@@ -237,7 +237,8 @@ private func fittedCanvas(of view: some View, layout: SnapshotLayout, config: Sn
     }
     let safe = config.device.safeArea
     let tail: CGFloat = layout == .component ? 4 : 16
-    return CGSize(width: width, height: ceil(fit.height + safe.top + safe.bottom + tail))
+    let bottomSafe = layout == .component ? 0 : safe.bottom
+    return CGSize(width: width, height: ceil(fit.height + safe.top + bottomSafe + tail))
 }
 
 @MainActor
@@ -245,7 +246,10 @@ private func hosted(_ view: some View, layout: SnapshotLayout) -> AnyView {
     switch layout {
     case .component:
         // A ScrollView proposes the content its natural height, so AX5 text never overlaps.
-        return AnyView(ScrollView { view.padding(16) }.background(SemanticColor.surface))
+        return AnyView(ScrollView { view.padding(16) }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(SemanticColor.surface.ignoresSafeArea())
+                .ignoresSafeArea(.container, edges: .bottom))
     case .screen:
         return AnyView(view.background(SemanticColor.surface))
     }

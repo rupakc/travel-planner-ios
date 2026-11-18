@@ -31,7 +31,7 @@ public struct VChip: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, Spacing.md)
                 .padding(.vertical, Spacing.xs)
-                .frame(minHeight: 44)
+                .frame(minWidth: 72, minHeight: 44)
                 .borderedSurface(
                     Self.shape, fill: selected ? SemanticColor.primary : SemanticColor.surfaceRaised,
                     border: selected ? nil : SemanticColor.border)

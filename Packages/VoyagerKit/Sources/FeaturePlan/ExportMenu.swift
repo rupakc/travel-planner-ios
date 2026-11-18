@@ -26,7 +26,7 @@ struct ExportMenu: View {
             }
             .accessibilityIdentifier("plan.export.print")
         } label: {
-            PlanActionLabel(title: L10n.text(K.mobile.plan.export), systemImage: "arrow.down.doc", style: .outline)
+            PlanActionLabel(title: L10n.text(K.mobile.plan.export), systemImage: "arrow.down.doc", style: .outline, fillsHeight: true)
         }
         .accessibilityIdentifier("plan.export")
         #if canImport(UIKit)

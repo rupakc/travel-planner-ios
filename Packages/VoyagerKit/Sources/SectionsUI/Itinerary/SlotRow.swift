@@ -26,7 +26,6 @@ struct SlotRow: View {
     let onMove: () -> Void
     let onEdit: () -> Void
     @Environment(\.telemetryRoute) private var route
-    @Environment(\.dynamicTypeSize) private var typeSize
 
     private var key: String { slot["key"].string ?? "" }
     private var edit: JSONValue { model.edits[key] }
@@ -54,19 +53,9 @@ struct SlotRow: View {
     private var card: some View {
         VCard {
             VStack(alignment: .leading, spacing: Spacing.sm) {
-                let timeLayout = typeSize.isAccessibilitySize
-                    ? AnyLayout(VStackLayout(alignment: .leading, spacing: Spacing.xs))
-                    : AnyLayout(HStackLayout(alignment: .firstTextBaseline, spacing: Spacing.sm))
-                timeLayout {
-                    Text(verbatim: ItineraryText.timeOfDay(slot["time_of_day"].string))
-                        .font(VFont.body(.caption, weight: .medium))
-                        .foregroundStyle(SemanticColor.textMuted)
-                    if let range = Schedule.timeRange(slot) {
-                        Text(verbatim: range).font(VFont.body(.caption)).monospacedDigit()
-                            .foregroundStyle(SemanticColor.textMuted)
-                            // One line: the range never breaks at its en dash.
-                            .lineLimit(1).fixedSize(horizontal: true, vertical: false).layoutPriority(1)
-                    }
+                ViewThatFits(in: .horizontal) {
+                    HStack(alignment: .firstTextBaseline, spacing: Spacing.sm) { timeParts }
+                    VStack(alignment: .leading, spacing: Spacing.xs) { timeParts }
                 }
                 Text(verbatim: name)
                     .font(VFont.body(.subheadline, weight: .semibold))
@@ -98,6 +87,20 @@ struct SlotRow: View {
         .modifier(SlotDrag(key: key, enabled: !model.targets(for: key).isEmpty))
     }
 
+    /// The part of day, then the time range: side by side when both fit on a line, else stacked (never broken mid-word).
+    @ViewBuilder private var timeParts: some View {
+        Text(verbatim: ItineraryText.timeOfDay(slot["time_of_day"].string))
+            .font(VFont.body(.caption, weight: .medium))
+            .foregroundStyle(SemanticColor.textMuted)
+            .lineLimit(1).fixedSize(horizontal: true, vertical: false)
+        if let range = Schedule.timeRange(slot) {
+            Text(verbatim: range).font(VFont.body(.caption)).monospacedDigit()
+                .foregroundStyle(SemanticColor.textMuted)
+                // One line: the range never breaks at its en dash.
+                .lineLimit(1).fixedSize(horizontal: true, vertical: false)
+        }
+    }
+
     private var linkBadge: some View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
             Text(verbatim: L10n.text(K.misc.fromLink.chip))
@@ -105,8 +108,9 @@ struct SlotRow: View {
                 .foregroundStyle(Palette.color(.amber, .s700))
                 .padding(.horizontal, Spacing.sm).padding(.vertical, Spacing.xs)
                 .fixedSize(horizontal: false, vertical: true)
-                .background(Palette.color(.amber, .s100), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-                .overlay { RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Palette.color(.amber, .s200), lineWidth: 1) }
+                .borderedSurface(
+                    RoundedRectangle(cornerRadius: 12, style: .continuous),
+                    fill: Palette.color(.amber, .s100), border: Palette.color(.amber, .s200))
             if let quote = slot["link_quote"].string, !quote.isEmpty {
                 Text(verbatim: quote).font(VFont.body(.caption)).italic().foregroundStyle(SemanticColor.textMuted)
                     .fixedSize(horizontal: false, vertical: true)

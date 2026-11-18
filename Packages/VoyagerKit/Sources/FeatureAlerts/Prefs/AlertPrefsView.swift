@@ -46,7 +46,7 @@ public struct AlertPrefsView: View {
         }
         .background(SemanticColor.surface)
         // Beyond this size German compounds no longer fit a phone-width card without splitting mid-word.
-        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
         .navigationTitle(L10n.text(K.alertPrefs.title))
         .task { await model.load() }
         .accessibilityIdentifier("alertPrefs.root")

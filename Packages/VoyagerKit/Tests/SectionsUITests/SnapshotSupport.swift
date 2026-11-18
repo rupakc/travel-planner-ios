@@ -53,7 +53,9 @@ func assertSnapshots<V: View>(
         LanguageController.withLanguage(config.language) {
             // A ScrollView proposes the content its natural height, so AX5 text never overlaps.
             let content = ScrollView { view().padding(16) }
-                .background(SemanticColor.surface)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(SemanticColor.surface.ignoresSafeArea())
+                .ignoresSafeArea(.container, edges: .bottom)
             let traits = UITraitCollection { mutable in
                 mutable.userInterfaceStyle = config.dark ? .dark : .light
                 mutable.preferredContentSizeCategory = config.size
@@ -87,10 +89,11 @@ private func fittedCanvas(of view: some View, config: SnapshotConfig, key: Strin
         // Views that fill whatever height they are offered: measured from a record run (content height + 16 pt tail).
         let overrides: [String: CGFloat] = [
             "test_itinerary.plain-ipad-light": 866, "test_itinerary.plain-ipad-dark": 866,
+            "test_itineraryEditedGerman.edited-se-de-ax5": 4500,
         ]
         guard let height = overrides[key] else { return config.canvas }
         return CGSize(width: width, height: height)
     }
     let safe = config.device.safeArea
-    return CGSize(width: width, height: ceil(fit.height + safe.top + safe.bottom + 4))
+    return CGSize(width: width, height: ceil(fit.height + safe.top + 4))
 }

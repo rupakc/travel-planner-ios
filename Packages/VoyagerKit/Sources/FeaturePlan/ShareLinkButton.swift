@@ -8,7 +8,10 @@ struct ShareLinkButton: View {
     let model: MyPlanModel
 
     var body: some View {
-        PlanActionButton(title: L10n.text(K.plan.modal.share), systemImage: "square.and.arrow.up", tid: "plan.share", style: .tonal) {
+        PlanActionButton(
+            title: L10n.text(K.plan.modal.share), systemImage: "square.and.arrow.up", tid: "plan.share", style: .tonal,
+            fillsHeight: true
+        ) {
             Task { await model.share() }
         }
         .disabled(!model.canShare)
