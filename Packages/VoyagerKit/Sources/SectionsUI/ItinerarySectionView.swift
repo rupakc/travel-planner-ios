@@ -98,11 +98,13 @@ public struct ItinerarySectionView: View {
             model.undo()
             LiveRegion.announce(L10n.text(K.itinerary.status.undone))
         }
+        .frame(maxWidth: 220)
         .disabled(!model.canUndo)
         VButton(L10n.text(K.itinerary.toolbar.reset), tid: "itinerary.reset", role: .tonal, systemImage: "arrow.counterclockwise") {
             model.reset()
             LiveRegion.announce(L10n.text(K.itinerary.status.reset))
         }
+        .frame(maxWidth: 220)
         .disabled(model.changeCount == 0)
     }
 

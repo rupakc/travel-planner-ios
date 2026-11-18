@@ -11,6 +11,8 @@ struct PlanActionLabel: View {
     let title: String
     let systemImage: String
     let style: Style
+    /// Fills the height it is offered (the Share/Export pair shares one row height); off elsewhere so a sheet's CTA never stretches.
+    var fillsHeight = false
 
     @Environment(\.isEnabled) private var isEnabled
 
@@ -38,7 +40,7 @@ struct PlanActionLabel: View {
         .foregroundStyle(isEnabled ? foreground : SemanticColor.disabledText)
         .padding(.horizontal, Spacing.lg)
         .padding(.vertical, Spacing.sm)
-        .frame(maxWidth: .infinity, minHeight: 44)
+        .frame(maxWidth: .infinity, minHeight: 44, maxHeight: fillsHeight ? .infinity : nil)
         .borderedSurface(
             RoundedRectangle(cornerRadius: Radius.largeCard), fill: isEnabled ? fill : SemanticColor.disabledFill,
             border: isEnabled && style == .outline ? SemanticColor.border : nil)
@@ -51,6 +53,7 @@ struct PlanActionButton: View {
     let systemImage: String
     let tid: String
     var style: PlanActionLabel.Style = .primary
+    var fillsHeight = false
     let action: () -> Void
     @Environment(\.telemetryRoute) private var route
 
@@ -59,7 +62,7 @@ struct PlanActionButton: View {
             Telemetry.shared.track(.uiTap(tid: tid, route: route))
             action()
         } label: {
-            PlanActionLabel(title: title, systemImage: systemImage, style: style)
+            PlanActionLabel(title: title, systemImage: systemImage, style: style, fillsHeight: fillsHeight)
         }
         .buttonStyle(UndimmedButtonStyle())
         .accessibilityIdentifier(tid)

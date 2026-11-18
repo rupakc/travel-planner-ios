@@ -8,6 +8,9 @@ import VoyagerModel
 import XCTest
 
 enum SnapshotSetup {
+    /// Same strict values as TestSupport.SnapshotSetup.
+    static let precision: Float = 0.99995
+    static let perceptualPrecision: Float = 0.99
     /// `TEST_RUNNER_SNAPSHOT_RECORD=1` (CI `record_snapshots`) records missing and changed PNGs; otherwise a missing PNG fails.
     static var record: SnapshotTestingConfiguration.Record {
         ProcessInfo.processInfo.environment["SNAPSHOT_RECORD"] == "1" ? .failed : .missing
@@ -50,17 +53,47 @@ func assertSnapshots<V: View>(
         LanguageController.withLanguage(config.language) {
             // A ScrollView proposes the content its natural height, so AX5 text never overlaps.
             let content = ScrollView { view().padding(16) }
-                .background(SemanticColor.surface)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(SemanticColor.surface.ignoresSafeArea())
+                .ignoresSafeArea(.container, edges: .bottom)
             let traits = UITraitCollection { mutable in
                 mutable.userInterfaceStyle = config.dark ? .dark : .light
                 mutable.preferredContentSizeCategory = config.size
             }
+            let canvas = fittedCanvas(
+                of: view(), config: config,
+                key: "\(testName.replacingOccurrences(of: "()", with: "")).\(name)-\(config.name)")
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
-                    as: .image(on: config.device, precision: 0.99, perceptualPrecision: 0.98, size: config.canvas, traits: traits),
+                    as: .image(
+                        on: config.device, precision: SnapshotSetup.precision,
+                        perceptualPrecision: SnapshotSetup.perceptualPrecision, size: canvas, traits: traits),
                     named: "\(name)-\(config.name)", file: file, testName: testName, line: line)
             }
         }
     }
+}
+
+/// Fits the canvas to the measured natural height of the padded component (plus safe area and a small tail), so a PNG
+/// has no blank tail; falls back to the configured canvas when the view cannot be measured.
+@MainActor
+private func fittedCanvas(of view: some View, config: SnapshotConfig, key: String) -> CGSize? {
+    guard let width = config.canvas?.width ?? config.device.size?.width else { return config.canvas }
+    let probeHeight: CGFloat = 20_000
+    let scheme: ColorScheme = config.dark ? .dark : .light
+    let host = UIHostingController(
+        rootView: view.padding(16).dynamicTypeSize(DynamicTypeSize(config.size) ?? .large).environment(\.colorScheme, scheme))
+    let fit = host.sizeThatFits(in: CGSize(width: width, height: probeHeight))
+    guard fit.height > 1, fit.height < probeHeight - 1 else {
+        // Views that fill whatever height they are offered: measured from a record run (content height + 16 pt tail).
+        let overrides: [String: CGFloat] = [
+            "test_itinerary.plain-ipad-light": 866, "test_itinerary.plain-ipad-dark": 866,
+            "test_itineraryEditedGerman.edited-se-de-ax5": 4500,
+        ]
+        guard let height = overrides[key] else { return config.canvas }
+        return CGSize(width: width, height: height)
+    }
+    let safe = config.device.safeArea
+    return CGSize(width: width, height: ceil(fit.height + safe.top + 4))
 }

@@ -194,6 +194,7 @@ public struct ShareSheetView: View {
             VButton(model.primaryTitle, tid: "share.create", role: .primary) {
                 Task { await model.create() }
             }
+            .frame(maxWidth: 360)
             .disabled(!model.canCreate)
             if model.isWorking { ProgressView().accessibilityHidden(true) }
         }

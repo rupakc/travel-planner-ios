@@ -86,9 +86,10 @@ struct MyPlanContent: View {
             .disabled(!model.canSave)
             ViewThatFits(in: .horizontal) {
                 HStack(spacing: Spacing.sm) {
-                    ShareLinkButton(model: model).frame(maxWidth: .infinity)
-                    ExportMenu(model: model).frame(maxWidth: .infinity)
+                    ShareLinkButton(model: model).frame(maxWidth: .infinity, maxHeight: .infinity)
+                    ExportMenu(model: model).frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
+                .fixedSize(horizontal: false, vertical: true)
                 VStack(spacing: Spacing.sm) {
                     ShareLinkButton(model: model)
                     ExportMenu(model: model)
