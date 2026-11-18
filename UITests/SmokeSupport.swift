@@ -132,7 +132,8 @@ enum Smoke {
     static func dismissPopover(_ app: XCUIApplication) -> Bool {
         let region = app.otherElements["PopoverDismissRegion"]
         guard region.exists else { return false }
-        region.coordinate(withNormalizedOffset: CGVector(dx: 0.02, dy: 0.5)).tap()
+        // Far from the sidebar's edge: on iPad the region is the dimmed content next to a slid-over sidebar.
+        region.coordinate(withNormalizedOffset: CGVector(dx: 0.98, dy: 0.5)).tap()
         RunLoop.current.run(until: Date().addingTimeInterval(1))
         return true
     }
@@ -144,7 +145,6 @@ enum Smoke {
     /// Waits for `element` and taps it.
     static func tap(_ element: XCUIElement, timeout: TimeInterval = 30, file: StaticString = #filePath, line: UInt = #line) {
         Progress.mark("tap \(element)")
-        dismissPopover(XCUIApplication())
         guard element.waitForExistence(timeout: timeout) else {
             XCTFail("not found: \(element)", file: file, line: line)
             dump()
@@ -179,7 +179,6 @@ enum Smoke {
 
     /// Opens a tab: the tab bar on iPhone, the sidebar row on iPad.
     static func openTab(_ app: XCUIApplication, _ title: String, file: StaticString = #filePath, line: UInt = #line) {
-        dismissPopover(app)
         let bar = app.tabBars.buttons[title]
         let sidebar = element(app, "shell.sidebar")
         let deadline = Date().addingTimeInterval(60)
@@ -197,6 +196,9 @@ enum Smoke {
         }
         let row = sidebar.staticTexts[title].firstMatch
         if row.exists { row.tap() } else { sidebar.buttons[title].firstMatch.tap() }
+        // A slid-over sidebar (iPad) stays open over the screen after a pick and swallows the next tap: close it.
+        RunLoop.current.run(until: Date().addingTimeInterval(1))
+        dismissPopover(app)
     }
 
     /// True when `element` has a real frame inside the window (cheaper than `isHittable`, which on iPad can stay false for a
@@ -211,7 +213,6 @@ enum Smoke {
     /// Scrolls the screen until `element` is on it (the screens are scroll views).
     static func scrollTo(_ app: XCUIApplication, _ element: XCUIElement, file: StaticString = #filePath, line: UInt = #line) {
         Progress.mark("scrollTo \(element)")
-        dismissPopover(app)
         _ = element.waitForExistence(timeout: 30)
         var swipes = 0
         while !onScreen(app, element) && swipes < 8 {
