@@ -72,6 +72,12 @@ public final class PriceStoryModel {
 
     /// Loads (or refreshes) the story. A refresh keeps the old story on screen until the new one arrives, and a failed
     /// refresh keeps it too. `alert_story_view` is sent once, with the first story shown.
+    private func adopt(_ fetched: PriceStory) {
+        resetTipIfPriceChanged(to: fetched)
+        phase = .loaded(fetched)
+        if let selected, !fetched.points.contains(selected) { self.selected = nil }
+    }
+
     /// A tip was written for the old price: drop it when the latest price moved.
     private func resetTipIfPriceChanged(to fetched: PriceStory) {
         if story?.latest != fetched.latest { tip = .idle }
@@ -112,9 +118,7 @@ public final class PriceStoryModel {
         do {
             let fetched = try await env.alertsV2.story(kind: kind, id: watchID)
             guard run == loadRun else { return }
-            resetTipIfPriceChanged(to: fetched)
-            phase = .loaded(fetched)
-            if let selected, !fetched.points.contains(selected) { self.selected = nil }
+            adopt(fetched)
             if !viewTracked {
                 viewTracked = true
                 track(.alertStoryView(kind: kind.rawValue, verdict: Self.verdict(of: fetched)?.rawValue ?? "none"))
