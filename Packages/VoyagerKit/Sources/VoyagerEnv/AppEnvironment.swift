@@ -51,8 +51,8 @@ public final class AppEnvironment {
     @ObservationIgnored public var onWatchesChanged: (@MainActor () async -> Void)?
 
     /// Call after a watch was created, changed or deleted on the server.
-    public func watchesChanged() async {
-        watchCoordinator?.watchesDidChange()
+    public func watchesChanged(removed: (kind: WatchKind, id: Int)? = nil) async {
+        watchCoordinator?.watchesDidChange(removed: removed)
         await onWatchesChanged?()
     }
 
@@ -269,6 +269,7 @@ public final class AppEnvironment {
         // The next user starts with whatever `/config` says: a degraded or hidden-game flag was the previous user's.
         social.reset()
         play.reset()
+        watchCoordinator?.resetForUserChange()
         chatUser = .some(username)
         let threads = chatThreads
         let plan = plan

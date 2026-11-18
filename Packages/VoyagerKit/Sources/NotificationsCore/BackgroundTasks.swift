@@ -67,14 +67,15 @@ public enum BackgroundTasks {
         let features = RemoteFeatures(config: env.clientConfig)
         // Quiz rows carry game wording; whether the account hides the game is not readable here, so they stay hidden.
         let showsGame = StaticGameVisibility(gameFeature: features.game, hideGameSetting: nil).showsGame
-        guard features.hasNotificationSettings else { return PollContext(showsGame: showsGame) }
+        guard features.hasNotificationSettings else { return PollContext(showsGame: showsGame, localTripReminders: true) }
         guard let settings = try? await env.repos.notificationSettings.get() else { return nil }
         NotificationPolicyCache.shared.store(settings)
         var prefs: AlertPrefs?
         if features.hasAlertsV2 { prefs = try? await env.repos.alertsV2.prefs() }
+        let serverPushLive = features.serverPushLive && settings.devices >= 1
         return PollContext(
             settings: settings, prefs: prefs, showsGame: showsGame,
-            serverPushLive: features.serverPushLive && settings.devices >= 1)
+            serverPushLive: serverPushLive, localTripReminders: !serverPushLive)
     }
 
     private static func handle(

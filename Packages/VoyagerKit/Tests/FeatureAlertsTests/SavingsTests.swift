@@ -152,6 +152,20 @@ struct SavingsTests {
         #expect(!model.isAvailable && !model.showsPausedBanner)
     }
 
+    @Test func test_summaryRecoversWhenConfigArrivesLate() async {
+        let fakes = FakeRepositories()
+        fakes.alertsV2.onSummary.returns(sample)
+        fakes.health.onClientConfig.returns(config())
+        let env = AppEnvironment.fake(fakes: fakes)  // /api/config has not loaded yet
+        let model = AlertsHeaderModel(env: env)
+        await model.load()
+        #expect(model.phase == .idle)
+        #expect(fakes.alertsV2.onSummary.callCount == 0)
+        await env.startDeferredWork().value
+        for _ in 0..<50 where model.savings == nil { await Task.yield() }
+        #expect(model.savings == sample)
+    }
+
     @Test func test_summaryFailureThenRetry() async {
         let (model, _, fakes) = header { $0.alertsV2.onSummary.fails(APIError.network) }
         await model.load()
