@@ -38,6 +38,9 @@ public final class AppEnvironment {
     @ObservationIgnored private let telemetrySetup: TelemetrySetup
     @ObservationIgnored private let configureTelemetry: @Sendable (TelemetryBootstrap) -> Void
     @ObservationIgnored private var deferredTask: Task<Void, Never>?
+    @ObservationIgnored private var configFailures = 0
+    @ObservationIgnored private var configRetrying = false
+    @ObservationIgnored private var nextConfigRetry = Date.distantPast
     @ObservationIgnored private var watchCoordinator: WatchCreateCoordinator?
     @ObservationIgnored private var alertsV2Service: AlertsV2Service?
     @ObservationIgnored private var sharesService: SharesService?
@@ -223,21 +226,49 @@ public final class AppEnvironment {
             if fetched.failed {
                 // Offline or a server error: stay off for now, and let the next start try again.
                 deferredTask = nil
+                configFailures = 1
+                nextConfigRetry = Date().addingTimeInterval(Self.configRetryDelay(failures: 1))
                 await userLoad?.value
                 return
             }
-            apply(config)
-            let bootstrap = ClientConfigLoader.telemetryBootstrap(
-                config: config, appVersion: build.appVersion,
-                baseURL: { [server] in server.baseURL },
-                token: { [auth] in auth.tokenSnapshot() },
-                setup: telemetrySetup)
-            let configure = configureTelemetry
-            await Task.detached(priority: .utility) { configure(bootstrap) }.value
+            await adopt(config)
             await userLoad?.value
         }
         deferredTask = task
         return task
+    }
+
+    private func adopt(_ config: ClientConfig?) async {
+        apply(config)
+        let bootstrap = ClientConfigLoader.telemetryBootstrap(
+            config: config, appVersion: build.appVersion,
+            baseURL: { [server] in server.baseURL },
+            token: { [auth] in auth.tokenSnapshot() },
+            setup: telemetrySetup)
+        let configure = configureTelemetry
+        await Task.detached(priority: .utility) { configure(bootstrap) }.value
+    }
+
+    /// Delay before the next config retry after `failures` failed fetches: 30 s doubling to 10 min.
+    static func configRetryDelay(failures: Int) -> TimeInterval {
+        min(600, 30 * pow(2, Double(max(0, failures - 1))))
+    }
+
+    /// Scene foreground (the app has no reachability hook): when a launch-time `/api/config` fetch failed
+    /// (offline cold start), tries again, at most once per backoff window and never while one is running.
+    /// Does nothing once config is loaded or before the first launch fetch has settled.
+    public func refetchConfigIfMissing(now: Date = Date()) async {
+        guard clientConfig == nil, configFailures > 0, !configRetrying, now >= nextConfigRetry else { return }
+        configRetrying = true
+        defer { configRetrying = false }
+        let fetched = await ClientConfigLoader(health: repos.health).fetch()
+        if fetched.failed {
+            configFailures += 1
+            nextConfigRetry = now.addingTimeInterval(Self.configRetryDelay(failures: configFailures))
+            return
+        }
+        configFailures = 0
+        await adopt(fetched.config)
     }
 
     /// Writes the current plan and chat threads now (before the app is suspended).

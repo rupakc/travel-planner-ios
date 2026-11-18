@@ -106,8 +106,13 @@ extension WatchCreateCoordinator {
         let body = QuickWatchRequest(
             kind: kind, title: draft.title, subtitle: draft.subtitle, spec: request.spec,
             planId: request.spec["plan_id"].int, surface: surface)
+        // The signed-in user when the write started: an answer that lands after a sign-out or user switch
+        // must not put the previous user's watch (or limit) back into the store `reset()` just emptied.
+        let owner = env.auth.session?.user.username
+        let sameUser = { [env] in env.auth.session?.user.username == owner }
         do {
             let result = try await env.alertsV2.quickWatch(body)
+            guard sameUser() else { return .failed(.cancelled) }
             let pending = result.watch.pendingFirstCheck
             quick.remember(request, id: result.watchID, pending: pending)
             if result.existing {
@@ -122,6 +127,7 @@ extension WatchCreateCoordinator {
             return nil
         } catch let error as APIError {
             if AlertsV2Failure.isRouteMissing(error) { return nil }
+            guard sameUser() else { return .failed(.cancelled) }
             guard let failure = AlertsV2Failure.from(error, call: .quickWatch) else { return .failed(error) }
             switch failure {
             case .watchLimit: quick.limitReached = true
