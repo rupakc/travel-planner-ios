@@ -1,5 +1,6 @@
 import Foundation
 import Networking
+import Observation
 import VoyagerData
 import VoyagerModel
 
@@ -14,6 +15,9 @@ public final class SocialService {
 
     private unowned let env: AppEnvironment
     private var degraded = false
+
+    /// What the caller blocked or deleted this session, so every open screen (feed, profile, detail) drops it at once.
+    public let ledger = SocialLedger()
 
     public init(env: AppEnvironment) {
         self.env = env
@@ -37,6 +41,31 @@ public final class SocialService {
     /// A user switch or sign-out: the next user starts with the flags `/config` says.
     public func reset() {
         degraded = false
+        ledger.reset()
+    }
+}
+
+/// Blocks and own-idea deletions the server accepted. Screens filter on it, so a block or delete made on the idea or
+/// profile screen shows in the feed without a pull-to-refresh (the server also hides them from the next load).
+@MainActor @Observable
+public final class SocialLedger {
+    public private(set) var blockedHandles: Set<String> = []
+    public private(set) var deletedIdeaIDs: Set<String> = []
+
+    public init() {}
+
+    public func blocked(handle: String) { blockedHandles.insert(handle) }
+    public func unblocked(handle: String) { blockedHandles.remove(handle) }
+    public func deleted(ideaID: String) { deletedIdeaIDs.insert(ideaID) }
+
+    /// True when the idea (by its id or author) was blocked or deleted by the caller this session.
+    public func hides(ideaID: String, authorHandle: String) -> Bool {
+        deletedIdeaIDs.contains(ideaID) || blockedHandles.contains(authorHandle)
+    }
+
+    public func reset() {
+        blockedHandles = []
+        deletedIdeaIDs = []
     }
 }
 

@@ -15,12 +15,19 @@ struct CommerceRows<Row: View>: View {
         if layout == .regular, count > 1 {
             Grid(horizontalSpacing: Spacing.sm, verticalSpacing: Spacing.sm) {
                 ForEach(0..<((count + 1) / 2), id: \.self) { pair in
-                    GridRow {
-                        row(pair * 2)
-                        if pair * 2 + 1 < count { row(pair * 2 + 1) } else { Color.clear.frame(height: 0) }
+                    GridRow(alignment: .top) {
+                        row(pair * 2).environment(\.vCardFillsHeight, true)
+                        if pair * 2 + 1 < count {
+                            row(pair * 2 + 1).environment(\.vCardFillsHeight, true)
+                        } else {
+                            Color.clear.frame(height: 0)
+                        }
                     }
                 }
             }
+            // The grid takes its ideal height (the tallest card per row), so its cards stretch to that and nothing
+            // beneath asks for the whole proposal.
+            .fixedSize(horizontal: false, vertical: true)
         } else {
             VStack(spacing: Spacing.sm) {
                 ForEach(0..<count, id: \.self) { index in row(index) }

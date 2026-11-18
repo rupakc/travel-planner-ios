@@ -247,7 +247,8 @@ struct WatchCard: View {
         format.locale = LanguageController.current.intlLocale
         format.timeZone = TimeZone(identifier: "UTC") ?? .gmt
         guard let end else { return start.formatted(format) }
-        return "\(start.formatted(format)) – \(end.formatted(format))"
+        // A no-break space after the dash: a wrapped range breaks before the dash, never leaves it dangling at a line end.
+        return "\(start.formatted(format)) –\u{00A0}\(end.formatted(format))"
     }
 
     private var ruleText: String {

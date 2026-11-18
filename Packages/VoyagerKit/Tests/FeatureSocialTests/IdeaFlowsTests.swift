@@ -107,6 +107,79 @@ struct IdeaFlowsTests {
         #expect(model.canSubmit)
     }
 
+    // MARK: Feed follows the detail and profile screens
+
+    private func idea(_ id: String, author: String = "ana", mine: Bool = false) -> Idea {
+        Idea(id: id, title: "Idea \(id)", caption: "c", author: IdeaAuthor(handle: author), mine: mine, status: .published)
+    }
+
+    @Test func test_blockingFromTheDetailScreenHidesTheAuthorInTheFeed() async {
+        let (env, fakes) = makeEnv {
+            $0.social.onFeed.returns(IdeaPage(ideas: [self.idea("1"), self.idea("2", author: "bo")], next: nil))
+            $0.social.onIdea.returns(self.idea("1"))
+        }
+        let feed = FeedModel(env: env, track: { _ in })
+        await feed.start()
+        #expect(feed.visible.map(\.id) == ["1", "2"])
+        let detail = IdeaDetailModel(env: env, ideaID: "1", track: { _ in })
+        await detail.start()
+        #expect(await detail.block())
+        #expect(fakes.social.onBlock.lastCall == "ana")
+        #expect(feed.visible.map(\.id) == ["2"])
+    }
+
+    @Test func test_blockingFromTheProfileHidesTheAuthorInTheFeed() async {
+        let (env, _) = makeEnv {
+            $0.social.onFeed.returns(IdeaPage(ideas: [self.idea("1"), self.idea("2", author: "bo")], next: nil))
+        }
+        let feed = FeedModel(env: env, track: { _ in })
+        await feed.start()
+        env.social.ledger.blocked(handle: "bo")
+        #expect(feed.visible.map(\.id) == ["1"])
+        env.social.ledger.unblocked(handle: "bo")
+        #expect(feed.visible.map(\.id) == ["1", "2"])
+    }
+
+    @Test func test_deletingOwnIdeaFromTheDetailScreenRemovesItFromTheFeed() async {
+        let (env, fakes) = makeEnv {
+            $0.social.onFeed.returns(IdeaPage(ideas: [self.idea("1", mine: true), self.idea("2")], next: nil))
+            $0.social.onIdea.returns(self.idea("1", mine: true))
+        }
+        let feed = FeedModel(env: env, track: { _ in })
+        await feed.start()
+        let detail = IdeaDetailModel(env: env, ideaID: "1", track: { _ in })
+        await detail.start()
+        await detail.delete()
+        #expect(fakes.social.onDeleteIdea.lastCall == "1")
+        #expect(feed.visible.map(\.id) == ["2"])
+    }
+
+    // MARK: Detail comments
+
+    @Test func test_commentCountUpdatesForANonAuthorAndKnowsAuthorship() async {
+        let (env, _) = makeEnv {
+            $0.social.onIdea.returns(self.idea("1", mine: false))
+            $0.social.onComments.returns(CommentPage(comments: []))
+            $0.social.onComment.returns(IdeaComment(id: "c9", authorHandle: "sam", text: "Hi", mine: true))
+        }
+        let detail = IdeaDetailModel(env: env, ideaID: "1", track: { _ in })
+        await detail.start()
+        #expect(!detail.comments.ideaMine)
+        let before = detail.idea?.comments ?? 0
+        detail.comments.draft = "Hi"
+        await detail.comments.post()
+        #expect(detail.idea?.comments == before + 1)
+    }
+
+    @Test func test_detailTellsCommentsWhenTheViewerWroteTheIdea() async {
+        let (env, _) = makeEnv { $0.social.onIdea.returns(self.idea("1", mine: true)) }
+        let detail = IdeaDetailModel(env: env, ideaID: "1", track: { _ in })
+        let comments = detail.comments
+        await detail.start()
+        // The same model instance (its draft survives), now in author mode.
+        #expect(detail.comments === comments && comments.ideaMine)
+    }
+
     // MARK: Comments
 
     @Test func test_helpfulOnlyForIdeaAuthor() async {

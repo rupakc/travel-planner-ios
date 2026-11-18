@@ -72,7 +72,10 @@ final class PublicProfileModel {
     var visitedNames: [String] { (profile?.countries ?? []).map(CountryNames.name) }
     var followsYou: Bool { profile?.you.followsYou == true }
     /// Own ideas that are held for review show to their author; other people's only when published.
-    var visibleIdeas: [Idea] { ideas.filter { $0.status.isPublished || $0.mine } }
+    var visibleIdeas: [Idea] {
+        let ledger = env.social.ledger
+        return ideas.filter { !ledger.deletedIdeaIDs.contains($0.id) && ($0.status.isPublished || $0.mine) }
+    }
     var canLoadMoreIdeas: Bool { ideasNext != nil }
 
     var noticeText: String? {
@@ -192,6 +195,7 @@ final class PublicProfileModel {
         defer { working = false }
         do {
             try await env.social.call { [handle] in try await $0.block(handle: handle) }
+            env.social.ledger.blocked(handle: handle)
             blocked = true
             profile = nil
             ideas = []

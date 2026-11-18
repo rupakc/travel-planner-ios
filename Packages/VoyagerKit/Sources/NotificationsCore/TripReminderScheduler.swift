@@ -100,6 +100,12 @@ public enum TripReminderScheduler {
             await purgeAccountNotifications(center: center)
             return
         }
+        // The Settings "Trip reminders" switch (and onboarding's choice): off removes every pending trip reminder.
+        guard env.device.reminderOptIn else {
+            let stale = await center.pendingIdentifiers().filter { $0.hasPrefix(idPrefix) }
+            if !stale.isEmpty { await center.removePending(identifiers: stale) }
+            return
+        }
         guard let plans = try? await env.repos.plans.list() else { return }
         var policy = ReminderPolicy()
         var catalog: NotificationCatalog?

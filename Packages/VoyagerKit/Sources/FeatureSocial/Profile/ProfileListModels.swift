@@ -139,7 +139,10 @@ final class ProfileListModel {
     /// Unblocking makes the pair visible to each other again; it never re-adds a follow.
     func unblock(_ person: ProfilePerson) async {
         let done = await act(on: person) { try await $0.unblock(handle: person.handle) }
-        if done { emit(.socialBlock(on: false)) }
+        if done {
+            env.social.ledger.unblocked(handle: person.handle)
+            emit(.socialBlock(on: false))
+        }
     }
 
     @discardableResult

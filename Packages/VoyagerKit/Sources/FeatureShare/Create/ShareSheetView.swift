@@ -194,6 +194,7 @@ public struct ShareSheetView: View {
             VButton(model.primaryTitle, tid: "share.create", role: .primary) {
                 Task { await model.create() }
             }
+            .frame(maxWidth: 360)
             .disabled(!model.canCreate)
             if model.isWorking { ProgressView().accessibilityHidden(true) }
         }
@@ -212,6 +213,12 @@ public struct ShareSheetView: View {
                 .accessibilityValue(Text(verbatim: url.absoluteString))
                 .accessibilityIdentifier("share.url")
             actions(url)
+            if model.isDirty {
+                Text(verbatim: L10n.text(K.share.saveFirst))
+                    .font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("share.save-first")
+            }
         }
         if let status = cardsPending ? L10n.text(K.share.working) : model.status {
             Text(verbatim: status)
@@ -227,6 +234,8 @@ public struct ShareSheetView: View {
     }
 
     /// The card downloads are still running: the link exists, but its preview is not ready, so sharing waits.
+    private var actionsDisabled: Bool { cardsPending || !model.canShare }
+
     private var cardsPending: Bool {
         guard model.offersCard else { return false }
         return [model.linkCard, model.storyCard].contains { $0 == .loading || $0 == .idle }
@@ -269,7 +278,7 @@ public struct ShareSheetView: View {
             }
             .buttonStyle(PrimaryButtonStyle())
             .simultaneousGesture(TapGesture().onEnded { model.didShareNatively(tid: "share.native") })
-            .disabled(cardsPending)
+            .disabled(actionsDisabled)
             .accessibilityIdentifier("share.native")
             if case .ready(let file) = model.storyCard {
                 ShareLink(item: ShareImage(fileURL: file), preview: preview(title: model.shareText ?? model.title)) {
@@ -281,12 +290,13 @@ public struct ShareSheetView: View {
                 }
                 .buttonStyle(SecondaryButtonStyle())
                 .simultaneousGesture(TapGesture().onEnded { model.didShareNatively(tid: "share.image") })
+                .disabled(actionsDisabled)
                 .accessibilityIdentifier("share.image")
             }
             VButton(L10n.text(K.share.actions.copy), tid: "share.copy", role: .secondary, systemImage: "doc.on.doc") {
                 model.copyLink()
             }
-            .disabled(cardsPending)
+            .disabled(actionsDisabled)
         }
     }
 
@@ -299,17 +309,27 @@ public struct ShareSheetView: View {
     }
 }
 
-#if canImport(UIKit)
-/// Card PNGs decoded once per file (a hosted view re-renders its body often).
+/// Card PNGs decoded once per file *version*. A link update re-downloads the card to the same `<token>-<size>.png`, so the
+/// key carries the file's modification time and size: the old pixels are never shown for the new options.
 @MainActor
 enum ShareCardImage {
-    private static let cache = NSCache<NSURL, UIImage>()
+    /// `path|modified|size`; a missing file keys by path alone.
+    nonisolated static func cacheKey(for file: URL) -> String {
+        let attributes = try? FileManager.default.attributesOfItem(atPath: file.path)
+        let modified = (attributes?[.modificationDate] as? Date)?.timeIntervalSinceReferenceDate ?? 0
+        let size = (attributes?[.size] as? NSNumber)?.intValue ?? 0
+        return "\(file.path)|\(modified)|\(size)"
+    }
+
+    #if canImport(UIKit)
+    private static let cache = NSCache<NSString, UIImage>()
 
     static func image(at file: URL) -> Image? {
-        if let cached = cache.object(forKey: file as NSURL) { return Image(uiImage: cached) }
+        let key = cacheKey(for: file) as NSString
+        if let cached = cache.object(forKey: key) { return Image(uiImage: cached) }
         guard let decoded = UIImage(contentsOfFile: file.path) else { return nil }
-        cache.setObject(decoded, forKey: file as NSURL)
+        cache.setObject(decoded, forKey: key)
         return Image(uiImage: decoded)
     }
+    #endif
 }
-#endif

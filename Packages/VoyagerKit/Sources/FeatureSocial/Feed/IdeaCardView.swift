@@ -209,6 +209,7 @@ struct IdeaCardView: View {
             .font(VFont.body(.subheadline, weight: .medium))
             .foregroundStyle(SemanticColor.text)
             .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.xs)
             .frame(minHeight: 44)
             .borderedSurface(Capsule(), fill: SemanticColor.surfaceRaised, border: SemanticColor.border)
             .contentShape(Capsule())

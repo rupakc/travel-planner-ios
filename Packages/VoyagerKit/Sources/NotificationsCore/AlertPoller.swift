@@ -11,10 +11,16 @@ public struct PollContext: Sendable {
     public var prefs: AlertPrefs?
     public var showsGame: Bool
     public var serverPushLive: Bool
+    /// The phone schedules the T-30, T-7, T-1 and morning reminders itself (`ReminderPolicy`), so the server's
+    /// `trip_t30`/`trip_t7`/`trip_t1`/`trip_morning` rows are not shown again (M7: the local reminder is the one
+    /// source while server push is not live; once it is live the server's push is, and these rows are a safety net).
+    public var localTripReminders: Bool
 
     public init(
-        settings: NotificationSettings? = nil, prefs: AlertPrefs? = nil, showsGame: Bool = false, serverPushLive: Bool = false
+        settings: NotificationSettings? = nil, prefs: AlertPrefs? = nil, showsGame: Bool = false, serverPushLive: Bool = false,
+        localTripReminders: Bool = false
     ) {
+        self.localTripReminders = localTripReminders
         self.settings = settings
         self.prefs = prefs
         self.showsGame = showsGame
@@ -159,6 +165,7 @@ public final class AlertPoller: @unchecked Sendable {
         attempts: Int
     ) -> Verdict {
         if delivered.contains(item.id) { return .done }  // the push already showed it
+        if rules.localTripReminders, Self.isLocallyRemindedTripKind(item.kind) { return .done }  // the local reminder is the one
         if rules.serverPushLive, Self.isYoung(item, now: now) { return .leave }  // the push may still arrive
         guard attempts < Self.maxPerPoll, (Self.clean(item.title) ?? Self.clean(item.body)) != nil else { return .done }
         guard let settings = rules.settings else { return .show(nil) }
@@ -211,13 +218,40 @@ public final class AlertPoller: @unchecked Sendable {
         return String(trimmed.prefix(300))
     }
 
-    /// The tap payload: `route: alerts`, plus the watch the row is about when the server named one.
+    /// The trip-phase kinds the phone also schedules locally (`TripReminderScheduler`: T-30, T-7, T-1, day reminders).
+    static func isLocallyRemindedTripKind(_ kind: String?) -> Bool {
+        switch kind {
+        case "trip_t30", "trip_t7", "trip_t1", "trip_morning": true
+        default: false
+        }
+    }
+
+    /// The tap payload. A price row (or a row without a known kind) is `route: alerts` plus the watch the row is about
+    /// when the server named one. Any other known kind (trip, weather, social, quiz) leaves `route` unset and carries
+    /// `kind`, `plan_id`, `link` and `notification_id`, so a tap routes like a server push (`NotificationTarget`) and
+    /// `notif_open` reports the kind's own category.
     static func userInfo(_ item: AppNotification) -> [String: String] {
+        if let kind = item.kind, let category = NotificationCategory.of(kind: kind), category != .priceDrops {
+            var info = ["kind": kind, "notification_id": String(item.id)]
+            let link = item.data["link"].string.flatMap { $0.isEmpty ? nil : String($0.prefix(256)) }
+            if let link { info["link"] = link }
+            if let plan = planID(item, link: link) { info["plan_id"] = String(plan) }
+            return info
+        }
         var info = ["route": "alerts"]
         if let kind = item.data["kind"].string, WatchKind(rawValue: kind) != nil { info["kind"] = kind }
         if let value = item.data["watch_id"].double, value.isFinite, value >= 1, value <= 1e9 {
             info["watch_id"] = String(Int(value.rounded()))
         }
         return info
+    }
+
+    /// `data.plan_id`, else the id in a `/trips/<id>...` link.
+    private static func planID(_ item: AppNotification, link: String?) -> Int? {
+        if let value = item.data["plan_id"].double, value.isFinite, value >= 1, value <= 1e9 { return Int(value.rounded()) }
+        guard let link, link.hasPrefix("/trips/") else { return nil }
+        let id = link.dropFirst("/trips/".count).prefix { $0.isNumber }
+        guard let number = Int(id), number > 0, number <= 1_000_000_000 else { return nil }
+        return number
     }
 }

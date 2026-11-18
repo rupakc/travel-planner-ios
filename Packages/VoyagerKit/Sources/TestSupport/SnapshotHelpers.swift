@@ -10,6 +10,12 @@ import VoyagerModel
 /// churns unchanged references); otherwise a missing PNG is recorded and fails the test, and a changed one fails.
 /// Record and compare only on the pinned simulator (scripts/ci/sim-destination.sh).
 public enum SnapshotSetup {
+    /// Strict compare so a changed label, curve or border fails: at most 0.005 % of pixels (about 24 on an iPhone SE
+    /// 320x1500 canvas) may differ, and a pixel counts as equal only within CIE76 delta-E 1 (perceptualPrecision 0.99).
+    /// Same-sim renders are deterministic, so this only absorbs sub-visible noise; a text edit moves hundreds of pixels.
+    public static let precision: Float = 0.99995
+    public static let perceptualPrecision: Float = 0.99
+
     public static var record: SnapshotTestingConfiguration.Record {
         ProcessInfo.processInfo.environment["SNAPSHOT_RECORD"] == "1" ? .failed : .missing
     }
@@ -183,13 +189,17 @@ public func assertSnapshots<V: View>(
     await FontRegistry.ready()
     for config in configs {
         LanguageController.withLanguage(config.language) {
-            let content = hosted(view(), layout: layout)
+            let built = view()
+            let content = hosted(built, layout: layout)
             let traits = UITraitCollection { mutable in
                 mutable.userInterfaceStyle = config.dark ? .dark : .light
                 mutable.preferredContentSizeCategory = config.size
             }
+            let canvas = fittedCanvas(
+                of: built, layout: layout, config: config, key: snapshotKey(file: file, testName: testName, name: "\(name)-\(config.name)"))
             let image = Snapshotting<UIViewController, UIImage>.image(
-                on: config.device, precision: 0.99, perceptualPrecision: 0.98, size: config.canvas, traits: traits)
+                on: config.device, precision: SnapshotSetup.precision,
+                perceptualPrecision: SnapshotSetup.perceptualPrecision, size: canvas, traits: traits)
             withSnapshotTesting(record: SnapshotSetup.record) {
                 assertSnapshot(
                     of: UIHostingController(rootView: content),
@@ -200,12 +210,46 @@ public func assertSnapshots<V: View>(
     }
 }
 
+/// `<test file>/<test>.<name>-<config>`: the PNG's folder and base name, the key of `SnapshotCanvasOverrides`.
+private func snapshotKey(file: StaticString, testName: String, name: String) -> String {
+    let base = URL(fileURLWithPath: "\(file)").deletingPathExtension().lastPathComponent
+    return "\(base)/\(testName.replacingOccurrences(of: "()", with: "")).\(name)"
+}
+
+/// The canvas a snapshot is taken on. A component (a padded `ScrollView`) or a view on an explicit canvas is fitted to its
+/// measured natural height plus the device safe area and a small tail, so a PNG never carries a blank tail and never cuts
+/// content. A view that fills whatever height it is offered (a `ScrollView`, a `Spacer`) cannot be measured and keeps the
+/// configured canvas (or the device screen).
+@MainActor
+private func fittedCanvas(of view: some View, layout: SnapshotLayout, config: SnapshotConfig, key: String) -> CGSize? {
+    let override = SnapshotCanvasOverrides.heights[key]
+    guard layout == .component || config.canvas != nil || override != nil else { return config.canvas }
+    guard let width = config.canvas?.width ?? config.device.size?.width else { return config.canvas }
+    let probeHeight: CGFloat = 20_000
+    let sized = layout == .component ? AnyView(view.padding(16)) : AnyView(view)
+    let category = DynamicTypeSize(config.size) ?? .large
+    let scheme: ColorScheme = config.dark ? .dark : .light
+    let host = UIHostingController(rootView: sized.dynamicTypeSize(category).environment(\.colorScheme, scheme))
+    let fit = host.sizeThatFits(in: CGSize(width: width, height: probeHeight))
+    guard fit.height > 1, fit.height < probeHeight - 1 else {
+        guard let height = override else { return config.canvas }
+        return CGSize(width: width, height: height)
+    }
+    let safe = config.device.safeArea
+    let tail: CGFloat = layout == .component ? 4 : 16
+    let bottomSafe = layout == .component ? 0 : safe.bottom
+    return CGSize(width: width, height: ceil(fit.height + safe.top + bottomSafe + tail))
+}
+
 @MainActor
 private func hosted(_ view: some View, layout: SnapshotLayout) -> AnyView {
     switch layout {
     case .component:
         // A ScrollView proposes the content its natural height, so AX5 text never overlaps.
-        return AnyView(ScrollView { view.padding(16) }.background(SemanticColor.surface))
+        return AnyView(ScrollView { view.padding(16) }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(SemanticColor.surface.ignoresSafeArea())
+                .ignoresSafeArea(.container, edges: .bottom))
     case .screen:
         return AnyView(view.background(SemanticColor.surface))
     }

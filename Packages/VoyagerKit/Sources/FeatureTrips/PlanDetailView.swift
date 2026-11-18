@@ -168,12 +168,16 @@ public struct PlanDetailView: View {
         let start = TripDates.date(search["departure_date"].string, calendar)
         let end = TripDates.date(search["return_date"].string, calendar)
         switch (start, end) {
-        case (let start?, let end?): parts.append("\(Fmt.date(start)) – \(Fmt.date(end))")
-        case (let start?, nil): parts.append(Fmt.date(start))
+        // No-break spaces keep the range whole: a narrow screen wraps before it, never inside it. U+2060 (word joiner)
+        // stops the break UAX 14 allows after an en dash, even before a no-break space.
+        case (let start?, let end?): parts.append("\(solid(Fmt.date(start)))\u{00A0}–\u{2060}\u{00A0}\(solid(Fmt.date(end)))")
+        case (let start?, nil): parts.append(solid(Fmt.date(start)))
         default: break
         }
         return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
+
+    private static func solid(_ text: String) -> String { text.replacingOccurrences(of: " ", with: "\u{00A0}") }
 
     private var actions: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {

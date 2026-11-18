@@ -120,7 +120,7 @@ struct FlowLayout: Layout {
         var widest: CGFloat = 0
         for view in subviews {
             let size = view.sizeThatFits(.unspecified)
-            if x > 0, x + size.width > width {
+            if x > 0, x + size.width > width + 0.5 {
                 y += rowHeight + spacing
                 x = 0
                 rowHeight = 0
@@ -138,7 +138,7 @@ struct FlowLayout: Layout {
         var rowHeight: CGFloat = 0
         for view in subviews {
             let size = view.sizeThatFits(.unspecified)
-            if x > bounds.minX, x + size.width > bounds.maxX {
+            if x > bounds.minX, x + size.width > bounds.maxX + 0.5 {
                 y += rowHeight + spacing
                 x = bounds.minX
                 rowHeight = 0

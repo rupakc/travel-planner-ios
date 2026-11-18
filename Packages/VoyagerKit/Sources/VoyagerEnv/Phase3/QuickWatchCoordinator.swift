@@ -40,6 +40,14 @@ final class QuickWatchStore {
         undoable.removeValue(forKey: UndoKey(kind: kind, id: id))
     }
 
+    /// Sign-out or a user switch: nothing the previous user watched, limited or may undo carries over.
+    func reset() {
+        known = [:]
+        undoable = [:]
+        limitReached = false
+        livePricesOff = false
+    }
+
     func forget(kind: WatchKind, id: Int) {
         for (request, entry) in known where request.kind == kind && entry.id == id { known[request] = nil }
     }
@@ -58,7 +66,17 @@ extension WatchCreateCoordinator {
     }
 
     /// A watch was created, changed or deleted somewhere: the shared limit may have room again.
-    func watchesDidChange() { quick.limitReached = false }
+    /// A deleted watch (`removed`) stops reading "Watching" on Results and Chat.
+    func watchesDidChange(removed: (kind: WatchKind, id: Int)? = nil) {
+        quick.limitReached = false
+        if let removed {
+            quick.forget(kind: removed.kind, id: removed.id)
+            _ = quick.takeUndo(kind: removed.kind, id: removed.id)
+        }
+    }
+
+    /// Sign-out or a user switch.
+    func resetForUserChange() { quick.reset() }
 
     public func canUndo(kind: WatchKind, id: Int) -> Bool {
         quick.undoable[QuickWatchStore.UndoKey(kind: kind, id: id)] != nil
@@ -88,8 +106,13 @@ extension WatchCreateCoordinator {
         let body = QuickWatchRequest(
             kind: kind, title: draft.title, subtitle: draft.subtitle, spec: request.spec,
             planId: request.spec["plan_id"].int, surface: surface)
+        // The signed-in user when the write started: an answer that lands after a sign-out or user switch
+        // must not put the previous user's watch (or limit) back into the store `reset()` just emptied.
+        let owner = env.auth.session?.user.username
+        let sameUser = { [env] in env.auth.session?.user.username == owner }
         do {
             let result = try await env.alertsV2.quickWatch(body)
+            guard sameUser() else { return .failed(.cancelled) }
             let pending = result.watch.pendingFirstCheck
             quick.remember(request, id: result.watchID, pending: pending)
             if result.existing {
@@ -104,6 +127,7 @@ extension WatchCreateCoordinator {
             return nil
         } catch let error as APIError {
             if AlertsV2Failure.isRouteMissing(error) { return nil }
+            guard sameUser() else { return .failed(.cancelled) }
             guard let failure = AlertsV2Failure.from(error, call: .quickWatch) else { return .failed(error) }
             switch failure {
             case .watchLimit: quick.limitReached = true

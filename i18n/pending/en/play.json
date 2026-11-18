@@ -9,5 +9,8 @@
   "quiz": {
     "alreadyDone": "You already played today's quiz. Come back tomorrow.",
     "expired": "This quiz timed out. Start a new one from Play."
+  },
+  "h2h": {
+    "resume": "Continue your quiz"
   }
 }

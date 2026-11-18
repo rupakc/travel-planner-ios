@@ -156,6 +156,14 @@ struct FeedModelTests {
         #expect(r.model.visible.map(\.id) == ["b"])
     }
 
+    @Test func test_feedBlockGoesThroughTheLedger() async {
+        let r = rig { $0.social.onFeed.returns(IdeaPage(ideas: [Self.idea("a"), Self.idea("b")])) }
+        await r.model.start()
+        await r.model.block(handle: "ana_a")
+        #expect(r.env.social.ledger.hides(ideaID: "zzz", authorHandle: "ana_a"))
+        #expect(r.model.visible.map(\.id) == ["b"])
+    }
+
     @Test func test_profilePromptWhenNoHandle() async {
         let r = rig()
         await r.model.start()

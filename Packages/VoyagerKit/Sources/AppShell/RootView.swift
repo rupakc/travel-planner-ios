@@ -48,7 +48,12 @@ public struct RootView: View {
             .onChange(of: scenePhase) { _, phase in
                 if phase == .background { Lifecycle.didEnterBackground(env: env) }
                 if phase == .active { Task(priority: .utility) { await TripReminderScheduler.refresh(env: env) } }
+                if phase == .active { Task(priority: .utility) { await env.refetchConfigIfMissing() } }
                 if phase == .active { Task(priority: .utility) { await NearYou.sceneActive(env: env) } }
+            }
+            .onChange(of: env.device.reminderOptIn) { _, _ in
+                // The Settings "Trip reminders" switch: off cancels the pending reminders, on schedules them.
+                Task(priority: .utility) { await TripReminderScheduler.refresh(env: env) }
             }
             .onChange(of: env.auth.session?.user.username) { _, _ in
                 Task(priority: .utility) { await TripReminderScheduler.accountChanged(env: env) }

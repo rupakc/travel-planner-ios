@@ -43,6 +43,9 @@ struct SaveSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(verbatim: model.saveLabel).font(VFont.body(.headline, weight: .semibold)).foregroundStyle(SemanticColor.text)
+                }
                 ToolbarItem(placement: .cancellationAction) {
                     Button(L10n.text(K.plan.modal.close)) { dismiss() }
                         .tint(SemanticColor.primary)

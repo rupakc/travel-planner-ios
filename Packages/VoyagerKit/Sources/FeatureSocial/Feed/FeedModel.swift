@@ -48,7 +48,13 @@ final class FeedModel {
     var isAvailable: Bool { env.social.isAvailable }
 
     /// What the list shows: published ideas, plus the caller's own held ones (with their notice).
-    var visible: [Idea] { ideas.filter { $0.status.isPublished || ($0.status == .held && $0.mine) } }
+    /// Ideas the caller blocked or deleted from another screen are dropped through the shared ledger.
+    var visible: [Idea] {
+        let ledger = env.social.ledger
+        return ideas.filter {
+            !ledger.hides(ideaID: $0.id, authorHandle: $0.author.handle) && ($0.status.isPublished || ($0.status == .held && $0.mine))
+        }
+    }
 
     var isEmpty: Bool { phase == .loaded && visible.isEmpty }
 
@@ -200,6 +206,15 @@ final class FeedModel {
     /// A blocked author's ideas leave the list at once (the server also hides them from the next load).
     func blocked(handle: String) {
         ideas.removeAll { $0.author.handle == handle }
+    }
+
+    /// Blocks an author through `IdeaActions` (which tells the shared `SocialLedger`, so the idea screen and
+    /// profiles drop them too). A failed block leaves the cards; the next load tells the truth.
+    func block(handle: String) async {
+        do {
+            try await actions.block(handle)
+            blocked(handle: handle)
+        } catch {}
     }
 
     func clearFailure(_ id: String) {

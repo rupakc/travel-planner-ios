@@ -18,7 +18,7 @@ final class CommentsModel {
 
     let ideaID: String
     /// The viewer wrote the idea: may mark helpful and delete any comment.
-    let ideaMine: Bool
+    var ideaMine: Bool
     private(set) var comments: [IdeaComment] = []
     private(set) var next: String?
     private(set) var phase: Phase = .loading
@@ -33,7 +33,8 @@ final class CommentsModel {
 
     @ObservationIgnored private let env: AppEnvironment
     @ObservationIgnored private let emit: @MainActor (TelemetryEvent) -> Void
-    @ObservationIgnored private let onCount: @MainActor (Int) -> Void
+    /// Reports +1 / -1 to the owner of the count (the idea screen); set by it after creation.
+    @ObservationIgnored var onCount: @MainActor (Int) -> Void
     @ObservationIgnored private var didLoad = false
 
     init(
