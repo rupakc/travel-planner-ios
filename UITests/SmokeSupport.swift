@@ -25,7 +25,9 @@ enum Progress {
                     let app = XCUIApplication()
                     let ids = app.descendants(matching: .any).allElementsBoundByIndex.prefix(200).map(\.identifier)
                         .filter { !$0.isEmpty }
-                    XCTFail(String("SMOKE stuck 100 s at: \(step); stub calls: \(Smoke.stubCallsOffMain().suffix(12)); on screen: \(ids.joined(separator: ", "))".prefix(3500)))
+                    let calls = Smoke.stubCallsOffMain().suffix(12)
+                    let text = "SMOKE stuck 100 s at: \(step); stub calls: \(calls); on screen: \(ids.joined(separator: ", "))"
+                    XCTFail(String(text.prefix(3500)))
                 }
             }
         }
