@@ -1,6 +1,7 @@
 import Foundation
 import L10n
 import Networking
+import os
 import SharedUI
 import VoyagerData
 import VoyagerModel
@@ -15,7 +16,19 @@ enum CountryNames {
     /// Every ISO country, sorted by its name in the app language.
     static func all() -> [(code: String, name: String)] {
         let locale = LanguageController.current.intlLocale
-        return Locale.Region.isoRegions
+        let key = locale.identifier
+        if let cached = cache.withLock({ $0[key] }) { return cached }
+        let list = compute(locale)
+        cache.withLock { $0[key] = list }
+        return list
+    }
+
+    /// The sorted list per language: the editor's body asks for it on every render (each typed letter of the handle), and
+    /// sorting ~250 names each time made the form crawl on a slow device.
+    private static let cache = OSAllocatedUnfairLock(initialState: [String: [(code: String, name: String)]]())
+
+    private static func compute(_ locale: Locale) -> [(code: String, name: String)] {
+        Locale.Region.isoRegions
             .map(\.identifier)
             .filter { $0.count == 2 && $0.allSatisfy(\.isLetter) }
             .compactMap { code in locale.localizedString(forRegionCode: code).map { (code: code, name: $0) } }
