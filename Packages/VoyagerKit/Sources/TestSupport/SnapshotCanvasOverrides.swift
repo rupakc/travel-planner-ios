@@ -5,11 +5,11 @@ import CoreGraphics
 /// the key is `<test file>/<test>.<name>-<config>`. Regenerate from a record run when such a screen's content changes.
 enum SnapshotCanvasOverrides {
     static let heights: [String: CGFloat] = [
-        "AdminSnapshotTests/test_analytics.analytics-ipad-light": 1600,
+        "AdminSnapshotTests/test_analytics.analytics-ipad-light": 1282,
         "AdminSnapshotTests/test_analytics.analytics-se-light": 1257,
-        "AdminSnapshotTests/test_feedback.feedback-ipad-dark": 1000,
-        "AdminSnapshotTests/test_feedback.feedback-se-light": 1100,
-        "AdminSnapshotTests/test_users.users-ipad-light": 800,
+        "AdminSnapshotTests/test_feedback.feedback-ipad-dark": 604,
+        "AdminSnapshotTests/test_feedback.feedback-se-light": 789,
+        "AdminSnapshotTests/test_users.users-ipad-light": 471,
         "AdminSnapshotTests/test_users.users-se-dark": 431,
         "AdminSnapshotTests/test_users.users-se-light": 431,
         "AlertsSnapshotTests/test_editor.editor-se-dark": 474,
