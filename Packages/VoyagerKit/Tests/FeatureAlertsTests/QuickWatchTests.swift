@@ -170,6 +170,28 @@ struct QuickWatchTests {
         #expect(!watches.canUndo(kind: .hotel, id: 41))
     }
 
+    @Test func test_writeCompletingAfterSignOutDoesNotRepopulateTheStore() async {
+        let fakes = FakeRepositories()
+        let (gate, release) = AsyncStream<Void>.makeStream()
+        let answer = pending(41)
+        fakes.alertsV2.onQuickWatch.handler = { _ in
+            for await _ in gate { break }
+            return answer
+        }
+        let env = AppEnvironment.fake(fakes: fakes, clientConfig: config())
+        Self.liveEnvs.append(env)
+        let watches = env.watches
+        await env.observeAuth()?.value
+        let flight = Task { await watches.handle(.hotel(hotelSpec)) }
+        for _ in 0..<200 where fakes.alertsV2.onQuickWatch.callCount == 0 { await Task.yield() }
+        await env.auth.signOut()
+        await env.observeAuth()?.value
+        release.yield()
+        _ = await flight.value
+        #expect(watches.state(for: .hotel(hotelSpec)) == .idle)
+        #expect(!watches.canUndo(kind: .hotel, id: 41))
+    }
+
     // MARK: Undo
 
     @Test func test_undoRemovesWatch() async {

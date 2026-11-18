@@ -104,4 +104,29 @@ import VoyagerModel
         #expect(env.clientConfig == nil)
         #expect(fakes.health.onClientConfig.callCount == 1)
     }
+
+    @Test func test_offlineColdLaunchRefetchesConfigOnForegroundWithBackoff() async {
+        let fakes = FakeRepositories()
+        fakes.health.onClientConfig.fails(APIError.network)
+        let env = AppEnvironment.fake(fakes: fakes)
+        await env.startDeferredWork().value
+        #expect(env.clientConfig == nil)
+        #expect(fakes.health.onClientConfig.callCount == 1)
+        let t0 = Date()
+        // Inside the backoff window: no request.
+        await env.refetchConfigIfMissing(now: t0)
+        #expect(fakes.health.onClientConfig.callCount == 1)
+        // Still offline after the window: one more try, and the window doubles.
+        await env.refetchConfigIfMissing(now: t0.addingTimeInterval(3600))
+        #expect(fakes.health.onClientConfig.callCount == 2)
+        await env.refetchConfigIfMissing(now: t0.addingTimeInterval(3601))
+        #expect(fakes.health.onClientConfig.callCount == 2)
+        // Back online: config arrives and stops further fetches.
+        fakes.health.onClientConfig.returns(ClientConfig(features: ["social": .number(1)]))
+        await env.refetchConfigIfMissing(now: t0.addingTimeInterval(7200))
+        #expect(env.clientConfig != nil)
+        #expect(fakes.health.onClientConfig.callCount == 3)
+        await env.refetchConfigIfMissing(now: t0.addingTimeInterval(9000))
+        #expect(fakes.health.onClientConfig.callCount == 3)
+    }
 }

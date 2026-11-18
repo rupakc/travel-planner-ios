@@ -69,12 +69,7 @@ public struct IdeasFeedView: View {
     }
 
     private func block(_ idea: Idea) async {
-        do {
-            try await env.social.call { try await $0.block(handle: idea.author.handle) }
-            model.blocked(handle: idea.author.handle)
-        } catch {
-            // The next load tells the truth; a failed block leaves the card.
-        }
+        await model.block(handle: idea.author.handle)
     }
 
     // MARK: Parts

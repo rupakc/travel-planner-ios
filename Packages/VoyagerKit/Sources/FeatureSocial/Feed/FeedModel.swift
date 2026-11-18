@@ -208,6 +208,15 @@ final class FeedModel {
         ideas.removeAll { $0.author.handle == handle }
     }
 
+    /// Blocks an author through `IdeaActions` (which tells the shared `SocialLedger`, so the idea screen and
+    /// profiles drop them too). A failed block leaves the cards; the next load tells the truth.
+    func block(handle: String) async {
+        do {
+            try await actions.block(handle)
+            blocked(handle: handle)
+        } catch {}
+    }
+
     func clearFailure(_ id: String) {
         actionFailure[id] = nil
     }
