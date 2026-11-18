@@ -11,7 +11,7 @@ enum Progress {
     static func mark(_ step: String) { state.withLock { $0.last = step } }
 
     static func reset() {
-        let mine = state.withLock { s -> Int in s.generation += 1; s.last = "launch"; return s.generation }
+        let mine = state.withLock { value -> Int in value.generation += 1; value.last = "launch"; return value.generation }
         // Fires only when the flow is still on the same run after 170 s.
         DispatchQueue.global().asyncAfter(deadline: .now() + 170) {
             let (same, step) = state.withLock { ($0.generation == mine, $0.last) }
