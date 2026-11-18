@@ -31,6 +31,7 @@ final class Phase5Smoke: XCTestCase {
 
         Smoke.back(app)
         let play = Smoke.element(app, "settings.play")
+        Smoke.reveal(app, play, tab: "You")
         Smoke.scrollTo(app, play)
         play.tap()
         Smoke.expect(Smoke.element(app, "play.home"))

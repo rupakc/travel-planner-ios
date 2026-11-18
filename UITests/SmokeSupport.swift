@@ -170,17 +170,20 @@ enum Smoke {
         let bar = app.tabBars.buttons[title]
         let sidebar = element(app, "shell.sidebar")
         let deadline = Date().addingTimeInterval(60)
-        while Date() < deadline, !bar.exists, !sidebar.exists, !app.buttons["ToggleSidebar"].exists {
+        while Date() < deadline, !bar.exists, !sidebar.exists, !app.buttons["ToggleSidebar"].exists,
+            !app.navigationBars.buttons["Voyager"].exists {
             RunLoop.current.run(until: Date().addingTimeInterval(0.5))
         }
         if bar.exists {
             bar.tap()
             return
         }
-        // A portrait iPad hides the sidebar once a row is chosen: the toggle in the nav bar brings it back, as for a user.
-        let toggle = app.buttons["ToggleSidebar"].firstMatch
-        if !sidebar.exists, toggle.exists {
-            toggle.tap()
+        // A portrait iPad hides the sidebar once a row is chosen: the nav bar's "Voyager" back button or the sidebar
+        // toggle brings it back, as for a user.
+        if !sidebar.exists {
+            let back = app.navigationBars.buttons["Voyager"].firstMatch
+            let toggle = app.buttons["ToggleSidebar"].firstMatch
+            if back.exists { back.tap() } else if toggle.exists { toggle.tap() }
             _ = sidebar.waitForExistence(timeout: 10)
         }
         guard sidebar.exists else {
@@ -219,6 +222,23 @@ enum Smoke {
     static func back(_ app: XCUIApplication) {
         if app.tabBars.firstMatch.exists, app.navigationBars.buttons.count > 0 {
             app.navigationBars.buttons.element(boundBy: 0).tap()
+        }
+    }
+
+    /// On iPad, brings the tab's screen back after a pushed screen took the whole width: the sidebar toggle or the nav
+    /// bar's "Voyager" button, then the tab's row when only the sidebar came up. No-op once `probe` exists.
+    static func reveal(_ app: XCUIApplication, _ probe: XCUIElement, tab: String) {
+        for _ in 0..<3 {
+            if probe.waitForExistence(timeout: 3) { return }
+            let sidebar = element(app, "shell.sidebar")
+            if sidebar.exists {
+                let row = sidebar.staticTexts[tab].firstMatch
+                if row.exists { row.tap() }
+                continue
+            }
+            let back = app.navigationBars.buttons["Voyager"].firstMatch
+            let toggle = app.buttons["ToggleSidebar"].firstMatch
+            if back.exists { back.tap() } else if toggle.exists { toggle.tap() }
         }
     }
 
