@@ -59,8 +59,7 @@ public struct DestructiveButtonStyle: ButtonStyle {
     public init() {}
     public func makeBody(configuration: Configuration) -> some View {
         VButtonBody(
-            configuration: configuration, foreground: .white,
-            // A fixed deep red in both schemes: the dark-appearance destructive token is a light coral that white text can't read on.
-            background: Color(red: 0.725, green: 0.110, blue: 0.110), stroke: nil)
+            configuration: configuration, foreground: SemanticColor.onPrimary,
+            background: SemanticColor.destructive, stroke: nil)
     }
 }
