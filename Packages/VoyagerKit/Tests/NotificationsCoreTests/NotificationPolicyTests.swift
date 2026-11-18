@@ -312,10 +312,10 @@ private let copy = TripReminderScheduler.Text(
         #expect(NotificationRouting.route(userInfo: AlertPoller.userInfo(item)) == .alerts(kind: .flight, watchID: 5))
     }
 
-    @Test func test_notifOpenCategoryFollowsTheRowKind() {
+    @MainActor @Test func test_notifOpenCategoryFollowsTheRowKind() {
         func category(_ kind: String) -> NotificationCategory? {
             let info: [AnyHashable: Any] = AlertPoller.userInfo(AppNotification(id: 1, kind: kind, title: "t"))
-            return BackgroundTasks.openedCategory(info: info, push: PushPayload(userInfo: info))
+            return NotificationTapDelegate.openedCategory(info: info, push: PushPayload(userInfo: info))
         }
         #expect(category("trip_t7") == .tripReminders)
         #expect(category("trip_morning") == .morningBrief)
