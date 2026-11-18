@@ -195,7 +195,8 @@ public func assertSnapshots<V: View>(
                 mutable.userInterfaceStyle = config.dark ? .dark : .light
                 mutable.preferredContentSizeCategory = config.size
             }
-            let canvas = fittedCanvas(of: built, layout: layout, config: config)
+            let canvas = fittedCanvas(
+                of: built, layout: layout, config: config, key: snapshotKey(file: file, testName: testName, name: "\(name)-\(config.name)"))
             let image = Snapshotting<UIViewController, UIImage>.image(
                 on: config.device, precision: SnapshotSetup.precision,
                 perceptualPrecision: SnapshotSetup.perceptualPrecision, size: canvas, traits: traits)
@@ -209,12 +210,18 @@ public func assertSnapshots<V: View>(
     }
 }
 
+/// `<test file>/<test>.<name>-<config>`: the PNG's folder and base name, the key of `SnapshotCanvasOverrides`.
+private func snapshotKey(file: StaticString, testName: String, name: String) -> String {
+    let base = URL(fileURLWithPath: "\(file)").deletingPathExtension().lastPathComponent
+    return "\(base)/\(testName.replacingOccurrences(of: "()", with: "")).\(name)"
+}
+
 /// The canvas a snapshot is taken on. A component (a padded `ScrollView`) or a view on an explicit canvas is fitted to its
 /// measured natural height plus the device safe area and a small tail, so a PNG never carries a blank tail and never cuts
 /// content. A view that fills whatever height it is offered (a `ScrollView`, a `Spacer`) cannot be measured and keeps the
 /// configured canvas (or the device screen).
 @MainActor
-private func fittedCanvas(of view: some View, layout: SnapshotLayout, config: SnapshotConfig) -> CGSize? {
+private func fittedCanvas(of view: some View, layout: SnapshotLayout, config: SnapshotConfig, key: String) -> CGSize? {
     guard layout == .component || config.canvas != nil else { return config.canvas }
     guard let width = config.canvas?.width ?? config.device.size?.width else { return config.canvas }
     let probeHeight: CGFloat = 20_000
@@ -223,7 +230,10 @@ private func fittedCanvas(of view: some View, layout: SnapshotLayout, config: Sn
     let scheme: ColorScheme = config.dark ? .dark : .light
     let host = UIHostingController(rootView: sized.dynamicTypeSize(category).environment(\.colorScheme, scheme))
     let fit = host.sizeThatFits(in: CGSize(width: width, height: probeHeight))
-    guard fit.height > 1, fit.height < probeHeight - 1 else { return config.canvas }
+    guard fit.height > 1, fit.height < probeHeight - 1 else {
+        guard let height = SnapshotCanvasOverrides.heights[key] else { return config.canvas }
+        return CGSize(width: width, height: height)
+    }
     let safe = config.device.safeArea
     let tail: CGFloat = layout == .component ? 4 : 16
     return CGSize(width: width, height: ceil(fit.height + safe.top + safe.bottom + tail))
