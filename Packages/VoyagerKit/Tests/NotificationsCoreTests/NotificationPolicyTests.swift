@@ -268,4 +268,60 @@ private let copy = TripReminderScheduler.Text(
         let later = poller(repo, center, defaults(), at: noon.addingTimeInterval(3600), context: live)
         #expect(await later.poll() == 1)
     }
+
+    // M7: one source per trip reminder.
+    @Test func test_tripRowsAreNotShownWhenThePhoneSchedulesTheReminders() async {
+        let repo = FakeNotifications()
+        repo.items = [
+            row(1, "trip_t30", now: noon), row(2, "trip_t7", now: noon), row(3, "trip_t1", now: noon),
+            row(4, "trip_morning", now: noon), row(5, "weather_alert", now: noon), row(6, "social_new_follower", now: noon),
+        ]
+        let center = FakeCenter()
+        let store = defaults()
+        let rules = PollContext(settings: settings(quiet: false), localTripReminders: true)
+        let poll = poller(repo, center, store, at: noon, context: rules)
+        #expect(await poll.poll() == 2)
+        #expect(Set(center.added.map(\.id)) == ["alert-5", "alert-6"], "weather and social have no local twin")
+        #expect(await poll.poll() == 0, "the skipped trip rows are marked seen, not retried")
+    }
+
+    @Test func test_tripRowsStillShownWhenNoLocalReminderOwnsThem() async {
+        let repo = FakeNotifications()
+        repo.items = [row(1, "trip_t7", now: noon), row(2, "trip_morning", now: noon)]
+        let center = FakeCenter()
+        let poll = poller(repo, center, defaults(), at: noon, context: PollContext(settings: settings(quiet: false)))
+        #expect(await poll.poll() == 2)
+    }
+
+    // M6: a tap routes by the row's kind, not always to Alerts.
+    @Test func test_polledNonPriceRowsRouteByKind() {
+        func info(_ kind: String, _ data: JSONValue = .null) -> [String: String] {
+            AlertPoller.userInfo(AppNotification(id: 9, kind: kind, title: "t", data: data))
+        }
+        let trip = info("trip_t7", .object(["link": "/trips/42"]))
+        #expect(trip["route"] == nil && trip["plan_id"] == "42" && trip["kind"] == "trip_t7" && trip["notification_id"] == "9")
+        #expect(NotificationRouting.route(userInfo: trip) == .tripToday(planID: 42))
+        #expect(NotificationRouting.route(userInfo: info("weather_alert", .object(["plan_id": 7]))) == .tripToday(planID: 7))
+        #expect(NotificationRouting.route(userInfo: info("social_new_follower")) == .ideas)
+        #expect(NotificationRouting.route(userInfo: info("quiz_daily")) == .play)
+        #expect(NotificationRouting.route(userInfo: info("trip_t1")) == .notifications, "no plan id: the inbox")
+    }
+
+    @Test func test_polledPriceRowsStillOpenAlerts() {
+        let item = AppNotification(id: 3, kind: "fare_drop", title: "t", data: .object(["kind": "flight", "watch_id": 5]))
+        #expect(NotificationRouting.route(userInfo: AlertPoller.userInfo(item)) == .alerts(kind: .flight, watchID: 5))
+    }
+
+    @MainActor @Test func test_notifOpenCategoryFollowsTheRowKind() {
+        func category(_ kind: String) -> NotificationCategory? {
+            let info: [AnyHashable: Any] = AlertPoller.userInfo(AppNotification(id: 1, kind: kind, title: "t"))
+            return NotificationTapDelegate.openedCategory(info: info, push: PushPayload(userInfo: info))
+        }
+        #expect(category("trip_t7") == .tripReminders)
+        #expect(category("trip_morning") == .morningBrief)
+        #expect(category("social_idea_saved") == .social)
+        #expect(category("quiz_daily") == .quiz)
+        #expect(category("weather_alert") == .weather)
+        #expect(category("fare_drop") == .priceDrops)
+    }
 }

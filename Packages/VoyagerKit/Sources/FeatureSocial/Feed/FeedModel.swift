@@ -48,7 +48,13 @@ final class FeedModel {
     var isAvailable: Bool { env.social.isAvailable }
 
     /// What the list shows: published ideas, plus the caller's own held ones (with their notice).
-    var visible: [Idea] { ideas.filter { $0.status.isPublished || ($0.status == .held && $0.mine) } }
+    /// Ideas the caller blocked or deleted from another screen are dropped through the shared ledger.
+    var visible: [Idea] {
+        let ledger = env.social.ledger
+        return ideas.filter {
+            !ledger.hides(ideaID: $0.id, authorHandle: $0.author.handle) && ($0.status.isPublished || ($0.status == .held && $0.mine))
+        }
+    }
 
     var isEmpty: Bool { phase == .loaded && visible.isEmpty }
 

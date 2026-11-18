@@ -42,6 +42,7 @@ struct IdeaActions {
 
     func delete(_ id: String) async throws {
         try await env.social.call { try await $0.deleteIdea(id: id) }
+        env.social.ledger.deleted(ideaID: id)
     }
 
     func report(_ request: ReportRequest) async throws {
@@ -51,5 +52,6 @@ struct IdeaActions {
 
     func block(_ handle: String) async throws {
         try await env.social.call { try await $0.block(handle: handle) }
+        env.social.ledger.blocked(handle: handle)
     }
 }

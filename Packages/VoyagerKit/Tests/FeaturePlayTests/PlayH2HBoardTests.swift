@@ -168,6 +168,31 @@ struct PlayH2HBoardTests {
         #expect(events.names.last == "play_quiz_start" && events.last?.props["mode"] == .string("h2h"))
     }
 
+    @Test func test_creatorWaitingOnOwnQuizContinuesInsteadOfAccepting() async {
+        let fakes = FakeRepositories()
+        fakes.play.onMatches.returns([
+            H2HMatch(id: "m1", opponent: "mia", pack: "flags", state: .waitingYou, sessionID: "mine1")
+        ])
+        let environment = env(fakes)
+        let model = H2HMatchModel(env: environment, matchID: "m1", track: { _ in })
+        await model.load()
+        // Accept and decline would answer 404 / 409 for a caller who already has a session.
+        #expect(model.canContinue && !model.canAnswer)
+        await model.accept()
+        await model.decline()
+        #expect(fakes.play.onAccept.callCount == 0 && fakes.play.onDecline.callCount == 0)
+        model.resume()
+        #expect(environment.recordedRoutes == [.quiz(sessionID: "mine1")])
+    }
+
+    @Test func test_invitationWithoutSessionStillAcceptsAndDeclines() async {
+        let fakes = FakeRepositories()
+        fakes.play.onMatches.returns([match(state: .waitingYou)])
+        let model = H2HMatchModel(env: env(fakes), matchID: "m1", track: { _ in })
+        await model.load()
+        #expect(model.canAnswer && !model.canContinue)
+    }
+
     @Test func test_onlyAnInvitationCanBeAnswered() async {
         let fakes = FakeRepositories()
         fakes.play.onMatches.returns([match(state: .waitingThem)])

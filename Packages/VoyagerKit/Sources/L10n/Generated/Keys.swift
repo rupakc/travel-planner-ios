@@ -2613,6 +2613,7 @@ public enum K {
             public static let missing = LKey("play:h2h.missing", placeholders: [], plural: false)
             public static let `open` = LKey("play:h2h.open", placeholders: [], plural: false)
             public static let pack = LKey("play:h2h.pack", placeholders: [], plural: false)
+            public static let resume = LKey("play:h2h.resume", placeholders: [], plural: false)
             public static let score = LKey("play:h2h.score", placeholders: ["them", "you"], plural: false)
             public static let state_declined = LKey("play:h2h.state_declined", placeholders: [], plural: false)
             public static let state_done = LKey("play:h2h.state_done", placeholders: [], plural: false)
@@ -4184,6 +4185,7 @@ public enum K {
         public static let revokeNo = LKey("share:revokeNo", placeholders: [], plural: false)
         public static let revokeYes = LKey("share:revokeYes", placeholders: [], plural: false)
         public static let sameLinkNote = LKey("share:sameLinkNote", placeholders: [], plural: false)
+        public static let saveFirst = LKey("share:saveFirst", placeholders: [], plural: false)
         public static let showName = LKey("share:showName", placeholders: [], plural: false)
         public static let showOrigin = LKey("share:showOrigin", placeholders: [], plural: false)
         public enum status {

@@ -35,6 +35,20 @@ struct PriceStoryTests {
         }
     }
 
+    @Test func test_storyRecoversWhenConfigArrivesLate() async {
+        let fakes = FakeRepositories()
+        fakes.alertsV2.onStory.returns(goodFlightStory)
+        fakes.health.onClientConfig.returns(config())
+        let env = AppEnvironment.fake(fakes: fakes)  // /api/config has not loaded yet
+        let model = PriceStoryModel(env: env, kind: .flight, watchID: 7, track: { _ in })
+        await model.load()
+        #expect(model.phase == .idle)
+        #expect(fakes.alertsV2.onStory.callCount == 0)
+        await env.startDeferredWork().value
+        for _ in 0..<50 where model.story == nil { await Task.yield() }
+        #expect(model.story != nil)
+    }
+
     // MARK: Copy
 
     @Test func test_adviceCodeCopyForAll8() {

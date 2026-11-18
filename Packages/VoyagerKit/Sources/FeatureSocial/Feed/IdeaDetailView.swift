@@ -8,26 +8,20 @@ import VoyagerModel
 /// One idea with its comments (`Route.ideaDetail`).
 public struct IdeaDetailView: View {
     @State private var model: IdeaDetailModel
-    @State private var comments: CommentsModel
     @State private var reporting: ReportItem?
     @State private var confirmDelete = false
     @State private var confirmBlock = false
-    private let env: AppEnvironment
     private let supportURL: URL?
 
     @MainActor public init(env: AppEnvironment, ideaID: String) {
         let detail = IdeaDetailModel(env: env, ideaID: ideaID)
-        self.env = env
         self.supportURL = env.build.supportURL
         _model = State(initialValue: detail)
-        _comments = State(initialValue: CommentsModel(env: env, ideaID: ideaID, ideaMine: false))
     }
 
-    @MainActor init(model: IdeaDetailModel, comments: CommentsModel, env: AppEnvironment, supportURL: URL? = nil) {
-        self.env = env
+    @MainActor init(model: IdeaDetailModel, supportURL: URL? = nil) {
         self.supportURL = supportURL
         _model = State(initialValue: model)
-        _comments = State(initialValue: comments)
     }
 
     public var body: some View {
@@ -97,18 +91,9 @@ public struct IdeaDetailView: View {
                 delete: { confirmDelete = true }),
             tidPrefix: "idea")
         if model.commentsOpen && idea.status.isPublished {
-            CommentsView(model: commentsModel(for: idea)) { comment in
+            CommentsView(model: model.comments) { comment in
                 reporting = ReportItem(model: model.reportModel(commentID: comment.id))
             }
         }
-    }
-
-    /// The comments model knows whether the viewer wrote the idea only once the idea is loaded.
-    private func commentsModel(for idea: Idea) -> CommentsModel {
-        if comments.ideaMine != idea.mine {
-            comments = CommentsModel(
-                env: env, ideaID: idea.id, ideaMine: idea.mine, onCount: { [model] in model.commentCountChanged($0) })
-        }
-        return comments
     }
 }

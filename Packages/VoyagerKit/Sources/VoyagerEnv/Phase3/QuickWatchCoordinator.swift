@@ -40,6 +40,14 @@ final class QuickWatchStore {
         undoable.removeValue(forKey: UndoKey(kind: kind, id: id))
     }
 
+    /// Sign-out or a user switch: nothing the previous user watched, limited or may undo carries over.
+    func reset() {
+        known = [:]
+        undoable = [:]
+        limitReached = false
+        livePricesOff = false
+    }
+
     func forget(kind: WatchKind, id: Int) {
         for (request, entry) in known where request.kind == kind && entry.id == id { known[request] = nil }
     }
@@ -58,7 +66,17 @@ extension WatchCreateCoordinator {
     }
 
     /// A watch was created, changed or deleted somewhere: the shared limit may have room again.
-    func watchesDidChange() { quick.limitReached = false }
+    /// A deleted watch (`removed`) stops reading "Watching" on Results and Chat.
+    func watchesDidChange(removed: (kind: WatchKind, id: Int)? = nil) {
+        quick.limitReached = false
+        if let removed {
+            quick.forget(kind: removed.kind, id: removed.id)
+            _ = quick.takeUndo(kind: removed.kind, id: removed.id)
+        }
+    }
+
+    /// Sign-out or a user switch.
+    func resetForUserChange() { quick.reset() }
 
     public func canUndo(kind: WatchKind, id: Int) -> Bool {
         quick.undoable[QuickWatchStore.UndoKey(kind: kind, id: id)] != nil

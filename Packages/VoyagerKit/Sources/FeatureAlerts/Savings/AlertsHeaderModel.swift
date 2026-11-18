@@ -23,6 +23,7 @@ public final class AlertsHeaderModel {
 
     @ObservationIgnored private let env: AppEnvironment
     @ObservationIgnored private var run = 0
+    @ObservationIgnored private var watchingConfig = false
 
     public init(env: AppEnvironment) {
         self.env = env
@@ -48,7 +49,27 @@ public final class AlertsHeaderModel {
     /// something to share.
     var canShare: Bool { features.hasSharingV2 && (savings.map { !$0.isEmpty } ?? false) }
 
+    /// `/api/config` has not loaded (a cold launch from a notification, or offline): wait for it instead of hiding.
+    private func reloadWhenConfigArrives() {
+        guard !watchingConfig else { return }
+        watchingConfig = true
+        withObservationTracking {
+            _ = env.clientConfig
+        } onChange: { [weak self] in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.watchingConfig = false
+                await self.load()
+            }
+        }
+    }
+
     public func load() async {
+        guard env.clientConfig != nil else {
+            if savings == nil { phase = .idle }
+            reloadWhenConfigArrives()
+            return
+        }
         guard isAvailable else {
             phase = .unavailable
             return

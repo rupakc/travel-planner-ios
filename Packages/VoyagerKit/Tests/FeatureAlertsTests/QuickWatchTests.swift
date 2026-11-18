@@ -139,6 +139,37 @@ struct QuickWatchTests {
         #expect(watches.state(for: .hotel(hotelSpec)) == .idle)
     }
 
+    @Test func test_deletedWatchStopsSayingWatching() async {
+        let fakes = FakeRepositories()
+        fakes.alertsV2.onQuickWatch.returns(pending(41))
+        let env = AppEnvironment.fake(fakes: fakes, clientConfig: config())
+        Self.liveEnvs.append(env)
+        let watches = env.watches  // the one `watchesChanged()` and sign-out tell
+        _ = await watches.handle(.hotel(hotelSpec))
+        #expect(watches.state(for: .hotel(hotelSpec)) == .pending(41))
+        // Deleting a different watch leaves it alone.
+        await env.watchesChanged(removed: (.hotel, 99))
+        #expect(watches.state(for: .hotel(hotelSpec)) == .pending(41))
+        // Deleting this one (e.g. in the Alerts tab) lets the user watch it again.
+        await env.watchesChanged(removed: (.hotel, 41))
+        #expect(watches.state(for: .hotel(hotelSpec)) == .idle)
+    }
+
+    @Test func test_signOutClearsWatchState() async {
+        let fakes = FakeRepositories()
+        fakes.alertsV2.onQuickWatch.returns(pending(41))
+        let env = AppEnvironment.fake(fakes: fakes, clientConfig: config())
+        Self.liveEnvs.append(env)
+        let watches = env.watches  // the one `watchesChanged()` and sign-out tell
+        await env.observeAuth()?.value  // the signed-in user
+        _ = await watches.handle(.hotel(hotelSpec))
+        #expect(watches.canUndo(kind: .hotel, id: 41))
+        await env.auth.signOut()
+        await env.observeAuth()?.value
+        #expect(watches.state(for: .hotel(hotelSpec)) == .idle)
+        #expect(!watches.canUndo(kind: .hotel, id: 41))
+    }
+
     // MARK: Undo
 
     @Test func test_undoRemovesWatch() async {
