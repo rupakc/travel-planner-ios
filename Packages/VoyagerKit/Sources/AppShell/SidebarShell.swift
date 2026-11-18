@@ -18,6 +18,7 @@ struct SidebarShell: View {
     let unread: UnreadBadge
     let consent: ConsentState
     @State private var visibility = NavigationSplitViewVisibility.all
+    @State private var isPortrait = false
 
     var body: some View {
         NavigationSplitView(columnVisibility: $visibility) {
@@ -37,7 +38,22 @@ struct SidebarShell: View {
         } detail: {
             detail
         }
+        .background(
+            GeometryReader { proxy in
+                Color.clear
+                    .onAppear { isPortrait = proxy.size.width < proxy.size.height }
+                    .onChange(of: proxy.size) { _, size in isPortrait = size.width < size.height }
+            }
+        )
         .safeAreaInset(edge: .bottom) { ConsentCard(telemetry: env.telemetry, state: consent) }
+    }
+
+    /// A portrait iPad fits two of the three columns. Choosing a row there used to leave only the (empty) detail column
+    /// on screen, so the tab's screen in the content column, and with it every link to a detail, was out of reach (found
+    /// by the iPad UI smoke flows). Showing content + detail keeps the chosen screen visible; the toggle brings the
+    /// sidebar back. Landscape has room for all three and is left alone.
+    private func showContentColumn() {
+        if isPortrait { visibility = .doubleColumn }
     }
 
     private var selection: Binding<SidebarItem?> {
@@ -49,6 +65,7 @@ struct SidebarShell: View {
                 case .mode(let mode): router.open(.explore(mode))
                 case nil: break
                 }
+                showContentColumn()
             })
     }
 
