@@ -53,21 +53,26 @@ enum Smoke {
             RunLoop.current.run(until: Date().addingTimeInterval(0.5))
         }
         if username.exists {
-            type(username, "smoke")
+            type(app, "login.username", "smoke")
             // Return submits the form.
-            type(app.secureTextFields["login.password"], "stub-password\n")
+            type(app, "login.password", "stub-password\n")
         }
         return app
     }
 
-    /// Focuses a text field (a second tap when the first did not, as on iPad with a hardware keyboard) and types.
-    static func type(_ field: XCUIElement, _ text: String) {
-        for _ in 0..<4 {
-            field.tap()
-            let focused = XCTNSPredicateExpectation(predicate: NSPredicate(format: "hasKeyboardFocus == true"), object: field)
-            if XCTWaiter().wait(for: [focused], timeout: 3) == .completed { break }
+    /// Focuses a text field (tapped again, looked up afresh, when the screen re-rendered or the tap did not focus it, as on
+    /// iPad) and types.
+    static func type(_ app: XCUIApplication, _ id: String, _ text: String) {
+        for _ in 0..<5 {
+            let field = element(app, id)
+            _ = field.waitForExistence(timeout: 20)
+            RunLoop.current.run(until: Date().addingTimeInterval(1))
+            field.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.5)).tap()
+            let focused = XCTNSPredicateExpectation(
+                predicate: NSPredicate(format: "hasKeyboardFocus == true"), object: element(app, id))
+            if XCTWaiter().wait(for: [focused], timeout: 4) == .completed { break }
         }
-        field.typeText(text)
+        element(app, id).typeText(text)
     }
 
     static func element(_ app: XCUIApplication, _ id: String) -> XCUIElement {
@@ -143,7 +148,9 @@ enum Smoke {
 
     /// A switch's own control sits at the trailing edge of its row.
     static func flip(_ toggle: XCUIElement) {
-        toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.93, dy: 0.5)).tap()
+        // 36 points in from the trailing edge, on any row width.
+        let width = max(toggle.frame.width, 80)
+        toggle.coordinate(withNormalizedOffset: CGVector(dx: (width - 36) / width, dy: 0.5)).tap()
     }
 
     /// Polls `condition` for up to `timeout` seconds.

@@ -25,6 +25,7 @@ final class Phase4Smoke: XCTestCase {
         Smoke.expect(Smoke.element(app, "shares.row"))
         Smoke.scrollAndTap(app, Smoke.element(app, "shares.revoke"))
         let yes = Smoke.element(app, "shares.revoke-yes")
+        if !yes.waitForExistence(timeout: 6) { Smoke.scrollAndTap(app, Smoke.element(app, "shares.revoke")) }
         Smoke.expect(yes)
         Smoke.scrollAndTap(app, yes)
 
