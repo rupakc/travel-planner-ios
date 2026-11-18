@@ -156,14 +156,24 @@ enum Smoke {
         if row.exists { row.tap() } else { sidebar.buttons[title].firstMatch.tap() }
     }
 
+    /// True when `element` has a real frame inside the window (cheaper than `isHittable`, which on iPad can stay false for a
+    /// control that is plainly on screen and sends the scroll loop swiping for minutes).
+    static func onScreen(_ app: XCUIApplication, _ element: XCUIElement) -> Bool {
+        guard element.exists else { return false }
+        let frame = element.frame
+        let window = app.windows.firstMatch.frame
+        return !frame.isEmpty && window.contains(CGPoint(x: frame.midX, y: frame.midY))
+    }
+
     /// Scrolls the screen until `element` is on it (the screens are scroll views).
     static func scrollTo(_ app: XCUIApplication, _ element: XCUIElement, file: StaticString = #filePath, line: UInt = #line) {
         Progress.mark("scrollTo \(element)")
         _ = element.waitForExistence(timeout: 30)
         var swipes = 0
-        while !element.isHittable && swipes < 12 {
+        while !onScreen(app, element) && swipes < 8 {
             app.swipeUp()
             swipes += 1
+            Progress.mark("scrollTo \(element) swipe \(swipes)")
         }
         XCTAssertTrue(element.exists, "not found after scrolling: \(element)", file: file, line: line)
         if !element.exists { dump() }
@@ -179,7 +189,8 @@ enum Smoke {
     /// Scrolls to `element` and taps it.
     static func scrollAndTap(_ app: XCUIApplication, _ element: XCUIElement, file: StaticString = #filePath, line: UInt = #line) {
         scrollTo(app, element, file: file, line: line)
-        element.tap()
+        Progress.mark("tap after scroll \(element)")
+        if element.isHittable { element.tap() } else { element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap() }
     }
 
     /// Flips a switch and checks its value changed: its own control sits at the trailing edge of its row, which on iPad
