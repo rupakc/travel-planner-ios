@@ -72,6 +72,19 @@ public final class PriceStoryModel {
 
     /// Loads (or refreshes) the story. A refresh keeps the old story on screen until the new one arrives, and a failed
     /// refresh keeps it too. `alert_story_view` is sent once, with the first story shown.
+    /// A tip was written for the old price: drop it when the latest price moved.
+    private func resetTipIfPriceChanged(to fetched: PriceStory) {
+        if story?.latest != fetched.latest { tip = .idle }
+    }
+
+    /// False (and a reload is armed) while `/api/config` has not loaded.
+    private func configLoaded() -> Bool {
+        guard env.clientConfig == nil else { return true }
+        if story == nil { phase = .idle }
+        reloadWhenConfigArrives()
+        return false
+    }
+
     /// `/api/config` has not loaded (a cold launch from a notification, or offline): wait for it instead of hiding.
     private func reloadWhenConfigArrives() {
         guard !watchingConfig else { return }
@@ -88,11 +101,7 @@ public final class PriceStoryModel {
     }
 
     public func load() async {
-        guard env.clientConfig != nil else {
-            if story == nil { phase = .idle }
-            reloadWhenConfigArrives()
-            return
-        }
+        guard configLoaded() else { return }
         guard env.alertsV2.isAvailable(.stored) else {
             phase = .unavailable
             return
@@ -103,7 +112,7 @@ public final class PriceStoryModel {
         do {
             let fetched = try await env.alertsV2.story(kind: kind, id: watchID)
             guard run == loadRun else { return }
-            if story?.latest != fetched.latest { tip = .idle }
+            resetTipIfPriceChanged(to: fetched)
             phase = .loaded(fetched)
             if let selected, !fetched.points.contains(selected) { self.selected = nil }
             if !viewTracked {
