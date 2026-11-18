@@ -102,6 +102,38 @@ struct ShareSheetModelTests {
         #expect(model.status == L10n.text(K.share.status.updated) && !model.isDirty)
     }
 
+    // MARK: Unsaved edits
+
+    @Test func test_shareAndCopyWaitWhileOptionsAreUnsaved() async {
+        let r = rig { $0.shares.onCreate.returns(self.share()) }
+        await r.model.create()
+        await r.model.settled()
+        #expect(r.model.canShare)
+        r.model.options.showName = true
+        #expect(r.model.isDirty && !r.model.canShare)
+        r.model.copyLink()
+        r.model.didShareNatively(tid: "share.native")
+        #expect(r.copied.texts.isEmpty)
+        #expect(!r.events.all.contains { if case .shareAction = $0 { true } else { false } })
+        // Saving the change re-enables them.
+        await r.model.create()
+        #expect(r.model.canShare)
+        r.model.copyLink()
+        #expect(r.copied.texts == ["https://fake.voyager.test/share/tok1"])
+    }
+
+    @Test func test_cardImageCacheKeyChangesWhenTheFileIsRewritten() throws {
+        let file = FileManager.default.temporaryDirectory.appendingPathComponent("card-\(UUID().uuidString).png")
+        defer { try? FileManager.default.removeItem(at: file) }
+        try Data([1, 2, 3]).write(to: file)
+        try FileManager.default.setAttributes([.modificationDate: Date(timeIntervalSince1970: 1_000)], ofItemAtPath: file.path)
+        let before = ShareCardImage.cacheKey(for: file)
+        // Same path, new card (an "Update link" re-download).
+        try Data([1, 2, 3, 4]).write(to: file)
+        try FileManager.default.setAttributes([.modificationDate: Date(timeIntervalSince1970: 2_000)], ofItemAtPath: file.path)
+        #expect(ShareCardImage.cacheKey(for: file) != before)
+    }
+
     // MARK: Kinds
 
     @Test func test_unknownKindIsPlainLink() async {

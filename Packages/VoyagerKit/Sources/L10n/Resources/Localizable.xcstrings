@@ -100313,6 +100313,53 @@
         }
       }
     },
+    "play:h2h.resume" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue your quiz"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue your quiz"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue your quiz"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue your quiz"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue your quiz"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue your quiz"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue your quiz"
+          }
+        }
+      }
+    },
     "play:h2h.score" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -161449,6 +161496,53 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sharing this again updates the same link: your new choices replace the earlier ones."
+          }
+        }
+      }
+    },
+    "share:saveFirst" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update the link first. Sharing or copying now would send the link as it was before your changes."
           }
         }
       }

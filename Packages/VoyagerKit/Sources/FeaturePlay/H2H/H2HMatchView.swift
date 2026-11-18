@@ -87,12 +87,17 @@ public struct H2HMatchView: View {
                         .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.h2h.error")
                 }
                 if match.state == .waitingYou {
-                    VButton(L10n.text(K.play.h2h.accept), tid: "play.h2h.accept") { Task { await model.accept() } }
+                    if match.sessionID?.isEmpty == false {
+                        VButton(L10n.text(K.play.h2h.resume), tid: "play.h2h.continue") { model.resume() }
+                            .disabled(model.busy)
+                    } else {
+                        VButton(L10n.text(K.play.h2h.accept), tid: "play.h2h.accept") { Task { await model.accept() } }
+                            .disabled(model.busy)
+                        VButton(L10n.text(K.play.h2h.decline), tid: "play.h2h.decline", role: .secondary) {
+                            Task { await model.decline() }
+                        }
                         .disabled(model.busy)
-                    VButton(L10n.text(K.play.h2h.decline), tid: "play.h2h.decline", role: .secondary) {
-                        Task { await model.decline() }
                     }
-                    .disabled(model.busy)
                 }
                 back
             }
