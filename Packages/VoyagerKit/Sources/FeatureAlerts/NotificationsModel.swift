@@ -114,7 +114,8 @@ public final class NotificationsModel {
         if let category = NotificationCategory.of(kind: notification.kind) {
             track(.notifOpen(category: category.rawValue, source: "inapp"))
         }
-        if let route = Self.serverRoute(of: notification, todayAvailable: env.clientConfig?.journeyAvailable ?? false) {
+        let today = env.clientConfig?.journeyAvailable ?? false
+        if let route = Self.serverRoute(of: notification, todayAvailable: today, playAvailable: env.play.isAvailable) {
             // Trip, weather, social and quiz rows: Today by `plan_id`, or the row's allow-listed `link` (R8).
             env.router.open(route)
         } else if notification.isPriceDigest {
@@ -137,12 +138,13 @@ public final class NotificationsModel {
     /// Where a non-price row goes: trip and weather rows open Today (or the trip detail while Today is off) by `data.plan_id`,
     /// social and quiz rows follow `data.link`. Nil for price rows, unknown kinds, and trip rows without a `plan_id`
     /// (they are already in the inbox).
-    static func serverRoute(of notification: AppNotification, todayAvailable: Bool) -> Route? {
+    static func serverRoute(of notification: AppNotification, todayAvailable: Bool, playAvailable: Bool = true) -> Route? {
         guard let kind = notification.kind, let category = NotificationCategory.of(kind: kind), category != .priceDrops
         else { return nil }
         let planID = notification.data["plan_id"].int
         let route = NotificationTarget.route(
-            kind: kind, planID: planID, link: notification.data["link"].string, todayAvailable: todayAvailable)
+            kind: kind, planID: planID, link: notification.data["link"].string, todayAvailable: todayAvailable,
+            playAvailable: playAvailable)
         return route == .notifications ? nil : route
     }
 
