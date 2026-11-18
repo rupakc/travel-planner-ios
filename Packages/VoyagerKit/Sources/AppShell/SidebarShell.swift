@@ -45,6 +45,11 @@ struct SidebarShell: View {
                     .onChange(of: proxy.size) { _, size in isPortrait = size.width < size.height }
             }
         )
+        .onChange(of: router.path(router.selectedTab).isEmpty) { _, isEmpty in
+            // A pushed screen opens in the detail column; in portrait the content column would stay on top of it as a
+            // dimming overlay that swallows the first tap (the iPad smoke flows tapped the dismiss region, not the field).
+            if isPortrait { visibility = isEmpty ? .doubleColumn : .detailOnly }
+        }
         .safeAreaInset(edge: .bottom) { ConsentCard(telemetry: env.telemetry, state: consent) }
     }
 

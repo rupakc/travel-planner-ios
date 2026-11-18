@@ -170,12 +170,18 @@ enum Smoke {
         let bar = app.tabBars.buttons[title]
         let sidebar = element(app, "shell.sidebar")
         let deadline = Date().addingTimeInterval(60)
-        while Date() < deadline, !bar.exists, !sidebar.exists {
+        while Date() < deadline, !bar.exists, !sidebar.exists, !app.buttons["ToggleSidebar"].exists {
             RunLoop.current.run(until: Date().addingTimeInterval(0.5))
         }
         if bar.exists {
             bar.tap()
             return
+        }
+        // A portrait iPad hides the sidebar once a row is chosen: the toggle in the nav bar brings it back, as for a user.
+        let toggle = app.buttons["ToggleSidebar"].firstMatch
+        if !sidebar.exists, toggle.exists {
+            toggle.tap()
+            _ = sidebar.waitForExistence(timeout: 10)
         }
         guard sidebar.exists else {
             XCTFail("no tab bar and no sidebar", file: file, line: line)
