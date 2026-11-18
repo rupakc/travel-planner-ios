@@ -142,7 +142,9 @@ struct QuickWatchTests {
     @Test func test_deletedWatchStopsSayingWatching() async {
         let fakes = FakeRepositories()
         fakes.alertsV2.onQuickWatch.returns(pending(41))
-        let (watches, env) = coordinator(fakes)
+        let env = AppEnvironment.fake(fakes: fakes, clientConfig: config())
+        Self.liveEnvs.append(env)
+        let watches = env.watches  // the one `watchesChanged()` and sign-out tell
         _ = await watches.handle(.hotel(hotelSpec))
         #expect(watches.state(for: .hotel(hotelSpec)) == .pending(41))
         // Deleting a different watch leaves it alone.
@@ -156,7 +158,9 @@ struct QuickWatchTests {
     @Test func test_signOutClearsWatchState() async {
         let fakes = FakeRepositories()
         fakes.alertsV2.onQuickWatch.returns(pending(41))
-        let (watches, env) = coordinator(fakes)
+        let env = AppEnvironment.fake(fakes: fakes, clientConfig: config())
+        Self.liveEnvs.append(env)
+        let watches = env.watches  // the one `watchesChanged()` and sign-out tell
         await env.observeAuth()?.value  // the signed-in user
         _ = await watches.handle(.hotel(hotelSpec))
         #expect(watches.canUndo(kind: .hotel, id: 41))
