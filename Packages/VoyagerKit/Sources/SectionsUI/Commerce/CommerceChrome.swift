@@ -25,6 +25,9 @@ struct CommerceRows<Row: View>: View {
                     }
                 }
             }
+            // The grid takes its ideal height (the tallest card per row), so its cards stretch to that and nothing
+            // beneath asks for the whole proposal.
+            .fixedSize(horizontal: false, vertical: true)
         } else {
             VStack(spacing: Spacing.sm) {
                 ForEach(0..<count, id: \.self) { index in row(index) }

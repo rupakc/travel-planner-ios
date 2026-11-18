@@ -168,8 +168,9 @@ public struct PlanDetailView: View {
         let start = TripDates.date(search["departure_date"].string, calendar)
         let end = TripDates.date(search["return_date"].string, calendar)
         switch (start, end) {
-        // No-break spaces keep the range whole: a narrow screen wraps before it, never inside it.
-        case (let start?, let end?): parts.append("\(solid(Fmt.date(start)))\u{00A0}–\u{00A0}\(solid(Fmt.date(end)))")
+        // No-break spaces keep the range whole: a narrow screen wraps before it, never inside it. U+2060 (word joiner)
+        // stops the break UAX 14 allows after an en dash, even before a no-break space.
+        case (let start?, let end?): parts.append("\(solid(Fmt.date(start)))\u{00A0}–\u{2060}\u{00A0}\(solid(Fmt.date(end)))")
         case (let start?, nil): parts.append(solid(Fmt.date(start)))
         default: break
         }
