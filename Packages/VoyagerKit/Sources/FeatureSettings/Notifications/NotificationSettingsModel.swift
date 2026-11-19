@@ -40,10 +40,12 @@ final class NotificationSettingsModel {
         self.track = track ?? { env.telemetry.track($0) }
     }
 
-    /// `features.game` from `/config`; the account's `hide_game` is not read by this screen yet, so it counts as unreadable
-    /// and the quiz switch stays hidden (game wording is shown only when the setting is known to be off).
+    /// `features.game` from `/config`, as Play reads it: shown unless the account setting is known to hide the game or
+    /// the server answered `403 game_hidden`.
     static func defaultGameVisibility(env: AppEnvironment) -> any GameVisibility {
-        StaticGameVisibility(gameFeature: RemoteFeatures(config: env.clientConfig).game, hideGameSetting: nil)
+        StaticGameVisibility.playDriven(
+            gameFeature: RemoteFeatures(config: env.clientConfig).game, hideGameSetting: env.play.hideGameSetting(),
+            hiddenByServer: env.play.isHiddenByServer)
     }
 
     // MARK: - Rows

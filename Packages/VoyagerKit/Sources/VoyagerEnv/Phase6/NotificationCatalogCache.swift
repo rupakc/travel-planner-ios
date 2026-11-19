@@ -2,7 +2,8 @@ import Foundation
 import VoyagerModel
 
 /// The catalog with a per-locale file cache. A fresh cached catalog (under `ttl`) is served without a request; a fetch
-/// failure falls back to the stale cached one, then to the bundled English one, so this never throws. The catalog is
+/// failure falls back to the stale cached one, then (English only) to the bundled one; another language with nothing
+/// cached rethrows so the caller uses its localised fallback. The catalog is
 /// the same for every user, so it lives in Caches and is not cleared at sign-out.
 public actor CachedNotificationCatalogRepository: NotificationCatalogRepository {
     /// 24 hours: the templates change only with an app or server release.
@@ -38,7 +39,11 @@ public actor CachedNotificationCatalogRepository: NotificationCatalogRepository 
             await write(CatalogCacheEntry(fetchedAt: now().timeIntervalSince1970, catalog: fresh), locale)
             return fresh
         } catch {
-            return cached?.catalog ?? .bundledEnglish
+            if let stale = cached?.catalog { return stale }
+            // The bundled catalog is English: under another language it would put English bodies beside translated
+            // titles, so those callers get the error and use the localised `mobile:reminders.*` copy.
+            if locale == .en { return .bundledEnglish }
+            throw error
         }
     }
 

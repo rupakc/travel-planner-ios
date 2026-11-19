@@ -12,15 +12,17 @@ final class InboxExtras {
     private let visibility: @MainActor () -> any GameVisibility
     private var seenDrops = Set<Int>()
 
-    /// `gameVisibility` defaults to the server flag with an account setting that cannot be read yet (the app has no
-    /// account-settings sync), which counts as hidden: game wording is never shown to someone who may have opted out.
+    /// `gameVisibility` defaults to the server flag, read as Play reads it: shown unless the account setting is known
+    /// to hide the game or the server answered `403 game_hidden`.
     init(
         env: AppEnvironment, track: @escaping @MainActor (TelemetryEvent) -> Void,
         gameVisibility: (@MainActor () -> any GameVisibility)? = nil
     ) {
         self.track = track
         visibility = gameVisibility ?? { [unowned env] in
-            StaticGameVisibility(gameFeature: RemoteFeatures(config: env.clientConfig).game, hideGameSetting: nil)
+            StaticGameVisibility.playDriven(
+                gameFeature: RemoteFeatures(config: env.clientConfig).game, hideGameSetting: env.play.hideGameSetting(),
+                hiddenByServer: env.play.isHiddenByServer)
         }
     }
 

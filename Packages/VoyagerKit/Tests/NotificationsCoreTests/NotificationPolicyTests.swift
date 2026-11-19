@@ -242,6 +242,22 @@ private let copy = TripReminderScheduler.Text(
         #expect(await poller(repo, center, store, at: noon, context: PollContext()).poll() == 1)
     }
 
+    @Test func test_unreadablePrefsMakeThePollWaitWhenAlertsV2IsOn() {
+        let v2 = RemoteFeatures(alertsAPI: 2, notificationsAPI: 1)
+        #expect(BackgroundTasks.assemble(features: v2, showsGame: false, settings: settings(), prefs: nil) == nil)
+        let read = BackgroundTasks.assemble(features: v2, showsGame: false, settings: settings(), prefs: AlertPrefs())
+        #expect(read?.prefs != nil)
+        // Without the v2 routes there are no prefs to read: the poll goes ahead on the settings alone.
+        let v1 = RemoteFeatures(notificationsAPI: 1)
+        #expect(BackgroundTasks.assemble(features: v1, showsGame: false, settings: settings(), prefs: nil) != nil)
+    }
+
+    @Test func test_refreshStopsWhenTheAccountChangedDuringIt() {
+        #expect(TripReminderScheduler.isCurrent(startedFor: "ann", signedIn: true, now: "ann"))
+        #expect(!TripReminderScheduler.isCurrent(startedFor: "ann", signedIn: false, now: nil))
+        #expect(!TripReminderScheduler.isCurrent(startedFor: "ann", signedIn: true, now: "bob"))
+    }
+
     @Test func test_pushAndPollDedupe() async {
         let repo = FakeNotifications()
         repo.items = [row(1, "fare_drop", now: noon), row(2, "fare_drop", now: noon), row(3, "fare_drop", now: noon)]

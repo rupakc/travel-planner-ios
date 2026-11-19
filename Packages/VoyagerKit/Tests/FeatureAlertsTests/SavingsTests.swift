@@ -261,8 +261,10 @@ struct SavingsTests {
     @Test func test_gameVisibilityRules() {
         let (_, env, _) = header()
         let track: @MainActor (TelemetryEvent) -> Void = { _ in }
-        // The account's hide_game cannot be read yet: unreadable counts as hidden.
-        #expect(!InboxExtras(env: env, track: track).showsGame)
+        // The default reads Play's rule: on with `features.game`, until the account hides it or the server says 403.
+        #expect(InboxExtras(env: env, track: track).showsGame)
+        let (_, gameOff, _) = header(config(game: false))
+        #expect(!InboxExtras(env: gameOff, track: track).showsGame)
         #expect(InboxExtras(env: env, track: track, gameVisibility: { StaticGameVisibility.visible }).showsGame)
         #expect(!InboxExtras(env: env, track: track, gameVisibility: { StaticGameVisibility.hidden }).showsGame)
         #expect(!InboxExtras(env: env, track: track, gameVisibility: { StaticGameVisibility.unreadable }).showsGame)

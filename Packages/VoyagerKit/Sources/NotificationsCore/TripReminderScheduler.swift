@@ -100,6 +100,7 @@ public enum TripReminderScheduler {
             await purgeAccountNotifications(center: center)
             return
         }
+        let user = env.auth.session?.user.username
         // The Settings "Trip reminders" switch (and onboarding's choice): off removes every pending trip reminder.
         guard env.device.reminderOptIn else {
             let stale = await center.pendingIdentifiers().filter { $0.hasPrefix(idPrefix) }
@@ -116,7 +117,17 @@ public enum TripReminderScheduler {
             policy = ReminderPolicy(features: features, settings: settings)
             catalog = try? await env.repos.notificationCatalog.templates(locale: env.language.language)
         }
+        // The reads above awaited: if the account changed meanwhile, `accountChanged` already purged and runs its own
+        // refresh, so this one must not bring the previous user's reminders back.
+        guard isCurrent(startedFor: user, signedIn: env.auth.phase == .signedIn, now: env.auth.session?.user.username) else {
+            return
+        }
         await reschedule(plans: plans, center: center, policy: policy, catalog: catalog)
+    }
+
+    /// True while the user a refresh started for is still the signed-in one.
+    static func isCurrent(startedFor: String?, signedIn: Bool, now: String?) -> Bool {
+        signedIn && startedFor != nil && startedFor == now
     }
 
     /// Removes the trip reminders and alert notifications (pending and delivered) of the previous account.
