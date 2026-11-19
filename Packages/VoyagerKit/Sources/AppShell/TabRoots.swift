@@ -109,6 +109,7 @@ struct RouteDestination: View {
             }
         case .alerts(let kind, let watchID):
             AlertsRootView(env: env, kind: kind, watchID: watchID)
+        case .priceStory(let kind, let id): AlertsRootView(env: env, kind: kind, watchID: id)
         case .notificationSettings: NotificationSettingsView(env: env)
         case .alertPrefs: AlertPrefsView(env: env)
         case .ideaDetail(let id): IdeaDetailView(env: env, ideaID: id)
