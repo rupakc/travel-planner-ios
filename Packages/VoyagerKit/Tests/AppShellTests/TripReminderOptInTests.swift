@@ -61,7 +61,7 @@ private final class MemoryCenter: NotificationCenterClient, @unchecked Sendable 
     @Test func test_refreshStopsWhenTheAccountChangedDuringIt() async {
         let fakes = FakeRepositories()
         let env = AppEnvironment.fake(fakes: fakes)
-        fakes.plans.handler = { _ in
+        fakes.plans.onList.handler = { _ in
             // The user signs out while the plans are being read.
             await env.auth.signOut()
             return [
