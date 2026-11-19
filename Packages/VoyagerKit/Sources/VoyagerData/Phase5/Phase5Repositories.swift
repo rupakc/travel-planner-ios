@@ -435,7 +435,8 @@ public enum PlayFailure: String, Error, Sendable, Hashable, CaseIterable {
             guard let text = detail?.lowercased(), text != "not found" else { return nil }
             if text.contains("match") { return .matchNotFound }
             if text.contains("profile") { return .profileNotFound }
-            if text.contains("session") { return .sessionNotFound }
+            // The backend says "Quiz not found." (older copy: "Quiz session not found.").
+            if text.contains("session") || text.contains("quiz") { return .sessionNotFound }
             return nil
         default:
             return nil

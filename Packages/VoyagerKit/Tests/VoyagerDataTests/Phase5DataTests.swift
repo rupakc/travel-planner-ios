@@ -215,6 +215,7 @@ struct Phase5DataTests {
         #expect(PlayFailure.from(.notFound("Match not found.")) == .matchNotFound)
         #expect(PlayFailure.from(.notFound("Profile not found.")) == .profileNotFound)
         #expect(PlayFailure.from(.notFound("Quiz session not found.")) == .sessionNotFound)
+        #expect(PlayFailure.from(.notFound("Quiz not found.")) == .sessionNotFound)
         #expect(PlayFailure.from(.notFound("Not found")) == nil)
     }
 }
