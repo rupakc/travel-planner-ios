@@ -33,6 +33,7 @@ final class H2HMatchModel {
     @ObservationIgnored private var opened = false
     @ObservationIgnored private var resultSent = false
     @ObservationIgnored private var needsRefresh = false
+    @ObservationIgnored private var inFlight: Task<Void, Never>?
 
     init(env: AppEnvironment, matchID: String, track: (@MainActor (TelemetryEvent) -> Void)? = nil) {
         self.env = env
@@ -41,7 +42,22 @@ final class H2HMatchModel {
         self.emit = track ?? { telemetry.track($0) }
     }
 
+    /// One load at a time: the view's `.task` and `.onAppear` both ask when the screen comes back, and a second call
+    /// while one is running shares it instead of fetching everything again (the view counters would count twice).
     func load() async {
+        if let inFlight {
+            await inFlight.value
+            return
+        }
+        let task = Task { [self] in
+            await performLoad()
+            inFlight = nil
+        }
+        inFlight = task
+        await task.value
+    }
+
+    private func performLoad() async {
         guard env.play.isAvailable else {
             phase = .unavailable
             return

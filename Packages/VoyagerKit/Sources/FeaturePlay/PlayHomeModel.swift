@@ -35,6 +35,7 @@ final class PlayHomeModel {
     @ObservationIgnored private let emit: @MainActor (TelemetryEvent) -> Void
     /// Set when a quiz was opened: the hub reloads when it comes back to the front.
     @ObservationIgnored private var needsRefresh = false
+    @ObservationIgnored private var inFlight: Task<Void, Never>?
 
     init(env: AppEnvironment, track: (@MainActor (TelemetryEvent) -> Void)? = nil) {
         self.env = env
@@ -52,7 +53,22 @@ final class PlayHomeModel {
     var openMatches: Int { state.openH2H }
     var isBusy: Bool { starting != nil }
 
+    /// One load at a time: the view's `.task` and `.onAppear` both ask when the screen comes back, and a second call
+    /// while one is running shares it instead of fetching everything again (the view counters would count twice).
     func load() async {
+        if let inFlight {
+            await inFlight.value
+            return
+        }
+        let task = Task { [self] in
+            await performLoad()
+            inFlight = nil
+        }
+        inFlight = task
+        await task.value
+    }
+
+    private func performLoad() async {
         guard env.play.isAvailable else {
             phase = .unavailable(gameHidden: env.play.isHiddenByServer)
             return

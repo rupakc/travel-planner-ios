@@ -2,6 +2,7 @@ import AuthCore
 import Foundation
 import L10n
 import Networking
+import os
 @testable import Telemetry
 import Testing
 import TestSupport
@@ -60,6 +61,21 @@ struct PlayModelTests {
         #expect(model.daily.streak.current == 3 && model.packs.count == 1 && model.openMatches == 2)
         #expect(model.history.count == 1)
         #expect(events.names == ["play_state_view", "play_board_view"])
+    }
+
+    @Test func test_overlappingLoadsShareOneFetch() async {
+        let fakes = FakeRepositories()
+        fakes.play.onState.returns(PlayState(daily: DailyQuizState(available: true)))
+        let events = Events()
+        let model = PlayHomeModel(env: env(fakes), track: { events.all.append($0) })
+        // The view's `.task` and `.onAppear` both ask when the hub comes back.
+        async let first: Void = model.load()
+        async let second: Void = model.load()
+        _ = await (first, second)
+        #expect(fakes.play.onState.callCount == 1)
+        #expect(events.names.filter { $0 == "play_state_view" }.count == 1)
+        await model.load()
+        #expect(fakes.play.onState.callCount == 2, "a later load starts a new fetch")
     }
 
     @Test func test_flagOffCallsNothing() async {
@@ -207,6 +223,25 @@ struct PlayModelTests {
         await model.pick(PlayOption(id: "a", label: "France", code: "FR"))
         model.next()
         #expect(model.summary?.score == 300)
+    }
+
+    @Test func test_resultAppearsOnlyOnceTheSummaryIsReady() async {
+        let fakes = FakeRepositories()
+        fakes.play.onSession.returns(session(answers: [GivenAnswer(index: 0), GivenAnswer(index: 1)]))
+        let model = quiz(fakes)
+        await model.load()
+        let shownEarly = OSAllocatedUnfairLock(initialState: true)
+        let done = session(done: true, summary: QuizSummary(score: 300, correct: 3, total: 5))
+        fakes.play.onSession.handler = { _ in
+            let early = await MainActor.run { model.result != nil }
+            shownEarly.withLock { $0 = early }
+            return done
+        }
+        fakes.play.onAnswer.returns(AnswerResult(correct: true, correctChoice: "a", points: 100, done: true))
+        await model.pick(PlayOption(id: "a", label: "France", code: "FR"))
+        #expect(!shownEarly.withLock { $0 }, "the result (and its See result button) waits for the summary")
+        model.next()
+        #expect(model.phase == .summary && model.summary?.score == 300)
     }
 
     @Test func test_failedAnswerKeepsTheQuestionOpen() async {

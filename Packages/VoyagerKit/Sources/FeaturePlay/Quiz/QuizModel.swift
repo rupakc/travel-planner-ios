@@ -163,8 +163,8 @@ final class QuizModel {
             let answer = try await env.play.call { try await $0.answer(sessionID: sessionID, index: index, choice: option.id) }
             timerTask?.cancel()
             answered[index] = answer
-            result = answer
-            emit(.playQuizAnswer(correct: answer.correct, elapsedS: max(0, Int((Double(answer.elapsedMs ?? 0) / 1000).rounded()))))
+            // After the last answer the summary comes first: `next()` (the "See result" button) needs it, and the
+            // button only appears once `result` is set.
             if answer.done {
                 if let summary = answer.summary {
                     finished = summary
@@ -172,6 +172,8 @@ final class QuizModel {
                     finished = await fetchSummary()
                 }
             }
+            result = answer
+            emit(.playQuizAnswer(correct: answer.correct, elapsedS: max(0, Int((Double(answer.elapsedMs ?? 0) / 1000).rounded()))))
         } catch is CancellationError {
             selected = nil
         } catch {
