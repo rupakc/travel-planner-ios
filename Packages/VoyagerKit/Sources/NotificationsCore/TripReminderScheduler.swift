@@ -127,7 +127,7 @@ public enum TripReminderScheduler {
 
     /// True while the user a refresh started for is still the signed-in one.
     static func isCurrent(startedFor: String?, signedIn: Bool, now: String?) -> Bool {
-        signedIn && startedFor != nil && startedFor == now
+        signedIn && startedFor == now
     }
 
     /// Removes the trip reminders and alert notifications (pending and delivered) of the previous account.
