@@ -33,7 +33,8 @@ final class H2HMatchModel {
     @ObservationIgnored private var opened = false
     @ObservationIgnored private var resultSent = false
     @ObservationIgnored private var needsRefresh = false
-    @ObservationIgnored private var inFlight: Task<Void, Never>?
+    @ObservationIgnored private var loading = false
+    @ObservationIgnored private var waiters: [CheckedContinuation<Void, Never>] = []
 
     init(env: AppEnvironment, matchID: String, track: (@MainActor (TelemetryEvent) -> Void)? = nil) {
         self.env = env
@@ -45,16 +46,17 @@ final class H2HMatchModel {
     /// One load at a time: the view's `.task` and `.onAppear` both ask when the screen comes back, and a second call
     /// while one is running shares it instead of fetching everything again (the view counters would count twice).
     func load() async {
-        if let inFlight {
-            await inFlight.value
+        if loading {
+            // The running load belongs to the first caller's task, so leaving the screen cancels it there.
+            await withCheckedContinuation { waiters.append($0) }
             return
         }
-        let task = Task { [self] in
-            await performLoad()
-            inFlight = nil
-        }
-        inFlight = task
-        await task.value
+        loading = true
+        await performLoad()
+        loading = false
+        let released = waiters
+        waiters = []
+        for waiter in released { waiter.resume() }
     }
 
     private func performLoad() async {

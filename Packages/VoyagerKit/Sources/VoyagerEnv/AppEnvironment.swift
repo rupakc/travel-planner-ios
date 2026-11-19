@@ -238,6 +238,18 @@ public final class AppEnvironment {
         return task
     }
 
+    /// Waits (at most `limit` seconds) for a deferred start that is already running, and never starts one: a failed
+    /// `/config` fetch cleared `deferredTask`, so this returns at once and leaves the retry backoff alone.
+    public func awaitDeferredWork(limit: Double = 3) async {
+        guard let running = deferredTask else { return }
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask { await running.value }
+            group.addTask { try? await Task.sleep(for: .seconds(limit)) }
+            await group.next()
+            group.cancelAll()
+        }
+    }
+
     private func adopt(_ config: ClientConfig?) async {
         apply(config)
         let bootstrap = ClientConfigLoader.telemetryBootstrap(

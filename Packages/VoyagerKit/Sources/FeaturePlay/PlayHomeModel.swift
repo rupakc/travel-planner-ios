@@ -35,7 +35,8 @@ final class PlayHomeModel {
     @ObservationIgnored private let emit: @MainActor (TelemetryEvent) -> Void
     /// Set when a quiz was opened: the hub reloads when it comes back to the front.
     @ObservationIgnored private var needsRefresh = false
-    @ObservationIgnored private var inFlight: Task<Void, Never>?
+    @ObservationIgnored private var loading = false
+    @ObservationIgnored private var waiters: [CheckedContinuation<Void, Never>] = []
 
     init(env: AppEnvironment, track: (@MainActor (TelemetryEvent) -> Void)? = nil) {
         self.env = env
@@ -56,16 +57,17 @@ final class PlayHomeModel {
     /// One load at a time: the view's `.task` and `.onAppear` both ask when the screen comes back, and a second call
     /// while one is running shares it instead of fetching everything again (the view counters would count twice).
     func load() async {
-        if let inFlight {
-            await inFlight.value
+        if loading {
+            // The running load belongs to the first caller's task, so leaving the screen cancels it there.
+            await withCheckedContinuation { waiters.append($0) }
             return
         }
-        let task = Task { [self] in
-            await performLoad()
-            inFlight = nil
-        }
-        inFlight = task
-        await task.value
+        loading = true
+        await performLoad()
+        loading = false
+        let released = waiters
+        waiters = []
+        for waiter in released { waiter.resume() }
     }
 
     private func performLoad() async {

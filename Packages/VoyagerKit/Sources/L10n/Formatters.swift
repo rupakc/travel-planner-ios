@@ -45,7 +45,7 @@ public enum Fmt {
         guard amount.isFinite else { return dash }
         let locale = LanguageController.current.intlLocale
         guard knownCurrencies.contains(code.uppercased()) else {
-            return "\(code) \(amount.formatted(.number.locale(locale).sign(strategy: .automatic)))"
+            return "\(code) \(amount.formatted(.number.locale(locale).sign(strategy: .always(includingZero: false)).precision(.fractionLength(2))))"
         }
         return amount.formatted(.currency(code: code.uppercased()).sign(strategy: .always(showZero: false)).locale(locale))
     }

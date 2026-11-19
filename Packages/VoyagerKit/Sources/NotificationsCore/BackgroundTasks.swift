@@ -179,11 +179,11 @@ final class NotificationTapDelegate: NSObject, UNUserNotificationCenterDelegate 
     }
 
     /// A cold-launch tap arrives before `/config` has loaded, and the Today and Play flags come from it: wait for the
-    /// deferred start (the same task the root view starts) before choosing the route.
+    /// deferred start the root view began (never starting one, so a failed fetch keeps its backoff) before choosing the route.
     private func handleTap(info: UserInfoBox, push: PushPayload, isPush: Bool) async {
         recordPush(push)
         guard let env else { return }
-        await env.startDeferredWork().value
+        await env.awaitDeferredWork()
         let route = NotificationRouting.route(
             userInfo: info.value, todayAvailable: env.clientConfig?.journeyAvailable ?? false,
             playAvailable: env.play.isAvailable)
