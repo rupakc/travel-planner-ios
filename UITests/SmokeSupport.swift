@@ -1,0 +1,278 @@
+import XCTest
+import os
+
+/// Shared helpers of the Phase 3-6 smoke flows. Every flow runs against the stub backend (`tools/stub_backend`, started by
+/// `scripts/ci/test-ui.sh` on `127.0.0.1:8765`): no real network, no push, canned data. The stub signs in any password.
+/// Last step a flow reached, and a watchdog that reports it when the flow hangs (a hung test leaves no other evidence).
+enum Progress {
+    private struct State { var last = "start"; var stamp = Date(); var generation = 0 }
+    private static let state = OSAllocatedUnfairLock(initialState: State())
+
+    static func mark(_ step: String) { state.withLock { $0.last = step; $0.stamp = Date() } }
+
+    /// Starts a flow's watchdog: when no step was reached for 100 s the flow is stuck; it reports the last step, the stub's
+    /// calls and what the app shows (a hung test leaves no other evidence). A slow but moving flow is left alone.
+    static func reset() {
+        let mine = state.withLock { value -> Int in
+            value.generation += 1; value.last = "launch"; value.stamp = Date(); return value.generation
+        }
+        func check() {
+            let (same, step, idle) = state.withLock { ($0.generation == mine, $0.last, Date().timeIntervalSince($0.stamp)) }
+            guard same else { return }
+            if idle < 100 { DispatchQueue.global().asyncAfter(deadline: .now() + 20, execute: check); return }
+            DispatchQueue.main.async {
+                MainActor.assumeIsolated {
+                    let app = XCUIApplication()
+                    let ids = app.descendants(matching: .any).allElementsBoundByIndex.prefix(200).map(\.identifier)
+                        .filter { !$0.isEmpty }
+                    let calls = Smoke.stubCallsOffMain().suffix(12)
+                    let text = "SMOKE stuck 100 s at: \(step); stub calls: \(calls); on screen: \(ids.joined(separator: ", "))"
+                    XCTFail(String(text.prefix(3500)))
+                }
+            }
+        }
+        DispatchQueue.global().asyncAfter(deadline: .now() + 20, execute: check)
+    }
+}
+
+@MainActor
+enum Smoke {
+    static let port = 8765
+    static let base = "http://127.0.0.1:\(port)"
+
+    // MARK: Stub
+
+    /// Clears the stub's state and its call log, so a flow starts from the canned data.
+    static func resetStub() {
+        Progress.reset()
+        guard let url = URL(string: base + "/__reset") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.timeoutInterval = 10
+        let done = DispatchSemaphore(value: 0)
+        URLSession.shared.dataTask(with: request) { _, _, _ in done.signal() }.resume()
+        _ = done.wait(timeout: .now() + 15)
+    }
+
+    /// `"METHOD /path"` of every request the stub has seen since the last reset.
+    static func stubCalls() -> [String] {
+        guard let url = URL(string: base + "/__calls"), let data = try? Data(contentsOf: url),
+            let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+            let calls = object["calls"] as? [String]
+        else { return [] }
+        return calls
+    }
+
+    nonisolated static func stubCallsOffMain() -> [String] {
+        guard let url = URL(string: "http://127.0.0.1:8765/__calls"), let data = try? Data(contentsOf: url),
+            let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+            let calls = object["calls"] as? [String]
+        else { return [] }
+        return calls
+    }
+
+    static func stubSaw(prefix: String) -> Bool { stubCalls().contains { $0.hasPrefix(prefix) } }
+
+    // MARK: App
+
+    /// Resets the stub, launches the app against it and signs in when the login screen shows (the session is kept in the
+    /// Keychain, so only the first flow of a run does).
+    static func launch() -> XCUIApplication {
+        resetStub()
+        let app = XCUIApplication()
+        app.launchArguments += [
+            "-VoyagerBaseURL", base,
+            "-tp_onboarding_completed", "YES",
+            "-AppleLanguages", "(en)", "-AppleLocale", "en_US",
+        ]
+        app.launch()
+        // Signed in already (the Keychain keeps the session between flows) when a tab bar or the sidebar shows first.
+        let username = app.textFields["login.username"]
+        let shell = app.tabBars.firstMatch
+        let sidebar = element(app, "shell.sidebar")
+        let deadline = Date().addingTimeInterval(60)
+        while Date() < deadline, !username.exists, !shell.exists, !sidebar.exists {
+            RunLoop.current.run(until: Date().addingTimeInterval(0.5))
+        }
+        if username.exists {
+            type(app, "login.username", "smoke")
+            // Return submits the form.
+            type(app, "login.password", "stub-password\n")
+        }
+        return app
+    }
+
+    /// Focuses a text field (tapped again, looked up afresh, when the screen re-rendered or the tap did not focus it, as on
+    /// iPad) and types.
+    static func type(_ app: XCUIApplication, _ id: String, _ text: String) {
+        for _ in 0..<5 {
+            let field = element(app, id)
+            guard field.waitForExistence(timeout: 20) else { continue }
+            RunLoop.current.run(until: Date().addingTimeInterval(1))
+            // The screen may have re-rendered during the pause: look the field up afresh and skip the try when it is gone.
+            guard field.exists, !field.frame.isEmpty else { continue }
+            field.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.5)).tap()
+            // The keyboard showing is the focus signal (asking a field for hasKeyboardFocus fails the test when it is gone).
+            if eventually(timeout: 4, { app.keyboards.firstMatch.exists }) { break }
+        }
+        if !element(app, id).exists {
+            // The field left the tree after the tap (iPad): the keyboard still types into the focused field.
+            if app.keyboards.firstMatch.exists { app.typeText(text); return }
+            frames(app, id)
+            return
+        }
+        Progress.mark("type \(id)")
+        if !element(app, id).exists { dump() }
+        element(app, id).typeText(text)
+    }
+
+    static func element(_ app: XCUIApplication, _ id: String) -> XCUIElement {
+        app.descendants(matching: .any).matching(identifier: id).firstMatch
+    }
+
+    /// Waits for `element` and taps it.
+    static func tap(_ element: XCUIElement, timeout: TimeInterval = 30, file: StaticString = #filePath, line: UInt = #line) {
+        Progress.mark("tap \(element)")
+        guard element.waitForExistence(timeout: timeout) else {
+            XCTFail("not found: \(element)", file: file, line: line)
+            dump()
+            return
+        }
+        element.tap()
+    }
+
+    static func expect(_ element: XCUIElement, timeout: TimeInterval = 30, file: StaticString = #filePath, line: UInt = #line) {
+        Progress.mark("expect \(element)")
+        let found = element.waitForExistence(timeout: timeout)
+        if !found { dump() }
+        XCTAssertTrue(found, "not found: \(element)", file: file, line: line)
+    }
+
+    /// What the app showed and what the stub saw, printed when a step fails (the CI log is the only evidence).
+    /// Why an element is missing, for a failed step on iPad: the popover, the keyboard and the screen's text fields and buttons.
+    static func frames(_ app: XCUIApplication, _ id: String) {
+        let popover = app.otherElements["PopoverDismissRegion"].exists
+        let keyboard = app.keyboards.firstMatch.exists
+        let fields = app.textFields.allElementsBoundByIndex.prefix(10).map { "\($0.identifier)|\($0.label)" }
+        let ids = app.descendants(matching: .any).allElementsBoundByIndex.prefix(250).map(\.identifier).filter { !$0.isEmpty }
+        XCTFail(String("SMOKE missing \(id): popover \(popover) keyboard \(keyboard) textFields \(fields) ids \(ids)".prefix(3500)))
+    }
+
+    static func dump() {
+        let app = XCUIApplication()
+        let ids = app.descendants(matching: .any).allElementsBoundByIndex.prefix(400).map(\.identifier).filter { !$0.isEmpty }
+        let text = "SMOKE stub calls: \(stubCalls().suffix(25)); identifiers on screen: \(ids.joined(separator: ", "))"
+        XCTFail(String(text.prefix(3500)))
+    }
+
+    /// Opens a tab: the tab bar on iPhone, the sidebar row on iPad.
+    static func openTab(_ app: XCUIApplication, _ title: String, file: StaticString = #filePath, line: UInt = #line) {
+        let bar = app.tabBars.buttons[title]
+        let sidebar = element(app, "shell.sidebar")
+        let deadline = Date().addingTimeInterval(60)
+        while Date() < deadline, !bar.exists, !sidebar.exists, !app.buttons["ToggleSidebar"].exists,
+            !app.navigationBars.buttons["Voyager"].exists {
+            RunLoop.current.run(until: Date().addingTimeInterval(0.5))
+        }
+        if bar.exists {
+            bar.tap()
+            return
+        }
+        // A portrait iPad hides the sidebar once a row is chosen: the nav bar's "Voyager" back button or the sidebar
+        // toggle brings it back, as for a user.
+        if !sidebar.exists {
+            let back = app.navigationBars.buttons["Voyager"].firstMatch
+            let toggle = app.buttons["ToggleSidebar"].firstMatch
+            if back.exists { back.tap() } else if toggle.exists { toggle.tap() }
+            _ = sidebar.waitForExistence(timeout: 10)
+        }
+        guard sidebar.exists else {
+            XCTFail("no tab bar and no sidebar", file: file, line: line)
+            dump()
+            return
+        }
+        let row = sidebar.staticTexts[title].firstMatch
+        if row.exists { row.tap() } else { sidebar.buttons[title].firstMatch.tap() }
+    }
+
+    /// True when `element` has a real frame inside the window (cheaper than `isHittable`, which on iPad can stay false for a
+    /// control that is plainly on screen and sends the scroll loop swiping for minutes).
+    static func onScreen(_ app: XCUIApplication, _ element: XCUIElement) -> Bool {
+        guard element.exists else { return false }
+        let frame = element.frame
+        let window = app.windows.firstMatch.frame
+        return !frame.isEmpty && window.contains(CGPoint(x: frame.midX, y: frame.midY))
+    }
+
+    /// Scrolls the screen until `element` is on it (the screens are scroll views).
+    static func scrollTo(_ app: XCUIApplication, _ element: XCUIElement, file: StaticString = #filePath, line: UInt = #line) {
+        Progress.mark("scrollTo \(element)")
+        _ = element.waitForExistence(timeout: 30)
+        var swipes = 0
+        while !onScreen(app, element) && swipes < 8 {
+            app.swipeUp()
+            swipes += 1
+            Progress.mark("scrollTo \(element) swipe \(swipes)")
+        }
+        if !element.exists { dump() }
+        XCTAssertTrue(element.exists, "not found after scrolling: \(element)", file: file, line: line)
+    }
+
+    /// Pops one screen on iPhone (the nav bar's back button); on iPad the previous screen is still in view.
+    static func back(_ app: XCUIApplication) {
+        if app.tabBars.firstMatch.exists, app.navigationBars.buttons.count > 0 {
+            app.navigationBars.buttons.element(boundBy: 0).tap()
+        }
+    }
+
+    /// On iPad, brings the tab's screen back after a pushed screen took the whole width: the sidebar toggle or the nav
+    /// bar's "Voyager" button, then the tab's row when only the sidebar came up. No-op once `probe` exists.
+    static func reveal(_ app: XCUIApplication, _ probe: XCUIElement, tab: String) {
+        for _ in 0..<3 {
+            if probe.waitForExistence(timeout: 3) { return }
+            let sidebar = element(app, "shell.sidebar")
+            if sidebar.exists {
+                let row = sidebar.staticTexts[tab].firstMatch
+                if row.exists { row.tap() }
+                continue
+            }
+            let back = app.navigationBars.buttons["Voyager"].firstMatch
+            let toggle = app.buttons["ToggleSidebar"].firstMatch
+            if back.exists { back.tap() } else if toggle.exists { toggle.tap() }
+        }
+    }
+
+    /// Scrolls to `element` and taps it.
+    static func scrollAndTap(_ app: XCUIApplication, _ element: XCUIElement, file: StaticString = #filePath, line: UInt = #line) {
+        scrollTo(app, element, file: file, line: line)
+        Progress.mark("tap after scroll \(element)")
+        if element.isHittable { element.tap() } else { element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap() }
+    }
+
+    /// Flips a switch and checks its value changed: its own control sits at the trailing edge of its row, which on iPad
+    /// can be a different place than on iPhone, so the other ways of hitting it are tried when the value stays.
+    static func flip(_ toggle: XCUIElement) {
+        Progress.mark("flip \(toggle)")
+        let before = toggle.value as? String
+        func changed() -> Bool { eventually(timeout: 3) { (toggle.value as? String) != before } }
+        let width = max(toggle.frame.width, 80)
+        toggle.coordinate(withNormalizedOffset: CGVector(dx: (width - 36) / width, dy: 0.5)).tap()
+        if changed() { return }
+        let inner = toggle.switches.firstMatch
+        if inner.exists { inner.tap(); if changed() { return } }
+        toggle.tap()
+        if changed() { return }
+        toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.97, dy: 0.5)).tap()
+        _ = changed()
+    }
+
+    /// Polls `condition` for up to `timeout` seconds.
+    static func eventually(timeout: TimeInterval = 20, _ condition: () -> Bool) -> Bool {
+        let deadline = Date().addingTimeInterval(timeout)
+        while Date() < deadline {
+            if condition() { return true }
+            RunLoop.current.run(until: Date().addingTimeInterval(0.5))
+        }
+        return condition()
+    }
+}

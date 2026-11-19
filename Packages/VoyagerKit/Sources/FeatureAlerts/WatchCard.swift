@@ -17,6 +17,7 @@ struct WatchCard: View {
     var onTogglePause: () -> Void = {}
     var onDelete: () -> Void = {}
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.priceStories) private var stories
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
@@ -25,9 +26,7 @@ struct WatchCard: View {
                 header
                 priceBlock
                 details
-                WatchCardSlot(
-                    kind: row.kind, watchID: row.watchID,
-                    version: "\(row.price ?? 0)|\(row.checkedAt?.timeIntervalSince1970 ?? 0)")
+                WatchCardSlot(kind: row.kind, watchID: row.watchID)
                 actions
             }
         }
@@ -37,6 +36,12 @@ struct WatchCard: View {
             }
         }
         .opacity(row.isPast ? 0.8 : 1)
+        // The story loads from here, not from the slot: while a story has not loaded the slot is an `EmptyView`, and a
+        // `.task` on an `EmptyView` never starts (found by the Phase 3 UI smoke flow). The id changes whenever the card's
+        // own price or check time does, so the story reloads after "Check now".
+        .task(id: "\(row.price ?? 0)|\(row.checkedAt?.timeIntervalSince1970 ?? 0)") {
+            await stories?.model(kind: row.kind, watchID: row.watchID).load()
+        }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("alerts.watch.\(row.id)")
     }

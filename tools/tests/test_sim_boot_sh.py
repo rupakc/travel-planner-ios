@@ -85,6 +85,11 @@ echo "start $1 $(date +%s%N)" >> "{root}/calls"; sleep 1; echo "end $1 $(date +%
     bin_dir.mkdir()
     _exe(bin_dir / "xcodebuild", f'echo "xcodebuild $1 $*" >> "{root}/calls"\n' + xcodebuild)
     _exe(bin_dir / "xcrun", f'echo "xcrun $2" >> "{root}/calls"\n' + xcrun)
+    # A stand-in stub backend (the real one has its own tests): it records its start and idles; curl always answers.
+    (root / "tools/stub_backend").mkdir(parents=True)
+    (root / "tools/stub_backend/server.py").write_text(
+        f"import sys, time\nopen('{root}/stub', 'a').write(' '.join(sys.argv[1:]) + '\\n')\ntime.sleep(120)\n")
+    _exe(bin_dir / "curl", f'echo "curl $*" >> "{root}/curl"\nexit 0\n')
     summary = tmp_path / "summary.md"
     env = {**os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}", "GITHUB_STEP_SUMMARY": str(summary), **(env_extra or {})}
     result = subprocess.run(
@@ -171,3 +176,11 @@ def test_ui_retries_when_the_warm_up_times_out(tmp_path):
     assert "infrastructure retry: the warm-up launch timed out" in result.stdout
     assert len([c for c in calls if c.startswith("xcodebuild test-without-building")]) == 1
     assert "xcrun erase" in calls
+
+
+def test_ui_starts_the_stub_backend_on_the_smoke_port_before_the_tests(tmp_path):
+    result, calls = _ui(tmp_path, failing_boot="none")
+    assert result.returncode == 0, result.stdout + result.stderr
+    root = tmp_path / "repo"
+    assert (root / "stub").read_text().split() == ["--port", "8765"]
+    assert "http://127.0.0.1:8765/api/config" in (root / "curl").read_text()
