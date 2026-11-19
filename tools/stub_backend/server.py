@@ -21,11 +21,12 @@ from urllib.parse import parse_qs, urlsplit
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ALL_PHASES = ("phase3", "phase4", "phase5", "phase6")
+BASE = "base"  # always loaded, after the phases (sign-in and the routes read on every launch)
 
 
 class Stub:
     def __init__(self, phases=ALL_PHASES):
-        self.modules = [importlib.import_module(name) for name in phases]
+        self.modules = [importlib.import_module(name) for name in (*phases, BASE)]
         self.reset()
 
     def reset(self):

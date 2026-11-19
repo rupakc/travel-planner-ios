@@ -252,3 +252,25 @@ def test_phase5_catalog_has_the_social_and_quiz_templates():
         assert {"idea_saved", "new_follower", "h2h_invite", "h2h_result"} <= set(templates)
     finally:
         httpd.shutdown()
+
+
+def test_base_sign_in_and_launch_routes():
+    httpd = _serve()
+    status, login = _call(httpd, "POST", "/api/auth/login", {"username": "smoke", "password": "anything"})
+    assert status == 200 and login["user"]["username"] == "smoke" and login["access_token"].count(".") == 2
+    assert _call(httpd, "GET", "/api/auth/me")[1]["requires_password_change"] is False
+    status, watches = _call(httpd, "GET", "/api/fare-watches")
+    assert status == 200 and watches[0]["id"] == 7 and watches[0]["last_price"] < watches[0]["baseline_price"]
+    assert _call(httpd, "GET", "/api/notifications/unread-count") == (200, {"count": 0})
+
+
+def test_legacy_plan_share_create_list_and_revoke():
+    httpd = _serve()
+    assert _call(httpd, "GET", "/api/shares")[1]["legacy_plan_shares"] == []
+    status, created = _call(httpd, "POST", "/api/plans/1/share")
+    assert status == 200 and created["share_token"]
+    legacy = _call(httpd, "GET", "/api/shares")[1]["legacy_plan_shares"]
+    assert legacy == [{"plan_id": 1, "name": "Lisbon in May", "url": f"https://stub.invalid/share/{created['share_token']}"}]
+    assert _call(httpd, "DELETE", "/api/plans/1/share") == (200, {"success": True})
+    assert _call(httpd, "GET", "/api/shares")[1]["legacy_plan_shares"] == []
+    assert _call(httpd, "POST", "/api/plans/99/share")[0] == 404

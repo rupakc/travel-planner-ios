@@ -3,18 +3,19 @@
 #
 #   scripts/ci/test-ui.sh iphone [ipad]
 #
-# Until Task 38 adds the stub backend and the smoke flow, this runs the launch-only test.
+# Runs LaunchTests and the Phase 3-6 smoke flows (UITests/Phase*Smoke.swift) against the stub backend
+# (tools/stub_backend, started here on 127.0.0.1:8765; the tests launch the app with `-VoyagerBaseURL`).
 # Writes build/ui-<device>.xcresult per device. Needs scripts/ci/generate.sh first.
 #
 # The simulators boot one after another BEFORE the build (scripts/ci/sim-boot.sh: bounded attempts, erase + one
 # retry): a boot that overlapped the compile on a 3-core runner often wedged, and boots on an idle runner did not. Each device's run has a hard wall-clock limit
-# (UI_ATTEMPT_TIMEOUT, default 600 s; xcodebuild spends 80-320 s before the test body starts, the app launch itself takes 14-25 s), because a hang while launching the runner is not covered by test timeouts.
+# (UI_ATTEMPT_TIMEOUT, default 1200 s: the smoke flows take 5 to 10 minutes per device; xcodebuild spends 80-320 s before the test body starts, the app launch itself takes 14-25 s), because a hang while launching the runner is not covered by test timeouts.
 # All devices run even when one fails; the script fails if any did.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 [[ $# -ge 1 ]] || { echo "usage: test-ui.sh iphone [ipad]" >&2; exit 2; }
-attempt_timeout="${UI_ATTEMPT_TIMEOUT:-600}"
+attempt_timeout="${UI_ATTEMPT_TIMEOUT:-1200}"
 derived="$ROOT/build/DerivedData-ui"
 mkdir -p "$ROOT/build"
 cd "$ROOT"
@@ -57,6 +58,18 @@ run_limited() {
   if [[ -e "$flag" ]]; then status=124; rm -f "$flag"; fi
   return "$status"
 }
+
+# The stub backend (stdlib python, canned data, no network) for the smoke flows; stopped when the script ends.
+stub_port=8765
+python3 "$ROOT/tools/stub_backend/server.py" --port "$stub_port" > "$ROOT/build/stub-backend.log" 2>&1 &
+stub_pid=$!
+trap 'kill "$stub_pid" 2>/dev/null || true' EXIT
+stub_up=0
+for _ in $(seq 1 40); do
+  if curl -sf "http://127.0.0.1:$stub_port/api/config" >/dev/null 2>&1; then stub_up=1; break; fi
+  sleep 0.5
+done
+[[ $stub_up -eq 1 ]] || { echo "::error::test-ui: the stub backend did not start"; cat "$ROOT/build/stub-backend.log" || true; exit 1; }
 
 declare -a devices destinations
 for device in "$@"; do

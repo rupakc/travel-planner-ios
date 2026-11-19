@@ -47,8 +47,21 @@ def handle(method, path, query, body, state):
         options.update(body.get("options") or {})
         return _share(state, body["kind"], body.get("plan_id"), options)
     if path == "/api/shares" and method == "GET":
-        return 200, {"shares": list(reversed(list(state["shares"].values()))), "legacy_plan_shares": []}
+        legacy = [{"plan_id": p["id"], "name": p["name"], "url": f"https://stub.invalid/share/{p['share_token']}"}
+                  for p in state.get("plans", []) if p.get("share_token")]
+        return 200, {"shares": list(reversed(list(state["shares"].values()))), "legacy_plan_shares": legacy}
     parts = path.strip("/").split("/")
+    if len(parts) == 4 and parts[:2] == ["api", "plans"] and parts[3] == "share" and parts[2].isdigit():
+        # The legacy plan share (unchanged by Phase 4): POST -> {"share_token"}, DELETE -> {"success": true}.
+        plan = next((p for p in state.get("plans", []) if p["id"] == int(parts[2])), None)
+        if plan is None:
+            return 404, {"detail": "Plan not found"}
+        if method == "POST":
+            plan["share_token"] = plan.get("share_token") or f"legacytoken{plan['id']:02d}"
+            return 200, {"share_token": plan["share_token"]}
+        if method == "DELETE":
+            plan["share_token"] = None
+            return 200, {"success": True}
     if len(parts) == 3 and parts[:2] == ["api", "shares"] and method == "DELETE":
         if state["shares"].pop(parts[2], None) is None:
             return 404, {"detail": "Share not found.", "error_code": "share_not_found"}
