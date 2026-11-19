@@ -72,15 +72,19 @@ public final class CarbonFootprintModel {
         defaults.set(value, forKey: Self.dietKey)
     }
 
-    /// The card's lifetime ended (the host disappeared).
+    /// The card left the screen: a request still waiting out its debounce (or in flight) is dropped, and forgotten so
+    /// the card asks again when it comes back. A finished answer stays, so scrolling away and back asks nothing.
     public func cancel() {
-        task?.cancel()
-        task = nil
+        guard let task else { return }
+        task.cancel()
+        self.task = nil
+        generation += 1
         sent = nil
         refreshing = false
     }
 
     private func apply(_ result: CarbonFetch) {
+        task = nil
         refreshing = false
         switch result {
         case .loaded(let value):

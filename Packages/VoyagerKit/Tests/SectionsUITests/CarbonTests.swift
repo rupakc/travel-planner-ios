@@ -108,6 +108,31 @@ struct CarbonModelTests {
         #expect(model.report == nil)
     }
 
+    @Test func test_cancelDropsAPendingRequestAndAsksAgainLater() async throws {
+        let loader = CarbonLoader(.loaded(try Self.report()))
+        let model = CarbonFootprintModel(defaults: Self.defaults(), debounce: .milliseconds(200)) { body in await loader.load(body) }
+        model.request(["diet": "mixed"])
+        model.cancel()  // left the screen inside the debounce
+        try await Task.sleep(for: .milliseconds(300))
+        #expect(loader.bodies.isEmpty)
+        model.request(["diet": "mixed"])  // back on screen: the same body is asked again
+        await Self.settle(model)
+        #expect(loader.bodies == [["diet": "mixed"]])
+        #expect(model.phase == .loaded)
+    }
+
+    @Test func test_cancelAfterAnAnswerKeepsItAndAsksNothing() async throws {
+        let loader = CarbonLoader(.loaded(try Self.report()))
+        let model = Self.model(loader)
+        model.request(["diet": "mixed"])
+        await Self.settle(model)
+        model.cancel()
+        model.request(["diet": "mixed"])
+        await Self.settle(model)
+        #expect(loader.bodies.count == 1)
+        #expect(model.phase == .loaded && model.report != nil)
+    }
+
     @Test func test_dietIsRememberedAndValidated() {
         let store = Self.defaults()
         let first = Self.model(CarbonLoader(.failed), defaults: store)

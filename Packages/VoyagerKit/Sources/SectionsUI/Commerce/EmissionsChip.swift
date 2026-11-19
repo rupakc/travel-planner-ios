@@ -67,7 +67,9 @@ struct EmissionsChip: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(([content.chip, L10n.text(K.results.emissions.perPassenger)] + content.classLines).joined(separator: ". "))
+            .accessibilityLabel(
+                ([content.chip, L10n.text(K.results.emissions.perPassenger)] + content.classLines
+                    + [L10n.text(K.results.emissions.attribution)]).joined(separator: ". "))
             .accessibilityIdentifier("results.flight.emissions")
             .popover(isPresented: $presented) {
                 EmissionsDetails(content: content)

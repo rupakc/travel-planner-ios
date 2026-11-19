@@ -22,7 +22,10 @@ public struct CarbonFootprintCard: View {
     private let mode: Mode
     private let available: Bool
     private let makeBody: @MainActor (String) -> JSONValue
-    @State private var model: CarbonFootprintModel
+    private let load: @MainActor @Sendable (JSONValue) async -> CarbonFetch
+    /// Made once, on first appearance (a `State` initial value would build, and read `UserDefaults` for, a throwaway
+    /// model on every parent re-render).
+    @State private var model: CarbonFootprintModel?
     @State private var open = false
 
     /// `makeBody` builds the request for a diet (`CarbonRequest.fromResults` / `fromSelections`).
@@ -35,16 +38,36 @@ public struct CarbonFootprintCard: View {
         self.mode = mode
         self.available = available
         self.makeBody = makeBody
-        _model = State(initialValue: CarbonFootprintModel(load: load))
+        self.load = load
     }
 
     public var body: some View {
-        let request = makeBody(model.diet)
         if available {
-            // Until the first answer the card shows "Working out the footprint…", so it is on screen and the task runs.
-            CarbonCardContent(mode: mode, model: model, open: $open)
-                .task(id: request) { model.request(request) }
+            if let model {
+                // Until the first answer the card shows "Working out the footprint…", so it is on screen and the task runs.
+                CarbonCardLive(mode: mode, model: model, makeBody: makeBody, open: $open)
+            } else {
+                Color.clear
+                    .frame(width: 0, height: 0)
+                    .accessibilityHidden(true)
+                    .onAppear { if model == nil { model = CarbonFootprintModel(load: load) } }
+            }
         }
+    }
+}
+
+/// Builds the request (only while the card is shown) and drops a pending one when the card leaves the screen.
+private struct CarbonCardLive: View {
+    let mode: CarbonFootprintCard.Mode
+    let model: CarbonFootprintModel
+    let makeBody: @MainActor (String) -> JSONValue
+    @Binding var open: Bool
+
+    var body: some View {
+        let request = makeBody(model.diet)
+        CarbonCardContent(mode: mode, model: model, open: $open)
+            .task(id: request) { model.request(request) }
+            .onDisappear { model.cancel() }
     }
 }
 
