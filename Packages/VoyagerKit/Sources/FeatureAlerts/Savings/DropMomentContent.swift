@@ -24,8 +24,8 @@ struct DropMomentContent: Equatable {
         heading = L10n.text(drop.targetHit ? K.dropMoment.titleTarget : K.dropMoment.title)
         let amount = Fmt.currency(drop.amount, code: code)
         let percent = drop.pct.map { Self.percent($0) } ?? ""
-        amountText = "−" + amount
-        percentText = percent.isEmpty ? "" : "−" + percent
+        amountText = Fmt.signedCurrency(-abs(drop.amount), code: code)
+        percentText = drop.pct.map { Self.signedPercent(-abs($0)) } ?? ""
         spoken = L10n.text(K.dropMoment.caught, ["amount": amount, "percent": percent.isEmpty ? "0%" : percent])
         fromText = drop.from.map { Fmt.currency($0, code: code) }
         toText = drop.to.map { Fmt.currency($0, code: code) }
@@ -45,6 +45,12 @@ struct DropMomentContent: Equatable {
     static func percent(_ pct: Double) -> String {
         let locale = LanguageController.current.intlLocale
         return (abs(pct) / 100).formatted(.percent.locale(locale).precision(.fractionLength(0)))
+    }
+
+    /// `percent` with the sign of the number ("-9%"), placed by the locale; zero carries none.
+    static func signedPercent(_ pct: Double) -> String {
+        let locale = LanguageController.current.intlLocale
+        return (pct / 100).formatted(.percent.locale(locale).precision(.fractionLength(0)).sign(strategy: .always(includingZero: false)))
     }
 
     /// The catalogue name of a badge (`game:badges.<id>.name`); an id this build does not know shows as itself.

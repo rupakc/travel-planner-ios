@@ -53,9 +53,16 @@ import VoyagerModel
         let network = FakeNotificationCatalogRepository()
         network.onTemplates.fails(URLError(.notConnectedToInternet))
         let repo = make(network: network, store: MemoryFileStore(), clock: Clock())
-        let fallback = try await repo.templates(locale: .hi)
+        let fallback = try await repo.templates(locale: .en)
         #expect(fallback == NotificationCatalog.bundledEnglish)
         #expect(fallback.render("nearby_arrival", ["place": "A", "item": "B", "minutes": "3"]) != nil)
+    }
+
+    @Test func test_otherLanguageWithNothingCachedThrowsInsteadOfEnglish() async {
+        let network = FakeNotificationCatalogRepository()
+        network.onTemplates.fails(URLError(.notConnectedToInternet))
+        let repo = make(network: network, store: MemoryFileStore(), clock: Clock())
+        await #expect(throws: (any Error).self) { try await repo.templates(locale: .hi) }
     }
 
     @Test func test_corruptCacheFileIsIgnored() async throws {

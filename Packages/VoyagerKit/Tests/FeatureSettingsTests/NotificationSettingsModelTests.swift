@@ -185,6 +185,22 @@ import VoyagerModel
         #expect(shown.categories == NotificationCategory.allCases)
     }
 
+    @Test func test_defaultVisibilityShowsTheQuizSwitchWhenTheGameIsOn() async {
+        let fakes = FakeRepositories()
+        fakes.notificationSettings.onGet.returns(NotificationSettings())
+        func model(game: Bool) -> NotificationSettingsModel {
+            let features: [String: JSONValue] = ["notifications_api": .number(1), "game": .bool(game)]
+            let env = AppEnvironment.fake(fakes: fakes, clientConfig: ClientConfig(features: features))
+            return NotificationSettingsModel(env: env, permission: FakeNotificationPermission(.allowed), track: { _ in })
+        }
+        let on = model(game: true)
+        await on.load()
+        #expect(on.categories == NotificationCategory.allCases)
+        let off = model(game: false)
+        await off.load()
+        #expect(!off.categories.contains(.quiz))
+    }
+
     @Test func test_pushStatusNotes() async {
         let fakes = FakeRepositories()
         fakes.notificationSettings.onGet.returns(NotificationSettings(pushAPNS: false))

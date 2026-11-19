@@ -46058,6 +46058,53 @@
         }
       }
     },
+    "dropMoment:percentInline" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "({{percent}})"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "({{percent}})"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "({{percent}})"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "({{percent}})"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "({{percent}})"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "({{percent}})"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "（{{percent}}）"
+          }
+        }
+      }
+    },
     "dropMoment:share" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -98959,6 +99006,53 @@
         }
       }
     },
+    "play:board.profilePrivate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "আপনার প্রোফাইল ব্যক্তিগত, তাই আপনি বৈশ্বিক লিডারবোর্ডে নেই। র‍্যাঙ্ক পেতে এটি শুধু ফলোয়ার বা সবার জন্য উন্মুক্ত করুন।"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Profil ist privat, daher bist du nicht in der globalen Rangliste. Stelle es auf „Nur Follower“ oder „Öffentlich“, um einen Rang zu bekommen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your profile is private, so you are not on the global board. Make it followers-only or public to be ranked."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu perfil es privado, así que no apareces en el ranking global. Hazlo solo para seguidores o público para tener posición."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre profil est privé, vous ne figurez donc pas au classement mondial. Rendez-le visible par vos abonnés ou public pour être classé."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आपकी प्रोफ़ाइल निजी है, इसलिए आप वैश्विक लीडरबोर्ड पर नहीं हैं। रैंक पाने के लिए उसे केवल फ़ॉलोअर्स या सार्वजनिक करें।"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的资料是私密的，所以不会出现在全球榜单上。设为仅关注者可见或公开即可获得排名。"
+          }
+        }
+      }
+    },
     "play:board.scope" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -109646,6 +109740,53 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "常见区间"
+          }
+        }
+      }
+    },
+    "priceStory:chart.typicalRange" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "স্বাভাবিক সীমা: {{low}}–{{high}}"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üblicher Bereich: {{low}}–{{high}}"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typical range: {{low}}–{{high}}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rango habitual: {{low}}–{{high}}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fourchette habituelle : {{low}}–{{high}}"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सामान्य सीमा: {{low}}–{{high}}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常见区间：{{low}}–{{high}}"
           }
         }
       }

@@ -57,4 +57,24 @@ private final class MemoryCenter: NotificationCenterClient, @unchecked Sendable 
         await TripReminderScheduler.refresh(env: env, center: center)
         #expect(center.ids.isEmpty)
     }
+
+    @Test func test_refreshStopsWhenTheAccountChangedDuringIt() async {
+        let fakes = FakeRepositories()
+        let env = AppEnvironment.fake(fakes: fakes)
+        fakes.plans.onList.handler = { _ in
+            // The user signs out while the plans are being read.
+            await env.auth.signOut()
+            return [
+                PlanSummary(
+                    id: 1, name: "x",
+                    searchData: .object([
+                        "destination": "Tokyo", "departure_date": "2099-03-20", "return_date": "2099-03-23",
+                    ]))
+            ]
+        }
+        let center = MemoryCenter()
+        env.device.reminderOptIn = true
+        await TripReminderScheduler.refresh(env: env, center: center)
+        #expect(center.ids.isEmpty, "the previous account's reminders must not come back")
+    }
 }

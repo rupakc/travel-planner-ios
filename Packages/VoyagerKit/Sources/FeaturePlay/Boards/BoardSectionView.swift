@@ -82,6 +82,13 @@ struct BoardSectionView: View {
         if let text = model.mineText {
             Text(verbatim: text).font(VFont.body(.footnote)).foregroundStyle(SemanticColor.textMuted)
                 .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("play.board.mine")
+        } else if model.showsPrivateProfileNote {
+            VStack(alignment: .leading, spacing: Spacing.sm) {
+                Text(verbatim: L10n.text(K.play.board.profilePrivate)).font(VFont.body(.footnote))
+                    .foregroundStyle(SemanticColor.textMuted).fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("play.board.profile-private")
+                VButton(L10n.text(K.social.profile.edit), tid: "play.board.edit-profile", role: .secondary) { model.createProfile() }
+            }
         } else if model.showsUnranked {
             Text(verbatim: L10n.text(K.play.board.unranked)).font(VFont.body(.footnote))
                 .foregroundStyle(SemanticColor.textMuted).fixedSize(horizontal: false, vertical: true)

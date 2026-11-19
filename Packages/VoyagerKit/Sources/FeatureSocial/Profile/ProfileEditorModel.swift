@@ -76,7 +76,9 @@ final class ProfileEditorModel {
     }
 
     @MainActor static func defaultGameVisibility(env: AppEnvironment) -> any GameVisibility {
-        StaticGameVisibility(gameFeature: RemoteFeatures(config: env.clientConfig).game, hideGameSetting: env.play.hideGameSetting())
+        StaticGameVisibility.playDriven(
+            gameFeature: RemoteFeatures(config: env.clientConfig).game, hideGameSetting: env.play.hideGameSetting(),
+            hiddenByServer: env.play.isHiddenByServer)
     }
 
     // MARK: Derived

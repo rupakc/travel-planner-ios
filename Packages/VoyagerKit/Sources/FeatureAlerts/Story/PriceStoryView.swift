@@ -142,19 +142,7 @@ struct PriceStoryView: View {
 
     /// Typical range, lowest and target, in words under the chart (colour alone never carries meaning).
     private func legend(_ story: PriceStory) -> some View {
-        let code = story.currency ?? "USD"
-        var parts: [String] = []
-        if let typical = story.typical {
-            let range = "\(Fmt.currency(typical.low, code: code))–\(Fmt.currency(typical.high, code: code))"
-            parts.append("\(L10n.text(K.priceStory.chart.typical)): \(range)")
-        }
-        if let lowest = story.lowest {
-            parts.append(L10n.text(K.priceStory.chart.lowest, ["price": Fmt.currency(lowest.price, code: code)]))
-        }
-        if let target = story.target {
-            parts.append(L10n.text(K.priceStory.chart.target, ["price": Fmt.currency(target, code: code)]))
-        }
-        return Text(verbatim: parts.joined(separator: " · "))
+        Text(verbatim: PriceStoryLegend.text(story))
             .font(VFont.body(.caption))
             .dynamicTypeSize(...DynamicTypeSize.accessibility1)
             .foregroundStyle(SemanticColor.textMuted)

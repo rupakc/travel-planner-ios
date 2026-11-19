@@ -27,4 +27,11 @@ public struct StaticGameVisibility: GameVisibility, Hashable {
     public static let visible = StaticGameVisibility(gameFeature: true, hideGameSetting: false)
     public static let hidden = StaticGameVisibility(gameFeature: true, hideGameSetting: true)
     public static let unreadable = StaticGameVisibility()
+
+    /// The rule Play follows: the game is visible while `features.game` is on, unless the account setting is known to
+    /// hide it or the server answered `403 game_hidden`. An unread setting (`nil`) does not hide it; the server's
+    /// answer decides.
+    public static func playDriven(gameFeature: Bool, hideGameSetting: Bool?, hiddenByServer: Bool) -> StaticGameVisibility {
+        StaticGameVisibility(gameFeature: gameFeature, hideGameSetting: hiddenByServer || hideGameSetting == true)
+    }
 }

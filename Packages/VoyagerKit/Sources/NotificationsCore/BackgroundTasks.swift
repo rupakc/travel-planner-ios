@@ -65,13 +65,27 @@ public enum BackgroundTasks {
     @MainActor
     static func pollContext(env: AppEnvironment) async -> PollContext? {
         let features = RemoteFeatures(config: env.clientConfig)
-        // Quiz rows carry game wording; whether the account hides the game is not readable here, so they stay hidden.
-        let showsGame = StaticGameVisibility(gameFeature: features.game, hideGameSetting: nil).showsGame
-        guard features.hasNotificationSettings else { return PollContext(showsGame: showsGame, localTripReminders: true) }
+        // Quiz rows carry game wording: shown unless the server said the account hides the game (`403 game_hidden`).
+        let showsGame = StaticGameVisibility.playDriven(
+            gameFeature: features.game, hideGameSetting: env.play.hideGameSetting(), hiddenByServer: env.play.isHiddenByServer
+        ).showsGame
+        guard features.hasNotificationSettings else { return assemble(features: features, showsGame: showsGame, settings: nil, prefs: nil) }
         guard let settings = try? await env.repos.notificationSettings.get() else { return nil }
         NotificationPolicyCache.shared.store(settings)
         var prefs: AlertPrefs?
         if features.hasAlertsV2 { prefs = try? await env.repos.alertsV2.prefs() }
+        return assemble(features: features, showsGame: showsGame, settings: settings, prefs: prefs)
+    }
+
+    /// The poll rules from what was read. With the v2 alert routes on, unreadable prefs (`prefs` nil) mean the poll
+    /// waits (nil): polling without them would skip quiet hours, `instant = targets_only` and the per-kind caps.
+    static func assemble(
+        features: RemoteFeatures, showsGame: Bool, settings: NotificationSettings?, prefs: AlertPrefs?
+    ) -> PollContext? {
+        guard features.hasNotificationSettings, let settings else {
+            return PollContext(showsGame: showsGame, localTripReminders: true)
+        }
+        if features.hasAlertsV2 && prefs == nil { return nil }
         let serverPushLive = features.serverPushLive && settings.devices >= 1
         return PollContext(
             settings: settings, prefs: prefs, showsGame: showsGame,
@@ -161,17 +175,22 @@ final class NotificationTapDelegate: NSObject, UNUserNotificationCenterDelegate 
         let info = UserInfoBox(request.content.userInfo)
         let push = PushPayload(userInfo: info.value)
         let isPush = request.trigger is UNPushNotificationTrigger
-        await MainActor.run {
-            recordPush(push)
-            guard let env else { return }
-            let route = NotificationRouting.route(
-                userInfo: info.value, todayAvailable: env.clientConfig?.journeyAvailable ?? false,
-                playAvailable: env.play.isAvailable)
-            if let category = Self.openedCategory(info: info.value, push: push) {
-                env.telemetry.track(.notifOpen(category: category.rawValue, source: isPush ? "push" : "inapp"))
-            }
-            env.router.open(route)
+        await handleTap(info: info, push: push, isPush: isPush)
+    }
+
+    /// A cold-launch tap arrives before `/config` has loaded, and the Today and Play flags come from it: wait for the
+    /// deferred start the root view began (never starting one, so a failed fetch keeps its backoff) before choosing the route.
+    private func handleTap(info: UserInfoBox, push: PushPayload, isPush: Bool) async {
+        recordPush(push)
+        guard let env else { return }
+        await env.awaitDeferredWork()
+        let route = NotificationRouting.route(
+            userInfo: info.value, todayAvailable: env.clientConfig?.journeyAvailable ?? false,
+            playAvailable: env.play.isAvailable)
+        if let category = Self.openedCategory(info: info.value, push: push) {
+            env.telemetry.track(.notifOpen(category: category.rawValue, source: isPush ? "push" : "inapp"))
         }
+        env.router.open(route)
     }
 
     /// The category of the tapped notification: the push's own, or the one its local `route` stands for.

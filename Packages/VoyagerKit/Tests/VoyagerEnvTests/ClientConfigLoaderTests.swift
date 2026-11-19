@@ -49,6 +49,21 @@ import VoyagerModel
         #expect(harness.configRequests == 2)
     }
 
+    @Test func test_awaitDeferredWorkNeverStartsAFetch() async {
+        let harness = LiveHarness { request in
+            request.url?.path == "/api/config" ? .init(status: 503, json: "{}") : .init(status: 500, json: "{}")
+        }
+        // Nothing started yet: a notification tap must not start the fetch.
+        await harness.env.awaitDeferredWork()
+        #expect(harness.configRequests == 0)
+        await harness.env.startDeferredWork().value
+        #expect(harness.configRequests == 1)
+        // The launch fetch failed: a tap returns at once and does not ask again.
+        await harness.env.awaitDeferredWork()
+        await harness.env.awaitDeferredWork()
+        #expect(harness.configRequests == 1)
+    }
+
     @Test func test_networkFailureIsNil() async {
         let loader = ClientConfigLoader(health: FailingHealth())
         #expect(await loader.load() == nil)

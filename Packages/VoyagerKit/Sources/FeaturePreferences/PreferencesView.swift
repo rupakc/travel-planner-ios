@@ -191,7 +191,7 @@ public struct PreferencesView: View {
         let title = Self.groupTitle(group)
         return Stepper(
             value: Binding(get: { model.count(group) }, set: { model.setCount(group, $0) }),
-            in: 0...PreferencesModel.maxPerGroup
+            in: 0...max(model.count(group), model.maxCount(for: group))
         ) {
             Text(verbatim: "\(title): \(model.count(group))")
                 .font(VFont.body(.subheadline)).foregroundStyle(SemanticColor.text)

@@ -32,6 +32,9 @@ final class BoardModel {
     private(set) var board: Leaderboard?
     private(set) var joining = false
     private(set) var errorText: String?
+    /// The caller opted in but is unranked on the global board because their profile is private: the server leaves
+    /// private profiles off that board, so the card explains it instead of "unranked" forever.
+    private(set) var profileIsPrivate = false
 
     @ObservationIgnored let env: AppEnvironment
     @ObservationIgnored private let emit: @MainActor (TelemetryEvent) -> Void
@@ -56,7 +59,11 @@ final class BoardModel {
         return L10n.text(K.play.board.mine, ["rank": String(rank)], count: you.score)
     }
 
+    /// Opted in to the global board, no rank, and a private profile: the profile has to be visible to be ranked.
+    var showsPrivateProfileNote: Bool { scope == .global && profileIsPrivate && board?.you?.rank == nil }
+
     var showsUnranked: Bool {
+        guard !showsPrivateProfileNote else { return false }
         guard let you = board?.you, you.optedIn || scope == .friends else { return false }
         return you.rank == nil
     }
@@ -95,7 +102,13 @@ final class BoardModel {
             let loaded = try await env.play.call { try await $0.leaderboard(scope: scope, week: week) }
             guard !Task.isCancelled, mine == generation else { return }
             board = loaded
+            profileIsPrivate = false
             phase = .loaded
+            if scope == .global, let you = loaded.you, you.optedIn, you.rank == nil, env.social.isAvailable {
+                let own = try? await env.social.call { try await $0.profile() }
+                guard !Task.isCancelled, mine == generation else { return }
+                profileIsPrivate = own?.visibility == .private
+            }
             if emitView { emit(.playBoardView(scope: scope.rawValue)) }
         } catch is CancellationError {
             return
@@ -121,6 +134,7 @@ final class BoardModel {
         }
     }
 
+    /// Opens the profile editor (to create the profile, or to make it visible).
     func createProfile() {
         env.router.open(.profileEditor)
     }

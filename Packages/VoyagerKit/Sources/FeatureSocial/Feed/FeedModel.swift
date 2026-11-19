@@ -66,7 +66,11 @@ final class FeedModel {
 
     /// First load of the screen (once); later calls do nothing.
     func start() async {
-        guard !didStart else { return }
+        guard !didStart else {
+            // Back on the screen (for example from the profile editor): a prompt that is showing may be out of date.
+            await recheckProfile()
+            return
+        }
         didStart = true
         async let profile: Void = loadProfile()
         await load()
@@ -128,6 +132,12 @@ final class FeedModel {
             guard mine == generation else { return }
             loadMoreFailure = IdeaFailure(error)
         }
+    }
+
+    /// Asks again only while the "Create a profile" prompt shows; a profile that exists is never re-read here.
+    func recheckProfile() async {
+        guard hasProfile != true else { return }
+        await loadProfile()
     }
 
     private func loadProfile() async {
@@ -210,11 +220,17 @@ final class FeedModel {
 
     /// Blocks an author through `IdeaActions` (which tells the shared `SocialLedger`, so the idea screen and
     /// profiles drop them too). A failed block leaves the cards; the next load tells the truth.
-    func block(handle: String) async {
+    /// A failure shows on the idea card the block started from (`ideaID`).
+    func block(handle: String, ideaID: String? = nil) async {
+        if let ideaID { actionFailure[ideaID] = nil }
         do {
             try await actions.block(handle)
             blocked(handle: handle)
-        } catch {}
+        } catch is CancellationError {
+            return
+        } catch {
+            if let ideaID { actionFailure[ideaID] = IdeaFailure(error) }
+        }
     }
 
     func clearFailure(_ id: String) {

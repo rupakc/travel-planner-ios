@@ -38,7 +38,7 @@ struct SharedCardBody: View {
     }
 
     private var subtitle: String? {
-        let parts = [card.destination, card.period].compactMap { $0 }.filter { !$0.isEmpty }
+        let parts = [card.destination, card.period.map(Fmt.monthYear(period:))].compactMap { $0 }.filter { !$0.isEmpty }
         return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
 

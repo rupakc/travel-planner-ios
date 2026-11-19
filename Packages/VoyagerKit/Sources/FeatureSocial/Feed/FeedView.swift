@@ -69,7 +69,7 @@ public struct IdeasFeedView: View {
     }
 
     private func block(_ idea: Idea) async {
-        await model.block(handle: idea.author.handle)
+        await model.block(handle: idea.author.handle, ideaID: idea.id)
     }
 
     // MARK: Parts
