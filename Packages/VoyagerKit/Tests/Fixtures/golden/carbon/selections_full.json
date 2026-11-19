@@ -1,0 +1,256 @@
+{
+  "args": [
+    {
+      "diet": "meat_heavy",
+      "itinerary": {
+        "days": [
+          {
+            "day": 1,
+            "slots": [
+              {
+                "activity": "Louvre",
+                "lat": 48.86,
+                "lng": 2.34,
+                "notes": "x",
+                "time": "09:00"
+              },
+              {
+                "activity": "Seine cruise",
+                "lat": null,
+                "lng": null
+              },
+              "bad"
+            ]
+          },
+          {
+            "day": 2
+          }
+        ]
+      },
+      "searchData": {
+        "adults": 2,
+        "budget_usd": 3000,
+        "children": null,
+        "departure_date": "2026-05-01",
+        "destination": "Paris",
+        "destinations": null,
+        "interests": [
+          "food"
+        ],
+        "nationality": "British",
+        "num_travelers": 2,
+        "origin": "London",
+        "return_date": "2026-05-05"
+      },
+      "selections": {
+        "activities": [
+          {
+            "name": "Seine cruise",
+            "price_usd": 15
+          },
+          {
+            "title": "no name"
+          }
+        ],
+        "flight": {
+          "airline": "AF",
+          "emissions": {
+            "by_class": {
+              "business": 81,
+              "economy": 54
+            },
+            "kg_co2e_per_pax": 54,
+            "source": "Google Travel Impact Model"
+          },
+          "flight_number": "AF1081",
+          "outbound": {
+            "airline": "AF",
+            "departure_time": "08:00",
+            "destination": "CDG",
+            "layovers": [],
+            "origin": "LHR",
+            "segments": [
+              {
+                "aircraft": "A320",
+                "departure_date": "2026-05-01",
+                "destination": "CDG",
+                "flight_number": "AF1081",
+                "origin": "LHR"
+              }
+            ],
+            "stops": 0
+          },
+          "price_usd": 120,
+          "return": {
+            "destination": "LHR",
+            "flight_number": null,
+            "layovers": [
+              {
+                "airport": "AMS",
+                "duration": "1h"
+              }
+            ],
+            "origin": "CDG",
+            "stops": 1
+          },
+          "trip_type": "round_trip"
+        },
+        "flights": [
+          {
+            "airline": "U2",
+            "destination": "CDG",
+            "leg_index": 0,
+            "origin": "LTN",
+            "price": "95",
+            "stops": 0
+          },
+          null
+        ],
+        "getting_around": [
+          {
+            "name": "Metro pass",
+            "price_usd": 20,
+            "scope": "intra_city",
+            "type": "metro"
+          },
+          {
+            "type": "taxi"
+          }
+        ],
+        "hotel": {
+          "city": "Paris",
+          "country_code": "FR",
+          "name": "Hotel X",
+          "price": 900
+        },
+        "itinerary": {
+          "days": [
+            {
+              "day": 1,
+              "slots": [
+                {
+                  "activity": "Louvre",
+                  "lat": 48.86,
+                  "lng": 2.34,
+                  "notes": "x",
+                  "time": "09:00"
+                },
+                {
+                  "activity": "Seine cruise",
+                  "lat": null,
+                  "lng": null
+                },
+                "bad"
+              ]
+            },
+            {
+              "day": 2
+            }
+          ]
+        },
+        "places": [
+          {
+            "name": "x"
+          }
+        ]
+      }
+    }
+  ],
+  "fn": "carbonRequestFromSelections",
+  "output": {
+    "diet": "meat_heavy",
+    "itinerary": {
+      "days": [
+        {
+          "slots": [
+            {
+              "activity": "Louvre",
+              "lat": 48.86,
+              "lng": 2.34
+            },
+            {
+              "activity": "Seine cruise"
+            },
+            {}
+          ]
+        },
+        {
+          "slots": []
+        }
+      ]
+    },
+    "search": {
+      "adults": 2,
+      "departure_date": "2026-05-01",
+      "destination": "Paris",
+      "num_travelers": 2,
+      "origin": "London",
+      "return_date": "2026-05-05"
+    },
+    "selections": {
+      "activities": [
+        {
+          "name": "Seine cruise"
+        },
+        {}
+      ],
+      "flight": {
+        "emissions": {
+          "by_class": {
+            "business": 81,
+            "economy": 54
+          },
+          "kg_co2e_per_pax": 54,
+          "source": "Google Travel Impact Model"
+        },
+        "flight_number": "AF1081",
+        "outbound": {
+          "destination": "CDG",
+          "layovers": [],
+          "origin": "LHR",
+          "segments": [
+            {
+              "departure_date": "2026-05-01",
+              "destination": "CDG",
+              "flight_number": "AF1081",
+              "origin": "LHR"
+            }
+          ],
+          "stops": 0
+        },
+        "return": {
+          "destination": "LHR",
+          "layovers": [
+            {
+              "airport": "AMS"
+            }
+          ],
+          "origin": "CDG",
+          "stops": 1
+        }
+      },
+      "flights": [
+        {
+          "destination": "CDG",
+          "leg_index": 0,
+          "origin": "LTN",
+          "stops": 0
+        }
+      ],
+      "getting_around": [
+        {
+          "scope": "intra_city",
+          "type": "metro"
+        },
+        {
+          "type": "taxi"
+        }
+      ],
+      "hotel": {
+        "city": "Paris",
+        "country_code": "FR",
+        "name": "Hotel X"
+      }
+    }
+  }
+}

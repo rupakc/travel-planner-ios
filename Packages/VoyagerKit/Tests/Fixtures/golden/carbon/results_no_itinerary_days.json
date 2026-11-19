@@ -1,0 +1,55 @@
+{
+  "args": [
+    {
+      "diet": "pescatarian",
+      "results": {
+        "flights": {
+          "results": []
+        },
+        "hotels": {
+          "results": [
+            "bad"
+          ]
+        },
+        "itinerary": {
+          "days": []
+        }
+      },
+      "searchData": {
+        "adults": 2,
+        "budget_usd": 3000,
+        "children": null,
+        "departure_date": "2026-05-01",
+        "destination": "Paris",
+        "destinations": null,
+        "interests": [
+          "food"
+        ],
+        "nationality": "British",
+        "num_travelers": 2,
+        "origin": "London",
+        "return_date": "2026-05-05"
+      }
+    }
+  ],
+  "fn": "carbonRequestFromResults",
+  "output": {
+    "diet": "pescatarian",
+    "results": {
+      "flights": {
+        "results": []
+      },
+      "hotels": {
+        "results": []
+      }
+    },
+    "search": {
+      "adults": 2,
+      "departure_date": "2026-05-01",
+      "destination": "Paris",
+      "num_travelers": 2,
+      "origin": "London",
+      "return_date": "2026-05-05"
+    }
+  }
+}

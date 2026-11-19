@@ -1,0 +1,792 @@
+{
+ "module": "frontend/src/utils/carbon.js",
+ "cases": [
+  {
+   "name": "cheapest_lowest",
+   "fn": "cheapest",
+   "args": [
+    [
+     {
+      "id": 1,
+      "price_usd": 0
+     },
+     {
+      "id": 2,
+      "price_usd": 300
+     },
+     {
+      "id": 3,
+      "price_usd": 120
+     }
+    ]
+   ]
+  },
+  {
+   "name": "cheapest_all_missing_first",
+   "fn": "cheapest",
+   "args": [
+    [
+     {
+      "id": 1
+     },
+     {
+      "id": 2
+     }
+    ]
+   ]
+  },
+  {
+   "name": "cheapest_ties_first",
+   "fn": "cheapest",
+   "args": [
+    [
+     {
+      "id": 1,
+      "price_usd": 50
+     },
+     {
+      "id": 2,
+      "price_usd": 50
+     }
+    ]
+   ]
+  },
+  {
+   "name": "cheapest_price_fallback",
+   "fn": "cheapest",
+   "args": [
+    [
+     {
+      "id": 1,
+      "price_usd": null,
+      "price": "40"
+     },
+     {
+      "id": 2,
+      "price_usd": 45
+     },
+     {
+      "id": 3,
+      "price": "abc"
+     }
+    ]
+   ]
+  },
+  {
+   "name": "cheapest_skips_non_objects",
+   "fn": "cheapest",
+   "args": [
+    [
+     null,
+     3,
+     "x",
+     {
+      "id": 9
+     }
+    ]
+   ]
+  },
+  {
+   "name": "cheapest_empty",
+   "fn": "cheapest",
+   "args": [
+    []
+   ]
+  },
+  {
+   "name": "cheapest_null",
+   "fn": "cheapest",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "trim_flight_round_trip",
+   "fn": "trimFlight",
+   "args": [
+    {
+     "price_usd": 120,
+     "airline": "AF",
+     "flight_number": "AF1081",
+     "trip_type": "round_trip",
+     "emissions": {
+      "kg_co2e_per_pax": 54,
+      "by_class": {
+       "economy": 54,
+       "business": 81
+      },
+      "source": "Google Travel Impact Model"
+     },
+     "outbound": {
+      "origin": "LHR",
+      "destination": "CDG",
+      "stops": 0,
+      "layovers": [],
+      "airline": "AF",
+      "departure_time": "08:00",
+      "segments": [
+       {
+        "flight_number": "AF1081",
+        "origin": "LHR",
+        "destination": "CDG",
+        "departure_date": "2026-05-01",
+        "aircraft": "A320"
+       }
+      ]
+     },
+     "return": {
+      "origin": "CDG",
+      "destination": "LHR",
+      "stops": 1,
+      "layovers": [
+       {
+        "airport": "AMS",
+        "duration": "1h"
+       }
+      ],
+      "flight_number": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "trim_flight_flat_leg",
+   "fn": "trimFlight",
+   "args": [
+    {
+     "price": "95",
+     "airline": "U2",
+     "origin": "LTN",
+     "destination": "CDG",
+     "stops": 0,
+     "leg_index": 0
+    }
+   ]
+  },
+  {
+   "name": "trim_flight_null",
+   "fn": "trimFlight",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "trim_itinerary",
+   "fn": "trimItinerary",
+   "args": [
+    {
+     "days": [
+      {
+       "day": 1,
+       "slots": [
+        {
+         "activity": "Louvre",
+         "lat": 48.86,
+         "lng": 2.34,
+         "notes": "x",
+         "time": "09:00"
+        },
+        {
+         "activity": "Seine cruise",
+         "lat": null,
+         "lng": null
+        },
+        "bad"
+       ]
+      },
+      {
+       "day": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "trim_itinerary_empty",
+   "fn": "trimItinerary",
+   "args": [
+    {
+     "days": []
+    }
+   ]
+  },
+  {
+   "name": "trim_itinerary_missing",
+   "fn": "trimItinerary",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "results_single_city",
+   "fn": "carbonRequestFromResults",
+   "args": [
+    {
+     "searchData": {
+      "origin": "London",
+      "destination": "Paris",
+      "departure_date": "2026-05-01",
+      "return_date": "2026-05-05",
+      "num_travelers": 2,
+      "interests": [
+       "food"
+      ],
+      "budget_usd": 3000,
+      "adults": 2,
+      "children": null,
+      "destinations": null,
+      "nationality": "British"
+     },
+     "results": {
+      "flights": {
+       "results": [
+        {
+         "price_usd": 120,
+         "airline": "AF",
+         "flight_number": "AF1081",
+         "trip_type": "round_trip",
+         "emissions": {
+          "kg_co2e_per_pax": 54,
+          "by_class": {
+           "economy": 54,
+           "business": 81
+          },
+          "source": "Google Travel Impact Model"
+         },
+         "outbound": {
+          "origin": "LHR",
+          "destination": "CDG",
+          "stops": 0,
+          "layovers": [],
+          "airline": "AF",
+          "departure_time": "08:00",
+          "segments": [
+           {
+            "flight_number": "AF1081",
+            "origin": "LHR",
+            "destination": "CDG",
+            "departure_date": "2026-05-01",
+            "aircraft": "A320"
+           }
+          ]
+         },
+         "return": {
+          "origin": "CDG",
+          "destination": "LHR",
+          "stops": 1,
+          "layovers": [
+           {
+            "airport": "AMS",
+            "duration": "1h"
+           }
+          ],
+          "flight_number": null
+         }
+        },
+        {
+         "price_usd": 0,
+         "airline": "BA",
+         "outbound": {
+          "origin": "LGW",
+          "destination": "ORY",
+          "stops": 0
+         }
+        },
+        {
+         "price": "95",
+         "airline": "U2",
+         "origin": "LTN",
+         "destination": "CDG",
+         "stops": 0,
+         "leg_index": 0
+        }
+       ]
+      },
+      "hotels": {
+       "results": [
+        {
+         "name": "Hotel X",
+         "city": "Paris",
+         "country_code": "FR",
+         "price_per_night_usd": 180,
+         "amenities": [
+          "wifi"
+         ]
+        },
+        {
+         "name": "Hotel Y",
+         "city": "Paris"
+        }
+       ]
+      },
+      "itinerary": {
+       "days": [
+        {
+         "day": 1,
+         "slots": [
+          {
+           "activity": "Louvre",
+           "lat": 48.86,
+           "lng": 2.34,
+           "notes": "x",
+           "time": "09:00"
+          },
+          {
+           "activity": "Seine cruise",
+           "lat": null,
+           "lng": null
+          },
+          "bad"
+         ]
+        },
+        {
+         "day": 2
+        }
+       ]
+      }
+     },
+     "diet": "vegan"
+    }
+   ]
+  },
+  {
+   "name": "results_multi_city_legs",
+   "fn": "carbonRequestFromResults",
+   "args": [
+    {
+     "searchData": {
+      "origin": "LHR",
+      "destination": "Paris",
+      "destinations": [
+       "Paris",
+       "Rome"
+      ],
+      "destination_nights": [
+       3,
+       2
+      ]
+     },
+     "results": {
+      "flights": {
+       "legs": [
+        {
+         "results": [
+          {
+           "origin": "LHR",
+           "destination": "CDG",
+           "price_usd": 400
+          },
+          {
+           "origin": "LGW",
+           "destination": "CDG",
+           "price_usd": 90
+          }
+         ]
+        },
+        {
+         "results": [
+          {
+           "origin": "CDG",
+           "destination": "FCO",
+           "price_usd": 70
+          }
+         ]
+        },
+        {
+         "error": "none"
+        }
+       ]
+      }
+     },
+     "diet": "mixed"
+    }
+   ]
+  },
+  {
+   "name": "results_nothing",
+   "fn": "carbonRequestFromResults",
+   "args": [
+    {
+     "searchData": null,
+     "results": {},
+     "diet": "keto"
+    }
+   ]
+  },
+  {
+   "name": "results_no_itinerary_days",
+   "fn": "carbonRequestFromResults",
+   "args": [
+    {
+     "searchData": {
+      "origin": "London",
+      "destination": "Paris",
+      "departure_date": "2026-05-01",
+      "return_date": "2026-05-05",
+      "num_travelers": 2,
+      "interests": [
+       "food"
+      ],
+      "budget_usd": 3000,
+      "adults": 2,
+      "children": null,
+      "destinations": null,
+      "nationality": "British"
+     },
+     "results": {
+      "flights": {
+       "results": []
+      },
+      "hotels": {
+       "results": [
+        "bad"
+       ]
+      },
+      "itinerary": {
+       "days": []
+      }
+     },
+     "diet": "pescatarian"
+    }
+   ]
+  },
+  {
+   "name": "selections_full",
+   "fn": "carbonRequestFromSelections",
+   "args": [
+    {
+     "searchData": {
+      "origin": "London",
+      "destination": "Paris",
+      "departure_date": "2026-05-01",
+      "return_date": "2026-05-05",
+      "num_travelers": 2,
+      "interests": [
+       "food"
+      ],
+      "budget_usd": 3000,
+      "adults": 2,
+      "children": null,
+      "destinations": null,
+      "nationality": "British"
+     },
+     "selections": {
+      "flight": {
+       "price_usd": 120,
+       "airline": "AF",
+       "flight_number": "AF1081",
+       "trip_type": "round_trip",
+       "emissions": {
+        "kg_co2e_per_pax": 54,
+        "by_class": {
+         "economy": 54,
+         "business": 81
+        },
+        "source": "Google Travel Impact Model"
+       },
+       "outbound": {
+        "origin": "LHR",
+        "destination": "CDG",
+        "stops": 0,
+        "layovers": [],
+        "airline": "AF",
+        "departure_time": "08:00",
+        "segments": [
+         {
+          "flight_number": "AF1081",
+          "origin": "LHR",
+          "destination": "CDG",
+          "departure_date": "2026-05-01",
+          "aircraft": "A320"
+         }
+        ]
+       },
+       "return": {
+        "origin": "CDG",
+        "destination": "LHR",
+        "stops": 1,
+        "layovers": [
+         {
+          "airport": "AMS",
+          "duration": "1h"
+         }
+        ],
+        "flight_number": null
+       }
+      },
+      "flights": [
+       {
+        "price": "95",
+        "airline": "U2",
+        "origin": "LTN",
+        "destination": "CDG",
+        "stops": 0,
+        "leg_index": 0
+       },
+       null
+      ],
+      "hotel": {
+       "name": "Hotel X",
+       "city": "Paris",
+       "country_code": "FR",
+       "price": 900
+      },
+      "getting_around": [
+       {
+        "type": "metro",
+        "scope": "intra_city",
+        "name": "Metro pass",
+        "price_usd": 20
+       },
+       {
+        "type": "taxi"
+       }
+      ],
+      "activities": [
+       {
+        "name": "Seine cruise",
+        "price_usd": 15
+       },
+       {
+        "title": "no name"
+       }
+      ],
+      "itinerary": {
+       "days": [
+        {
+         "day": 1,
+         "slots": [
+          {
+           "activity": "Louvre",
+           "lat": 48.86,
+           "lng": 2.34,
+           "notes": "x",
+           "time": "09:00"
+          },
+          {
+           "activity": "Seine cruise",
+           "lat": null,
+           "lng": null
+          },
+          "bad"
+         ]
+        },
+        {
+         "day": 2
+        }
+       ]
+      },
+      "places": [
+       {
+        "name": "x"
+       }
+      ]
+     },
+     "itinerary": {
+      "days": [
+       {
+        "day": 1,
+        "slots": [
+         {
+          "activity": "Louvre",
+          "lat": 48.86,
+          "lng": 2.34,
+          "notes": "x",
+          "time": "09:00"
+         },
+         {
+          "activity": "Seine cruise",
+          "lat": null,
+          "lng": null
+         },
+         "bad"
+        ]
+       },
+       {
+        "day": 2
+       }
+      ]
+     },
+     "diet": "meat_heavy"
+    }
+   ]
+  },
+  {
+   "name": "selections_empty",
+   "fn": "carbonRequestFromSelections",
+   "args": [
+    {
+     "searchData": {
+      "origin": "London",
+      "destination": "Paris",
+      "departure_date": "2026-05-01",
+      "return_date": "2026-05-05",
+      "num_travelers": 2,
+      "interests": [
+       "food"
+      ],
+      "budget_usd": 3000,
+      "adults": 2,
+      "children": null,
+      "destinations": null,
+      "nationality": "British"
+     },
+     "selections": {},
+     "itinerary": null,
+     "diet": "vegetarian"
+    }
+   ]
+  },
+  {
+   "name": "selections_null",
+   "fn": "carbonRequestFromSelections",
+   "args": [
+    {
+     "searchData": null,
+     "selections": null,
+     "diet": null
+    }
+   ]
+  },
+  {
+   "name": "travel_flight",
+   "fn": "selectionsHaveTravel",
+   "args": [
+    {
+     "flight": {
+      "id": 1
+     }
+    }
+   ]
+  },
+  {
+   "name": "travel_multi",
+   "fn": "selectionsHaveTravel",
+   "args": [
+    {
+     "flights": [
+      {
+       "id": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "travel_hotel",
+   "fn": "selectionsHaveTravel",
+   "args": [
+    {
+     "hotel": {
+      "name": "H"
+     }
+    }
+   ]
+  },
+  {
+   "name": "travel_none",
+   "fn": "selectionsHaveTravel",
+   "args": [
+    {
+     "activities": [
+      {
+       "name": "a"
+      }
+     ],
+     "flights": []
+    }
+   ]
+  },
+  {
+   "name": "travel_null",
+   "fn": "selectionsHaveTravel",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "pct_00",
+   "fn": "pctLabel",
+   "args": [
+    null
+   ]
+  },
+  {
+   "name": "pct_01",
+   "fn": "pctLabel",
+   "args": [
+    0
+   ]
+  },
+  {
+   "name": "pct_02",
+   "fn": "pctLabel",
+   "args": [
+    -0.1
+   ]
+  },
+  {
+   "name": "pct_03",
+   "fn": "pctLabel",
+   "args": [
+    0.001
+   ]
+  },
+  {
+   "name": "pct_04",
+   "fn": "pctLabel",
+   "args": [
+    0.0049
+   ]
+  },
+  {
+   "name": "pct_05",
+   "fn": "pctLabel",
+   "args": [
+    0.005
+   ]
+  },
+  {
+   "name": "pct_06",
+   "fn": "pctLabel",
+   "args": [
+    0.0149
+   ]
+  },
+  {
+   "name": "pct_07",
+   "fn": "pctLabel",
+   "args": [
+    0.015
+   ]
+  },
+  {
+   "name": "pct_08",
+   "fn": "pctLabel",
+   "args": [
+    0.25
+   ]
+  },
+  {
+   "name": "pct_09",
+   "fn": "pctLabel",
+   "args": [
+    0.6504
+   ]
+  },
+  {
+   "name": "pct_10",
+   "fn": "pctLabel",
+   "args": [
+    0.995
+   ]
+  },
+  {
+   "name": "pct_11",
+   "fn": "pctLabel",
+   "args": [
+    1
+   ]
+  }
+ ]
+}

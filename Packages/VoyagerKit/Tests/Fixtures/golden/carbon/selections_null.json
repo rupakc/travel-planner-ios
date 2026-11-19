@@ -1,0 +1,21 @@
+{
+  "args": [
+    {
+      "diet": null,
+      "searchData": null,
+      "selections": null
+    }
+  ],
+  "fn": "carbonRequestFromSelections",
+  "output": {
+    "diet": "mixed",
+    "search": {},
+    "selections": {
+      "activities": [],
+      "flight": null,
+      "flights": [],
+      "getting_around": [],
+      "hotel": null
+    }
+  }
+}

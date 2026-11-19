@@ -1,0 +1,183 @@
+{
+  "args": [
+    {
+      "diet": "vegan",
+      "results": {
+        "flights": {
+          "results": [
+            {
+              "airline": "AF",
+              "emissions": {
+                "by_class": {
+                  "business": 81,
+                  "economy": 54
+                },
+                "kg_co2e_per_pax": 54,
+                "source": "Google Travel Impact Model"
+              },
+              "flight_number": "AF1081",
+              "outbound": {
+                "airline": "AF",
+                "departure_time": "08:00",
+                "destination": "CDG",
+                "layovers": [],
+                "origin": "LHR",
+                "segments": [
+                  {
+                    "aircraft": "A320",
+                    "departure_date": "2026-05-01",
+                    "destination": "CDG",
+                    "flight_number": "AF1081",
+                    "origin": "LHR"
+                  }
+                ],
+                "stops": 0
+              },
+              "price_usd": 120,
+              "return": {
+                "destination": "LHR",
+                "flight_number": null,
+                "layovers": [
+                  {
+                    "airport": "AMS",
+                    "duration": "1h"
+                  }
+                ],
+                "origin": "CDG",
+                "stops": 1
+              },
+              "trip_type": "round_trip"
+            },
+            {
+              "airline": "BA",
+              "outbound": {
+                "destination": "ORY",
+                "origin": "LGW",
+                "stops": 0
+              },
+              "price_usd": 0
+            },
+            {
+              "airline": "U2",
+              "destination": "CDG",
+              "leg_index": 0,
+              "origin": "LTN",
+              "price": "95",
+              "stops": 0
+            }
+          ]
+        },
+        "hotels": {
+          "results": [
+            {
+              "amenities": [
+                "wifi"
+              ],
+              "city": "Paris",
+              "country_code": "FR",
+              "name": "Hotel X",
+              "price_per_night_usd": 180
+            },
+            {
+              "city": "Paris",
+              "name": "Hotel Y"
+            }
+          ]
+        },
+        "itinerary": {
+          "days": [
+            {
+              "day": 1,
+              "slots": [
+                {
+                  "activity": "Louvre",
+                  "lat": 48.86,
+                  "lng": 2.34,
+                  "notes": "x",
+                  "time": "09:00"
+                },
+                {
+                  "activity": "Seine cruise",
+                  "lat": null,
+                  "lng": null
+                },
+                "bad"
+              ]
+            },
+            {
+              "day": 2
+            }
+          ]
+        }
+      },
+      "searchData": {
+        "adults": 2,
+        "budget_usd": 3000,
+        "children": null,
+        "departure_date": "2026-05-01",
+        "destination": "Paris",
+        "destinations": null,
+        "interests": [
+          "food"
+        ],
+        "nationality": "British",
+        "num_travelers": 2,
+        "origin": "London",
+        "return_date": "2026-05-05"
+      }
+    }
+  ],
+  "fn": "carbonRequestFromResults",
+  "output": {
+    "diet": "vegan",
+    "itinerary": {
+      "days": [
+        {
+          "slots": [
+            {
+              "activity": "Louvre",
+              "lat": 48.86,
+              "lng": 2.34
+            },
+            {
+              "activity": "Seine cruise"
+            },
+            {}
+          ]
+        },
+        {
+          "slots": []
+        }
+      ]
+    },
+    "results": {
+      "flights": {
+        "results": [
+          {
+            "destination": "CDG",
+            "leg_index": 0,
+            "origin": "LTN",
+            "stops": 0
+          }
+        ]
+      },
+      "hotels": {
+        "results": [
+          {
+            "city": "Paris",
+            "country_code": "FR",
+            "name": "Hotel X"
+          }
+        ]
+      }
+    },
+    "search": {
+      "adults": 2,
+      "departure_date": "2026-05-01",
+      "destination": "Paris",
+      "num_travelers": 2,
+      "origin": "London",
+      "return_date": "2026-05-05"
+    }
+  }
+}

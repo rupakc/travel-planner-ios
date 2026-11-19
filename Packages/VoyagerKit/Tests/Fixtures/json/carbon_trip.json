@@ -1,0 +1,48 @@
+{
+  "total_kg": 1000,
+  "per_person_kg": 500,
+  "travellers": 2,
+  "nights": 4,
+  "diet": "mixed",
+  "cabin": "economy",
+  "categories": [
+    {"key": "flights", "kg": 600, "share": 0.6, "included": true},
+    {"key": "stays", "kg": 250, "share": 0.25, "included": true},
+    {"key": "ground", "kg": 50, "share": 0.05, "included": true},
+    {"key": "food", "kg": 100, "share": 0.1, "included": true},
+    {"key": "activities", "kg": 0, "share": 0, "included": false},
+    {"key": "spaceflight", "kg": 9, "share": 0.01, "included": true}
+  ],
+  "lines": [
+    {"category": "flights", "kind": "flight_tim", "label": "Flight LHR–CDG (Google TIM)", "kg": 600, "method": "measured_tim", "source": "google_tim", "params": {"route": "LHR–CDG"}},
+    {"category": "stays", "kind": "hotel_nights", "label": "Hotel", "kg": 250, "method": "factor", "source": "crawler_desnz_2027", "params": {"city": "Paris", "nights": 4, "rooms": 1},
+     "crawler_source": {"name": "UK DESNZ GHG conversion factors 2027", "url": "https://www.gov.uk/ghg-2027", "as_of": "2027-06-12T08:00:00Z", "licence": "OGL-UK-3.0", "attribution": "Contains public sector information licensed under the Open Government Licence v3.0", "licence_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/", "source_id": "od-desnz-ghg-factors", "year": 2027}},
+    {"category": "ground", "kind": "intercity", "label": "Paris–Lyon by train", "kg": 4.25, "method": "factor", "source": "desnz_2026", "params": {"route": "Paris–Lyon", "mode": "rail_national", "km": 470.4}},
+    {"category": "food", "kind": "meals", "label": "Meals", "kg": 100, "method": "estimate", "source": "owid_food", "params": {"diet": "mixed", "days": 4, "travellers": 2}},
+    {"category": "activities", "kind": "zeppelin", "label": "Zeppelin ride", "kg": 1, "method": "estimate", "params": {"nested": {"a": 1}}},
+    "not a line"
+  ],
+  "comparisons": {"car_km": 6027, "annual_budget_kg": 2000, "budget_share": 0.25},
+  "lower_carbon": [
+    {"route": "LHR–CDG", "from": "LHR", "to": "CDG", "rail_km": 417, "flight_kg": 600, "rail_kg": 19, "saving_kg": 581, "legs": 2},
+    {"route": "CDG–LYS", "rail_km": 470, "saving_kg": 90},
+    {"route": "X–Y", "rail_km": 10, "saving_kg": 0}
+  ],
+  "sources": [
+    {"id": "google_tim", "name": "Travel Impact Model", "url": "https://travelimpactmodel.org", "attribution": "Emissions estimates: Google Travel Impact Model, CC BY-SA 4.0"},
+    {"id": "desnz_2026", "name": "UK Government GHG Conversion Factors 2026", "url": "https://assets.publishing.service.gov.uk/x.xlsx", "publisher": "DESNZ", "licence": "Open Government Licence v3.0", "attribution": "Contains public sector information licensed under the Open Government Licence v3.0"},
+    {"id": "evil", "name": "Evil", "url": "javascript:alert(1)"}
+  ],
+  "crawler_sources": [
+    {"id": "crawler_desnz_2027", "name": "UK DESNZ GHG conversion factors 2027", "url": "https://www.gov.uk/ghg-2027", "as_of": "2027-06-12", "licence": "OGL-UK-3.0", "attribution": "Contains public sector information licensed under the Open Government Licence v3.0", "source_id": "od-desnz-ghg-factors", "year": 2027},
+    {"source_id": "grid-ember", "as_of": "not a date"},
+    {}
+  ],
+  "assumptions": [
+    {"code": "rooms_default", "text": "1 room(s): one per two travellers.", "params": {"rooms": 1}},
+    {"code": "flights_cabin", "text": "Cabin: economy.", "params": {"cabin": "economy"}},
+    {"code": "brand_new", "text": "Something new.", "params": {}}
+  ],
+  "attribution": ["Contains public sector information licensed under the Open Government Licence v3.0"],
+  "factors_version": "2026.1"
+}

@@ -1,0 +1,50 @@
+{
+  "args": [
+    {
+      "days": [
+        {
+          "day": 1,
+          "slots": [
+            {
+              "activity": "Louvre",
+              "lat": 48.86,
+              "lng": 2.34,
+              "notes": "x",
+              "time": "09:00"
+            },
+            {
+              "activity": "Seine cruise",
+              "lat": null,
+              "lng": null
+            },
+            "bad"
+          ]
+        },
+        {
+          "day": 2
+        }
+      ]
+    }
+  ],
+  "fn": "trimItinerary",
+  "output": {
+    "days": [
+      {
+        "slots": [
+          {
+            "activity": "Louvre",
+            "lat": 48.86,
+            "lng": 2.34
+          },
+          {
+            "activity": "Seine cruise"
+          },
+          {}
+        ]
+      },
+      {
+        "slots": []
+      }
+    ]
+  }
+}

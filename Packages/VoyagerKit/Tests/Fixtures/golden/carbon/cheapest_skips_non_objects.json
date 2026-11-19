@@ -1,0 +1,16 @@
+{
+  "args": [
+    [
+      null,
+      3,
+      "x",
+      {
+        "id": 9
+      }
+    ]
+  ],
+  "fn": "cheapest",
+  "output": {
+    "id": 9
+  }
+}

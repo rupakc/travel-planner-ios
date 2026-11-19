@@ -1,0 +1,25 @@
+{
+  "args": [
+    [
+      {
+        "id": 1,
+        "price": "40",
+        "price_usd": null
+      },
+      {
+        "id": 2,
+        "price_usd": 45
+      },
+      {
+        "id": 3,
+        "price": "abc"
+      }
+    ]
+  ],
+  "fn": "cheapest",
+  "output": {
+    "id": 1,
+    "price": "40",
+    "price_usd": null
+  }
+}

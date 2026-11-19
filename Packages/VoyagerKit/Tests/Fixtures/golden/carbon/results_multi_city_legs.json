@@ -1,0 +1,95 @@
+{
+  "args": [
+    {
+      "diet": "mixed",
+      "results": {
+        "flights": {
+          "legs": [
+            {
+              "results": [
+                {
+                  "destination": "CDG",
+                  "origin": "LHR",
+                  "price_usd": 400
+                },
+                {
+                  "destination": "CDG",
+                  "origin": "LGW",
+                  "price_usd": 90
+                }
+              ]
+            },
+            {
+              "results": [
+                {
+                  "destination": "FCO",
+                  "origin": "CDG",
+                  "price_usd": 70
+                }
+              ]
+            },
+            {
+              "error": "none"
+            }
+          ]
+        }
+      },
+      "searchData": {
+        "destination": "Paris",
+        "destination_nights": [
+          3,
+          2
+        ],
+        "destinations": [
+          "Paris",
+          "Rome"
+        ],
+        "origin": "LHR"
+      }
+    }
+  ],
+  "fn": "carbonRequestFromResults",
+  "output": {
+    "diet": "mixed",
+    "results": {
+      "flights": {
+        "legs": [
+          {
+            "results": [
+              {
+                "destination": "CDG",
+                "origin": "LGW"
+              }
+            ]
+          },
+          {
+            "results": [
+              {
+                "destination": "FCO",
+                "origin": "CDG"
+              }
+            ]
+          },
+          {
+            "results": []
+          }
+        ]
+      },
+      "hotels": {
+        "results": []
+      }
+    },
+    "search": {
+      "destination": "Paris",
+      "destination_nights": [
+        3,
+        2
+      ],
+      "destinations": [
+        "Paris",
+        "Rome"
+      ],
+      "origin": "LHR"
+    }
+  }
+}

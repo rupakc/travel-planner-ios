@@ -39,4 +39,12 @@ import Testing
         #expect(!RemoteFeatures(notificationsV2: false, apns: true).serverPushLive)
         #expect(RemoteFeatures(notificationsV2: true, apns: true).serverPushLive)
     }
+
+    @Test func test_carbonFlagAcceptsTrueOrOne() throws {
+        #expect(try features(#"{"features": {"carbon": true}}"#).carbon)
+        #expect(try features(#"{"features": {"carbon": 1}}"#).carbon)
+        #expect(try !features(#"{"features": {"carbon": false}}"#).carbon)
+        #expect(try !features(#"{"features": {"carbon": "yes"}}"#).carbon)
+        #expect(!RemoteFeatures(config: nil).carbon)
+    }
 }

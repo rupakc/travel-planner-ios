@@ -6,7 +6,7 @@ import SwiftUI
 import VoyagerEnv
 import VoyagerModel
 
-/// Plan tools above the sections once the search is done: remix, best-value package, budget planner.
+/// Plan tools above the sections once the search is done: remix, best-value package, budget planner, carbon footprint.
 /// The signature below is what `ResultsView` calls.
 struct PlanToolsPanel: View {
     let env: AppEnvironment
@@ -55,6 +55,10 @@ struct PlanToolsPanel: View {
                     onReset: { tools.resetBudget() },
                     onFindCheaper: { tools.findCheaperHotels(maxNightly: $0, searchData: searchData) })
             }
+            CarbonFootprintCard(
+                mode: .results, available: env.carbon.isAvailable,
+                makeBody: { CarbonRequest.fromResults(searchData: searchData, results: results, diet: $0) },
+                load: { [env] body in await env.carbon.trip(body) })
         }
         .toast(Binding(get: { tools.toast }, set: { tools.toast = $0 }))
         .accessibilityIdentifier("results.planTools")

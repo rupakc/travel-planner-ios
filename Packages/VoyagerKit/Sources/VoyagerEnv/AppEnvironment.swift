@@ -46,6 +46,7 @@ public final class AppEnvironment {
     @ObservationIgnored private var sharesService: SharesService?
     @ObservationIgnored private var socialService: SocialService?
     @ObservationIgnored private var playService: PlayService?
+    @ObservationIgnored private var carbonService: CarbonService?
     /// The user whose chat threads are shown (`.none` = not loaded yet; `.some(nil)` = signed out).
     @ObservationIgnored private var chatUser: String??
 
@@ -99,6 +100,14 @@ public final class AppEnvironment {
         if let playService { return playService }
         let service = PlayService(env: self)
         playService = service
+        return service
+    }
+
+    /// The trip carbon footprint route behind `features.carbon`.
+    public var carbon: CarbonService {
+        if let carbonService { return carbonService }
+        let service = CarbonService(env: self)
+        carbonService = service
         return service
     }
 

@@ -1,0 +1,13 @@
+{
+  "args": [
+    {
+      "flights": [
+        {
+          "id": 1
+        }
+      ]
+    }
+  ],
+  "fn": "selectionsHaveTravel",
+  "output": true
+}

@@ -216,6 +216,13 @@ public final class FakeHealthRepository: HealthRepository {
     public func clientConfig() async throws -> ClientConfig? { try await onClientConfig() }
 }
 
+public final class FakeCarbonRepository: CarbonRepository {
+    public let onTrip = FakeCall<JSONValue, JSONValue>("carbon.trip")
+    public init() {}
+
+    public func trip(_ body: JSONValue) async throws -> JSONValue { try await onTrip(body) }
+}
+
 /// One fake per repository plus the auth API, all reference types: keep the struct (or a fake) to script
 /// calls and to read what was called after the code under test ran.
 public struct FakeRepositories: Sendable {
@@ -242,6 +249,7 @@ public struct FakeRepositories: Sendable {
     public var shares = FakeSharesRepository()
     public var social = FakeSocialRepository()
     public var play = FakePlayRepository()
+    public var carbon = FakeCarbonRepository()
     public var auth = FakeAuthAPI()
 
     public init() {}
@@ -252,7 +260,7 @@ public struct FakeRepositories: Sendable {
             agents: agents, discover: discover, compare: compare, importer: importer, watches: watches,
             notifications: notifications, nearby: nearby, devices: devices, feedback: feedback, admin: admin, health: health,
             alertsV2: alertsV2, notificationSettings: notificationSettings, notificationCatalog: notificationCatalog,
-            shares: shares, social: social, play: play)
+            shares: shares, social: social, play: play, carbon: carbon)
     }
 }
 
