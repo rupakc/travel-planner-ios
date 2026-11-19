@@ -47,7 +47,7 @@ public enum Fmt {
         guard knownCurrencies.contains(code.uppercased()) else {
             return "\(code) \(amount.formatted(.number.locale(locale).sign(strategy: .automatic)))"
         }
-        return amount.formatted(.currency(code: code.uppercased()).sign(strategy: .always(includingZero: false)).locale(locale))
+        return amount.formatted(.currency(code: code.uppercased()).sign(strategy: .always(showZero: false)).locale(locale))
     }
 
     /// A server period `YYYY-MM` as a localised month and year ("May 2026", "mai 2026"); anything else (no month, a
