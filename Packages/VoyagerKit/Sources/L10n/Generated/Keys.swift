@@ -1181,6 +1181,7 @@ public enum K {
         public static let close = LKey("dropMoment:close", placeholders: [], plural: false)
         public static let note = LKey("dropMoment:note", placeholders: [], plural: false)
         public static let nowPrice = LKey("dropMoment:nowPrice", placeholders: [], plural: false)
+        public static let percentInline = LKey("dropMoment:percentInline", placeholders: ["percent"], plural: false)
         public static let share = LKey("dropMoment:share", placeholders: [], plural: false)
         public static let story = LKey("dropMoment:story", placeholders: [], plural: false)
         public static let title = LKey("dropMoment:title", placeholders: [], plural: false)
@@ -2587,6 +2588,7 @@ public enum K {
             public static let mine = LKey("play:board.mine", placeholders: ["rank"], plural: true)
             public static let optinNote = LKey("play:board.optinNote", placeholders: [], plural: false)
             public static let points = LKey("play:board.points", placeholders: [], plural: true)
+            public static let profilePrivate = LKey("play:board.profilePrivate", placeholders: [], plural: false)
             public static let scope = LKey("play:board.scope", placeholders: [], plural: false)
             public static let scope_friends = LKey("play:board.scope_friends", placeholders: [], plural: false)
             public static let scope_global = LKey("play:board.scope_global", placeholders: [], plural: false)
@@ -2830,6 +2832,7 @@ public enum K {
             public static let point = LKey("priceStory:chart.point", placeholders: ["date", "price"], plural: false)
             public static let target = LKey("priceStory:chart.target", placeholders: ["price"], plural: false)
             public static let typical = LKey("priceStory:chart.typical", placeholders: [], plural: false)
+            public static let typicalRange = LKey("priceStory:chart.typicalRange", placeholders: ["high", "low"], plural: false)
         }
         public static let checkedAgo = LKey("priceStory:checkedAgo", placeholders: [], plural: true)
         public static let checkedToday = LKey("priceStory:checkedToday", placeholders: [], plural: false)
