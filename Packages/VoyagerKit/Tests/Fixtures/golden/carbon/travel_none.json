@@ -1,0 +1,14 @@
+{
+  "args": [
+    {
+      "activities": [
+        {
+          "name": "a"
+        }
+      ],
+      "flights": []
+    }
+  ],
+  "fn": "selectionsHaveTravel",
+  "output": false
+}

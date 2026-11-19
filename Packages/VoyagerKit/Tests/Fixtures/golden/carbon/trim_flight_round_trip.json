@@ -1,0 +1,83 @@
+{
+  "args": [
+    {
+      "airline": "AF",
+      "emissions": {
+        "by_class": {
+          "business": 81,
+          "economy": 54
+        },
+        "kg_co2e_per_pax": 54,
+        "source": "Google Travel Impact Model"
+      },
+      "flight_number": "AF1081",
+      "outbound": {
+        "airline": "AF",
+        "departure_time": "08:00",
+        "destination": "CDG",
+        "layovers": [],
+        "origin": "LHR",
+        "segments": [
+          {
+            "aircraft": "A320",
+            "departure_date": "2026-05-01",
+            "destination": "CDG",
+            "flight_number": "AF1081",
+            "origin": "LHR"
+          }
+        ],
+        "stops": 0
+      },
+      "price_usd": 120,
+      "return": {
+        "destination": "LHR",
+        "flight_number": null,
+        "layovers": [
+          {
+            "airport": "AMS",
+            "duration": "1h"
+          }
+        ],
+        "origin": "CDG",
+        "stops": 1
+      },
+      "trip_type": "round_trip"
+    }
+  ],
+  "fn": "trimFlight",
+  "output": {
+    "emissions": {
+      "by_class": {
+        "business": 81,
+        "economy": 54
+      },
+      "kg_co2e_per_pax": 54,
+      "source": "Google Travel Impact Model"
+    },
+    "flight_number": "AF1081",
+    "outbound": {
+      "destination": "CDG",
+      "layovers": [],
+      "origin": "LHR",
+      "segments": [
+        {
+          "departure_date": "2026-05-01",
+          "destination": "CDG",
+          "flight_number": "AF1081",
+          "origin": "LHR"
+        }
+      ],
+      "stops": 0
+    },
+    "return": {
+      "destination": "LHR",
+      "layovers": [
+        {
+          "airport": "AMS"
+        }
+      ],
+      "origin": "CDG",
+      "stops": 1
+    }
+  }
+}

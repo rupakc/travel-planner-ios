@@ -3131,6 +3131,93 @@ public enum K {
             public static let overFlight = LKey("results:budget.overFlight", placeholders: [], plural: false)
             public static let overStay = LKey("results:budget.overStay", placeholders: [], plural: false)
         }
+        public enum carbon {
+            public enum assume {
+                public static let activities_partial = LKey("results:carbon.assume.activities_partial", placeholders: [], plural: false)
+                public static let activities_unmodelled = LKey("results:carbon.assume.activities_unmodelled", placeholders: ["count"], plural: false)
+                public static let factors_newer = LKey("results:carbon.assume.factors_newer", placeholders: ["year"], plural: false)
+                public static let flight_desnz = LKey("results:carbon.assume.flight_desnz", placeholders: [], plural: false)
+                public static let flight_unknown_airport = LKey("results:carbon.assume.flight_unknown_airport", placeholders: ["route"], plural: false)
+                public static let flights_cabin = LKey("results:carbon.assume.flights_cabin", placeholders: ["cabin"], plural: false)
+                public static let flights_cheapest = LKey("results:carbon.assume.flights_cheapest", placeholders: [], plural: false)
+                public static let flights_none = LKey("results:carbon.assume.flights_none", placeholders: [], plural: false)
+                public static let food_basket = LKey("results:carbon.assume.food_basket", placeholders: ["diet", "kg_per_day"], plural: false)
+                public static let ground_default_mix = LKey("results:carbon.assume.ground_default_mix", placeholders: [], plural: false)
+                public static let ground_per_day = LKey("results:carbon.assume.ground_per_day", placeholders: ["km_per_day"], plural: false)
+                public static let ground_straight_line = LKey("results:carbon.assume.ground_straight_line", placeholders: [], plural: false)
+                public static let hotel_default = LKey("results:carbon.assume.hotel_default", placeholders: ["city", "kg"], plural: false)
+                public static let hotel_grid = LKey("results:carbon.assume.hotel_grid", placeholders: ["city", "g_per_kwh", "kwh"], plural: false)
+                public static let intercity_rail = LKey("results:carbon.assume.intercity_rail", placeholders: [], plural: false)
+                public static let intercity_unknown = LKey("results:carbon.assume.intercity_unknown", placeholders: ["route"], plural: false)
+                public static let nights_default = LKey("results:carbon.assume.nights_default", placeholders: ["nights"], plural: false)
+                public static let rooms_default = LKey("results:carbon.assume.rooms_default", placeholders: ["rooms"], plural: false)
+                public static let stays_none = LKey("results:carbon.assume.stays_none", placeholders: [], plural: false)
+                public static let travellers_default = LKey("results:carbon.assume.travellers_default", placeholders: [], plural: false)
+            }
+            public static let assumptionsTitle = LKey("results:carbon.assumptionsTitle", placeholders: [], plural: false)
+            public static let budget = LKey("results:carbon.budget", placeholders: ["pct", "tonnes"], plural: false)
+            public enum cabin {
+                public static let business = LKey("results:carbon.cabin.business", placeholders: [], plural: false)
+                public static let economy = LKey("results:carbon.cabin.economy", placeholders: [], plural: false)
+                public static let first = LKey("results:carbon.cabin.first", placeholders: [], plural: false)
+                public static let premium_economy = LKey("results:carbon.cabin.premium_economy", placeholders: [], plural: false)
+            }
+            public static let carKm = LKey("results:carbon.carKm", placeholders: ["km"], plural: false)
+            public enum cat {
+                public static let activities = LKey("results:carbon.cat.activities", placeholders: [], plural: false)
+                public static let flights = LKey("results:carbon.cat.flights", placeholders: [], plural: false)
+                public static let food = LKey("results:carbon.cat.food", placeholders: [], plural: false)
+                public static let ground = LKey("results:carbon.cat.ground", placeholders: [], plural: false)
+                public static let stays = LKey("results:carbon.cat.stays", placeholders: [], plural: false)
+            }
+            public static let close = LKey("results:carbon.close", placeholders: [], plural: false)
+            public enum diet {
+                public static let label = LKey("results:carbon.diet.label", placeholders: [], plural: false)
+                public static let meat_heavy = LKey("results:carbon.diet.meat_heavy", placeholders: [], plural: false)
+                public static let mixed = LKey("results:carbon.diet.mixed", placeholders: [], plural: false)
+                public static let pescatarian = LKey("results:carbon.diet.pescatarian", placeholders: [], plural: false)
+                public static let vegan = LKey("results:carbon.diet.vegan", placeholders: [], plural: false)
+                public static let vegetarian = LKey("results:carbon.diet.vegetarian", placeholders: [], plural: false)
+            }
+            public static let error = LKey("results:carbon.error", placeholders: [], plural: false)
+            public static let how = LKey("results:carbon.how", placeholders: [], plural: false)
+            public static let howIntro = LKey("results:carbon.howIntro", placeholders: [], plural: false)
+            public static let kg = LKey("results:carbon.kg", placeholders: ["kg"], plural: false)
+            public enum line {
+                public static let activity_estimate = LKey("results:carbon.line.activity_estimate", placeholders: ["km", "mode", "name"], plural: false)
+                public static let flight_factor = LKey("results:carbon.line.flight_factor", placeholders: ["km", "route"], plural: false)
+                public static let flight_tim = LKey("results:carbon.line.flight_tim", placeholders: ["route"], plural: false)
+                public static let hotel_nights = LKey("results:carbon.line.hotel_nights", placeholders: ["city", "nights", "rooms"], plural: false)
+                public static let intercity = LKey("results:carbon.line.intercity", placeholders: ["km", "mode", "route"], plural: false)
+                public static let local_estimate = LKey("results:carbon.line.local_estimate", placeholders: ["km"], plural: false)
+                public static let local_measured = LKey("results:carbon.line.local_measured", placeholders: ["km"], plural: false)
+                public static let meals = LKey("results:carbon.line.meals", placeholders: ["days", "diet", "travellers"], plural: false)
+            }
+            public static let linesTitle = LKey("results:carbon.linesTitle", placeholders: [], plural: false)
+            public static let liveData = LKey("results:carbon.liveData", placeholders: [], plural: false)
+            public static let loading = LKey("results:carbon.loading", placeholders: [], plural: false)
+            public enum method {
+                public static let estimate = LKey("results:carbon.method.estimate", placeholders: [], plural: false)
+                public static let factor = LKey("results:carbon.method.factor", placeholders: [], plural: false)
+                public static let measured_tim = LKey("results:carbon.method.measured_tim", placeholders: [], plural: false)
+            }
+            public enum mode {
+                public static let bus_local = LKey("results:carbon.mode.bus_local", placeholders: [], plural: false)
+                public static let car_average = LKey("results:carbon.mode.car_average", placeholders: [], plural: false)
+                public static let coach = LKey("results:carbon.mode.coach", placeholders: [], plural: false)
+                public static let ferry_foot = LKey("results:carbon.mode.ferry_foot", placeholders: [], plural: false)
+                public static let light_rail_tram = LKey("results:carbon.mode.light_rail_tram", placeholders: [], plural: false)
+                public static let metro = LKey("results:carbon.mode.metro", placeholders: [], plural: false)
+                public static let rail_international = LKey("results:carbon.mode.rail_international", placeholders: [], plural: false)
+                public static let rail_national = LKey("results:carbon.mode.rail_national", placeholders: [], plural: false)
+                public static let taxi_vehicle = LKey("results:carbon.mode.taxi_vehicle", placeholders: [], plural: false)
+            }
+            public static let perPerson = LKey("results:carbon.perPerson", placeholders: ["kg"], plural: false)
+            public static let railHint = LKey("results:carbon.railHint", placeholders: ["kg", "km", "route"], plural: false)
+            public static let sourcesTitle = LKey("results:carbon.sourcesTitle", placeholders: [], plural: false)
+            public static let title = LKey("results:carbon.title", placeholders: [], plural: false)
+            public static let total = LKey("results:carbon.total", placeholders: ["kg"], plural: false)
+        }
         public enum common {
             public static let close = LKey("results:common.close", placeholders: [], plural: false)
         }
@@ -3155,6 +3242,18 @@ public enum K {
             public static let printThis = LKey("results:emergency.printThis", placeholders: [], plural: false)
             public static let touristPolice = LKey("results:emergency.touristPolice", placeholders: [], plural: false)
             public static let verify = LKey("results:emergency.verify", placeholders: [], plural: false)
+        }
+        public enum emissions {
+            public static let attribution = LKey("results:emissions.attribution", placeholders: [], plural: false)
+            public static let chip = LKey("results:emissions.chip", placeholders: ["kg"], plural: false)
+            public enum `class` {
+                public static let business = LKey("results:emissions.class.business", placeholders: [], plural: false)
+                public static let economy = LKey("results:emissions.class.economy", placeholders: [], plural: false)
+                public static let first = LKey("results:emissions.class.first", placeholders: [], plural: false)
+                public static let premiumEconomy = LKey("results:emissions.class.premiumEconomy", placeholders: [], plural: false)
+            }
+            public static let classLine = LKey("results:emissions.classLine", placeholders: ["cls", "kg"], plural: false)
+            public static let perPassenger = LKey("results:emissions.perPassenger", placeholders: [], plural: false)
         }
         public enum events {
             public static let error = LKey("results:events.error", placeholders: [], plural: false)

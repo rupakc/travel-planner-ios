@@ -6,7 +6,7 @@ import SwiftUI
 import VoyagerEnv
 import VoyagerModel
 
-/// Plan tools above the sections once the search is done: remix, best-value package, budget planner.
+/// Plan tools above the sections once the search is done: remix, best-value package, budget planner, carbon footprint.
 /// The signature below is what `ResultsView` calls.
 struct PlanToolsPanel: View {
     let env: AppEnvironment
@@ -23,7 +23,15 @@ struct PlanToolsPanel: View {
 
     var body: some View {
         Group {
-            if state.done, state.readyCount > 0 { content(box.model(env: env)) }
+            if state.done {
+                if state.readyCount > 0 {
+                    content(box.model(env: env))
+                } else {
+                    // As on the web: the footprint card shows once the search is done, even with no good section
+                    // (meals only, or the card's own error).
+                    carbonCard(searchData: state.searchData ?? env.plan.searchData, results: state.latestResults)
+                }
+            }
         }
         .onDisappear { box.existing?.cancel() }
     }
@@ -55,9 +63,19 @@ struct PlanToolsPanel: View {
                     onReset: { tools.resetBudget() },
                     onFindCheaper: { tools.findCheaperHotels(maxNightly: $0, searchData: searchData) })
             }
+            carbonCard(searchData: searchData, results: results)
         }
         .toast(Binding(get: { tools.toast }, set: { tools.toast = $0 }))
         .accessibilityIdentifier("results.planTools")
+    }
+}
+
+extension PlanToolsPanel {
+    private func carbonCard(searchData: JSONValue?, results: JSONValue) -> some View {
+        CarbonFootprintCard(
+            mode: .results, available: env.carbon.isAvailable,
+            makeBody: { CarbonRequest.fromResults(searchData: searchData, results: results, diet: $0) },
+            load: { [env] body in await env.carbon.trip(body) })
     }
 }
 

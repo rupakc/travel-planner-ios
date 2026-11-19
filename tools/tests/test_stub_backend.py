@@ -274,3 +274,22 @@ def test_legacy_plan_share_create_list_and_revoke():
     assert _call(httpd, "DELETE", "/api/plans/1/share") == (200, {"success": True})
     assert _call(httpd, "GET", "/api/shares")[1]["legacy_plan_shares"] == []
     assert _call(httpd, "POST", "/api/plans/99/share")[0] == 404
+
+
+def test_carbon_flag_and_trip_report():
+    httpd = _serve()
+    try:
+        _, config = _call(httpd, "GET", "/api/config")
+        assert config["features"]["carbon"] == 1
+        status, report = _call(httpd, "POST", "/api/carbon/trip", {"diet": "mixed", "flights": []})
+        assert status == 200 and report["total_kg"] == 420 and report["categories"][0]["key"] == "flights"
+        assert _call(httpd, "POST", "/api/carbon/trip", ["not", "an", "object"])[0] == 422
+    finally:
+        httpd.shutdown()
+
+
+
+def test_carbon_module_loads_beside_a_phase():
+    assert server.ALL_PHASES[-1] == "carbon"
+    _, config = server.Stub(("phase4", "carbon")).dispatch("GET", "/api/config", {}, None)
+    assert config["features"]["carbon"] == 1 and config["features"]["sharing"] == 1

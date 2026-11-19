@@ -19,12 +19,14 @@ public struct RemoteFeatures: Sendable, Hashable {
     public var social: Bool
     public var play: Bool
     public var game: Bool
+    /// `carbon`: `POST /api/carbon/trip` exists (the trip footprint card).
+    public var carbon: Bool
 
     /// Everything off.
     public init(
         alertsAPI: Int = 0, priceAlertsV2: Bool = false, livePrices: Bool = false, sharing: Int = 0,
         notificationsAPI: Int = 0, notificationsV2: Bool = false, apns: Bool = false,
-        social: Bool = false, play: Bool = false, game: Bool = false
+        social: Bool = false, play: Bool = false, game: Bool = false, carbon: Bool = false
     ) {
         self.alertsAPI = alertsAPI
         self.priceAlertsV2 = priceAlertsV2
@@ -36,6 +38,7 @@ public struct RemoteFeatures: Sendable, Hashable {
         self.social = social
         self.play = play
         self.game = game
+        self.carbon = carbon
     }
 
     public init(features: [String: JSONValue]) {
@@ -49,7 +52,7 @@ public struct RemoteFeatures: Sendable, Hashable {
             alertsAPI: level("alerts_api"), priceAlertsV2: flag("price_alerts_v2"), livePrices: flag("live_prices"),
             sharing: level("sharing"), notificationsAPI: level("notifications_api"),
             notificationsV2: flag("notifications_v2"), apns: flag("apns"),
-            social: flag("social"), play: flag("play"), game: flag("game"))
+            social: flag("social"), play: flag("play"), game: flag("game"), carbon: flag("carbon"))
     }
 
     /// `nil` (config not loaded, or an older backend) means everything off.

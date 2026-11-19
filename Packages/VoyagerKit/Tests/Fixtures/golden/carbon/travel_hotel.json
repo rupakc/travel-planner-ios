@@ -1,0 +1,11 @@
+{
+  "args": [
+    {
+      "hotel": {
+        "name": "H"
+      }
+    }
+  ],
+  "fn": "selectionsHaveTravel",
+  "output": true
+}

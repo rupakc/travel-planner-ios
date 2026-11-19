@@ -95,6 +95,12 @@ public protocol NearbyRepository: Sendable {
     func nearby(_ request: NearbyRequest) async throws -> NearbyResponse
 }
 
+/// `POST /api/carbon/trip` (pure computation on the server; 404 when the feature is off). The body and the answer
+/// are open JSON: `Domain.CarbonRequest` builds the body, `Domain.CarbonReport` reads the answer.
+public protocol CarbonRepository: Sendable {
+    func trip(_ body: JSONValue) async throws -> JSONValue
+}
+
 public protocol DevicesRepository: Sendable {
     func register(_ registration: DeviceRegistration) async throws -> Device
     /// The API wraps the list as `{"items": [...]}`; the live repo unwraps `items`.

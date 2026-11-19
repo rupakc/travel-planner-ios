@@ -1,0 +1,20 @@
+{
+  "args": [
+    {
+      "diet": "keto",
+      "results": {},
+      "searchData": null
+    }
+  ],
+  "fn": "carbonRequestFromResults",
+  "output": {
+    "diet": "mixed",
+    "results": {
+      "flights": {},
+      "hotels": {
+        "results": []
+      }
+    },
+    "search": {}
+  }
+}

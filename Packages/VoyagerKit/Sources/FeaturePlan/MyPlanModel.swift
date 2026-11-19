@@ -89,6 +89,11 @@ final class MyPlanModel {
     /// The server has share links 2.0 (`features.sharing >= 1`): Share opens the sheet instead of making a bare link.
     var usesShareSheet: Bool { RemoteFeatures(config: env.clientConfig).hasSharingV2 }
 
+    /// The footprint card shows only when the server has `POST /api/carbon/trip` (`features.carbon`).
+    var carbonAvailable: Bool { env.carbon.isAvailable }
+
+    func carbonTrip(_ body: JSONValue) async -> CarbonFetch { await env.carbon.trip(body) }
+
     /// "Save" for a plan that was never saved, the web's "Save Changes" once it exists.
     var saveLabel: String { isSaved ? L10n.text(K.plan.modal.save) : L10n.text(K.alerts.ui.save) }
 

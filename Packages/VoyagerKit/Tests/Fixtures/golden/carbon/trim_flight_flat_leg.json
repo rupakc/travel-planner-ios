@@ -1,0 +1,19 @@
+{
+  "args": [
+    {
+      "airline": "U2",
+      "destination": "CDG",
+      "leg_index": 0,
+      "origin": "LTN",
+      "price": "95",
+      "stops": 0
+    }
+  ],
+  "fn": "trimFlight",
+  "output": {
+    "destination": "CDG",
+    "leg_index": 0,
+    "origin": "LTN",
+    "stops": 0
+  }
+}

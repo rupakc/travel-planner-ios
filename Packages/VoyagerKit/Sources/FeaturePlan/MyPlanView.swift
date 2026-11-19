@@ -1,4 +1,5 @@
 import DesignSystem
+import Domain
 import L10n
 import SectionsUI
 import SharedUI
@@ -53,6 +54,15 @@ struct MyPlanContent: View {
                     CostBreakdownView(
                         parts: model.costParts, total: model.total, budget: model.budget,
                         showsTransportNote: model.hasUnpricedTransport)
+                }
+                if CarbonRequest.selectionsHaveTravel(model.selections) {
+                    CarbonFootprintCard(
+                        mode: .plan, available: model.carbonAvailable,
+                        makeBody: { [model] diet in
+                            CarbonRequest.fromSelections(
+                                searchData: model.searchData, selections: model.selections, itinerary: model.itinerary, diet: diet)
+                        },
+                        load: { [model] body in await model.carbonTrip(body) })
                 }
                 ForEach(model.groups) { group in
                     GroupCard(group: group) { model.remove($0) }

@@ -32,6 +32,8 @@ public struct Repositories: Sendable {
     /// Social and Play (Phase 5): called only when `features.social` / `features.play` are on.
     public var social: any SocialRepository
     public var play: any PlayRepository
+    /// Trip carbon footprint: called only when `features.carbon` is on.
+    public var carbon: any CarbonRepository
 
     public init(
         plans: any PlansRepository,
@@ -56,7 +58,8 @@ public struct Repositories: Sendable {
         notificationCatalog: any NotificationCatalogRepository,
         shares: any SharesRepository,
         social: any SocialRepository,
-        play: any PlayRepository
+        play: any PlayRepository,
+        carbon: any CarbonRepository
     ) {
         self.plans = plans
         self.preferences = preferences
@@ -81,6 +84,7 @@ public struct Repositories: Sendable {
         self.shares = shares
         self.social = social
         self.play = play
+        self.carbon = carbon
     }
 
     /// The live repositories over one `APIClient` and one `SSEClient`. `locale` is read per request.
@@ -112,6 +116,7 @@ public struct Repositories: Sendable {
                 store: CachedNotificationCatalogRepository.cachesStore()),
             shares: LiveSharesRepository(api: api, locale: locale),
             social: LiveSocialRepository(api: api, locale: locale),
-            play: LivePlayRepository(api: api, locale: locale))
+            play: LivePlayRepository(api: api, locale: locale),
+            carbon: LiveCarbonRepository(api: api))
     }
 }

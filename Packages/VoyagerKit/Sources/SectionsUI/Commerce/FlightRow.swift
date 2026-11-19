@@ -30,6 +30,7 @@ struct FlightRow: View {
                             .font(VFont.body(.caption))
                             .foregroundStyle(SemanticColor.textMuted)
                             .fixedSize(horizontal: false, vertical: true)
+                        EmissionsChip(emissions: flight["emissions"])
                     }
                     Spacer(minLength: Spacing.sm)
                     if flight["source"].string == "google_flights" {
