@@ -9,6 +9,24 @@ import VoyagerModel
 
 @testable import FeatureAlerts
 
+struct PriceStoryLegendTests {
+    @Test func test_typicalRangeComesFromACatalogueTemplate() {
+        LanguageController.withLanguage(.en) {
+            let story = PriceStory(
+                watchId: 1, currency: "USD", target: 300, lowest: PricePoint(at: "2026-11-01T00:00:00Z", price: 280),
+                typical: TypicalRange(low: 320, high: 410))
+            #expect(
+                PriceStoryLegend.parts(story)
+                    == ["Typical range: $320.00–$410.00", "Lowest: $280.00", "Target: $300.00"])
+        }
+        LanguageController.withLanguage(.zh) {
+            let story = PriceStory(watchId: 1, currency: "USD", typical: TypicalRange(low: 320, high: 410))
+            // The colon is the language's own (full-width in Chinese), not a literal ": ".
+            #expect(PriceStoryLegend.parts(story).first?.hasPrefix("常见区间：") == true)
+        }
+    }
+}
+
 @MainActor
 struct PriceStoryTests {
     private func config(alertsAPI: Int = 2) -> ClientConfig {

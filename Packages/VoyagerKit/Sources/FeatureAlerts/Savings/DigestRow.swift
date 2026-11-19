@@ -8,8 +8,10 @@ struct DigestLine: Equatable, Identifiable {
     var id: Int
     var title: String
     var latest: String?
-    /// "−$12.00" / "+$8.00" over the last 7 days; nil when the server had no base to compare with.
+    /// "-$12.00" / "+$8.00" over the last 7 days (sign by the locale); nil when the server had no base to compare with.
     var change: String?
+    /// The 7-day change as a number: the colour follows its sign, never the text.
+    var changeDelta: Double?
     var lowest: String?
 }
 
@@ -23,10 +25,12 @@ enum DigestContent {
             }
             let change = watch.change7d.flatMap { delta -> String? in
                 guard delta != 0 else { return nil }
-                return (delta < 0 ? "−" : "+") + price(abs(delta))
+                return watch.currency.map { Fmt.signedCurrency(delta, code: $0) }
+                    ?? Fmt.number(delta, fractionDigits: 2, signed: true)
             }
             return DigestLine(
                 id: index, title: watch.title ?? "", latest: watch.latest.map(price), change: change,
+                changeDelta: change == nil ? nil : watch.change7d,
                 lowest: watch.lowest.map { L10n.text(K.priceStory.chart.lowest, ["price": price($0)]) })
         }
     }
@@ -89,7 +93,7 @@ struct DigestRow: View {
             }
             if let change = line.change {
                 Text(verbatim: change)
-                    .foregroundStyle(change.hasPrefix("−") ? SemanticColor.primary : SemanticColor.textMuted)
+                    .foregroundStyle((line.changeDelta ?? 0) < 0 ? SemanticColor.primary : SemanticColor.textMuted)
             }
         }
         .font(VFont.body(.subheadline))

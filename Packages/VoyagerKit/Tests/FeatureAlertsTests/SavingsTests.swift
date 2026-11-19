@@ -230,13 +230,13 @@ struct SavingsTests {
             let drop = DropData(from: 500, to: 454, amount: 46, pct: 9.2, currency: "USD", targetHit: false)
             let plain = DropMomentContent(drop: drop, game: nil, showsGame: true)
             #expect(plain.heading == "Price drop caught")
-            #expect(plain.amountText == "−$46.00" && plain.percentText == "−9%")
+            #expect(plain.amountText == "-$46.00" && plain.percentText == "-9%")
             #expect(plain.spoken == "Caught a drop of $46.00 (9%)")
             #expect(plain.fromText == "$500.00" && plain.toText == "$454.00")
             let hit = DropMomentContent(
                 drop: DropData(from: 500, to: 454, amount: 46, pct: 9.2, currency: "EUR", targetHit: true), game: nil, showsGame: true)
             #expect(hit.heading == "Your target price is here" && hit.targetHit)
-            #expect(hit.amountText == "−€46.00")
+            #expect(hit.amountText == "-€46.00")
         }
     }
 
@@ -318,7 +318,7 @@ struct SavingsTests {
             }
             let lines = DigestContent.lines(digest)
             #expect(lines.count == 3)
-            #expect(lines[0].title == "Lumen Hotel" && lines[0].latest == "€352.00" && lines[0].change == "−€12.50")
+            #expect(lines[0].title == "Lumen Hotel" && lines[0].latest == "€352.00" && lines[0].change == "-€12.50" && lines[0].changeDelta == -12.5)
             #expect(lines[0].lowest == "Lowest: €340.00")
             // No currency known: a plain number, never a guessed symbol. Unknown kinds and missing titles still give a line.
             #expect(lines[1].title == "Mystery" && lines[1].latest == "99.50" && lines[1].change == "+8.00")

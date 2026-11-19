@@ -42,7 +42,7 @@ struct DropMomentCard: View {
                 .font(VFont.display(.title2)).foregroundStyle(SemanticColor.primary)
                 .minimumScaleFactor(0.6).lineLimit(1)
             if !content.percentText.isEmpty {
-                Text(verbatim: "(\(content.percentText))")
+                Text(verbatim: L10n.text(K.dropMoment.percentInline, ["percent": content.percentText]))
                     .font(VFont.body(.subheadline, weight: .semibold)).foregroundStyle(SemanticColor.primary)
             }
         }

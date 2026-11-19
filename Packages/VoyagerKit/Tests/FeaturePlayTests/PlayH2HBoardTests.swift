@@ -145,6 +145,16 @@ struct PlayH2HBoardTests {
         #expect(events.last?.props["winner"] == .string("you"))
     }
 
+    @Test func test_overlappingMatchLoadsShareOneFetch() async {
+        let fakes = FakeRepositories()
+        fakes.play.onMatches.returns([match(state: .waitingYou)])
+        let model = H2HMatchModel(env: env(fakes), matchID: "m1", track: { _ in })
+        async let first: Void = model.load()
+        async let second: Void = model.load()
+        _ = await (first, second)
+        #expect(fakes.play.onMatches.callCount == 1)
+    }
+
     @Test func test_matchNotInTheListIsMissing() async {
         let fakes = FakeRepositories()
         fakes.play.onMatches.returns([match("other", state: .waitingYou)])
@@ -303,6 +313,19 @@ struct PlayH2HBoardTests {
         let model = BoardModel(env: env(fakes), track: { _ in })
         await model.load()
         #expect(model.rows.isEmpty && model.showsUnranked && model.mineText == nil)
+    }
+
+    @Test func test_privateProfileOnTheGlobalBoardExplainsItself() async {
+        let fakes = FakeRepositories()
+        fakes.play.onLeaderboard.returns(board(you: BoardYou(rank: nil, score: 0, optedIn: true)))
+        fakes.social.onProfile.returns(OwnProfile(handle: "sam", visibility: .private, leaderboardOptIn: true))
+        let model = BoardModel(env: env(fakes), track: { _ in })
+        await model.select(scope: .global)
+        #expect(model.showsPrivateProfileNote && !model.showsUnranked)
+        // A visible profile that simply has no score yet still says "unranked".
+        fakes.social.onProfile.returns(OwnProfile(handle: "sam", visibility: .public, leaderboardOptIn: true))
+        await model.load()
+        #expect(!model.showsPrivateProfileNote && model.showsUnranked)
     }
 
     @Test func test_boardFailureIsShownNotThrown() async {
