@@ -330,6 +330,16 @@ struct IdeaFlowsTests {
         #expect(IdeaFailure(SocialService.Unavailable()).unavailable)
     }
 
+    @Test func test_backendCodesWithEnglishTextAreTranslated() {
+        func message(_ code: SocialFailure, detail: String) -> String {
+            IdeaFailure(failure: code, kind: .other, detail: detail).message
+        }
+        #expect(message(.textInvalid, detail: "Text is invalid.") == L10n.text(K.social.errors.content_rejected))
+        #expect(message(.handleRateLimited, detail: "Handle changed too recently.") == L10n.text(K.social.errors.handle_rate_limited))
+        #expect(message(.snapshotTooLarge, detail: "Snapshot too large.") == L10n.text(K.errors.generic))
+        #expect(message(.emailUnverified, detail: "Verify email.") == L10n.text(K.social.errors.email_unverified))
+    }
+
     struct SocialFailureSample {
         let failure: IdeaFailure
         init(_ error: APIError) { failure = IdeaFailure(error) }

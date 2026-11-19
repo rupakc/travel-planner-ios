@@ -56,6 +56,10 @@ struct IdeaFailure: Error, Equatable {
         case .profileNotFound: L10n.text(K.social.errors.profile_not_found)
         case .notFound: L10n.text(K.social.errors.not_found)
         case .cannotBlockSelf: L10n.text(K.social.errors.cannot_block_self)
+        case .textInvalid: L10n.text(K.social.errors.content_rejected)
+        case .handleRateLimited: L10n.text(K.social.errors.handle_rate_limited)
+        // No catalogue line for this one: the generic text, never the backend's English.
+        case .snapshotTooLarge: ErrorCopy.message(kind: kind, detail: nil)
         case .titleInvalid: L10n.text(K.socialShare.errors.title_invalid)
         case .planNotFound: L10n.text(K.socialShare.errors.plan_not_found)
         default: ErrorCopy.message(kind: kind, detail: detail)

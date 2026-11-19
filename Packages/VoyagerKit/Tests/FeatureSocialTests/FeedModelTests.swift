@@ -164,6 +164,34 @@ struct FeedModelTests {
         #expect(r.model.visible.map(\.id) == ["b"])
     }
 
+    @Test func test_feedBlockTracksSocialBlock() async {
+        let r = rig { $0.social.onFeed.returns(IdeaPage(ideas: [Self.idea("a")])); $0.social.onBlock.returns(()) }
+        await r.model.start()
+        await r.model.block(handle: "ana_a", ideaID: "a")
+        #expect(r.events.all.contains { if case .socialBlock(let on) = $0 { on } else { false } })
+    }
+
+    @Test func test_failedFeedBlockShowsOnTheCardAndKeepsIt() async {
+        let r = rig {
+            $0.social.onFeed.returns(IdeaPage(ideas: [Self.idea("a"), Self.idea("b")]))
+            $0.social.onBlock.fails(APIError.network)
+        }
+        await r.model.start()
+        await r.model.block(handle: "ana_a", ideaID: "a")
+        #expect(r.model.actionFailure["a"] != nil && r.model.actionFailure["b"] == nil)
+        #expect(r.model.visible.map(\.id) == ["a", "b"])
+        #expect(!r.events.all.contains { if case .socialBlock = $0 { true } else { false } })
+    }
+
+    @Test func test_profilePromptGoesAwayOnceAProfileExists() async {
+        let r = rig()
+        await r.model.start()
+        #expect(r.model.showsProfilePrompt)
+        r.fakes.social.onProfile.returns(OwnProfile(handle: "ana"))
+        await r.model.start()  // back on the screen after the editor
+        #expect(!r.model.showsProfilePrompt)
+    }
+
     @Test func test_profilePromptWhenNoHandle() async {
         let r = rig()
         await r.model.start()

@@ -37,6 +37,18 @@ struct ProfileModelTests {
 
     // MARK: Editor
 
+    @Test func test_gameSwitchesFollowPlaysGameHiddenAnswer() async {
+        let fakes = FakeRepositories()
+        fakes.play.onState.fails(APIError.forbidden("Play and points are hidden in your account."))
+        let environment = AppEnvironment.fake(
+            user: User(username: "sam"), fakes: fakes,
+            clientConfig: ClientConfig(features: ["social": .number(1), "play": .number(1), "game": .number(1)]))
+        #expect(ProfileEditorModel.defaultGameVisibility(env: environment).showsGame, "visible until the server says otherwise")
+        _ = try? await environment.play.call { try await $0.state() }
+        #expect(environment.play.isHiddenByServer)
+        #expect(!ProfileEditorModel.defaultGameVisibility(env: environment).showsGame)
+    }
+
     @Test func test_everyToggleDefaultsOff() async {
         let model = editor(env())
         await model.load()
