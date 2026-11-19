@@ -19,6 +19,8 @@ final class PreferencesModel {
     ]
     nonisolated static let accessIDs = ["wheelchair", "visual_impairment", "hearing_impairment", "cognitive_disability"]
     nonisolated static let maxPerGroup = 20
+    /// The backend's `num_travelers` limit: the four groups together, not each alone (a larger total is a 422).
+    nonisolated static let maxTotal = 20
 
     private let env: AppEnvironment
     @ObservationIgnored private let track: (TelemetryEvent) -> Void
@@ -80,7 +82,34 @@ final class PreferencesModel {
             children = Self.clamp(prefs.children)
             seniors = Self.clamp(prefs.seniors)
             infants = Self.clamp(prefs.infants)
+            capTotal()
         }
+    }
+
+    /// Saved data from before the total was capped: trims infants, seniors, children, then adults until it fits.
+    private func capTotal() {
+        var excess = adults + children + seniors + infants - Self.maxTotal
+        guard excess > 0 else { return }
+        for group in [TravelerGroup.infants, .seniors, .children, .adults] where excess > 0 {
+            let cut = min(count(group), excess)
+            setRaw(group, count(group) - cut)
+            excess -= cut
+        }
+    }
+
+    private func setRaw(_ group: TravelerGroup, _ value: Int) {
+        switch group {
+        case .adults: adults = value
+        case .children: children = value
+        case .seniors: seniors = value
+        case .infants: infants = value
+        }
+    }
+
+    /// The most `group` can be raised to: the per-group limit, and what is left of the total after the other groups.
+    func maxCount(for group: TravelerGroup) -> Int {
+        let others = adults + children + seniors + infants - count(group)
+        return min(Self.maxPerGroup, max(0, Self.maxTotal - others))
     }
 
     private static func clamp(_ value: Int?) -> Int { min(max(value ?? 0, 0), maxPerGroup) }
@@ -156,13 +185,7 @@ final class PreferencesModel {
     }
 
     func setCount(_ group: TravelerGroup, _ value: Int) {
-        let next = min(max(value, 0), Self.maxPerGroup)
-        switch group {
-        case .adults: adults = next
-        case .children: children = next
-        case .seniors: seniors = next
-        case .infants: infants = next
-        }
+        setRaw(group, min(max(value, 0), maxCount(for: group)))
     }
 
     func count(_ group: TravelerGroup) -> Int {

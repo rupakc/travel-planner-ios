@@ -53,6 +53,28 @@ struct PreferencesModelTests {
         #expect(model.children == 0)
     }
 
+    @Test func test_travellerTotalNeverPassesTheBackendLimit() {
+        let model = PreferencesModel(env: AppEnvironment.fake(), track: { _ in })
+        model.apply(Preferences(adults: 1, children: 0, seniors: 0, infants: 0))
+        model.setCount(.adults, 20)
+        model.setCount(.children, 20)
+        model.setCount(.seniors, 20)
+        model.setCount(.infants, 20)
+        #expect(model.adults == 20 && model.children == 0 && model.seniors == 0 && model.infants == 0)
+        #expect(model.draft().numTravelers == 20)
+        model.setCount(.adults, 15)
+        model.setCount(.children, 20)
+        #expect(model.children == 5 && model.draft().numTravelers == 20)
+        #expect(model.maxCount(for: .infants) == 0 && model.maxCount(for: .adults) == 15)
+    }
+
+    @Test func test_savedTotalAboveTheLimitIsTrimmedOnLoad() {
+        let model = PreferencesModel(env: AppEnvironment.fake(), track: { _ in })
+        model.apply(Preferences(adults: 20, children: 20, seniors: 20, infants: 20))
+        #expect(model.draft().numTravelers == 20)
+        #expect(model.adults == 20)
+    }
+
     @Test func test_legacyNumTravelersOnly() {
         let model = PreferencesModel(env: AppEnvironment.fake(), track: { _ in })
         model.apply(Preferences(numTravelers: 3))
