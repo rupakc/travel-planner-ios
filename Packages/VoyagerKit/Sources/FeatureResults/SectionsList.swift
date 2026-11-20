@@ -31,6 +31,8 @@ extension ResultsState {
     var visibleSections: [SectionID] {
         SectionID.allCases.filter { id in
             guard let entry = sections[id] else { return false }
+            // Place facts: only once facts arrived (an older backend never sends them).
+            if id.isOptional { return entry.hasGoodData && entry.status.isReady }
             switch entry.status {
             case .waiting: return false
             case .loading, .error: return true
@@ -135,6 +137,7 @@ extension SectionID {
         case .visa: "doc.text"
         case .sim: "simcard"
         case .tips: "lightbulb"
+        case .facts: "book"
         case .emergencyCard: "cross.case"
         case .gettingAround: "tram"
         case .forex: "dollarsign.circle"

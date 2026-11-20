@@ -77,7 +77,7 @@ struct ResultsHeader: View {
 
     private var progressText: String {
         if state.done { return L10n.text(K.sections.page.ready) }
-        let total = SectionID.allCases.count
+        let total = SectionID.agentOrder.count
         return L10n.text(K.sections.page.almostThere, ["done": String(state.completedCount), "total": String(total)])
     }
 

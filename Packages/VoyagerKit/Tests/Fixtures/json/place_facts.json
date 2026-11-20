@@ -1,0 +1,54 @@
+{
+  "places": [
+    {
+      "key": "city:2950159", "scope": "city", "name": "Berlin", "country": "DE", "country_name": "Germany",
+      "destination": "Berlin, Germany", "geonames_id": 2950159,
+      "groups": {
+        "historical": [
+          {"id": "c:1", "fact_type": "historical", "text": "Berlin was founded in 1237.", "origin": "crawler",
+           "source": "crawler", "date_ref": "1237", "lang": "en", "value_lang": null, "machine_translated": false,
+           "confidence": "structured",
+           "citation": {"source_id": "od-wikidata-entitydata", "name": "Wikidata",
+                        "publisher": "Wikidata contributors (Wikimedia Foundation)",
+                        "url": "https://www.wikidata.org/wiki/Q64#P571", "as_of": "2026-11-20T08:00:00Z",
+                        "licence": "open", "attribution": "Wikidata (CC0 1.0)",
+                        "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/", "conflict": false}}
+        ],
+        "fun": [
+          {"id": "a:2", "fact_type": "fun", "text": "Berlin has a museum just for currywurst.", "origin": "ai",
+           "source": "ai", "verified": false, "citation": null}
+        ],
+        "popular": [
+          {"id": "c:3", "fact_type": "popular", "text": "Berlin’s motto is “Berlin bleibt doch Berlin”.",
+           "origin": "crawler", "lang": "en", "value_lang": "de", "machine_translated": true,
+           "citation": {"name": "Wikidata", "url": "javascript:alert(1)", "licence": "open",
+                        "attribution": "Wikidata (CC0 1.0)", "licence_url": "http://example.org/licence", "conflict": true}}
+        ],
+        "unbelievable": [
+          {"id": "a:1", "fact_type": "unbelievable", "text": "Berlin has more bridges than Venice.", "origin": "ai",
+           "source": "ai", "verified": false, "citation": {"name": "Leaked", "url": "https://example.com"}},
+          {"id": "a:9", "fact_type": "unbelievable", "text": "   ", "origin": "ai"},
+          "not a fact"
+        ],
+        "little_known": []
+      }
+    },
+    {
+      "key": "country:DE", "scope": "country", "name": "Germany",
+      "groups": {
+        "historical": [], "fun": [], "unbelievable": [], "little_known": [],
+        "popular": [
+          {"id": "c:10", "fact_type": "popular", "text": "Germany has about 83 million people.", "origin": "crawler",
+           "citation": {"source_id": "cia-factbook", "as_of": "2026"}}
+        ]
+      }
+    },
+    {"key": "region:DE.02", "scope": "region", "name": "Bavaria",
+     "groups": {"historical": [], "fun": [], "popular": [], "unbelievable": [], "little_known": []}},
+    {"key": "odd", "name": "No groups"},
+    "junk"
+  ],
+  "fact_types": ["historical", "fun", "popular", "unbelievable", "little_known"],
+  "counts": {"crawler": 3, "ai": 2},
+  "verification": {"level": "partial", "label": "Partly sourced", "summary": "", "checks": [], "pending": false}
+}

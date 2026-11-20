@@ -26,11 +26,11 @@ public enum Selections {
     /// Fields that hold a list, and the key each list dedupes by.
     static let listKeys: [String: String] = [
         "activities": "name", "places_to_see": "name", "events": "name", "getting_around": "name",
-        "tips": "title", "walking_tours": "url", "itinerary_slots": "key",
+        "tips": "title", "walking_tours": "url", "itinerary_slots": "key", "place_facts": "id",
     ]
 
     /// Toggle `item` in `field`: lists add or remove it (deduped by `name`, `title` for tips, `url` for walking
-    /// tours, `key` for itinerary slots); `flights` keeps one fare per `leg_index` (picking another fare on the
+    /// tours, `key` for itinerary slots, `id` for place facts); `flights` keeps one fare per `leg_index` (picking another fare on the
     /// leg replaces it, picking the same one deselects it); any other field is set to `item`.
     public static func toggle(_ selections: JSONValue, field: String, item: JSONValue) -> JSONValue {
         if let idKey = listKeys[field] {
@@ -75,8 +75,8 @@ public enum Selections {
         func one(_ key: String) -> Int { selections[key].isTruthy ? 1 : 0 }
         func many(_ key: String) -> Int { selections[key].array?.count ?? 0 }
         return one("flight") + many("flights") + one("hotel") + many("activities") + many("places_to_see")
-            + many("walking_tours") + one("sim") + many("getting_around") + many("tips") + many("events")
-            + many("itinerary_slots") + one("packing_list")
+            + many("walking_tours") + one("sim") + many("getting_around") + many("tips") + many("place_facts")
+            + many("events") + many("itinerary_slots") + one("packing_list")
     }
 
     /// Identity of per-leg flight selections (`sameFlight`): leg, price, airline and flight number.

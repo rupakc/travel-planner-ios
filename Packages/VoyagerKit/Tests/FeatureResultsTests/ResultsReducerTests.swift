@@ -16,9 +16,9 @@ final class ResultsReducerTests: XCTestCase {
 
     func test_initialStatuses() {
         let state = ResultsState()
-        XCTAssertEqual(state.sections.count, 16)
+        XCTAssertEqual(state.sections.count, 17)
         for id in SectionID.allCases {
-            let expected: SectionStatus = [.itinerary, .stressTest, .packingList].contains(id) ? .waiting : .loading
+            let expected: SectionStatus = [.itinerary, .stressTest, .packingList, .facts].contains(id) ? .waiting : .loading
             XCTAssertEqual(state.status(id), expected, id.rawValue)
         }
     }
@@ -82,7 +82,7 @@ final class ResultsReducerTests: XCTestCase {
         state = ResultsReducer.reduce(state, section("pricing_advisor", ["route": "A"]))
         XCTAssertEqual(state.confidence?["grade"].string, "green")
         XCTAssertEqual(state.pricing?["route"].string, "A")
-        XCTAssertEqual(state.sections.count, 16)
+        XCTAssertEqual(state.sections.count, 17)
     }
 
     func test_streamEndMarksDone() {
@@ -91,6 +91,89 @@ final class ResultsReducerTests: XCTestCase {
         state = ResultsReducer.reduce(state, .done)
         XCTAssertTrue(state.done)
         for id in SectionID.allCases { XCTAssertEqual(state.status(id), .done, id.rawValue) }
+    }
+
+    // MARK: - Place facts (optional section)
+
+    private static let facts: JSONValue = [
+        "places": [[
+            "key": "city:1", "scope": "city", "name": "Berlin",
+            "groups": ["historical": [["id": "c:1", "text": "Founded in 1237.", "origin": "crawler"]]],
+        ]],
+    ]
+
+    private static let merged: JSONValue = [
+        "places": [[
+            "key": "city:1", "scope": "city", "name": "Berlin",
+            "groups": [
+                "historical": [["id": "c:1", "text": "Founded in 1237.", "origin": "crawler"]],
+                "fun": [["id": "a:1", "text": "A currywurst museum.", "origin": "ai"]],
+            ],
+        ]],
+    ]
+
+    func test_factsStayHiddenWithoutFacts() {
+        var state = ResultsState()
+        XCTAssertFalse(state.visibleSections.contains(.facts))
+        state = ResultsReducer.reduce(state, .done)
+        XCTAssertNil(state.data(.facts))
+        XCTAssertFalse(state.visibleSections.contains(.facts), "an older backend never sends facts")
+    }
+
+    func test_crawlerFactsEnhanceThenAiFinishes() {
+        var state = ResultsReducer.reduce(ResultsState(), section("facts", Self.facts, source: .crawler))
+        XCTAssertEqual(state.status(.facts), .enhancing)
+        XCTAssertTrue(state.visibleSections.contains(.facts))
+        state = ResultsReducer.reduce(state, section("facts", Self.merged, source: .ai))
+        XCTAssertEqual(state.status(.facts), .done)
+        XCTAssertEqual(state.data(.facts), Self.merged)
+    }
+
+    func test_lateCrawlerFactsNeverReplaceAiFacts() {
+        var state = ResultsReducer.reduce(ResultsState(), section("facts", Self.merged, source: .ai))
+        state = ResultsReducer.reduce(state, section("facts", Self.facts, source: .crawler))
+        XCTAssertEqual(state.status(.facts), .done)
+        XCTAssertEqual(state.data(.facts), Self.merged)
+    }
+
+    func test_crawlerOnlyFactsAreDoneAtStreamEnd() {
+        var state = ResultsReducer.reduce(ResultsState(), section("facts", Self.facts, source: .crawler))
+        state = ResultsReducer.reduce(state, .done)
+        XCTAssertEqual(state.status(.facts), .done)
+        XCTAssertEqual(state.data(.facts), Self.facts)
+    }
+
+    func test_factsErrorNeverShowsOrReplacesFacts() {
+        var state = ResultsReducer.reduce(ResultsState(), section("facts", ["error": "boom", "error_code": "ai_limit"]))
+        XCTAssertEqual(state.status(.facts), .waiting)
+        XCTAssertNil(state.banner, "a facts error is never a banner")
+        XCTAssertFalse(state.visibleSections.contains(.facts))
+        state = ResultsReducer.reduce(state, section("facts", Self.facts, source: .crawler))
+        state = ResultsReducer.reduce(state, section("facts", ["error": "no_facts"]))
+        state = ResultsReducer.reduce(state, section("facts", ["places": []]))
+        XCTAssertEqual(state.data(.facts), Self.facts, "crawler facts stay")
+    }
+
+    func test_factsAreNotCountedInProgress() {
+        var state = ResultsReducer.reduce(ResultsState(), section("facts", Self.merged))
+        XCTAssertEqual(state.completedCount, 0)
+        state = ResultsReducer.reduce(state, section("visa", ["requirement": [:]], source: .static))
+        XCTAssertEqual(state.completedCount, 1)
+        XCTAssertEqual(SectionID.agentOrder.count, 16)
+    }
+
+    func test_failedStreamKeepsFactsHiddenOrDone() {
+        let empty = ResultsReducer.failed(ResultsState(), message: "Slow down")
+        XCTAssertEqual(empty.status(.facts), .waiting)
+        XCTAssertFalse(empty.visibleSections.contains(.facts))
+        let withFacts = ResultsReducer.failed(
+            ResultsReducer.reduce(ResultsState(), section("facts", Self.facts, source: .crawler)), message: "Slow down")
+        XCTAssertEqual(withFacts.status(.facts), .done)
+    }
+
+    func test_factsEventIsASection() {
+        let event = SearchStreamEvent(json: ["type": "facts", "source": "crawler", "data": Self.facts])
+        XCTAssertEqual(event, .section(type: "facts", source: .crawler, data: Self.facts))
     }
 
     func test_unknownIgnored() {

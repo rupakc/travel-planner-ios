@@ -16,6 +16,7 @@ public enum SectionRegistry {
         case .visa: AnyView(VisaSectionView(data: data, ctx: ctx))
         case .sim: AnyView(SimSectionView(data: data, ctx: ctx))
         case .tips: AnyView(TipsSectionView(data: data, ctx: ctx))
+        case .facts: AnyView(PlaceFactsSectionView(data: data, ctx: ctx))
         case .emergencyCard: AnyView(EmergencyCardSectionView(data: data, ctx: ctx))
         case .gettingAround: AnyView(GettingAroundSectionView(data: data, ctx: ctx))
         case .forex: AnyView(ForexSectionView(data: data, ctx: ctx))

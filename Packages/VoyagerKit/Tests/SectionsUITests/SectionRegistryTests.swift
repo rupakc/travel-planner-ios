@@ -11,7 +11,7 @@ struct SectionRegistryTests {
         #expect(
             SectionID.allCases.map(\.rawValue) == [
                 "flights", "weather", "hotels", "activities", "places_to_see", "walking_tours", "events", "visa", "sim",
-                "tips", "emergency_card", "getting_around", "forex", "itinerary", "stress_test", "packing_list",
+                "tips", "facts", "emergency_card", "getting_around", "forex", "itinerary", "stress_test", "packing_list",
             ])
     }
 
@@ -19,7 +19,9 @@ struct SectionRegistryTests {
         for id in SectionID.allCases {
             _ = SectionRegistry.view(for: id, data: .object([:]), ctx: .inert)
         }
-        #expect(SectionID.allCases.count == 16)
+        #expect(SectionID.allCases.count == 17)
+        #expect(SectionID.agentOrder.count == 16)
+        #expect(SectionID.allCases.filter(\.isOptional) == [.facts])
     }
 
     @Test func test_everyIDHasATitleAndUnavailableCopy() {

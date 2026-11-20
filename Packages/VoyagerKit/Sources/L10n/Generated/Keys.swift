@@ -2496,6 +2496,7 @@ public enum K {
             public static let day = LKey("plan:modal.day", placeholders: ["n"], plural: false)
             public static let delete = LKey("plan:modal.delete", placeholders: [], plural: false)
             public static let empty = LKey("plan:modal.empty", placeholders: [], plural: false)
+            public static let factAi = LKey("plan:modal.factAi", placeholders: [], plural: false)
             public enum flight {
                 public static let bookThis = LKey("plan:modal.flight.bookThis", placeholders: [], plural: false)
                 public static let leg = LKey("plan:modal.flight.leg", placeholders: ["n"], plural: false)
@@ -2527,6 +2528,7 @@ public enum K {
                 public static let gettingAround = LKey("plan:modal.section.gettingAround", placeholders: ["count"], plural: false)
                 public static let hotel = LKey("plan:modal.section.hotel", placeholders: [], plural: false)
                 public static let itinerarySlots = LKey("plan:modal.section.itinerarySlots", placeholders: ["count"], plural: false)
+                public static let placeFacts = LKey("plan:modal.section.placeFacts", placeholders: ["count"], plural: false)
                 public static let sim = LKey("plan:modal.section.sim", placeholders: [], plural: false)
                 public static let tips = LKey("plan:modal.section.tips", placeholders: ["count"], plural: false)
                 public static let walkingTours = LKey("plan:modal.section.walkingTours", placeholders: ["count"], plural: false)
@@ -2551,6 +2553,7 @@ public enum K {
             public static let alsoFromLink = LKey("plan:print.alsoFromLink", placeholders: ["names"], plural: false)
             public static let book = LKey("plan:print.book", placeholders: [], plural: false)
             public static let defaultName = LKey("plan:print.defaultName", placeholders: [], plural: false)
+            public static let factAi = LKey("plan:print.factAi", placeholders: [], plural: false)
             public static let footer = LKey("plan:print.footer", placeholders: [], plural: false)
             public static let fromLink = LKey("plan:print.fromLink", placeholders: [], plural: false)
             public static let getPlan = LKey("plan:print.getPlan", placeholders: [], plural: false)
@@ -2564,6 +2567,7 @@ public enum K {
                 public static let gettingAround = LKey("plan:print.section.gettingAround", placeholders: [], plural: false)
                 public static let hotel = LKey("plan:print.section.hotel", placeholders: [], plural: false)
                 public static let itinerary = LKey("plan:print.section.itinerary", placeholders: [], plural: false)
+                public static let placeFacts = LKey("plan:print.section.placeFacts", placeholders: [], plural: false)
                 public static let places = LKey("plan:print.section.places", placeholders: [], plural: false)
                 public static let sim = LKey("plan:print.section.sim", placeholders: [], plural: false)
                 public static let tips = LKey("plan:print.section.tips", placeholders: [], plural: false)
@@ -3073,6 +3077,10 @@ public enum K {
                 public static let badge = LKey("results:agents.events.badge", placeholders: [], plural: false)
                 public static let label = LKey("results:agents.events.label", placeholders: [], plural: false)
             }
+            public enum facts {
+                public static let badge = LKey("results:agents.facts.badge", placeholders: [], plural: false)
+                public static let label = LKey("results:agents.facts.label", placeholders: [], plural: false)
+            }
             public enum flights {
                 public static let badge = LKey("results:agents.flights.badge", placeholders: [], plural: false)
                 public static let label = LKey("results:agents.flights.label", placeholders: [], plural: false)
@@ -3260,6 +3268,26 @@ public enum K {
             public static let none = LKey("results:events.none", placeholders: [], plural: false)
             public static let planAround = LKey("results:events.planAround", placeholders: [], plural: false)
             public static let typicalSeason = LKey("results:events.typicalSeason", placeholders: [], plural: false)
+        }
+        public enum facts {
+            public static let aiLabel = LKey("results:facts.aiLabel", placeholders: [], plural: false)
+            public static let aiNote = LKey("results:facts.aiNote", placeholders: [], plural: false)
+            public enum group {
+                public static let fun = LKey("results:facts.group.fun", placeholders: [], plural: false)
+                public static let historical = LKey("results:facts.group.historical", placeholders: [], plural: false)
+                public static let little_known = LKey("results:facts.group.little_known", placeholders: [], plural: false)
+                public static let popular = LKey("results:facts.group.popular", placeholders: [], plural: false)
+                public static let unbelievable = LKey("results:facts.group.unbelievable", placeholders: [], plural: false)
+            }
+            public static let groupsLabel = LKey("results:facts.groupsLabel", placeholders: [], plural: false)
+            public static let machineTranslated = LKey("results:facts.machineTranslated", placeholders: [], plural: false)
+            public static let placesLabel = LKey("results:facts.placesLabel", placeholders: [], plural: false)
+            public enum scope {
+                public static let city = LKey("results:facts.scope.city", placeholders: [], plural: false)
+                public static let country = LKey("results:facts.scope.country", placeholders: [], plural: false)
+                public static let place = LKey("results:facts.scope.place", placeholders: [], plural: false)
+                public static let region = LKey("results:facts.scope.region", placeholders: [], plural: false)
+            }
         }
         public enum filter {
             public static let any = LKey("results:filter.any", placeholders: [], plural: false)
@@ -3997,6 +4025,7 @@ public enum K {
             public static let dropLoad = LKey("sections:drawer.dropLoad", placeholders: [], plural: false)
             public static let editingSaved = LKey("sections:drawer.editingSaved", placeholders: [], plural: false)
             public static let events = LKey("sections:drawer.events", placeholders: ["count"], plural: false)
+            public static let factAi = LKey("sections:drawer.factAi", placeholders: [], plural: false)
             public static let flight = LKey("sections:drawer.flight", placeholders: [], plural: false)
             public static let flightsLegs = LKey("sections:drawer.flightsLegs", placeholders: [], plural: true)
             public static let free = LKey("sections:drawer.free", placeholders: [], plural: false)
@@ -4026,10 +4055,12 @@ public enum K {
             public static let notes = LKey("sections:drawer.notes", placeholders: [], plural: false)
             public static let orDrag = LKey("sections:drawer.orDrag", placeholders: [], plural: false)
             public static let outbound = LKey("sections:drawer.outbound", placeholders: [], plural: false)
+            public static let placeFacts = LKey("sections:drawer.placeFacts", placeholders: ["count"], plural: false)
             public static let places = LKey("sections:drawer.places", placeholders: ["count"], plural: false)
             public static let planName = LKey("sections:drawer.planName", placeholders: [], plural: false)
             public static let priceOneWay = LKey("sections:drawer.priceOneWay", placeholders: ["price"], plural: false)
             public static let priceRound = LKey("sections:drawer.priceRound", placeholders: ["price"], plural: false)
+            public static let removeFact = LKey("sections:drawer.removeFact", placeholders: [], plural: false)
             public static let `return` = LKey("sections:drawer.return", placeholders: [], plural: false)
             public static let savePlan = LKey("sections:drawer.savePlan", placeholders: [], plural: false)
             public static let savedPlans = LKey("sections:drawer.savedPlans", placeholders: [], plural: false)
