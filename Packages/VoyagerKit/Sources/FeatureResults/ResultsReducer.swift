@@ -1,3 +1,4 @@
+import Domain
 import Foundation
 import L10n
 import SectionsUI
@@ -31,7 +32,8 @@ public struct ResultsState: Equatable, Sendable {
     /// The plain "AI paused" banner text (`ai_limit` / `ai_billing`), shown once instead of N failures.
     public var banner: String?
 
-    /// The web's initial statuses: the 13 phase-1 sections `loading`; itinerary, stress test and packing list `waiting`.
+    /// The web's initial statuses: the 13 phase-1 sections `loading`; itinerary, stress test and packing list `waiting`;
+    /// the optional place facts `waiting` (hidden) until facts arrive.
     public init(searchData: JSONValue? = nil) {
         var initial: [SectionID: SectionEntry] = [:]
         for id in SectionID.allCases {
@@ -45,7 +47,7 @@ public struct ResultsState: Equatable, Sendable {
         banner = nil
     }
 
-    static let waitingIDs: Set<SectionID> = [.itinerary, .stressTest, .packingList]
+    static let waitingIDs: Set<SectionID> = [.itinerary, .stressTest, .packingList, .facts]
 
     public func status(_ id: SectionID) -> SectionStatus { sections[id]?.status ?? .waiting }
     public func data(_ id: SectionID) -> JSONValue? { sections[id]?.data }
@@ -54,8 +56,10 @@ public struct ResultsState: Equatable, Sendable {
     public var readyCount: Int { sections.values.filter(\.hasGoodData).count }
     /// Sections whose payload is an error.
     public var errorCount: Int { sections.values.filter(\.isErrorData).count }
-    /// The web's "done or enhancing" count.
-    public var completedCount: Int { sections.values.filter { $0.status.isReady }.count }
+    /// The web's "done or enhancing" count, over the sections the progress line counts.
+    public var completedCount: Int {
+        sections.filter { !$0.key.isOptional && $0.value.status.isReady }.count
+    }
 
     /// Section type → payload of every usable result: what `env.plan.latestResults` holds.
     public var latestResults: JSONValue {
@@ -94,11 +98,21 @@ public enum ResultsReducer {
         default:
             // Anything else that is not a tile is ignored, for forward compatibility.
             guard let id = SectionID(rawValue: type) else { return state }
+            if id == .facts { return applyFacts(state, source: source, data: data) }
             if let banner = pausedBanner(data) { next.banner = banner }
             next.sections[id] = entry(after: state.sections[id], source: source, data: data)
             advanceDependents(&next)
             return next
         }
+    }
+
+    /// Place facts: a payload without facts (an error, `no_facts`, an empty list) never replaces facts already
+    /// shown and never shows an error; crawler facts read "Enhancing…" until the AI pass (or the stream end).
+    private static func applyFacts(_ state: ResultsState, source: SectionSource?, data: JSONValue) -> ResultsState {
+        guard !isError(data), PlaceFacts.hasFacts(data) else { return state }
+        var next = state
+        next.sections[.facts] = SectionEntry(status: source == .crawler ? .enhancing : .done, data: data)
+        return next
     }
 
     /// The text of an `ai_limit` / `ai_billing` error: one plain banner instead of N failures.
@@ -162,6 +176,8 @@ public enum ResultsReducer {
         var next = state
         for (id, entry) in state.sections {
             if let data = entry.data { next.sections[id]?.data = clearingPending(data) }
+            // An optional section with nothing to show stays hidden rather than reading as failed.
+            if id.isOptional, !entry.hasGoodData { continue }
             switch entry.status {
             case .waiting, .loading, .enhancing:
                 next.sections[id]?.status = entry.hasGoodData ? .done : .error(message)

@@ -1,15 +1,24 @@
 import DesignSystem
 import L10n
 
-/// The sixteen section tiles, in the web's `AGENT_ORDER`. `confidence` and `pricing_advisor` are separate
-/// events with their own views, not tiles.
+/// The section tiles, in the web's `AGENT_ORDER` (sixteen agents), plus the optional place facts card the web
+/// renders after Tips. `confidence` and `pricing_advisor` are separate events with their own views, not tiles.
 public enum SectionID: String, CaseIterable, Sendable, Identifiable {
     case flights, weather, hotels, activities
     case placesToSee = "places_to_see", walkingTours = "walking_tours", events, visa, sim, tips
+    /// Place facts (travel-planner `docs/Place-Facts.md`): optional, only shown once the backend sends facts.
+    case facts
     case emergencyCard = "emergency_card", gettingAround = "getting_around", forex, itinerary
     case stressTest = "stress_test", packingList = "packing_list"
 
     public var id: String { rawValue }
+
+    /// A section the backend may never send (an older backend has no place facts): it starts hidden, never shows a
+    /// loading or error state, and is not counted in the progress line.
+    public var isOptional: Bool { self == .facts }
+
+    /// The sections the progress line counts (the web's `AGENT_ORDER`).
+    public static var agentOrder: [SectionID] { allCases.filter { !$0.isOptional } }
 
     /// The localised title (`results:agents.<id>.label`, the web's section header text).
     public var title: String {
@@ -28,6 +37,7 @@ public enum SectionID: String, CaseIterable, Sendable, Identifiable {
         case .visa: K.results.agents.visa.label
         case .sim: K.results.agents.sim.label
         case .tips: K.results.agents.tips.label
+        case .facts: K.results.agents.facts.label
         case .emergencyCard: K.results.agents.emergency_card.label
         case .gettingAround: K.results.agents.getting_around.label
         case .forex: K.results.agents.forex.label
@@ -63,6 +73,7 @@ public enum SectionID: String, CaseIterable, Sendable, Identifiable {
         case .visa: "doc.text"
         case .sim: "simcard"
         case .tips: "lightbulb"
+        case .facts: "book"
         case .emergencyCard: "cross.case"
         case .gettingAround: "tram"
         case .forex: "dollarsign.circle"

@@ -290,6 +290,26 @@ def test_carbon_flag_and_trip_report():
 
 
 def test_carbon_module_loads_beside_a_phase():
-    assert server.ALL_PHASES[-1] == "carbon"
+    assert "carbon" in server.ALL_PHASES
     _, config = server.Stub(("phase4", "carbon")).dispatch("GET", "/api/config", {}, None)
     assert config["features"]["carbon"] == 1 and config["features"]["sharing"] == 1
+
+
+def test_place_facts_flag_and_section():
+    httpd = _serve()
+    try:
+        _, config = _call(httpd, "GET", "/api/config")
+        assert config["features"]["place_facts"] == 1
+        status, section = _call(httpd, "POST", "/api/place-facts", {"destination": "Berlin"})
+        assert status == 200
+        groups = section["places"][0]["groups"]
+        assert groups["historical"][0]["origin"] == "crawler" and groups["historical"][0]["citation"]["name"] == "Wikidata"
+        assert groups["fun"][0]["origin"] == "ai" and groups["fun"][0]["citation"] is None
+        assert _call(httpd, "POST", "/api/place-facts", ["not", "an", "object"])[0] == 422
+    finally:
+        httpd.shutdown()
+
+
+def test_facts_module_loads_beside_a_phase():
+    _, config = server.Stub(("phase4", "facts")).dispatch("GET", "/api/config", {}, None)
+    assert config["features"]["place_facts"] == 1 and config["features"]["sharing"] == 1

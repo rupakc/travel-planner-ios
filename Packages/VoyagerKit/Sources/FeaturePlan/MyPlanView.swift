@@ -180,21 +180,12 @@ private struct GroupCard: View {
 
     private func row(_ entry: PlanEntry) -> some View {
         HStack(alignment: .center, spacing: Spacing.sm) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(verbatim: entry.title)
-                    .font(VFont.body(.subheadline, weight: .medium))
-                    .foregroundStyle(SemanticColor.text)
-                if let subtitle = entry.subtitle {
-                    Text(verbatim: subtitle)
-                        .font(VFont.body(.caption))
-                        .foregroundStyle(SemanticColor.textMuted)
-                }
-                if let price = entry.price, typeSize.isAccessibilitySize {
-                    priceText(price)
-                }
+            if let fact = entry.fact {
+                SelectedFactView(value: fact, aiLabel: L10n.text(K.plan.modal.factAi))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            } else {
+                entryText(entry)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .accessibilityElement(children: .combine)
             if let price = entry.price, !typeSize.isAccessibilitySize { priceText(price) }
             Button { onRemove(entry) } label: {
                 Image(systemName: "trash")
@@ -206,6 +197,24 @@ private struct GroupCard: View {
             .accessibilityLabel(L10n.text(K.plan.modal.delete) + ": " + entry.title)
             .accessibilityIdentifier("plan.remove.\(entry.field)")
         }
+    }
+
+    private func entryText(_ entry: PlanEntry) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(verbatim: entry.title)
+                .font(VFont.body(.subheadline, weight: .medium))
+                .foregroundStyle(SemanticColor.text)
+            if let subtitle = entry.subtitle {
+                Text(verbatim: subtitle)
+                    .font(VFont.body(.caption))
+                    .foregroundStyle(SemanticColor.textMuted)
+            }
+            if let price = entry.price, typeSize.isAccessibilitySize {
+                priceText(price)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .combine)
     }
 
     private func priceText(_ price: Double) -> some View {

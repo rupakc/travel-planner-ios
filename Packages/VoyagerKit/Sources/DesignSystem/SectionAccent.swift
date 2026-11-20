@@ -14,6 +14,7 @@ public enum SectionAccent {
         case "sim", "stress_test": .rose
         case "getting_around": .cyan
         case "emergency_card": .red
+        case "facts", "place_facts": .orange
         default: .primary
         }
     }

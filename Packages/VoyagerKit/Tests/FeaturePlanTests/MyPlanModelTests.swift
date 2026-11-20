@@ -47,6 +47,44 @@ final class MyPlanModelTests: XCTestCase {
         XCTAssertFalse(model.groups.contains { $0.id == "hotel" })
     }
 
+    func test_placeFactsGroupShowsSourceOrAiLabel() throws {
+        let selections: JSONValue = [
+            "place_facts": [
+                [
+                    "id": "c:1", "text": "Berlin was founded in 1237.", "fact_type": "historical", "place": "Berlin",
+                    "origin": "crawler", "lang": "en", "value_lang": nil,
+                    "citation": [
+                        "name": "Wikidata", "url": "https://www.wikidata.org/wiki/Q64", "as_of": "2026-11-20",
+                        "attribution": "Wikidata (CC0 1.0)", "licence_url": nil,
+                    ],
+                ],
+                [
+                    "id": "a:1", "text": "Berlin has more bridges than Venice.", "fact_type": "unbelievable",
+                    "place": "Berlin", "origin": "ai", "citation": nil,
+                ],
+            ],
+        ]
+        let group = try XCTUnwrap(MyPlanModel.groups(for: selections).first { $0.id == "place_facts" })
+        XCTAssertEqual(group.title, "Place facts (2)")
+        XCTAssertEqual(group.accent, "place_facts")
+        XCTAssertEqual(group.entries.map(\.title), ["Berlin: Berlin was founded in 1237.", "Berlin: Berlin has more bridges than Venice."])
+        XCTAssertEqual(group.entries[0].subtitle, "Source: Wikidata · as of 2026-11-20 · Wikidata (CC0 1.0)")
+        XCTAssertEqual(group.entries[1].subtitle, "AI-suggested, not verified")
+        XCTAssertNotNil(group.entries[0].fact)
+        XCTAssertNil(group.entries[0].price)
+        XCTAssertEqual(Selections.count(selections), 2)
+    }
+
+    func test_removePlaceFact() throws {
+        let (model, env, _) = make()
+        let fact: JSONValue = ["id": "a:1", "text": "A fact.", "origin": "ai", "citation": nil]
+        env.plan.selections = Selections.toggle(env.plan.selections, field: "place_facts", item: fact)
+        let entry = try XCTUnwrap(model.groups.first { $0.id == "place_facts" }?.entries.first)
+        model.remove(entry)
+        XCTAssertEqual(env.plan.selections["place_facts"].array?.count, 0)
+        XCTAssertFalse(model.groups.contains { $0.id == "place_facts" })
+    }
+
     func test_emptyPlanIsEmpty() {
         let (model, _, _) = make(filled: false)
         XCTAssertTrue(model.isEmpty)

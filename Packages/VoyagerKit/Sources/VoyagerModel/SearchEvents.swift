@@ -4,6 +4,8 @@ import Foundation
 public enum SectionSource: String, Codable, Sendable, Hashable {
     case `static`
     case ai
+    /// Sourced facts from the crawler, before the AI pass (place facts' Phase 0).
+    case crawler
 }
 
 /// One `/api/search` SSE `data:` object (`type` selects the case). Section payloads stay
@@ -18,7 +20,7 @@ public enum SearchStreamEvent: Sendable, Equatable {
     public static let sectionTypes: Set<String> = [
         "visa", "sim", "tips", "getting_around", "forex", "confidence", "emergency_card",
         "flights", "weather", "hotels", "activities", "places_to_see", "walking_tours", "events",
-        "packing_list", "pricing_advisor", "itinerary", "stress_test",
+        "packing_list", "pricing_advisor", "itinerary", "stress_test", "facts",
     ]
 
     public init(json: JSONValue) {

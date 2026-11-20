@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Stub Voyager backend for the iOS UI smoke tests (stdlib only, no credentials, no network).
 
-    python3 tools/stub_backend/server.py [--port 8765] [--phases 3,4,5,6,carbon]
+    python3 tools/stub_backend/server.py [--port 8765] [--phases 3,4,5,6,carbon,facts]
 
-One dispatcher, one module per phase (`phase3.py` to `phase6.py`, plus `carbon.py`; a number names `phaseN`). A
+One dispatcher, one module per phase (`phase3.py` to `phase6.py`, plus `carbon.py` and `facts.py`; a number names `phaseN`). A
 phase module exposes `FEATURES` (merged into `GET /api/config` `features`) and
 `handle(method, path, query, body, state) -> (status, json) | None`. The first module that answers wins; anything
 else is `404 {"detail": "not found"}`. `GET /__calls` lists the requests seen, `POST /__reset` clears the state.
@@ -20,7 +20,7 @@ from urllib.parse import parse_qs, urlsplit
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-ALL_PHASES = ("phase3", "phase4", "phase5", "phase6", "carbon")
+ALL_PHASES = ("phase3", "phase4", "phase5", "phase6", "carbon", "facts")
 BASE = "base"  # always loaded, after the phases (sign-in and the routes read on every launch)
 
 
@@ -97,7 +97,7 @@ def make_handler(stub):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--port", type=int, default=8765)
-    parser.add_argument("--phases", default="3,4,5,6,carbon")
+    parser.add_argument("--phases", default="3,4,5,6,carbon,facts")
     args = parser.parse_args(argv)
     names = [n.strip() for n in args.phases.split(",") if n.strip()]
     phases = tuple(f"phase{n}" if n.isdigit() else n for n in names)

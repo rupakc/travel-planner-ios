@@ -18,6 +18,8 @@ struct PlanEntry: Identifiable, Equatable {
     let title: String
     let subtitle: String?
     let price: Double?
+    /// A place fact kept in the plan (`selections.place_facts`), shown with its source line or AI label.
+    var fact: JSONValue?
 }
 
 /// A titled group of entries (the web's plan modal sections).
@@ -148,6 +150,7 @@ final class MyPlanModel {
         Spec(field: "events", accent: "events", icon: "party.popper", single: false),
         Spec(field: "sim", accent: "sim", icon: "simcard", single: true),
         Spec(field: "tips", accent: "tips", icon: "lightbulb", single: false),
+        Spec(field: "place_facts", accent: "place_facts", icon: "book", single: false),
         Spec(field: "getting_around", accent: "getting_around", icon: "bus", single: false),
         Spec(field: "packing_list", accent: "packing_list", icon: "suitcase", single: false),
         Spec(field: "itinerary_slots", accent: "itinerary", icon: "calendar", single: false),
@@ -195,6 +198,7 @@ final class MyPlanModel {
         case "events": return L10n.text(K.plan.modal.section.events, args)
         case "sim": return L10n.text(K.plan.modal.section.sim)
         case "tips": return L10n.text(K.plan.modal.section.tips, args)
+        case "place_facts": return L10n.text(K.plan.modal.section.placeFacts, args)
         case "getting_around": return L10n.text(K.plan.modal.section.gettingAround, args)
         case "packing_list": return SectionID.packingList.title
         default: return L10n.text(K.plan.modal.section.itinerarySlots, args)
@@ -202,6 +206,7 @@ final class MyPlanModel {
     }
 
     private static func entry(_ field: String, _ index: Int?, _ item: JSONValue) -> PlanEntry {
+        if field == PlaceFacts.selectionField { return factEntry(index, item) }
         let section = SectionItem(item)
         var subtitle: String?
         var title = section.name
@@ -224,6 +229,29 @@ final class MyPlanModel {
         let name = (title?.isEmpty == false ? title : nil) ?? "–"
         let key = "\(field)-\(index.map(String.init) ?? "one")-\(name)"
         return PlanEntry(id: key, field: field, index: index, title: name, subtitle: subtitle, price: section.priceUSD)
+    }
+
+    /// A kept fact: "Place: text", then the source line (name, as-of date, attribution) or the AI label, which is
+    /// also what the printed plan shows.
+    private static func factEntry(_ index: Int?, _ item: JSONValue) -> PlanEntry {
+        let selected = PlaceFacts.selected(item)
+        let text = selected?.fact.text ?? "–"
+        let title = selected?.place.map { "\($0): \(text)" } ?? text
+        var subtitle: String?
+        if let fact = selected?.fact {
+            if fact.isCrawler, let citation = fact.citation {
+                var parts = [L10n.text(K.results.official.source, ["name": citation.name])]
+                if let asOf = citation.asOf { parts.append(L10n.text(K.results.official.asOf, ["date": asOf])) }
+                if let attribution = citation.attribution { parts.append(attribution) }
+                subtitle = parts.joined(separator: " · ")
+            } else if fact.isAI {
+                subtitle = L10n.text(K.plan.modal.factAi)
+            }
+        }
+        let key = "place_facts-\(index.map(String.init) ?? "one")-\(selected?.fact.id ?? text)"
+        return PlanEntry(
+            id: key, field: PlaceFacts.selectionField, index: index, title: title, subtitle: subtitle, price: nil,
+            fact: selected == nil ? nil : item)
     }
 
     // MARK: - Remove
