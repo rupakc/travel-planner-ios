@@ -68,7 +68,7 @@ final class MyPlanModelTests: XCTestCase {
         XCTAssertEqual(group.title, "Place facts (2)")
         XCTAssertEqual(group.accent, "place_facts")
         XCTAssertEqual(group.entries.map(\.title), ["Berlin: Berlin was founded in 1237.", "Berlin: Berlin has more bridges than Venice."])
-        XCTAssertEqual(group.entries[0].subtitle, "Source: Wikidata · as of 2026-11-20 · Wikidata (CC0 1.0)")
+        XCTAssertEqual(group.entries[0].subtitle, "Source: Wikidata <https://www.wikidata.org/wiki/Q64> · as of 2026-11-20 · Wikidata (CC0 1.0)")
         XCTAssertEqual(group.entries[1].subtitle, "AI-suggested, not verified")
         XCTAssertNotNil(group.entries[0].fact)
         XCTAssertNil(group.entries[0].price)

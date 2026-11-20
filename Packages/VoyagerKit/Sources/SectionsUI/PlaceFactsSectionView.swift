@@ -39,6 +39,7 @@ public struct PlaceFactsSectionView: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
+            .accessibilityElement(children: .contain)
             .accessibilityIdentifier("results.facts")
         }
     }
@@ -114,7 +115,8 @@ struct FactCardView: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityLabel(Self.spokenText(fact))
                 if fact.isAI {
-                    AIFactLabel(text: L10n.text(K.results.facts.aiLabel))
+                    // VoiceOver already hears the label first, in the fact text's label.
+                    AIFactLabel(text: L10n.text(K.results.facts.aiLabel)).accessibilityHidden(true)
                 } else {
                     if let citation = fact.citation { FactSourceLine(citation: citation) }
                     if fact.machineTranslated {
@@ -229,6 +231,7 @@ public struct FactSourceLine: View {
         .font(VFont.body(.caption2))
         .foregroundStyle(SemanticColor.textMuted)
         .fixedSize(horizontal: false, vertical: true)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("results.fact.source")
     }
 }
@@ -251,16 +254,26 @@ public struct SelectedFactView: View {
                     .font(VFont.body(.subheadline))
                     .foregroundStyle(SemanticColor.text)
                     .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityLabel(spokenText(selected))
                 if selected.fact.isCrawler, let citation = selected.fact.citation {
                     FactSourceLine(citation: citation)
                 } else if selected.fact.isAI {
                     Text(verbatim: aiLabel)
                         .font(VFont.body(.caption2))
                         .foregroundStyle(Palette.color(.amber, .s700))
+                        .accessibilityHidden(true)
                 }
             }
+            .accessibilityElement(children: .contain)
             .accessibilityIdentifier("plan.fact")
         }
+    }
+
+    /// The AI label first for an AI fact (as on the Results card), then "Place: text".
+    private func spokenText(_ selected: (fact: PlaceFacts.Fact, place: String?)) -> Text {
+        let text = placePrefix(selected.place) + Text(PlaceFacts.attributedText(selected.fact))
+        guard selected.fact.isAI else { return text }
+        return Text(verbatim: aiLabel + ". ") + text
     }
 
     private func placePrefix(_ place: String?) -> Text {

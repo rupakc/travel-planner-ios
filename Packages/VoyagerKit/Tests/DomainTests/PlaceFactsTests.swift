@@ -54,11 +54,17 @@ import VoyagerModel
         #expect(!citation.conflict)
     }
 
-    @Test func linksAreHttpsOnly() throws {
+    @Test func linksAreHttpOrHttpsOnly() throws {
         let fact = try #require(try berlin().groups["popular"]?.first)
         let citation = try #require(fact.citation)
         #expect(citation.url == nil, "javascript: is never linked")
-        #expect(citation.licenceURL == nil, "plain http is never linked")
+        #expect(citation.licenceURL?.absoluteString == "http://example.org/licence", "http is linked, as on the web")
+        let odd = PlaceFacts.fact([
+            "id": "x", "text": "T", "origin": "crawler",
+            "citation": ["name": "N", "url": "http://", "licence_url": "ftp://example.org/l"],
+        ])
+        #expect(odd?.citation?.url == nil, "no host")
+        #expect(odd?.citation?.licenceURL == nil, "ftp is never linked")
         #expect(citation.conflict)
         #expect(fact.machineTranslated)
     }
@@ -75,6 +81,22 @@ import VoyagerModel
         #expect(citation.name == "cia-factbook")
         #expect(citation.asOf == nil)
         #expect(citation.url == nil)
+    }
+
+    @Test func sourceIdOnlyCitationKeepsItsNameInThePlan() throws {
+        let place = PlaceFacts.places(try section())[1]
+        let fact = try #require(place.groups["popular"]?.first)
+        let item = PlaceFacts.selection(fact, placeName: place.name)
+        #expect(item["citation"]["name"] == "cia-factbook")
+        #expect(PlaceFacts.selected(item)?.fact.citation?.name == "cia-factbook", "the plan still shows the source")
+    }
+
+    @Test func selectionKeepsTheConflictFlag() throws {
+        let place = try berlin()
+        let fact = try #require(place.groups["popular"]?.first)
+        let item = PlaceFacts.selection(fact, placeName: place.name)
+        #expect(item["citation"]["conflict"] == true)
+        #expect(PlaceFacts.selected(item)?.fact.citation?.conflict == true)
     }
 
     // MARK: - My Plan
@@ -97,6 +119,7 @@ import VoyagerModel
         #expect(item["citation"]["licence_url"] == "https://creativecommons.org/publicdomain/zero/1.0/")
         #expect(item["citation"]["publisher"] == .null, "no internal fields")
         #expect(item["citation"]["source_id"] == .null)
+        #expect(item["citation"]["conflict"] == false)
     }
 
     @Test func aiSelectionHasNoCitation() throws {

@@ -110,6 +110,8 @@ public enum ResultsReducer {
     /// shown and never shows an error; crawler facts read "Enhancing…" until the AI pass (or the stream end).
     private static func applyFacts(_ state: ResultsState, source: SectionSource?, data: JSONValue) -> ResultsState {
         guard !isError(data), PlaceFacts.hasFacts(data) else { return state }
+        // Like the web (`prev !== 'done'`): a late crawler payload never takes back the AI-enhanced facts.
+        if source == .crawler, state.status(.facts) == .done { return state }
         var next = state
         next.sections[.facts] = SectionEntry(status: source == .crawler ? .enhancing : .done, data: data)
         return next

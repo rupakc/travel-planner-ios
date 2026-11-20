@@ -129,6 +129,13 @@ final class ResultsReducerTests: XCTestCase {
         XCTAssertEqual(state.data(.facts), Self.merged)
     }
 
+    func test_lateCrawlerFactsNeverReplaceAiFacts() {
+        var state = ResultsReducer.reduce(ResultsState(), section("facts", Self.merged, source: .ai))
+        state = ResultsReducer.reduce(state, section("facts", Self.facts, source: .crawler))
+        XCTAssertEqual(state.status(.facts), .done)
+        XCTAssertEqual(state.data(.facts), Self.merged)
+    }
+
     func test_crawlerOnlyFactsAreDoneAtStreamEnd() {
         var state = ResultsReducer.reduce(ResultsState(), section("facts", Self.facts, source: .crawler))
         state = ResultsReducer.reduce(state, .done)

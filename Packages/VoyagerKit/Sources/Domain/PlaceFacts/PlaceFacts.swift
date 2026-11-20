@@ -16,7 +16,7 @@ public enum PlaceFacts {
     /// Where a crawler fact comes from (`citation`).
     public struct Citation: Sendable, Equatable {
         public var name: String
-        /// `https` with a host only; anything else is not linked.
+        /// `http(s)` with a host only (the web's `safeUrl`); anything else is not linked.
         public var url: URL?
         /// `YYYY-MM-DD` (the first ten characters of `as_of`), when given.
         public var asOf: String?
@@ -117,14 +117,15 @@ public enum PlaceFacts {
             raw.prefixMatch(of: /\d{4}-\d{2}-\d{2}/).map { String($0.output) }
         }
         return Citation(
-            name: name, url: httpsURL(value["url"]), asOf: asOf, attribution: nonBlank(value["attribution"]),
-            licenceURL: httpsURL(value["licence_url"]), conflict: value["conflict"].bool == true)
+            name: name, url: webURL(value["url"]), asOf: asOf, attribution: nonBlank(value["attribution"]),
+            licenceURL: webURL(value["licence_url"]), conflict: value["conflict"].bool == true)
     }
 
     // MARK: - My Plan
 
     /// What My Plan keeps for one fact (`factSelection`): `{id, text, fact_type, place, origin, lang, value_lang,
-    /// citation}`, where `citation` is null for AI facts. The same shape the web saves, so plans round-trip.
+    /// citation}`, where `citation` is null for AI facts. The same shape the web saves (plus the citation's
+    /// `conflict` flag, which the web ignores), so plans round-trip.
     public static func selection(_ fact: Fact, placeName: String?) -> JSONValue {
         let raw = fact.raw
         var citation: JSONValue = .null
@@ -132,8 +133,10 @@ public enum PlaceFacts {
             let source = raw["citation"]
             func field(_ key: String) -> JSONValue { nonBlank(source[key]).map(JSONValue.string) ?? .null }
             citation = .object([
-                "name": field("name"), "url": field("url"), "as_of": field("as_of"), "attribution": field("attribution"),
-                "licence_url": field("licence_url"),
+                // The card's name falls back to `source_id`; keep that name so the plan still shows the source.
+                "name": nonBlank(source["name"]).map(JSONValue.string) ?? field("source_id"), "url": field("url"),
+                "as_of": field("as_of"), "attribution": field("attribution"), "licence_url": field("licence_url"),
+                "conflict": .bool(source["conflict"].bool == true),
             ])
         }
         return .object([
@@ -212,8 +215,10 @@ public enum PlaceFacts {
         return text
     }
 
-    private static func httpsURL(_ value: JSONValue) -> URL? {
-        guard let raw = value.string?.trimmingCharacters(in: .whitespacesAndNewlines), raw.lowercased().hasPrefix("https://"),
+    /// `http://` or `https://` with a host, as the web's `safeUrl` and the backend's `_URL_RE` accept.
+    private static func webURL(_ value: JSONValue) -> URL? {
+        guard let raw = value.string?.trimmingCharacters(in: .whitespacesAndNewlines),
+            raw.lowercased().hasPrefix("https://") || raw.lowercased().hasPrefix("http://"),
             let url = URL(string: raw), !(url.host() ?? "").isEmpty
         else { return nil }
         return url

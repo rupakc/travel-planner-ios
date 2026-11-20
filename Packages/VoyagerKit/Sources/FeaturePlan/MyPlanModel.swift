@@ -231,8 +231,9 @@ final class MyPlanModel {
         return PlanEntry(id: key, field: field, index: index, title: name, subtitle: subtitle, price: section.priceUSD)
     }
 
-    /// A kept fact: "Place: text", then the source line (name, as-of date, attribution) or the AI label, which is
-    /// also what the printed plan shows.
+    /// A kept fact: "Place: text", then the source line (name, as-of date, attribution, each link written out as
+    /// `<url>` since the printout has no links) or the AI label. Only the printed plan shows this subtitle; the
+    /// My Plan row is `SelectedFactView`.
     private static func factEntry(_ index: Int?, _ item: JSONValue) -> PlanEntry {
         let selected = PlaceFacts.selected(item)
         let text = selected?.fact.text ?? "–"
@@ -240,9 +241,11 @@ final class MyPlanModel {
         var subtitle: String?
         if let fact = selected?.fact {
             if fact.isCrawler, let citation = fact.citation {
-                var parts = [L10n.text(K.results.official.source, ["name": citation.name])]
+                func linked(_ text: String, _ url: URL?) -> String { url.map { "\(text) <\($0.absoluteString)>" } ?? text }
+                var parts = [linked(L10n.text(K.results.official.source, ["name": citation.name]), citation.url)]
                 if let asOf = citation.asOf { parts.append(L10n.text(K.results.official.asOf, ["date": asOf])) }
-                if let attribution = citation.attribution { parts.append(attribution) }
+                if let attribution = citation.attribution { parts.append(linked(attribution, citation.licenceURL)) }
+                if citation.conflict { parts.append(L10n.text(K.results.official.disagree)) }
                 subtitle = parts.joined(separator: " · ")
             } else if fact.isAI {
                 subtitle = L10n.text(K.plan.modal.factAi)
